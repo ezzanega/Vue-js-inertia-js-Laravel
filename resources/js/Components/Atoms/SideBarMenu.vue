@@ -1,9 +1,10 @@
 <template>
   <div class="mt-6 flex flex-1 flex-col overflow-y-auto">
-    <nav class="flex-1 space-y-3 px-2">
+    <nav class="flex-1 px-2">
       <SideBarItem item="Clients" />
       <SideBarItem item="Documents" />
       <SideBarItem item="Temletes" />
+      <SideBarItem item="Kahlid le boss" />
       <SideBarItem item="Gestion" />
       <SideBarItem item="Garde meubles" />
       <SideBarItem item="Réglages" />

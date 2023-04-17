@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <Head title="Design Sys" />
   <DemLayout>
@@ -10,7 +9,7 @@
         @close="closeDrawer"
       >
         <div>
-          <h2>Drawer Slot here</h2>
+          <DrawerContent />
         </div>
       </Drawer>
       <button @click="toggleDrawer">
@@ -23,6 +22,7 @@
   <script setup>
   import DemLayout from '@/Layouts/DemLayout.vue';
   import Drawer from '@/Components/Organisms/Drawer.vue';
+  import DrawerContent from '@/Components/Molecules/DrawerContent.vue';
   import { Head } from '@inertiajs/vue3';
   import { ref } from 'vue';
 

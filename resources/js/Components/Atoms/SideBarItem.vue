@@ -1,7 +1,7 @@
 <template>
   <a
     href="#"
-    class="text-neutral-900 hover:bg-secondary group relative flex items-center rounded-md px-2 py-3 text-md font-bold"
+    class="text-white hover:bg-secondary hover:text-primary group relative flex items-center rounded-md px-2 py-3 text-md font-bold"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@
       stroke-width="1.5"
       stroke="currentColor"
       aria-hidden="true"
-      class="mr-3 h-6 w-6 shrink-0 text-neutral-900"
+      class="mr-3 h-6 w-6 shrink-0"
     ><path
       stroke-linecap="round"
       stroke-linejoin="round"
