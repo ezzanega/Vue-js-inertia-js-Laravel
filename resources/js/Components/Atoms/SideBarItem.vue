@@ -1,6 +1,6 @@
 <template>
-  <a
-    href="#"
+  <Link
+    :href="route(itemroute)"
     class="text-white hover:bg-secondary hover:text-primary group relative flex items-center rounded-md px-2 py-3 text-md font-bold"
   >
     <slot />
@@ -24,11 +24,17 @@
         d="M12 4.5v15m7.5-7.5h-15"
       /></svg>
     </a>
-  </a>
+  </Link>
 </template>
 <script setup>
+import { Link } from '@inertiajs/vue3';
+
   defineProps({
     item: {
+      type: String,
+      default: '',
+    },
+    itemroute: {
       type: String,
       default: '',
     },

@@ -3,6 +3,7 @@
     <nav class="flex-1 px-2">
       <SideBarItem
         :quickcreate="false"
+        itemroute="6dem.dashboard"
         item="Dashboard"
       >
         <svg
@@ -21,6 +22,7 @@
       </SideBarItem>
       <SideBarItem
         :quickcreate="true"
+        itemroute="6dem.clients"
         item="Clients"
       >
         <svg
@@ -39,6 +41,7 @@
       </SideBarItem>
       <SideBarItem
         :quickcreate="true"
+        itemroute="6dem.documents"
         item="Documents"
       >
         <svg
@@ -57,6 +60,7 @@
       </SideBarItem>
       <SideBarItem
         :quickcreate="false"
+        itemroute="6dem.templetes"
         item="Temletes"
       >
         <svg
@@ -75,6 +79,7 @@
       </SideBarItem>
       <SideBarItem
         :quickcreate="false"
+        itemroute="6dem.manage"
         item="Gestion"
       >
         <svg
@@ -92,6 +97,7 @@
         /></svg>
       </SideBarItem>
       <SideBarItem
+        itemroute="6dem.storage"
         :quickcreate="false"
         item="Garde meubles"
       >
@@ -110,6 +116,7 @@
         /></svg>
       </SideBarItem>
       <SideBarItem
+        itemroute="6dem.settings"
         :quickcreate="false"
         item="Réglages"
       >

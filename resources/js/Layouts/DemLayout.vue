@@ -24,8 +24,8 @@
 </template>
   
   <script setup>
-  import SideBar from '@/Components/Organisms/SideBar.vue';
-  import TopBar from '@/Components/Organisms/TopBar.vue';
+    import SideBar from '@/Components/Organisms/SideBar.vue';
+    import TopBar from '@/Components/Organisms/TopBar.vue';
   defineProps({
   });
   </script>
