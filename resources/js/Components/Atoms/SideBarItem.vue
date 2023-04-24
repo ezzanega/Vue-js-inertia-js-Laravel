@@ -44,9 +44,8 @@
   </Drawer>
 </template>
 <script setup>
-import { Link } from '@inertiajs/vue3';
-
- import Drawer from '@/Components/Organisms/Drawer.vue';
+  import { Link } from '@inertiajs/vue3';
+  import Drawer from '@/Components/Organisms/Drawer.vue';
   import CreateClientForm from '@/Components/Organisms/CreateClientForm.vue';
   import DrawerContent from '@/Components/Molecules/DrawerContent.vue';
   import { ref } from 'vue';
