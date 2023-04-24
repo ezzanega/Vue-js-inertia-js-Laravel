@@ -2,8 +2,8 @@
   <form
     class="w-full"
   >
-    <div class="px-5 flex h-full flex-col divide-y divide-neutral-200">
-      <div class="flex min-h-0 flex-1 flex-col overflow-y-scroll py-6">
+    <div class="flex flex-col divide-y  h-screen divide-neutral-200 bg-white">
+      <div class="flex min-h-0 flex-1 flex-col py-6 overflow-y-scroll">
         <div class="px-4 sm:px-6">
           <div class="flex items-start justify-between">
             <div class="space-y-1">
@@ -43,11 +43,21 @@
           <slot />
         </div>
       </div>
+
+      <div class="shrink-0 px-4 py-4">
+        <div class="flex flex-wrap justify-end space-x-3 sm:flex-nowrap">
+          <DefaultButton
+            class="w-1/2"
+            buttontext="Valider"
+          />
+        </div>
+      </div>
     </div>
   </form>
 </template>
 
 <script setup>
+  import DefaultButton from '@/Components/Atoms/DefaultButton.vue';
   defineProps({
     title: {
       type: String,

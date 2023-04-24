@@ -26,7 +26,6 @@
         </button>
       </div><div class="">
         <div class="card bg-white ring-1 ring-neutral-600 ring-opacity-5 rounded-lg shadow h-56 md:h-52">
-          <!---->
           <div class="flex flex-col items-center text-lg md:flex-row">
             <div class="group truncate md:grow">
               <div class="flex items-center px-7 pt-4 md:pb-4">
@@ -53,12 +52,13 @@
                 </div>
               </div>
             </div><div class="flex shrink-0 space-x-2 py-2 px-3 sm:py-4 sm:px-7">
-              <!----><div class="v-popper v-popper--theme-dropdown">
+              <div class="v-popper v-popper--theme-dropdown">
                 <button
                   type="button"
                   class="flex w-full items-center rounded-md px-1 text-sm text-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-300 disabled:pointer-events-none disabled:opacity-60 hover:text-neutral-500"
                 >
-                  Filtrer<svg
+                  Filtrer
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"

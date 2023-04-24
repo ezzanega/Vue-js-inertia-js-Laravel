@@ -1,14 +1,14 @@
 <template>
   <div class="relative z-20 flex h-navbar shrink-0 bg-white shadow">
-    <span class="hidden h-navbar border-r border-neutral-200 lg:block" />
+    <span class="h-navbar border-r border-neutral-200 lg:block" />
     <div class="flex flex-1 justify-between pr-4 sm:pr-6 lg:pr-8">
       <div class="flex flex-1">
-        <div class="mx-8 hidden max-w-xs py-5 lg:block">
-          <h1 class="truncate font-semibold uppercase text-neutral-800 ">
-            Title
+        <div class="mx-8 max-w-xs py-5 lg:block">
+          <h1 class="truncate font-semibold text-neutral-800 ">
+            {{ $page.component.replace('6dem/', '') }}
           </h1>
         </div>
-        <span class="hidden h-navbar border-l border-neutral-200 lg:block">
+        <span class="h-navbar border-l border-neutral-200 lg:block">
           <!--  -->
         </span>
         <div class="flex w-full sm:relative">
@@ -44,7 +44,23 @@
           <span class="mx-3 h-navbar border-l border-neutral-200 lg:mx-6 hidden lg:block" />
           <div class="inline-flex items-center">
             <!--  -->
-            <IconButton />
+            <IconButton text="Mon compte"> 
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.2"
+                stroke="currentColor"
+                aria-hidden="true"
+                class="pointer-events-none shrink-0 w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </IconButton>
           </div>
         </div>
       </div>

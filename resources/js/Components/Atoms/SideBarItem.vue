@@ -9,6 +9,7 @@
       v-if="quickcreate"
       href="#"
       class="ml-auto hidden rounded-md group-hover:block hover:bg-primary hover:bg-opacity-50 hover:text-white"
+      @click.stop="toggleDrawer"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -22,12 +23,33 @@
         stroke-linecap="round"
         stroke-linejoin="round"
         d="M12 4.5v15m7.5-7.5h-15"
-      /></svg>
+      />
+      </svg>
     </a>
   </Link>
+  <Drawer
+    :is-open="isDrawerOpen"
+    :speed="500"
+    :max-width="innerWidth"
+    @close="closeDrawer"
+  >
+    <div>
+      <DrawerContent
+        title="Create client"
+        @closeDrawer="closeDrawer()"
+      >
+        <CreateClientForm />
+      </DrawerContent>
+    </div>
+  </Drawer>
 </template>
 <script setup>
 import { Link } from '@inertiajs/vue3';
+
+ import Drawer from '@/Components/Organisms/Drawer.vue';
+  import CreateClientForm from '@/Components/Organisms/CreateClientForm.vue';
+  import DrawerContent from '@/Components/Molecules/DrawerContent.vue';
+  import { ref } from 'vue';
 
   defineProps({
     item: {
@@ -43,5 +65,16 @@ import { Link } from '@inertiajs/vue3';
       default: false,
     },
   });
+
+  let isDrawerOpen = ref(false);
+  let innerWidth = ref(window.innerWidth/2 + 'px');
+
+  const toggleDrawer = () => {
+    isDrawerOpen.value = !isDrawerOpen.value;
+  };
+
+  const closeDrawer = () => {
+    isDrawerOpen.value = false;
+  };
 
 </script>
