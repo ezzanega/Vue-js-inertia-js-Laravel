@@ -1,5 +1,5 @@
 <template>
-  <Head title="Design Sys" />
+  <Head title="Dashboard" />
   <DemLayout>
     <div class="py-6">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,7 +47,7 @@
                   </button>
                 </div>
               </div>
-            </div><!---->
+            </div>
             <div class="before:box-inherit after:box-inherit columns-1 gap-x-6 lg:columns-2">
               <DashboardCard title="Rendez-vous" />
               <DashboardCard title="Mes taches" />
