@@ -40,7 +40,7 @@
         /></svg>
       </SideBarItem>
       <SideBarItem
-        :quickcreate="true"
+        :quickcreate="false"
         itemroute="6dem.documents"
         item="Documents"
       >
