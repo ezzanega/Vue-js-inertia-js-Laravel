@@ -1,7 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-    <div class="w-screen m-0 bg-white flex justify-center flex-1">
-      <div class="lg:w-1/2 xl:w-7/12 p-6 sm:p-12">
+  <div class="h-screen bg-gray-100 text-gray-900 flex justify-center">
+    <div
+      class="w-screen m-0 bg-white flex justify-center flex-1 flex-row-reverse"
+    >
+      <div class="lg:w-1/2 xl:w-7/12 p-6 sm:p-12 overflow-auto">
         <div class="mt-12 flex flex-col items-center">
           <h1 class="text-2xl xl:text-3xl font-extrabold text-primary">
             Créez votre compte gratuitement
@@ -119,7 +121,9 @@
           </div>
         </div>
       </div>
-      <div class="flex-1 bg-secondary text-center hidden lg:flex">
+      <div
+        class="flex-1 bg-secondary text-center hidden lg:flex overflow-hidden"
+      >
         <div
           class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
           style="
