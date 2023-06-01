@@ -16,14 +16,22 @@ use Inertia\Inertia;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+
+Route::get('/signin', function () {
+    return inertia('Auth/SignIn');
+})->name('6dem.signin');
+
+Route::get('/signup', function () {
+    return inertia('Auth/SignUp');
+})->name('6dem.signup');;
+
+Route::get('/forgotpassword', function () {
+    return inertia('ForgotPassword');
+})->name('6dem.forgot-password');
+
+Route::get('/resetpassword', function () {
+    return inertia('ResetPassword');
+})->name('6dem.reset-password');
 
 Route::get('/', function () {
     return inertia('6dem/Index');
