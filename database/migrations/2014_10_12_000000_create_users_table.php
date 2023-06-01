@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('organization_name');
             $table->foreign('organization_name')->references('organization_name')->on('organizations');
+            $table->uuid('uuid');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
