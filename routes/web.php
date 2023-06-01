@@ -17,13 +17,13 @@ use Inertia\Inertia;
 */
 
 
-Route::get('/signin', function () {
+/*Route::get('/signin', function () {
     return inertia('Auth/SignIn');
 })->name('6dem.signin');
 
 Route::get('/signup', function () {
     return inertia('Auth/SignUp');
-})->name('6dem.signup');;
+})->name('6dem.signup');;*/
 
 Route::get('/forgotpassword', function () {
     return inertia('ForgotPassword');

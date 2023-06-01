@@ -20,7 +20,7 @@ class SignUpController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/SignUp');
     }
 
     /**
@@ -29,29 +29,25 @@ class SignUpController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'organization_name' => 'required|string|max:250|unique:organizations',
-            'siret' => 'string|max:250',
-            'siren' => 'string|max:250',
-            'address' => 'string|max:250',
-            'billing_address' => 'string|max:250',
-            'name' => 'required|string|max:250',
+            'companyName' => 'required|string|max:125|unique:organizations,organization_name',
+            'firstName' => 'required|string|max:125',
+            'lastName' => 'required|string|max:125',
+            'phoneNumber' => 'string|max:125',
             'email' => 'required|email|max:250|unique:users',
             'password' => 'required|min:8'
         ]);
 
 
         User::create([
-            'name' => $request->name,
+            'first_name' => $request->firstName,
+            'last_name' => $request->lastName,
+            'phone_number' => $request->phoneNumber,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
         Organization::create([
-            'organization_name' => $request->organization_name,
-            'siret' => $request->siret,
-            'siren' => $request->siren,
-            'address' => $request->address,
-            'billing_address' => $request->billing_address,
+            'organization_name' => $request->companyName
         ]);
 
         $credentials = $request->only('email', 'password');

@@ -4,12 +4,12 @@ use App\Http\Controllers\Auth\SignInController;
 use App\Http\Controllers\Auth\SignUpController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/register', [SignUpController::class, 'create'])
-    ->name('register');
+Route::get('/signup', [SignUpController::class, 'create'])
+    ->name('6dem.signup');
 
-Route::post('/register', [SignUpController::class, 'store']);
+Route::post('/signup', [SignUpController::class, 'store']);
 
-Route::get('/login', [SignInController::class, 'create'])
-    ->name('login');
+Route::get('/signin', [SignInController::class, 'create'])
+    ->name('6dem.signin');
 
-Route::post('/login', [SignInController::class, 'store']);
+Route::post('/signin', [SignInController::class, 'store']);

@@ -18,7 +18,7 @@ class SignInController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Auth/SignIn');
     }
 
     /**
