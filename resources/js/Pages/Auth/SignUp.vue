@@ -1,4 +1,5 @@
 <template>
+  <Head title="Sign Up" />
   <div class="h-screen bg-gray-100 text-gray-900 flex justify-center">
     <div
       class="w-screen m-0 bg-white flex justify-center flex-1 flex-row-reverse"
@@ -26,13 +27,15 @@
               </div>
             </div>
 
-            <div class="mx-auto max-w-2xl">
+            <form @submit.prevent="submit" class="mx-auto max-w-2xl">
               <DefaultInput
                 class="w-full"
                 type="text"
                 :required="false"
                 label="Nom de votre société"
                 name="companyName"
+                v-model="form.companyName"
+                :error="form.errors.companyName"
               />
               <div class="flex space-x-3">
                 <DefaultInput
@@ -41,6 +44,8 @@
                   :required="false"
                   label="Nom"
                   name="firstName"
+                  v-model="form.firstName"
+                  :error="form.errors.firstName"
                 />
                 <DefaultInput
                   class="w-full"
@@ -48,6 +53,8 @@
                   :required="false"
                   label="Prénom"
                   name="lastName"
+                  v-model="form.lastName"
+                  :error="form.errors.lastName"
                 />
               </div>
               <DefaultInput
@@ -56,7 +63,9 @@
                 :required="false"
                 label="Poste occupé"
                 placeholder="Sélectionner un poste"
-                name="poste"
+                name="position"
+                v-model="form.position"
+                :error="form.errors.position"
               />
               <DefaultInput
                 class="w-full"
@@ -64,6 +73,8 @@
                 :required="false"
                 label="Téléphone"
                 name="phoneNumber"
+                v-model="form.phoneNumber"
+                :error="form.errors.phoneNumber"
               />
               <DefaultInput
                 class="w-full"
@@ -71,6 +82,8 @@
                 :required="false"
                 label="Email professionnel"
                 name="email"
+                v-model="form.email"
+                :error="form.errors.email"
               />
               <DefaultInput
                 class="w-full"
@@ -78,6 +91,8 @@
                 :required="false"
                 label="Mot de passe"
                 name="password"
+                v-model="form.password"
+                :error="form.errors.password"
               />
 
               <p class="mt-6 text-xs text-gray-600 text-center">
@@ -92,7 +107,9 @@
 
               <DefaultButton
                 class="mt-5 font-semibold"
-                buttontext="Créer mon compte "
+                type="submit"
+                buttontext="Créer mon compte"
+                :disabled="form.processing"
               >
                 <svg
                   class="w-6 h-6 -ml-2"
@@ -117,7 +134,7 @@
                   Se connecter
                 </Link>
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -139,7 +156,24 @@
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import GoogleIcon from "@/Components/Atoms/GoogleIcon.vue";
-import { Link } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+
+const form = useForm({
+  companyName: "",
+  firstName: "",
+  lastName: "",
+  position: "",
+  phoneNumber: "",
+  email: "",
+  password: "",
+  remember: false,
+});
+
+const submit = () => {
+  form.post(route("6dem.signup"), {
+    onFinish: () => form.reset("password"),
+  });
+};
 </script>
   
   <style lang="scss" scoped>

@@ -15,8 +15,11 @@
             id="name-floating"
             :type="type"
             :placeholder="placeholder"
+            @input="$emit('input', $event.target.value)"
+            @change="$emit('input-change', $event.target.value)"
             class="form-input h-12 w-full rounded-md border-tertiary bg-tertiary border-none focus:outline-none focus:ring-primary focus:border-none"
           />
+          <InputError v-if="error" class="mt-1" :message="error" />
         </div>
       </div>
     </div>
@@ -24,6 +27,7 @@
 </template>
 
 <script setup>
+import InputError from "@/Components/InputError.vue";
 defineProps({
   name: {
     type: String,
@@ -51,6 +55,11 @@ defineProps({
   },
 
   placeholder: {
+    type: String,
+    default: "",
+  },
+
+  error: {
     type: String,
     default: "",
   },
