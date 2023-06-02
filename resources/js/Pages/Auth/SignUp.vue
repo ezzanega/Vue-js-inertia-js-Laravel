@@ -42,7 +42,7 @@
                   class="w-full"
                   type="text"
                   :required="false"
-                  label="Nom"
+                  label="Prénom"
                   name="firstName"
                   v-model="form.firstName"
                   :error="form.errors.firstName"
@@ -51,7 +51,7 @@
                   class="w-full"
                   type="text"
                   :required="false"
-                  label="Prénom"
+                  label="Nom"
                   name="lastName"
                   v-model="form.lastName"
                   :error="form.errors.lastName"
@@ -166,7 +166,7 @@ const form = useForm({
   phoneNumber: "",
   email: "",
   password: "",
-  remember: false,
+  optin: false,
 });
 
 const submit = () => {
