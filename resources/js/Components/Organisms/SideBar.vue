@@ -1,13 +1,20 @@
 <template>
   <div class="flex w-56 flex-col bg-primary">
     <div class="flex grow flex-col overflow-y-auto pt-5 pb-4">
-      <div class="flex shrink-0 items-center px-4 m-10">
-        <a
-          href="/"
-          class="whitespace-normal"
+      <div class="flex shrink-0 items-center px-4 mx-10 mt-10 mb-5">
+        <a href="/" class="whitespace-normal">
+          <span class="font-bold text-white text-xl">6dem CRM</span></a
         >
-          <span class="font-bold text-white text-xl">6dem CRM</span></a>
       </div>
+      <Dropdown placement="bottom-center">
+        <ProfileMenu
+          :full-name="user.first_name + ' ' + user.last_name"
+          :email="user.email"
+        />
+        <template #popper>
+          <ProfileMenuPopperContent />
+        </template>
+      </Dropdown>
       <SideBarMenu />
       <div class="group mt-8 px-2">
         <div
@@ -23,7 +30,8 @@
               class="bg-white mr-4 h-2.5 w-2.5 rounded-full"
               aria-hidden="true"
             />
-            <span class="mr-1 truncate">Activités (0)</span></a>
+            <span class="mr-1 truncate">Activités (0)</span></a
+          >
         </div>
       </div>
     </div>
@@ -32,5 +40,10 @@
 
 
 <script setup>
-import SideBarMenu from '@/Components/Atoms/SideBarMenu.vue';
+import { Dropdown } from "floating-vue";
+import ProfileMenuPopperContent from "@/Components/Molecules/ProfileMenuPopperContent.vue";
+import SideBarMenu from "@/Components/Atoms/SideBarMenu.vue";
+import ProfileMenu from "@/Components/Atoms/ProfileMenu.vue";
+import { usePage } from "@inertiajs/vue3";
+const user = usePage().props.auth.user;
 </script>
