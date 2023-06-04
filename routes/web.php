@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -49,13 +50,12 @@ Route::get('/6dem/clients', function () {
     return inertia('6dem/Clients');
 })->name('6dem.clients');
 
-Route::get('/6dem/documents', function () {
+Route::get('/6dem/documents',function () {
     return inertia('6dem/Documents');
-})->name('6dem.documents');
+} )->name('6dem.documents');
 
-Route::get('/6dem/manage', function () {
-    return inertia('6dem/Manage');
-})->name('6dem.manage');
+Route::get('/6dem/manage', [AclController::class, 'create'])
+    ->name('6dem.manage');
 
 Route::get('/6dem/settings', function () {
     return inertia('6dem/Settings');

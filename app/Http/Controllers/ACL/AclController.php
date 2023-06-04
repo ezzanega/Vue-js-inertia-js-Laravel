@@ -6,16 +6,36 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AclController extends Controller
 {
 
+    public function create(): Response
+    {
+        $roles = $this->getAllRoles();
+        $permissions = $this->getAllPermissions();
+
+        return inertia('6dem/Manage', [
+            'roles' => $roles,
+            'permissions' => $permissions
+        ]);
+    }
+
     public function getAllRoles()
     {
+        $roles = DB::table('roles')->get();
+
+        return $roles;
     }
 
     public function getAllPermissions()
     {
+        $permissions = DB::table('permissions')->get();
+
+        return $permissions;
     }
 
     public function assignPermissionToUsers(Request $request, $uuid)
