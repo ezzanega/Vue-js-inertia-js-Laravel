@@ -4,8 +4,8 @@
     <div class="flex flex-1 justify-between pr-4 sm:pr-6 lg:pr-8">
       <div class="flex flex-1">
         <div class="mx-8 max-w-xs py-5 lg:block">
-          <h1 class="truncate font-semibold text-neutral-800 ">
-            {{ $page.component.replace('6dem/', '') }}
+          <h1 class="truncate font-semibold text-neutral-800">
+            {{ $page.component.replace("6dem/", "") }}
           </h1>
         </div>
         <span class="h-navbar border-l border-neutral-200 lg:block">
@@ -37,14 +37,13 @@
             </template>
           </Dropdown>
         </div>
-        <div
-          id="navbar-actions"
-          class="hidden items-center lg:flex"
-        >
-          <span class="mx-3 h-navbar border-l border-neutral-200 lg:mx-6 hidden lg:block" />
+        <div id="navbar-actions" class="hidden items-center lg:flex">
+          <span
+            class="mx-3 h-navbar border-l border-neutral-200 lg:mx-6 hidden lg:block"
+          />
           <div class="inline-flex items-center">
             <!--  -->
-            <IconButton text="Mon compte"> 
+            <IconButton text="Mon compte">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -69,10 +68,10 @@
 </template>
 
 <script setup>
-import { Dropdown } from 'floating-vue'
-import AddButton from '@/Components/Atoms/AddButton.vue';
-import IconButton from '@/Components/Atoms/IconButton.vue';
-import TopSearchBar from '@/Components/Atoms/TopSearchBar.vue';
-import TopAddButtonPopperContent from '@/Components/Atoms/TopAddButtonPopperContent.vue';
-import NotificationIcon from '@/Components/Atoms/NotificationIcon.vue';
+import { Dropdown } from "floating-vue";
+import AddButton from "@/Components/Atoms/AddButton.vue";
+import IconButton from "@/Components/Atoms/IconButton.vue";
+import TopSearchBar from "@/Components/Atoms/TopSearchBar.vue";
+import TopAddButtonPopperContent from "@/Components/Atoms/TopAddButtonPopperContent.vue";
+import NotificationIcon from "@/Components/Atoms/NotificationIcon.vue";
 </script>

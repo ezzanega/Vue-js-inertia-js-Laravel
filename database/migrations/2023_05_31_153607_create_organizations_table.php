@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('organizations', function (Blueprint $table) {
-            $table->string('organization_name')->primary();
-            $table->string('siret')->nullable()->unique();
-            $table->string('siren')->nullable()->unique();
+            $table->id();
+            $table->string('name');
+            $table->string('siret')->nullable();
+            $table->string('siren')->nullable();
             $table->string('address')->nullable();
             $table->string('billing_address')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }

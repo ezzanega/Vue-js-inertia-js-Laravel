@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Models\Organization;
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Mail\MailHandler;
+use App\Models\Organization;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\EmailTemplates;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\RedirectResponse;
+use App\Providers\RouteServiceProvider;
 
 class SignUpController extends Controller
 {
@@ -29,7 +32,7 @@ class SignUpController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'companyName' => 'required|string|max:125|unique:organizations,organization_name',
+            'companyName' => 'required|string|max:125|unique:organizations,name',
             'firstName' => 'required|string|max:125',
             'lastName' => 'required|string|max:125',
             'phoneNumber' => 'string|max:125',
@@ -37,8 +40,7 @@ class SignUpController extends Controller
             'password' => 'required|min:8'
         ]);
 
-
-        User::create([
+        $user = User::create([
             'first_name' => $request->firstName,
             'last_name' => $request->lastName,
             'phone_number' => $request->phoneNumber,
@@ -47,8 +49,11 @@ class SignUpController extends Controller
         ]);
 
         Organization::create([
-            'organization_name' => $request->companyName
+            'name' => $request->companyName
         ]);
+
+        $emailTemplate = EmailTemplates::find(1);
+        Mail::to($user->email)->send(new MailHandler($user, $emailTemplate));
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {

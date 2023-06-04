@@ -1,4 +1,5 @@
 <template>
+  <Head title="Sign In" />
   <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
     <div class="w-screen m-0 bg-white flex justify-center flex-1">
       <div class="lg:w-1/2 xl:w-7/12 p-6 sm:p-12">
@@ -24,20 +25,24 @@
               </div>
             </div>
 
-            <div class="mx-auto max-w-xl">
+            <form @submit.prevent="submit" class="mx-auto max-w-xl">
               <DefaultInput
                 class="w-full pb-3"
                 type="email"
                 :required="false"
-                placeholder="Email"
+                label="Email"
                 name="email"
+                v-model="form.email"
+                :error="form.errors.email"
               />
               <DefaultInput
                 class="w-full pb-3"
                 type="password"
                 :required="false"
-                placeholder="Mot de passe"
+                label="Mot de passe"
                 name="password"
+                v-model="form.password"
+                :error="form.errors.password"
               />
               <Link
                 :href="route('6dem.forgot-password')"
@@ -47,7 +52,9 @@
               </Link>
               <DefaultButton
                 class="mt-5 font-semibold"
+                type="submit"
                 buttontext="Se connecter"
+                :disabled="form.processing"
               />
 
               <p class="mt-6 font-bold text-md text-gray-600 text-center">
@@ -70,7 +77,7 @@
                   CGV
                 </a>
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -90,7 +97,20 @@
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import GoogleIcon from "@/Components/Atoms/GoogleIcon.vue";
-import { Link } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+
+const form = useForm({
+  email: "",
+  password: "",
+  remember: false,
+});
+
+const submit = () => {
+  console.log(form.processing);
+  form.post(route("6dem.signin"), {
+    onFinish: () => form.reset("password"),
+  });
+};
 </script>
 
 <style lang="scss" scoped>
