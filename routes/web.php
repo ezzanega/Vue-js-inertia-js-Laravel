@@ -45,6 +45,14 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Index');
     });
 
+<<<<<<< HEAD
+Route::get('/6dem/documents',function () {
+    return inertia('6dem/Documents');
+} )->name('6dem.documents');
+
+Route::get('/6dem/manage', [AclController::class, 'create'])
+    ->name('6dem.manage');
+=======
     Route::get('/6dem/dashboard', function () {
         return inertia('6dem/Dashboard');
     })->name('6dem.dashboard');
@@ -52,14 +60,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/clients', function () {
         return inertia('6dem/Clients');
     })->name('6dem.clients');
+>>>>>>> 7414dbbd187b3b0370fe0d421a6ec892a8261629
 
-Route::get('/6dem/documents', function () {
-    return inertia('6dem/Documents');
-})->name('6dem.documents');
+    Route::get('/6dem/documents', function () {
+        return inertia('6dem/Documents');
+    })->name('6dem.documents');
 
-Route::get('/6dem/manage', function () {
-    return inertia('6dem/Manage');
-})->name('6dem.manage');
+    Route::get('/6dem/manage', function () {
+        return inertia('6dem/Manage');
+    })->name('6dem.manage');
 
     Route::get('/6dem/settings', function () {
         return inertia('6dem/Settings');
