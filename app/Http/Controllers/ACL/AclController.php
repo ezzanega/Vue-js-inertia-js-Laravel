@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,6 +23,16 @@ class AclController extends Controller
             'roles' => $roles,
             'permissions' => $permissions,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $roleName = $request->validate([
+            'roleName' => 'required|string|max:125|unique:role,name',
+        ]);
+
+        Role::create(['name' => $roleName]);
+        $this->create();
     }
 
     public function getAllRoles()
