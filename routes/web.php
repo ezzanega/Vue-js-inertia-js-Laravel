@@ -52,8 +52,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/manage/role', [AclController::class, 'store'])
     ->name('6dem.manage.role');
 
-    Route::post('/6dem/manage/role/assign/{roleName}', [AclController::class, 'assignPermissionToRoles'])
+    Route::post('/6dem/manage/role/assign', [AclController::class, 'assignPermissionToRoles'])
     ->name('6dem.manage.role.assign');
+
+    Route::put('/6dem/manage/role/{roleName}', [AclController::class, 'update'])
+    ->name('6dem.manage.role.update');
 
     Route::get('/6dem/settings', function () {
         return inertia('6dem/Settings');

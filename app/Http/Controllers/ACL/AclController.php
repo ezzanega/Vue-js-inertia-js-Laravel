@@ -27,12 +27,23 @@ class AclController extends Controller
 
     public function store(Request $request)
     {
-        $roleName = $request->validate([
+        $request->validate([
             'roleName' => 'required|string|max:125|unique:role,name',
         ]);
 
-        Role::create(['name' => $roleName]);
+        Role::create(['name' => $request->roleName]);
         $this->create();
+    }
+
+    public function update(Request $request, $id){
+        $request->validate([
+            'roleName' => 'required|string|max:125|unique:role,name',
+        ]);
+
+        $role = Role::findById($id);
+        $role->name = $request->roleName;
+ 
+        $role->save();
     }
 
     public function getAllRoles()
@@ -72,9 +83,11 @@ class AclController extends Controller
     {
         $request->validate([
             'roleName' => 'required|string|max:250|exists:roles,name',
-            'permissionName' => 'required|string|max:250|exists:roles,name',
+            'permissionName' => 'required',
         ]);
         $role = Role::where(['name' => $request->roleName])->first();
-        $role->assignRole($request->permissionName);
+        foreach ($request->permissions as &$permission){
+            $role->assignRole($permission);
+        }
     }
 }
