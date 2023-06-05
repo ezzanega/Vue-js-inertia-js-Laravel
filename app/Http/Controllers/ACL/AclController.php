@@ -20,7 +20,7 @@ class AclController extends Controller
 
         return inertia('6dem/Manage', [
             'roles' => $roles,
-            'permissions' => $permissions
+            'permissions' => $permissions,
         ]);
     }
 
