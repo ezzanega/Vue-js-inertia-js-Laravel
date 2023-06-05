@@ -17,15 +17,6 @@ use Inertia\Inertia;
 |
 */
 
-
-/*Route::get('/signin', function () {
-    return inertia('Auth/SignIn');
-})->name('6dem.signin');
-
-Route::get('/signup', function () {
-    return inertia('Auth/SignUp');
-})->name('6dem.signup');;*/
-
 Route::get('/forgotpassword', function () {
     return inertia('ForgotPassword');
 })->name('6dem.forgot-password');
@@ -34,40 +25,42 @@ Route::get('/resetpassword', function () {
     return inertia('ResetPassword');
 })->name('6dem.reset-password');
 
-Route::get('/', function () {
-    return inertia('6dem/Index');
-});
-
 Route::get('/design-system', function () {
     return inertia('6dem/DesignSystem');
 });
 
-Route::get('/6dem/dashboard', function () {
-    return inertia('6dem/Dashboard');
-})->name('6dem.dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return inertia('6dem/Index');
+    });
 
-Route::get('/6dem/clients', function () {
-    return inertia('6dem/Clients');
-})->name('6dem.clients');
+    Route::get('/6dem/dashboard', function () {
+        return inertia('6dem/Dashboard');
+    })->name('6dem.dashboard');
 
-Route::get('/6dem/documents',function () {
-    return inertia('6dem/Documents');
-} )->name('6dem.documents');
+    Route::get('/6dem/clients', function () {
+        return inertia('6dem/Clients');
+    })->name('6dem.clients');
 
-Route::get('/6dem/manage', [AclController::class, 'create'])
+    Route::get('/6dem/documents', function () {
+        return inertia('6dem/Documents');
+    })->name('6dem.documents');
+
+    Route::get('/6dem/manage', [AclController::class, 'create'])
     ->name('6dem.manage');
 
-Route::get('/6dem/settings', function () {
-    return inertia('6dem/Settings');
-})->name('6dem.settings');
+    Route::get('/6dem/settings', function () {
+        return inertia('6dem/Settings');
+    })->name('6dem.settings');
 
-Route::get('/6dem/storage', function () {
-    return inertia('6dem/Storage');
-})->name('6dem.storage');
+    Route::get('/6dem/storage', function () {
+        return inertia('6dem/Storage');
+    })->name('6dem.storage');
 
-Route::get('/6dem/templetes', function () {
-    return inertia('6dem/Templetes');
-})->name('6dem.templetes');
+    Route::get('/6dem/templetes', function () {
+        return inertia('6dem/Templetes');
+    })->name('6dem.templetes');
+});
 
 
 
