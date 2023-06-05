@@ -1,7 +1,7 @@
 <template>
   <div>
     <IconButton
-      @click="confirmUserDeletion"
+      @click="confirmRoleCreation"
       class="text-right shrink-0 place-self-end"
       text="Ajouter un role"
     >
@@ -22,7 +22,7 @@
       </svg>
     </IconButton>
 
-    <Modal :show="confirmingUserDeletion" @close="closeModal">
+    <Modal :show="confirmingRoleCreation" @close="closeModal">
       <div class="w-full p-6 flex flex-col space-y-2">
         <div class="mt-6">
           <DefaultInput
@@ -77,7 +77,6 @@
 </template>
 
 <script setup>
-import DangerButton from "@/Components/DangerButton.vue";
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
@@ -90,31 +89,19 @@ defineProps({
   permissions: Array,
 });
 
-const confirmingUserDeletion = ref(false);
-const passwordInput = ref(null);
+const confirmingRoleCreation = ref(false);
 
 const form = useForm({
-  password: "",
+  roleName: "",
 });
 
-const confirmUserDeletion = () => {
-  confirmingUserDeletion.value = true;
-
+const confirmRoleCreation = () => {
+  confirmingRoleCreation.value = true;
   nextTick(() => passwordInput.value.focus());
 };
 
-const deleteUser = () => {
-  form.delete(route("profile.destroy"), {
-    preserveScroll: true,
-    onSuccess: () => closeModal(),
-    onError: () => passwordInput.value.focus(),
-    onFinish: () => form.reset(),
-  });
-};
-
 const closeModal = () => {
-  confirmingUserDeletion.value = false;
-
+  confirmingRoleCreation.value = false;
   form.reset();
 };
 </script>
