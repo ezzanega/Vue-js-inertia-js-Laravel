@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\ACL;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\InviteUser;
+use Illuminate\Http\Request;
+use App\Models\EmailTemplates;
+use App\Mail\GenericMailHandler;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class AclController extends Controller
 {
@@ -28,21 +33,24 @@ class AclController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'roleName' => 'required|string|max:125|unique:role,name',
+            'roleName' => 'required|string|max:125|unique:roles,name',
+            'permissions' => 'required',
         ]);
 
-        Role::create(['name' => $request->roleName]);
+        $role = Role::create(['name' => $request->roleName]);
+        $role->syncPermissions($request->permissions);
         $this->create();
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'roleName' => 'required|string|max:125|unique:role,name',
         ]);
 
         $role = Role::findById($id);
         $role->name = $request->roleName;
- 
+
         $role->save();
     }
 
@@ -86,8 +94,25 @@ class AclController extends Controller
             'permissionName' => 'required',
         ]);
         $role = Role::where(['name' => $request->roleName])->first();
-        foreach ($request->permissions as &$permission){
+        foreach ($request->permissions as &$permission) {
             $role->assignRole($permission);
         }
+    }
+
+
+    public function inviteUser(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|max:125|unique:users|unique:invite_users',
+            'role' => 'required|string|max:250|exists:roles,name',
+        ]);
+
+        $inviteUser = InviteUser::create([
+            'email' => $request->email,
+            'role' => $request->role,
+        ]);
+        $data = ['invitationLink' => 'http://127.0.0.1:8000/signup'];
+        $emailTemplate = EmailTemplates::find(2);
+        Mail::to($inviteUser->email)->send(new GenericMailHandler($emailTemplate, $data));
     }
 }

@@ -47,16 +47,19 @@ Route::middleware('auth')->group(function () {
     })->name('6dem.documents');
 
     Route::get('/6dem/manage', [AclController::class, 'create'])
-    ->name('6dem.manage');
+        ->name('6dem.manage');
 
     Route::post('/6dem/manage/role', [AclController::class, 'store'])
-    ->name('6dem.manage.role');
+        ->name('6dem.manage.role');
 
     Route::post('/6dem/manage/role/assign', [AclController::class, 'assignPermissionToRoles'])
-    ->name('6dem.manage.role.assign');
+        ->name('6dem.manage.role.assign');
 
     Route::put('/6dem/manage/role/{roleName}', [AclController::class, 'update'])
-    ->name('6dem.manage.role.update');
+        ->name('6dem.manage.role.update');
+
+    Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
+        ->name('6dem.manage.invite.user');
 
     Route::get('/6dem/settings', function () {
         return inertia('6dem/Settings');

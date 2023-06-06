@@ -74,17 +74,19 @@
                   </div>
                   <div class="flex-none">
                     <button class="rounded-lg bg-primary p-3 text-white">
-                      <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke-width="1.5" 
-                      stroke="currentColor" 
-                      class="w-4 h-4">
-                        <path 
-                        stroke-linecap="round" 
-                        stroke-linejoin="round" 
-                        d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-4 h-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -167,22 +169,6 @@
               </div>
               <div class="hidden sm:flex sm:flex-col sm:items-end">
                 <div class="mt-1 flex items-center gap-x-1.5">
-                  <!-- <div class="flex-none">                
-                  <button class="rounded-lg bg-primary p-3 text-white">
-                    <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke-width="1.5" 
-                      stroke="currentColor" 
-                      class="w-4 h-4">
-                        <path 
-                        stroke-linecap="round" 
-                        stroke-linejoin="round" 
-                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                    </svg>
-                  </button>
-                </div> -->
                   <div class="flex-none">
                     <button class="rounded-lg bg-primary p-3 text-white">
                       <svg
@@ -212,7 +198,11 @@
           message-title="Vous n'avez pas de collaborateurs créés"
           message-content="Commencez par ajouter un nouveau collaborateur"
         >
-          <IconButton class="mt-6" text="Ajouter un collaborateur">
+          <IconButton
+            @click="openInviteUserModal"
+            class="mt-6"
+            text="Ajouter un collaborateur"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -229,6 +219,12 @@
               />
             </svg>
           </IconButton>
+
+          <InviteUserForm
+            :roles="roles"
+            :openModal="inviteUserModal"
+            @closeModal="closeModal"
+          />
         </ListEmptyMessage>
       </Tab>
     </Tabs>
@@ -236,6 +232,7 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import Tabs from "@/Components/Molecules/Tabs.vue";
@@ -243,9 +240,20 @@ import Tab from "@/Components/Atoms/Tab.vue";
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import IconButton from "@/Components/Atoms/IconButton.vue";
 import CreateRoleFrom from "@/Components/Organisms/CreateRoleFrom.vue";
+import InviteUserForm from "@/Components/Organisms/InviteUserForm.vue";
 
 defineProps({
   roles: Array,
   permissions: Array,
 });
+
+const inviteUserModal = ref(false);
+
+const openInviteUserModal = () => {
+  inviteUserModal.value = true;
+};
+
+const closeModal = () => {
+  inviteUserModal.value = false;
+};
 </script>
