@@ -23,6 +23,7 @@
     </IconButton>
 
     <Modal :show="confirmingRoleCreation" @close="closeModal">
+      <form @submit.prevent="form.post('/6dem/manage/role')">
         <div class="w-full p-6 flex flex-col space-y-2">
           <div class="mt-6">
             <DefaultInput
@@ -57,6 +58,7 @@
                       type="checkbox"
                       :value="permission.name"
                       class="sr-only peer"
+                      v-model="checkedPermissions"
                     />
                     <div
                       class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
