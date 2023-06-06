@@ -23,55 +23,56 @@
     </IconButton>
 
     <Modal :show="confirmingRoleCreation" @close="closeModal">
-      <div class="w-full p-6 flex flex-col space-y-2">
-        <div class="mt-6">
-          <DefaultInput
-            :required="true"
-            name="roleName"
-            label="Nom du role"
-            placeholder="Nom du role"
-          />
-        </div>
-
-        <li
-          v-for="permission in permissions"
-          :key="permission.id"
-          class="flex gap-x-6 py-5"
-        >
-          <div class="flex gap-x-4">
-            <img class="h-12 w-12 flex-none rounded-full bg-gray-50" alt="" />
-            <div class="min-w-0 flex-auto">
-              <p class="text-sm font-semibold leading-6 text-gray-900">
-                {{ permission.name }}
-              </p>
-              <p class="mt-1 truncate text-xs leading-5 text-gray-500">
-                Permission
-              </p>
-            </div>
+        <div class="w-full p-6 flex flex-col space-y-2">
+          <div class="mt-6">
+            <DefaultInput
+              :required="true"
+              name="roleName"
+              label="Nom du role"
+              placeholder="Nom du role"
+            />
           </div>
-          <div class="hidden sm:flex sm:flex-col sm:items-end">
-            <div class="mt-1 flex items-center gap-x-1.5">
-              <div class="flex-none">
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    :value="permission.name"
-                    class="sr-only peer"
-                  />
-                  <div
-                    class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
-                  ></div>
-                </label>
+
+          <li
+            v-for="permission in permissions"
+            :key="permission.id"
+            class="flex gap-x-6 py-5"
+          >
+            <div class="flex gap-x-4">
+              <img class="h-12 w-12 flex-none rounded-full bg-gray-50" alt="" />
+              <div class="min-w-0 flex-auto">
+                <p class="text-sm font-semibold leading-6 text-gray-900">
+                  {{ permission.name }}
+                </p>
+                <p class="mt-1 truncate text-xs leading-5 text-gray-500">
+                  Permission
+                </p>
               </div>
             </div>
-          </div>
-        </li>
+            <div class="hidden sm:flex sm:flex-col sm:items-end">
+              <div class="mt-1 flex items-center gap-x-1.5">
+                <div class="flex-none">
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      :value="permission.name"
+                      class="sr-only peer"
+                    />
+                    <div
+                      class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
+                    ></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </li>
 
-        <div class="mt-6 flex justify-end space-x-4">
-          <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
-          <DefaultButton class="w-32" buttontext="Valider" />
+          <div class="mt-6 flex justify-end space-x-4">
+            <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+            <DefaultButton type="submit" :disabled="form.processing" class="w-32" buttontext="Valider" />
+          </div>
         </div>
-      </div>
+      </form>
     </Modal>
   </div>
 </template>
@@ -90,14 +91,16 @@ defineProps({
 });
 
 const confirmingRoleCreation = ref(false);
+const checkedPermissions = ref([])
 
 const form = useForm({
   roleName: "",
+  permissionsList: checkedPermissions
 });
 
 const confirmRoleCreation = () => {
   confirmingRoleCreation.value = true;
-  nextTick(() => passwordInput.value.focus());
+  nextTick(() => confirmingRoleCreation.value.focus());
 };
 
 const closeModal = () => {
