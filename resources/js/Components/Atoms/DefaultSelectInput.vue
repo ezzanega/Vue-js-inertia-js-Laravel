@@ -13,12 +13,11 @@
       :name="name"
       class="form-input h-12 w-full rounded-md border-tertiary bg-tertiary border-none focus:outline-none focus:ring-primary focus:border-none"
     >
-      <option value="">--</option>
+      <option value="" selected="selected">--</option>
       <option
         v-for="(option, index) in options"
         :key="index"
         :value="option.value"
-        :selected="option.value == selectedValue ? 'selected' : ''"
       >
         {{ option.name }}
       </option>
