@@ -11,6 +11,7 @@ use App\Models\EmailTemplates;
 use App\Mail\GenericMailHandler;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
@@ -45,13 +46,22 @@ class AclController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'roleName' => 'required|string|max:125|unique:role,name',
+            'roleName' => 'required|string|max:125',
+            'permissions' => 'required'
         ]);
-
         $role = Role::findById($id);
         $role->name = $request->roleName;
-
+        $role->syncPermissions($request->permissions);
         $role->save();
+        $this->create();
+    }
+
+    public function delete($id)
+    {
+        $role = Role::findById($id);
+
+        $role->delete();
+        $this->create();
     }
 
     public function getAllRoles()
@@ -66,6 +76,12 @@ class AclController extends Controller
         $permissions = DB::table('permissions')->get();
 
         return $permissions;
+    }
+
+    public function getPermissionsById($id)
+    {
+        $role = Role::findById($id);
+        return $role->permissions;
     }
 
     public function assignPermissionToUsers(Request $request, $uuid)

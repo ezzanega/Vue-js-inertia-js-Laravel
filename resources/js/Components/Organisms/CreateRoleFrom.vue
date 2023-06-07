@@ -125,5 +125,6 @@ const selectPermissions = (e, permission) => {
   } else {
     form.permissions = form.permissions.filter((i) => i !== permission);
   }
+  console.log(form.permissions)
 };
 </script>

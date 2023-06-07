@@ -51,12 +51,15 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/6dem/manage/role', [AclController::class, 'store'])
         ->name('6dem.manage.role');
+    
+    Route::get('/6dem/manage/role/permissions/{id}', [AclController::class, 'getPermissionsById'])
+        ->name('6dem.manage.role.getPermissionsById');    
 
-    Route::post('/6dem/manage/role/assign', [AclController::class, 'assignPermissionToRoles'])
-        ->name('6dem.manage.role.assign');
-
-    Route::put('/6dem/manage/role/{roleName}', [AclController::class, 'update'])
+    Route::put('/6dem/manage/role/{id}', [AclController::class, 'update'])
         ->name('6dem.manage.role.update');
+
+    Route::delete('/6dem/manage/role/{id}', [AclController::class, 'delete'])
+        ->name('6dem.manage.role.delete');
 
     Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
         ->name('6dem.manage.invite.user');
