@@ -1,7 +1,7 @@
 <template>
   <Modal :show="openModal" @close="closeModal">
     <div class="w-full p-6 flex flex-col space-y-2">
-      <div class="mt-6">
+      <div class="my-6 space-y-5">
         <DefaultInput
           :required="true"
           type="email"

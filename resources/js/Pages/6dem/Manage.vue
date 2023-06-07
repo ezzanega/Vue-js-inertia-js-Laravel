@@ -2,6 +2,41 @@
   <Head title="Gestion" />
   <DemLayout>
     <Tabs>
+      <Tab title="Collaborateurs">
+        <TeamUsers />
+        <ListEmptyMessage
+          message-title="Vous n'avez pas de collaborateurs créés"
+          message-content="Commencez par ajouter un nouveau collaborateur"
+        >
+          <IconButton
+            @click="openInviteUserModal"
+            class="mt-6"
+            text="Ajouter un collaborateur"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2.2"
+              stroke="currentColor"
+              aria-hidden="true"
+              class="pointer-events-none shrink-0 w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </IconButton>
+
+          <InviteUserForm
+            :roles="roles"
+            :openModal="inviteUserModal"
+            @closeModal="closeModal"
+          />
+        </ListEmptyMessage>
+      </Tab>
       <Tab title="Roles">
         <div v-if="!roles">
           <ListEmptyMessage
@@ -193,40 +228,6 @@
           </ul>
         </div>
       </Tab>
-      <Tab title="Collaborateurs">
-        <ListEmptyMessage
-          message-title="Vous n'avez pas de collaborateurs créés"
-          message-content="Commencez par ajouter un nouveau collaborateur"
-        >
-          <IconButton
-            @click="openInviteUserModal"
-            class="mt-6"
-            text="Ajouter un collaborateur"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2.2"
-              stroke="currentColor"
-              aria-hidden="true"
-              class="pointer-events-none shrink-0 w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-          </IconButton>
-
-          <InviteUserForm
-            :roles="roles"
-            :openModal="inviteUserModal"
-            @closeModal="closeModal"
-          />
-        </ListEmptyMessage>
-      </Tab>
     </Tabs>
   </DemLayout>
 </template>
@@ -241,6 +242,7 @@ import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import IconButton from "@/Components/Atoms/IconButton.vue";
 import CreateRoleFrom from "@/Components/Organisms/CreateRoleFrom.vue";
 import InviteUserForm from "@/Components/Organisms/InviteUserForm.vue";
+import TeamUsers from "@/Components/Organisms/TeamUsers.vue";
 
 defineProps({
   roles: Array,
