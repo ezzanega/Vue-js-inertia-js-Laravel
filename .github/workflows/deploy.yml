@@ -49,9 +49,3 @@ jobs:
             --deployment-group-name 6demGroup \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
-
-      # Step 3 (Optional: Wait for deployment to complete)
-      - name: Wait for deployment to complete
-        run: |
-          deployment_id="${{ steps.deploy.outputs.deployment-id }}"
-          aws deploy wait deployment-successful --deployment-id "$deployment_id"
