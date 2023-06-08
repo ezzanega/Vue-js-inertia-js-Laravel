@@ -1,0 +1,14 @@
+#appspec.yml
+
+version: 0.0
+os: linux
+files:
+ - source: /
+   destination: /var/www/6dem.com #
+
+file_exists_behavior: RETAIN
+hooks:
+  AfterInstall:
+   - location: scripts/install_dependencies #shell script to install depend
+     timeout: 300
+     runas: ubuntu #your ec2 user
