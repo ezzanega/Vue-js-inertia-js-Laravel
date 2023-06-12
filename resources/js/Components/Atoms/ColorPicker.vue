@@ -1,6 +1,6 @@
 <template>
     <div>
-       <color-picker class="shadow-xl" v-model:pureColor="pureColor" v-model:gradientColor="gradientColor"/>
+       <color-picker v-model:pureColor="pureColor" v-model:gradientColor="gradientColor"/>
     </div>
   </template>
   
