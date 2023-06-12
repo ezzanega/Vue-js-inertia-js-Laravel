@@ -46,6 +46,10 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Documents');
     })->name('6dem.documents');
 
+    Route::get('/6dem/documents/nouveau-devis', function () {
+        return inertia('6dem/Devis');
+    })->name('6dem.documents.devis');
+
     Route::get('/6dem/manage', [AclController::class, 'create'])
         ->name('6dem.manage');
 

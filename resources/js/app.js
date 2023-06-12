@@ -5,6 +5,8 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+import Vue3ColorPicker from "vue3-colorpicker";
+import 'vue3-colorpicker/style.css';
 import 'floating-vue/dist/style.css'
 import { InertiaProgress } from '@inertiajs/progress'
 
@@ -16,6 +18,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(Vue3ColorPicker)
             .use(ZiggyVue, Ziggy)
             // eslint-disable-next-line no-undef
             .mixin({methods: { route } })
