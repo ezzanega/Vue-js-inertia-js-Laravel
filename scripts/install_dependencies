@@ -3,6 +3,5 @@
 cd /var/www/6dem.com
 composer install --prefer-dist --no-progress --no-suggest
 
-#build laravel app
-cp .env.example .env
-php artisan key:generate
+#build VueJS app
+npm run build
