@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,15 +17,6 @@ use Inertia\Inertia;
 |
 */
 
-
-/*Route::get('/signin', function () {
-    return inertia('Auth/SignIn');
-})->name('6dem.signin');
-
-Route::get('/signup', function () {
-    return inertia('Auth/SignUp');
-})->name('6dem.signup');;*/
-
 Route::get('/forgotpassword', function () {
     return inertia('ForgotPassword');
 })->name('6dem.forgot-password');
@@ -33,11 +25,9 @@ Route::get('/resetpassword', function () {
     return inertia('ResetPassword');
 })->name('6dem.reset-password');
 
-
 Route::get('/design-system', function () {
     return inertia('6dem/DesignSystem');
 });
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
@@ -56,9 +46,27 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Documents');
     })->name('6dem.documents');
 
-    Route::get('/6dem/manage', function () {
-        return inertia('6dem/Manage');
-    })->name('6dem.manage');
+    Route::get('/6dem/documents/nouveau-devis', function () {
+        return inertia('6dem/Devis');
+    })->name('6dem.documents.devis');
+
+    Route::get('/6dem/manage', [AclController::class, 'create'])
+        ->name('6dem.manage');
+
+    Route::post('/6dem/manage/role', [AclController::class, 'store'])
+        ->name('6dem.manage.role');
+    
+    Route::get('/6dem/manage/role/permissions/{id}', [AclController::class, 'getPermissionsById'])
+        ->name('6dem.manage.role.getPermissionsById');    
+
+    Route::put('/6dem/manage/role/{id}', [AclController::class, 'update'])
+        ->name('6dem.manage.role.update');
+
+    Route::delete('/6dem/manage/role/{id}', [AclController::class, 'delete'])
+        ->name('6dem.manage.role.delete');
+
+    Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
+        ->name('6dem.manage.invite.user');
 
     Route::get('/6dem/settings', function () {
         return inertia('6dem/Settings');

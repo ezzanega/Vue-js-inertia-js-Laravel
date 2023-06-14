@@ -16,6 +16,7 @@
             :type="type"
             :placeholder="placeholder"
             :value="modelValue"
+            :disabled="disabled"
             @input="$emit('update:modelValue', $event.target.value)"
             class="form-input h-12 w-full rounded-md border-tertiary bg-tertiary border-none focus:outline-none focus:ring-primary focus:border-none"
           />

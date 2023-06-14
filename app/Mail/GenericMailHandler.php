@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use App\Models\EmailTemplates;
@@ -12,21 +11,19 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MailHandler extends Mailable
+class GenericMailHandler extends Mailable
 {
     use Queueable, SerializesModels;
 
 
-    public $user;
     public $emailTemplate;
     public $data;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user, EmailTemplates $emailTemplate,  $data = null)
+    public function __construct(EmailTemplates $emailTemplate,  $data = null)
     {
-        $this->user = $user;
         $this->emailTemplate = $emailTemplate;
         $this->data = $data;
     }
@@ -51,9 +48,8 @@ class MailHandler extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.template',
+            view: 'email.generic-email',
             with: [
-                'user' => $this->user,
                 'template' => $this->emailTemplate,
                 'data' => $this->data,
             ],
