@@ -41,5 +41,8 @@
 <script setup>
 import TopPopperItem from '@/Components/Atoms/TopPopperItem.vue';
 
-const settingsPopperItemClicked = () => { }
+const emit = defineEmits(['addingOption']);
+const settingsPopperItemClicked = () => { 
+    emit('addingOption');
+}
 </script>

@@ -69,7 +69,7 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 
-const emit = defineEmits(['choosingClient'])
+const emit = defineEmits(['choosingClient']);
 
 const existingClient = ref(true);
 const newClient = ref(false);
