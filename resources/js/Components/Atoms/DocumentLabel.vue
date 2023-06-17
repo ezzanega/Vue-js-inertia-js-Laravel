@@ -1,6 +1,6 @@
 <template>
   <span
-    class="border border-gray-700 w-full p-1 text-center text-xl font-bold"
+    class="border border-gray-200 rounded-md w-full p-1 text-center text-xl font-bold"
     :style="{ color: `${color}` }"
   >
     {{ name }}
