@@ -5,7 +5,7 @@
     </div>
     <div v-if="removable" class="relative flex items-center justify-center">
       <button
-        class="absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-200 rounded-full p-0.5 text-red-500 hover:text-red-700"
+        class="absolute top-1/2 right-0 transform translate-x-1 -translate-y-1/2 bg-red-200 rounded-full p-0.5 text-red-500 hover:text-red-700"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

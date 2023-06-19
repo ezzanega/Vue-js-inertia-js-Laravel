@@ -1,22 +1,30 @@
 <template>
     <div v-for="item, index in options" :key="item">
         <div class="flex space-x-2">
-            <span class="border border-gray-700 w-1/4 p-1">
-                <DocumentFieldInput :modelValue="'Description : ' + item.description" :fontBold="true" />
+            <span class="w-1/4 p-1">
+                <DocumentFieldFrame>
+                    <DocumentFieldInput :modelValue="'Description : ' + item.description" :fontBold="true" />
+                </DocumentFieldFrame>
             </span>
-            <span class="border border-gray-700 w-1/4 p-1">
-                <DocumentFieldInput :modelValue="'Quantité : ' + item.qty" :fontBold="true" />
+            <span class="w-1/4 p-1">
+                <DocumentFieldFrame>
+                    <DocumentFieldInput :modelValue="'Quantité : ' + item.qty" :fontBold="true" />
+                </DocumentFieldFrame>
             </span>
-            <span class="border border-gray-700 w-1/4 p-1">
-                <DocumentFieldInput :modelValue="'Tarif HT : ' + item.priceHT" :fontBold="true" />
+            <span class="w-1/4 p-1">
+                <DocumentFieldFrame>
+                    <DocumentFieldInput :modelValue="'Tarif HT : ' + item.priceHT" :fontBold="true" />
+                </DocumentFieldFrame>
             </span>
-            <span class="border border-gray-700 w-1/4 p-1">
-                <DocumentFieldInput :modelValue="'Tarif TTC : ' + item.priceTTC" :fontBold="true" />
+            <span class="w-1/4 p-1">
+                <DocumentFieldFrame>
+                    <DocumentFieldInput :modelValue="'Tarif TTC : ' + item.priceTTC" :fontBold="true" />
+                </DocumentFieldFrame>
             </span>
         </div>
         <div class="flex flex-row space-x-2 justify-center mt-3">
             <Dropdown placement="bottom-end">
-                <AddButton />
+                <AddOptionButton />
                 <template #popper>
                     <SettingsAddButtonPopperContent @addingOption="addRow" />
                 </template>
@@ -27,28 +35,29 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import SettingsAddButtonPopperContent from "@/Components/Atoms/SettingsAddButtonPopperContent.vue";
-import AddButton from "@/Components/Atoms/AddButton.vue";
+import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
+import AddOptionButton from "@/Components/Atoms/AddOptionButton.vue";
 import RemoveButton from "@/Components/Atoms/RemoveButton.vue";
 import { Dropdown } from "floating-vue";
 
 const options = reactive([
     { description: '', qty: 0, priceHT: 0, priceTTC: 0 }
-])
+]);
 
 const addRow = () => {
     options.push({ description: '', qty: 0, priceHT: 0, priceTTC: 0 })
-}
+};
 
 const removeRow = (index) => {
     if (options.length > 1) {
         options.splice(index, 1)
     }
-}
+};
 
 const saveItem = () => {
-}
+};
 
 </script>

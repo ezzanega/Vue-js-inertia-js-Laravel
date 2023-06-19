@@ -2,55 +2,50 @@
   <div>
     <div class="flex flex-col space-y-5 p-10">
       <div class="grid grid-cols-3 gap-4 justify-between">
-        <UploadFile
-          class="w-1/2"
-          label="Déposez ou cliquez si vous souhaitez ajouter votre logo"
-        />
+        <UploadFile class="w-1/2" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
         <div class="p-2 h-auto">
-          <DocumentFieldInput
-            placeholder="Adresse de la société"
-            :fontBold="true"
-          />
-          <DocumentFieldInput placeholder="Téléphone" :fontBold="true" />
-          <DocumentFieldInput placeholder="Adresse mail" :fontBold="true" />
+          <div class="mb-2">
+            <DocumentFieldInput placeholder="Adresse de la société" :fontBold="true" />
+          </div>
+          <div class="mb-2">
+            <DocumentFieldInput placeholder="Téléphone" :fontBold="true" />
+          </div>
+          <div class="mb-2">
+            <DocumentFieldInput placeholder="Adresse mail" :fontBold="true" />
+          </div>
+          <DynamicHeaderFields />
         </div>
         <div class="p-2 h-auto">
-          <DocumentFieldInput placeholder="SIREN" :fontBold="true" />
-          <DocumentFieldInput placeholder="CODE APE" :fontBold="true" />
-          <DocumentFieldInput placeholder="LICENCE N°" :fontBold="true" />
+          <div class="mb-2">
+            <DocumentFieldInput placeholder="SIREN" :fontBold="true" />
+          </div>
+          <div class="mb-2">
+            <DocumentFieldInput placeholder="CODE APE" :fontBold="true" />
+          </div>
+          <div class="mb-2">
+            <DocumentFieldInput placeholder="LICENCE N°" :fontBold="true" />
+          </div>
+          <DynamicHeaderFields />
         </div>
       </div>
       <div class="grid grid-cols-2 gap-20 pb-5 justify-between">
         <div class="flex flex-col space-y-2">
           <DocumentFieldFrame>
-            <DocumentFieldInput
-              modelValue="DEVIS N° 050623001"
-              :fontBold="true"
-            />
+            <DocumentFieldInput modelValue="DEVIS N° 050623001" :fontBold="true" />
           </DocumentFieldFrame>
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="
-                  'Conseiller: ' + user.first_name + ' ' + user.last_name
-                "
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Conseiller: ' + user.first_name + ' ' + user.last_name
+                " :fontBold="true" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Tél: ' + user.phone_number"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Tél: ' + user.phone_number" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
 
           <DocumentFieldFrame :removable="true">
-            <DocumentFieldInput
-              modelValue="Validité devis : 7 jours "
-              :fontBold="true"
-            />
+            <DocumentFieldInput modelValue="Validité devis : 7 jours " :fontBold="true" />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
@@ -59,10 +54,7 @@
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Catégorie: '"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Catégorie: '" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
         </div>
@@ -74,17 +66,11 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Nom: ' + user.last_name"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Nom: ' + user.last_name" :fontBold="true" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Prenom: ' + user.first_name"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Prenom: ' + user.first_name" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
 
@@ -94,16 +80,10 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Tel: ' + user.phone_number"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Tel: ' + user.phone_number" :fontBold="true" />
             </DocumentFieldFrame>
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Email: ' + user.email"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Email: ' + user.email" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
         </div>
@@ -114,10 +94,7 @@
           <DocumentLabel name="CHARGEMENT" color="#438A7A" />
 
           <DocumentFieldFrame>
-            <DocumentFieldInput
-              placeholder="Date ou période"
-              :fontBold="true"
-            />
+            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -159,10 +136,7 @@
           <DocumentLabel name="LIVRAISON" color="#438A7A" />
 
           <DocumentFieldFrame>
-            <DocumentFieldInput
-              placeholder="Date ou période"
-              :fontBold="true"
-            />
+            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -200,93 +174,109 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col space-y-2">
+      <div class="flex flex-col mt-4 space-y-2">
         <DocumentLabel name="OPTIONS" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
         <DynamicFields />
       </div>
-      <div class="flex flex-col space-y-5">
+      <div class="flex flex-col mt-4 space-y-5">
         <DocumentLabel name="FINALISATION DU DEVIS" color="#438A7A" />
         <div class="flex space-x-2">
-          <span class="border border-gray-700 w-2/6 p-1">
-            <DocumentFieldInput
-              :modelValue="'Assurance contractuelle : '"
-              :fontBold="true"
-            />
+          <span class="w-2/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput :modelValue="'Assurance contractuelle : '" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/6 p-1">
-            <DocumentFieldInput
-              :modelValue="'Valeur max par objet : '"
-              :fontBold="true"
-            />
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput :modelValue="'Valeur max par objet : '" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/6 p-1">
-            <DocumentFieldInput :modelValue="'Franchise : '" :fontBold="true" />
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput :modelValue="'Franchise : '" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/6 p-1">
-            <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/6 p-1">
-            <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
-          </span>
-        </div>
-        <div class="flex space-x-2">
-          <span class="border border-gray-700 w-2/6 p-1">
-            <DocumentFieldInput
-              :modelValue="'Assurance contractuelle : '"
-              :fontBold="true"
-            />
-          </span>
-          <span class="border border-gray-700 w-1/6 p-1">
-            <DocumentFieldInput
-              :modelValue="'Valeur max par objet : '"
-              :fontBold="true"
-            />
-          </span>
-          <span class="border border-gray-700 w-1/6 p-1">
-            <DocumentFieldInput :modelValue="'Franchise : '" :fontBold="true" />
-          </span>
-          <span class="border border-gray-700 w-1/6 p-1">
-            <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
-          </span>
-          <span class="border border-gray-700 w-1/6 p-1">
-            <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
         </div>
         <div class="flex space-x-2">
-          <span class="border border-gray-700 w-1/4 p-1">
-            <DocumentFieldInput :modelValue="'Tarification'" :fontBold="true" />
+          <span class="w-2/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput :modelValue="'Assurance contractuelle : '" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/4 p-1">
-            <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput :modelValue="'Valeur max par objet : '" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/4 p-1">
-            <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput :modelValue="'Franchise : '" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/4 p-1">
-            <DocumentFieldInput placeholder="Remise en %" :fontBold="true" />
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
         </div>
         <div class="flex space-x-2">
-          <span class="border border-gray-700 w-1/2 p-1">
-            <DocumentFieldInput
-              :modelValue="'Modalités de règlement'"
-              :fontBold="true"
-            />
+          <span class="w-1/4 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput :modelValue="'Tarification'" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/4 p-1">
-            <DocumentFieldInput placeholder="Acompte en %" :fontBold="true" />
+          <span class="w-1/4 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
-          <span class="border border-gray-700 w-1/4 p-1">
-            <DocumentFieldInput placeholder="Solde en %" :fontBold="true" />
+          <span class="w-1/4 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/4 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Remise en %" :fontBold="true" />
+            </DocumentFieldFrame>
+          </span>
+        </div>
+        <div class="flex space-x-2">
+          <span class="w-1/2 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput :modelValue="'Modalités de règlement'" :fontBold="true" />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/4 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Acompte en %" :fontBold="true" />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/4 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Solde en %" :fontBold="true" />
+            </DocumentFieldFrame>
           </span>
         </div>
       </div>
     </div>
-    <DocumentFieldFrame>
-      <p>Okay</p>
-    </DocumentFieldFrame>
   </div>
 </template>
 
@@ -294,6 +284,7 @@
 import { usePage } from "@inertiajs/vue3";
 import UploadFile from "@/Components/Atoms/UploadFile.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
+import DynamicHeaderFields from "@/Components/Organisms/DynamicHeaderFields.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
