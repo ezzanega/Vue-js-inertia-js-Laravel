@@ -20,10 +20,10 @@
             <DocumentFieldInput placeholder="SIREN" :fontBold="true" />
           </div>
           <div class="mb-2">
-            <DocumentFieldInput placeholder="CODE APE" :fontBold="true" />
+            <DocumentFieldInput placeholder="Code APE" :fontBold="true" />
           </div>
           <div class="mb-2">
-            <DocumentFieldInput placeholder="LICENCE N°" :fontBold="true" />
+            <DocumentFieldInput placeholder="Licence N°" :fontBold="true" />
           </div>
           <DynamicHeaderFields />
         </div>
@@ -44,7 +44,7 @@
             </DocumentFieldFrame>
           </div>
 
-          <DocumentFieldFrame :removable="true">
+          <DocumentFieldFrame>
             <DocumentFieldInput modelValue="Validité devis : 7 jours " :fontBold="true" />
           </DocumentFieldFrame>
 
@@ -103,16 +103,6 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="CP" :fontBold="true" />
-            </DocumentFieldFrame>
-
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Ville" :fontBold="true" />
-            </DocumentFieldFrame>
-          </div>
-
-          <div class="flex space-x-2">
-            <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Étage" :fontBold="true" />
             </DocumentFieldFrame>
 
@@ -130,6 +120,8 @@
               <DocumentFieldInput placeholder="Détails" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
+
+          <DynamicQuoteFields />
         </div>
 
         <div class="flex flex-col space-y-2">
@@ -145,16 +137,6 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="CP" :fontBold="true" />
-            </DocumentFieldFrame>
-
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Ville" :fontBold="true" />
-            </DocumentFieldFrame>
-          </div>
-
-          <div class="flex space-x-2">
-            <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Étage" :fontBold="true" />
             </DocumentFieldFrame>
 
@@ -172,6 +154,8 @@
               <DocumentFieldInput placeholder="Détails" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
+
+          <DynamicQuoteFields />
         </div>
       </div>
       <div class="flex flex-col mt-4 space-y-2">
@@ -288,6 +272,7 @@ import DynamicHeaderFields from "@/Components/Organisms/DynamicHeaderFields.vue"
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
+import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 
 const user = usePage().props.auth.user;
 </script>

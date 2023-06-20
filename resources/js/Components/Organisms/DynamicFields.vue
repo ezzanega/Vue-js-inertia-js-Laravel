@@ -21,8 +21,6 @@
                     <DocumentFieldInput :modelValue="'Tarif TTC : ' + item.priceTTC" :fontBold="true" />
                 </DocumentFieldFrame>
             </span>
-        </div>
-        <div class="flex flex-row space-x-2 justify-center mt-3">
             <Dropdown placement="bottom-end">
                 <AddOptionButton />
                 <template #popper>
