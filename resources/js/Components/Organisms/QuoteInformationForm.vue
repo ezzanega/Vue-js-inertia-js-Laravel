@@ -93,12 +93,21 @@
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="CHARGEMENT" color="#438A7A" />
 
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" @change="setLoadingAddress" class="sr-only peer" />
+            <div
+              class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+            </div>
+            <p class="text-sm ml-5 font-semibold leading-6 text-gray-900">
+              Adresse de chargement identique à l'adresse du client ?
+            </p>
+          </label>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
+            <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
+            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
@@ -121,6 +130,7 @@
             </DocumentFieldFrame>
           </div>
 
+          <SelectFormulas />
           <DynamicQuoteFields />
         </div>
 
@@ -128,11 +138,11 @@
           <DocumentLabel name="LIVRAISON" color="#438A7A" />
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
+            <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
+            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
@@ -273,6 +283,13 @@ import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
+import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
+import 'vue-select/dist/vue-select.css';
 
 const user = usePage().props.auth.user;
+
+const setLoadingAddress = () => {
+  console.log("Checked");
+};
+
 </script>
