@@ -3,6 +3,6 @@
 cd /var/www/6dem.com
 composer install --prefer-dist --no-progress --no-suggest
 
-npm install 
+sudo npm install 
 #build VueJS app
 npm run build
