@@ -6,7 +6,7 @@ files:
  - source: /
    destination: /var/www/6dem.com #
 
-file_exists_behavior: RETAIN
+file_exists_behavior: OVERWRITE
 hooks:
   AfterInstall:
    - location: scripts/install_dependencies #shell script to install depend
