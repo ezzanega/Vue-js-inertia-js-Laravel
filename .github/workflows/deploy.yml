@@ -25,6 +25,7 @@ jobs:
       - name: Build Laravel Application
         run: |
           composer install --prefer-dist --no-progress --no-suggest
+          npm install
           npm run build
 
 
