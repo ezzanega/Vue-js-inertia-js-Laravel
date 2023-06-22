@@ -24,12 +24,7 @@ jobs:
       # Step 4
       - name: Build Laravel Application
         run: |
-          cd /var/www/6dem.com
           composer install --prefer-dist --no-progress --no-suggest
-
-      #Step 5 - build vue app
-      - name: Build vue app
-        run: |
           npm run build
 
 
