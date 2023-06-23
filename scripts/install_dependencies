@@ -10,5 +10,5 @@ cd /var/www/6dem.com
 
 composer install --prefer-dist --no-progress --no-suggest
 
-sudo $NPM_PATH install
-sudo $NPM_PATH run build
+sudo npm install
+sudo npm run build
