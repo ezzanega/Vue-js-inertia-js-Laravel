@@ -83,6 +83,8 @@ const handleInput = () => {
   outline: none;
   cursor: text;
   background-color: #edf3f1;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 [contenteditable="true"]:empty:before {

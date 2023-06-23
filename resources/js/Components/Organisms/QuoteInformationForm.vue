@@ -20,10 +20,10 @@
             <DocumentFieldInput placeholder="SIREN" :fontBold="true" />
           </div>
           <div class="mb-2">
-            <DocumentFieldInput placeholder="CODE APE" :fontBold="true" />
+            <DocumentFieldInput placeholder="Code APE" :fontBold="true" />
           </div>
           <div class="mb-2">
-            <DocumentFieldInput placeholder="LICENCE N°" :fontBold="true" />
+            <DocumentFieldInput placeholder="Licence N°" :fontBold="true" />
           </div>
           <DynamicHeaderFields />
         </div>
@@ -44,7 +44,7 @@
             </DocumentFieldFrame>
           </div>
 
-          <DocumentFieldFrame :removable="true">
+          <DocumentFieldFrame>
             <DocumentFieldInput modelValue="Validité devis : 7 jours " :fontBold="true" />
           </DocumentFieldFrame>
 
@@ -93,23 +93,22 @@
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="CHARGEMENT" color="#438A7A" />
 
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
-          </DocumentFieldFrame>
-
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" @change="setLoadingAddress" class="sr-only peer" />
+            <div
+              class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+            </div>
+            <p class="text-sm ml-5 font-semibold leading-6 text-gray-900">
+              Adresse de chargement identique à l'adresse du client ?
+            </p>
+          </label>
           <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
           </DocumentFieldFrame>
 
-          <div class="flex space-x-2">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="CP" :fontBold="true" />
-            </DocumentFieldFrame>
-
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Ville" :fontBold="true" />
-            </DocumentFieldFrame>
-          </div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
+          </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
@@ -130,28 +129,21 @@
               <DocumentFieldInput placeholder="Détails" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
+
+          <SelectFormulas />
+          <DynamicQuoteFields />
         </div>
 
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="LIVRAISON" color="#438A7A" />
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
-          </DocumentFieldFrame>
-
-          <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
           </DocumentFieldFrame>
 
-          <div class="flex space-x-2">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="CP" :fontBold="true" />
-            </DocumentFieldFrame>
-
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Ville" :fontBold="true" />
-            </DocumentFieldFrame>
-          </div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
+          </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
@@ -172,6 +164,8 @@
               <DocumentFieldInput placeholder="Détails" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
+
+          <DynamicQuoteFields />
         </div>
       </div>
       <div class="flex flex-col mt-4 space-y-2">
@@ -288,6 +282,14 @@ import DynamicHeaderFields from "@/Components/Organisms/DynamicHeaderFields.vue"
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
+import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
+import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
+import 'vue-select/dist/vue-select.css';
 
 const user = usePage().props.auth.user;
+
+const setLoadingAddress = () => {
+  console.log("Checked");
+};
+
 </script>
