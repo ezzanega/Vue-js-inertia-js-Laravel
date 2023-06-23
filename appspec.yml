@@ -12,3 +12,5 @@ hooks:
    - location: scripts/install_dependencies #shell script to install depend
      timeout: 300
      runas: ubuntu #your ec2 user
+     environment:
+      NODE_VERSION: 18
