@@ -14,7 +14,7 @@ hooks:
     runas: ubuntu
     environment:
       NODE_VERSION: 16
-  AfterInstall:
+  ApplicationStart:
    - location: scripts/install_dependencies #shell script to install depend
      timeout: 300
      runas: ubuntu #your ec2 user
