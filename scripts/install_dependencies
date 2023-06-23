@@ -1,8 +1,14 @@
 #!/bin/bash
 
+# Optionally, source environment variables
+source /etc/profile
+
+# Optionally, specify the full path to npm. Example: /usr/local/bin/npm
+NPM_PATH=$(which npm)
+
 cd /var/www/6dem.com
+
 composer install --prefer-dist --no-progress --no-suggest
 
-sudo npm install 
-#build VueJS app
+sudo $NPM_PATH install
 npm run build
