@@ -13,7 +13,7 @@ hooks:
     timeout: 300
     runas: ubuntu
     environment:
-      NODE_VERSION: 18
+      NODE_VERSION: 16
   AfterInstall:
    - location: scripts/install_dependencies #shell script to install depend
      timeout: 300
