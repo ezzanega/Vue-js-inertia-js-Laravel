@@ -1,12 +1,12 @@
 <template>
-  <div class="flex w-56 flex-col bg-primary">
-    <div class="flex grow flex-col overflow-y-auto pt-5 pb-4">
-      <div class="flex shrink-0 items-center px-4 mx-10 mt-10 mb-5">
+  <div class="flex w-45 flex-col bg-primary">
+    <div class="flex grow flex-col overflow-y-auto pb-4">
+      <div class="flex shrink-0 items-center px-4 mx-10 mt-5 mb-5">
         <a href="/" class="whitespace-normal">
-          <span class="font-bold text-white text-xl">6dem CRM</span></a
+          <span class="font-bold text-white text-xl">Sysdem</span></a
         >
       </div>
-      <Dropdown placement="bottom-center">
+<!--       <Dropdown placement="bottom-center">
         <ProfileMenu
           :full-name="user.first_name + ' ' + user.last_name"
           :email="user.email"
@@ -14,7 +14,7 @@
         <template #popper>
           <ProfileMenuPopperContent />
         </template>
-      </Dropdown>
+      </Dropdown> -->
       <SideBarMenu />
       <div class="group mt-8 px-2">
         <div

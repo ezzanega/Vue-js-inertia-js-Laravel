@@ -21,11 +21,11 @@
               />
             </svg>
           </IconButton>
-        <Modal :show="clientSelectionModal" @close="closeModal">
+        <Modal :show="quoteSelectionModal" @close="closeModal">
             <div class="w-full p-6 flex flex-col space-y-2">
                 <div class="mt-2 border-b border-gray-200 divide-x">
                     <p class="text-lg ml-2 font-semibold leading-6 text-gray-900">
-                        Créer un devis
+                        Créer une lettre de voiture
                     </p>
                 </div>
                 <li class="flex gap-x-6">
@@ -34,12 +34,12 @@
                             <div class="flex-none">
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" @change="selectExisting()" class="sr-only peer"
-                                        v-model="existingClient" />
+                                        v-model="existingQuote" />
                                     <div
                                         class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
                                     </div>
                                     <p class="text-sm ml-5 font-semibold leading-6 text-gray-900">
-                                        Pour un client existant
+                                        En utilisant un devis existant comme base
                                     </p>
                                 </label>
                             </div>
@@ -47,32 +47,29 @@
                     </div>
                 </li>
                 <div>
-                    <DefaultInput :required="true" v-if="existingClient" name="client" class="shrink mt-1"
-                        placeholder="Recherchez un nom de client" />
+                    <DefaultInput :required="true" v-if="existingQuote" name="client" class="shrink mt-1"
+                        placeholder="Recherchez un devis" />
                 </div>
                 <li class="flex gap-x-6">
                     <div class="hidden sm:flex sm:flex-col sm:items-end">
                         <div class="mt-1 flex items-center gap-x-1.5">
                             <div class="flex-none">
                                 <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" @change="selectNew()" class="sr-only peer" v-model="newClient" />
+                                    <input type="checkbox" @change="selectNew()" class="sr-only peer" v-model="newQuote" />
                                     <div
                                         class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
                                     </div>
                                     <p class="text-sm ml-5 font-semibold leading-6 text-gray-900">
-                                        Pour un nouveau client
+                                        En n'utilisant pas de devis comme base
                                     </p>
                                 </label>
                             </div>
                         </div>
                     </div>
                 </li>
-                <div>
-                    <CreateClientForm v-if="newClient" />
-                </div>
                 <div class="mt-6 flex justify-end space-x-4">
                     <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
-                    <DefaultButton @click="createDocument('6dem.documents.devis')" class="w-32" buttontext="Valider" />
+                    <DefaultButton @click="createDocument('6dem.documents.lettreVoiture')" class="w-32" buttontext="Valider" />
                 </div>
             </div>
         </Modal>
@@ -87,22 +84,21 @@ import { ref } from "vue";
 import { router } from '@inertiajs/vue3'
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
-import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 
-const existingClient = ref(true);
-const newClient = ref(false);
-const clientSelectionModal = ref(false);
+const existingQuote = ref(true);
+const newQuote = ref(false);
+const quoteSelectionModal = ref(false);
 
 const closeModal = () => {
-    clientSelectionModal.value = false;
+    quoteSelectionModal.value = false;
 };
 
 const selectExisting = () => {
-    newClient.value = false;
+    newQuote.value = false;
 };
 
 const selectNew = () => {
-    existingClient.value = false;
+    existingQuote.value = false;
 };
 
 const createDocument = (routeLink) => {
@@ -110,6 +106,6 @@ const createDocument = (routeLink) => {
 };
 
 const confirmDevisCreation = () => {
-    clientSelectionModal.value = true;
+    quoteSelectionModal.value = true;
 };
 </script>
