@@ -52,9 +52,9 @@
             <DocumentFieldFrame>
               <DocumentFieldInput :modelValue="'Volume: '" :fontBold="true" />
             </DocumentFieldFrame>
-
+            
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Catégorie: '" :fontBold="true" />
+              <SelectFormulas />
             </DocumentFieldFrame>
           </div>
         </div>
@@ -130,13 +130,12 @@
             </DocumentFieldFrame>
           </div>
 
-          <SelectFormulas />
           <DynamicQuoteFields />
         </div>
 
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="LIVRAISON" color="#438A7A" />
-
+          <div class="pt-6"></div>
           <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
           </DocumentFieldFrame>
@@ -231,24 +230,24 @@
           </span>
         </div>
         <div class="flex space-x-2">
-          <span class="w-1/4 p-1">
+          <span class="w-3/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput :modelValue="'Tarification'" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
-          <span class="w-1/4 p-1">
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Remise en %" :fontBold="true" />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
-          <span class="w-1/4 p-1">
+          <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/4 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Remise en %" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
         </div>
