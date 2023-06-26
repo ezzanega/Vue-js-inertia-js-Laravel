@@ -6,27 +6,27 @@
                     <DocumentFieldInput :modelValue="'Description : ' + item.description" :fontBold="true" />
                 </DocumentFieldFrame>
             </span>
-            <span class="w-1/4 p-1">
+            <span class="w-1/4 p-1 grid grid-cols-2 items-center">
                 <DocumentFieldFrame>
                     <DocumentFieldInput :modelValue="'Quantité : ' + item.qty" :fontBold="true" />
                 </DocumentFieldFrame>
+                <SelectMeasurement :selected="item.selectedMeasurement" class="p-1"/>
             </span>
-            <span class="w-1/4 p-1 grid grid-cols-2 items-center">
+            <span class="w-1/4 p-1">
                 <DocumentFieldFrame>
                     <DocumentFieldInput :modelValue="'Tarif HT : ' + item.priceHT" :fontBold="true" />
                 </DocumentFieldFrame>
-                <SelectMeasurement class="p-1"/>
             </span>
             <span class="w-1/4 p-1">
                 <DocumentFieldFrame>
                     <DocumentFieldInput :modelValue="'Tarif TTC : ' + item.priceTTC" :fontBold="true" />
                 </DocumentFieldFrame>
             </span>
-            <span class="grid grid-cols-2 items-center">
+            <span class="flex items-center">
                 <Dropdown placement="bottom-end">
                     <AddOptionButton />
                     <template #popper>
-                        <SettingsAddButtonPopperContent @addingOption="addRow" />
+                        <SettingsAddButtonPopperContent @addingElevator="addRowElevator" @addingPiano="addRowPiano" @addingWarehouse="addRowWarehouse" @addingNew="addRow" />
                     </template>
                 </Dropdown>
                 <RemoveButton @click="removeRow(index)" />
@@ -37,6 +37,7 @@
 
 <script setup>
 import { reactive } from 'vue';
+import { ref } from 'vue';
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import SettingsAddButtonPopperContent from "@/Components/Atoms/SettingsAddButtonPopperContent.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
@@ -46,12 +47,25 @@ import SelectMeasurement from "@/Components/Atoms/SelectMeasurement.vue";
 import { Dropdown } from "floating-vue";
 
 const options = reactive([
-    { description: '', qty: 0, priceHT: 0, priceTTC: 0 }
+    { description: '', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:0 }
 ]);
 
 const addRow = () => {
-    options.push({ description: '', qty: 0, priceHT: 0, priceTTC: 0 })
+    options.push({ description: '', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:0 })
 };
+
+const addRowWarehouse = () => {
+    options.push({ description: 'Stockage en garde meuble', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:7 })
+};
+
+const addRowElevator = () => {
+    options.push({ description: 'Monte meuble', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:8 })
+};
+
+const addRowPiano = () => {
+    options.push({ description: 'Transport de piano', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:4 })
+};
+
 
 const removeRow = (index) => {
     if (options.length > 1) {
