@@ -185,7 +185,7 @@
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Assurance contractuelle : '" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Assurance ad valorem : '" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
