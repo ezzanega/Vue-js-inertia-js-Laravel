@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('quotation_id');
             $table->string('advisor');
             $table->string('advisor_phone_number');
+            $table->string('document_id');
             $$table->timestamp('validity');
             $table->timestamps();
         });

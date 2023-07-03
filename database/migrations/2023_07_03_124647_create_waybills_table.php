@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('waybill_id');
             $table->string('executing_company');
+            $table->string('document_id');
             $table->timestamps();
         });
     }
