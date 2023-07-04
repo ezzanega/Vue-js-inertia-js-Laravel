@@ -54,14 +54,18 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Lettre de voiture');
     })->name('6dem.documents.lettreVoiture');
 
+    Route::get('/6dem/documents/nouvelle-facture', function () {
+        return inertia('6dem/Invoice');
+    })->name('6dem.documents.invoice');
+
     Route::get('/6dem/manage', [AclController::class, 'create'])
         ->name('6dem.manage');
 
     Route::post('/6dem/manage/role', [AclController::class, 'store'])
         ->name('6dem.manage.role');
-    
+
     Route::get('/6dem/manage/role/permissions/{id}', [AclController::class, 'getPermissionsById'])
-        ->name('6dem.manage.role.getPermissionsById');    
+        ->name('6dem.manage.role.getPermissionsById');
 
     Route::put('/6dem/manage/role/{id}', [AclController::class, 'update'])
         ->name('6dem.manage.role.update');
