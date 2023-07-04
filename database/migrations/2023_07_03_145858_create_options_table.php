@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Enums\OptionType;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,11 +14,11 @@ return new class extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
-            $table->string('description')->nullable();
-            $table->string('quantity')->nullable();
-            $table->string('unit')->nullable();
-            $table->string('price_ht')->nullable();
+            $table->enum('type', OptionType::values());
+            $table->string('designation');
+            $table->string('quantity');
+            $table->string('unit');
+            $table->string('price_ht');
             $table->timestamps();
         });
     }

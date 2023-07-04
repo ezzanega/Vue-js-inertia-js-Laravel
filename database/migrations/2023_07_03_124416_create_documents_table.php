@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Enums\DocumentType;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -14,28 +15,29 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('capacity')->nullable();
-            $table->string('formula')->nullable();
-            $table->string('loading_address')->nullable();
-            $table->timestamp('loading_date')->nullable();
-            $table->string('loading_floor')->nullable();
-            $table->string('loading_elevator')->nullable();
-            $table->string('loading_portaging')->nullable();
-            $table->string('loading_details')->nullable();
-            $table->string('shipping_address')->nullable();
-            $table->timestamp('shipping_date')->nullable();
-            $table->string('shipping_floor')->nullable();
-            $table->string('shipping_elevator')->nullable();
-            $table->string('shipping_portaging')->nullable();
-            $table->string('shipping_details')->nullable();
-            $table->string('discount_percentage')->nullable();
-            $table->string('discount_amount')->nullable();
-            $table->string('advance')->nullable();
-            $table->string('balance')->nullable();
-            $table->unsignedBigInteger('additionnalField_id')->nullable();
-            $table->unsignedBigInteger('option_id')->nullable();
-            $table->unsignedBigInteger('organization_id')->nullable();
-            $table->unsignedBigInteger('client_id')->nullable();
+            $table->enum('type', DocumentType::values());
+            $table->string('capacity');
+            $table->string('formula');
+            $table->string('loading_address');
+            $table->timestamp('loading_date');
+            $table->string('loading_floor');
+            $table->string('loading_elevator');
+            $table->string('loading_portaging');
+            $table->string('loading_details');
+            $table->string('shipping_address');
+            $table->timestamp('shipping_date');
+            $table->string('shipping_floor');
+            $table->string('shipping_elevator');
+            $table->string('shipping_portaging');
+            $table->string('shipping_details');
+            $table->string('discount_percentage');
+            $table->string('discount_amount');
+            $table->string('advance');
+            $table->string('balance');
+            $table->string('additionnalField_id');
+            $table->string('option_id');
+            $table->string('organization_id');
+            $table->string('client_id');
             $table->timestamps();
         });
     }

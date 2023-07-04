@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('additionnal_fields', function (Blueprint $table) {
+        Schema::create('additional_fields', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('description')->nullable();
+            $table->string('type');
+            $table->string('name');
+            $table->string('value');
+            $table->foreignId('organization_id');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('additionnal_fields');
+        Schema::dropIfExists('additional_fields');
     }
 };
