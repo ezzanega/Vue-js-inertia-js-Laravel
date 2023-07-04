@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->string('franchise')->nullable();
             $table->string('amount_ht')->nullable();
-            $table->unsignedBigInteger('organization_id');
+            $table->foreignId('organization_id');
             $table->timestamps();
         });
     }

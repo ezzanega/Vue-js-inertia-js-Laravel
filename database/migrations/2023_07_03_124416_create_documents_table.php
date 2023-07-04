@@ -34,10 +34,10 @@ return new class extends Migration
             $table->string('discount_amount');
             $table->string('advance');
             $table->string('balance');
-            $table->string('additionnalField_id');
-            $table->string('option_id');
-            $table->string('organization_id');
-            $table->string('client_id');
+            $table->foreignId('additionnalField_id');
+            $table->foreignId('option_id');
+            $table->foreignId('organization_id');
+            $table->foreignId('client_id');
             $table->timestamps();
         });
     }

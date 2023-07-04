@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('address')->nullable();
             $table->string('source')->nullable();
-            $table->unsignedBigInteger('client_id');
+            $table->foreignId('client_id');
             $table->timestamps();
         });
     }
