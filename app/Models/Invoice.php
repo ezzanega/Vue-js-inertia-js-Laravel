@@ -11,7 +11,15 @@ class Invoice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'document_id'
+        'type',
+        'number',
+        'total_excl_tax',
+        'vat',
+        'total_incl_tax',
+        'invoice_at',
+        'contract_terms',
+        'legal_terms',
+        'document_id',
     ];
 
     public function document(): BelongsTo

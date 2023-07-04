@@ -17,6 +17,7 @@ class Insurance extends Model
      */
     protected $fillable = [
         'type',
+        'max_value',
         'franchise',
         'amount_ht',
         'organization_id'
