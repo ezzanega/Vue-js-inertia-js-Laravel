@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('type');
-            $table->string('franchise');
-            $table->string('amount_ht');
-            $table->string('organization_id');
+            $table->string('type')->nullable();
+            $table->string('franchise')->nullable();
+            $table->string('amount_ht')->nullable();
+            $table->unsignedBigInteger('organization_id');
             $table->timestamps();
         });
     }

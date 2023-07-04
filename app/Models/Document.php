@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Document extends Model
@@ -38,4 +39,24 @@ class Document extends Model
         'organization_id',
         'client_id'
     ];
+
+    public function additionnalField(): BelongsTo
+    {
+        return $this->belongsTo(AdditionnalField::class, 'additionnalField_id', 'id');
+    }
+
+    public function option(): BelongsTo
+    {
+        return $this->belongsTo(Option::class, 'option_id', 'id');
+    }
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class, 'organization_id', 'id');
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id', 'id');
+    }
 }

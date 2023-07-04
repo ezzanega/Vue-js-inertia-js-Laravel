@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('email')->unique();
             $table->string('address');
-            $table->string('source');
-            $table->string('organization_id');
+            $table->string('source')->nullable();
+            $table->unsignedBigInteger('organization_id');
             $table->timestamps();
         });
     }

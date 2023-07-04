@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('description');
-            $table->string('quantity');
-            $table->string('unit');
-            $table->string('price_ht');
+            $table->string('description')->nullable();
+            $table->string('quantity')->nullable();
+            $table->string('unit')->nullable();
+            $table->string('price_ht')->nullable();
             $table->timestamps();
         });
     }

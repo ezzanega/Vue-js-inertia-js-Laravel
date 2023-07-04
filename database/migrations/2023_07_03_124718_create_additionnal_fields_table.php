@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('additionnal_fields', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

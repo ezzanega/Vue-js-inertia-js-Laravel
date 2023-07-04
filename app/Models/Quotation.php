@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Quotation extends Model
@@ -18,4 +19,8 @@ class Quotation extends Model
         'validity',
     ];
 
+    public function document(): BelongsTo
+    {
+        return $this->belongsTo(Document::class, 'document_id', 'id');
+    }
 }
