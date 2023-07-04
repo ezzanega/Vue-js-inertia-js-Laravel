@@ -209,16 +209,22 @@ import DynamicHeaderFields from "@/Components/Organisms/DynamicHeaderFields.vue"
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import InvoiceOptionGroupFields from "@/Components/Molecules/InvoiceOptionGroupFields.vue";
+import { reactive } from "vue";
 
 const user = usePage().props.auth.user;
-const invoiceData = [
+const invoiceData = reactive([
   {
-    designation: ["Prestation de service de déménagement solde"],
+    designation: [
+      {
+        placeholder: "Description prestation",
+        value: "Prestation de service de déménagement solde",
+      },
+    ],
     quantity: "0",
     unitPrice: "0.00",
     totalPrice: "0.00",
   },
-];
+]);
 
 const activatedFields = {
   designation: true,
@@ -230,7 +236,12 @@ const activatedFields = {
 const addRow = () => {
   console.log("addRow");
   invoiceData.push({
-    designation: ["---"],
+    designation: [
+      {
+        placeholder: "Description prestation",
+        value: "",
+      },
+    ],
     quantity: "0",
     unitPrice: "0.00",
     totalPrice: "0.00",
