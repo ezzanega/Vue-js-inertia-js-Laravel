@@ -48,10 +48,6 @@ class SignUpController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        Organization::create([
-            'name' => $request->companyName
-        ]);
-
         $emailTemplate = EmailTemplates::find(1);
         Mail::to($user->email)->send(new MailHandler($user, $emailTemplate));
 
@@ -61,5 +57,13 @@ class SignUpController extends Controller
 
             return redirect()->intended(RouteServiceProvider::HOME)->withSuccess('You have successfully registered & logged in!');
         }
+    }
+
+    public function organizationSetup(Request $request)
+    {
+        // TODO : Implement this method to setup a new company and its admin user details in database using
+        $organization = Organization::create([
+            'name' => $request->companyName
+        ]);
     }
 }

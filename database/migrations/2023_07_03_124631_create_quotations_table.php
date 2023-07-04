@@ -14,10 +14,18 @@ return new class extends Migration
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            $table->string('number');
+            $table->string('amount');
             $table->string('formula');
+            $table->string('payment_condition');
             $$table->timestamp('validity');
+            $table->string('validity_duratation');
+            $table->string('distance');
+            $table->string('volume');
+            $table->string('estimated_value_of_assets');
             $table->unsignedBigInteger('advisor_id')->nullable();
-            $table->foreignId('document_id');
+            $table->foreignId('moving_job_id')->nullable();
+            $table->foreignId('client_id')->nullable();
             $table->timestamps();
         });
     }

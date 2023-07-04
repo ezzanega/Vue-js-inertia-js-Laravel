@@ -10,7 +10,7 @@ class ClientOrganizations extends Model
 {
     use HasFactory;
 
-        /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -20,7 +20,6 @@ class ClientOrganizations extends Model
         'organization_name',
         'phone_number',
         'address',
-        'source',
         'client_id',
         'email'
     ];
@@ -29,5 +28,4 @@ class ClientOrganizations extends Model
     {
         return $this->belongsTo(Client::class, 'client_id', 'id');
     }
-
 }
