@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('formula');
-            $table->string('quotation_id');
-            $table->string('advisor');
-            $table->string('advisor_phone_number');
-            $table->string('document_id');
             $$table->timestamp('validity');
+            $table->unsignedBigInteger('advisor_id')->nullable();
+            $table->foreignId('document_id');
             $table->timestamps();
         });
     }

@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('waybills', function (Blueprint $table) {
             $table->id();
-            $table->string('waybill_id');
             $table->string('executing_company');
-            $table->string('document_id');
+            $table->unsignedBigInteger('document_id')->nullable();
             $table->timestamps();
         });
     }

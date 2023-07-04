@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Enums\InvoiceType;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,7 +14,16 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('document_id');
+            $table->uuid('uuid');
+            $table->enum('type', InvoiceType::values());
+            $table->string('number');
+            $table->string('total_excl_tax');
+            $table->string('vat');
+            $table->string('total_incl_tax');
+            $table->string('invoice_at');
+            $table->text('contract_terms')->nullable();
+            $table->text('legal_terms')->nullable();
+            $table->foreignId('document_id');
             $table->timestamps();
         });
     }
