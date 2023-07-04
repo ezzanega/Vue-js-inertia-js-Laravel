@@ -9,7 +9,10 @@
         :key="index"
         class="font-medium text-primary space-y-1"
       >
-        <DocumentFieldInput :modelValue="designation" />
+        <DocumentFieldInput
+          :placeholder="designation.placeholder"
+          :modelValue="designation.value"
+        />
         <DynamicHeaderFields class="flex mx-auto justify-center text-sm" />
       </div>
     </td>
