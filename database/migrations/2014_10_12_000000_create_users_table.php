@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreignId('organization_id');
+            $table->foreignId('organization_id')->nullable();
         });
     }
 

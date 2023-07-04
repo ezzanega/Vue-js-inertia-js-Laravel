@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('amount');
             $table->string('formula');
             $table->string('payment_condition');
-            $$table->timestamp('validity');
             $table->string('validity_duratation');
             $table->string('distance');
             $table->string('volume');

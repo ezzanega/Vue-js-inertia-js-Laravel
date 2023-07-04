@@ -18,6 +18,7 @@ class Organization extends Model
         'siren',
         'address',
         'billing_address',
+        'owner_id'
     ];
 
     public function users(): HasMany

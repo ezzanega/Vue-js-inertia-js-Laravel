@@ -48,6 +48,8 @@ class SignUpController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
+        $this->organizationSetup($request, $user);
+
         $emailTemplate = EmailTemplates::find(1);
         Mail::to($user->email)->send(new MailHandler($user, $emailTemplate));
 
@@ -59,11 +61,13 @@ class SignUpController extends Controller
         }
     }
 
-    public function organizationSetup(Request $request)
+    private function organizationSetup(Request $request, User $user)
     {
-        // TODO : Implement this method to setup a new company and its admin user details in database using
         $organization = Organization::create([
-            'name' => $request->companyName
+            'name' => $request->companyName,
+            'owner_id' => $user->id
         ]);
+        $user->organization()->associate($organization);
+        $user->save();
     }
 }
