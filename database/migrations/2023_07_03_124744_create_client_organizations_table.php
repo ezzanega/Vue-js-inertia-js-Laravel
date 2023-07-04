@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('client_organizations', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
+            $table->string('name');
             $table->string('siret')->nullable();
-            $table->string('organization_name')->nullable();
-            $table->string('phone_number')->nullable();
-            $table->string('email')->unique();
-            $table->string('address')->nullable();
-            $table->string('source')->nullable();
-            $table->foreignId('client_id');
+            $table->string('siren')->nullable();
+            $table->foreignId('client_id')->nullable();
             $table->timestamps();
         });
     }

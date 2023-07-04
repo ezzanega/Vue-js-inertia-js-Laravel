@@ -1,10 +1,11 @@
 <?php
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/templetes', function () {
         return inertia('6dem/Templetes');
     })->name('6dem.templetes');
+
+    # Create Client
+    Route::post('/6dem/clients/create', [ClientController::class, 'store'])
+        ->name('6dem.create.clients');
 });
 
 

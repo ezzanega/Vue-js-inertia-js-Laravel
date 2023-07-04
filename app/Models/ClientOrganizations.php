@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ClientOrganizations extends Model
 {
@@ -17,11 +17,8 @@ class ClientOrganizations extends Model
      */
     protected $fillable = [
         'siret',
-        'organization_name',
-        'phone_number',
-        'address',
-        'client_id',
-        'email'
+        'siren',
+        'name',
     ];
 
     public function client(): BelongsTo

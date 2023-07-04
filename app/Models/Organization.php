@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Client;
 use App\Models\MovingJob;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,8 +27,13 @@ class Organization extends Model
         return $this->hasMany(User::class);
     }
 
-    public function movingJobs(): HasMany
+    public function clients(): HasMany
     {
-        return $this->hasMany(MovingJob::class);
+        return $this->hasMany(Client::class);
     }
+
+    // public function movingJobs(): HasMany
+    // {
+    //     return $this->hasMany(MovingJob::class);
+    // }
 }
