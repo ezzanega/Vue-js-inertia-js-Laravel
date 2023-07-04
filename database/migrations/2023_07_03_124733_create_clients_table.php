@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('address');
             $table->string('source');
+            $table->string('organization_id');
             $table->timestamps();
         });
     }
