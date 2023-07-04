@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Waybill extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'waybill_id',
+        'executing_company',
+        'document_id'
+    ];
+
 }

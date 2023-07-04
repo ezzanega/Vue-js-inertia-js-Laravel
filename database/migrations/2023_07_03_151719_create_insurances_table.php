@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('franchise');
             $table->string('amount_ht');
+            $table->string('organization_id');
             $table->timestamps();
         });
     }

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Option extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'description',
+        'quantity',
+        'unit',
+        'price_ht'
+    ];
+
 }
