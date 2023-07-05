@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MovingJobController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,9 +48,8 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Documents');
     })->name('6dem.documents');
 
-    Route::get('/6dem/documents/nouveau-devis', function () {
-        return inertia('6dem/Devis');
-    })->name('6dem.documents.devis');
+    Route::get('/6dem/documents/nouveau-devis', [MovingJobController::class, 'quotation'])
+        ->name('6dem.documents.devis');
 
     Route::get('/6dem/documents/nouvelle-lettre-voiture', function () {
         return inertia('6dem/Lettre de voiture');

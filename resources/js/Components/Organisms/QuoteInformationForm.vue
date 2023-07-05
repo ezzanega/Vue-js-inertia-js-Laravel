@@ -1,29 +1,65 @@
 <template>
   <div>
+    <pre>
+      {{ organization }}
+    </pre>
     <div class="flex flex-col space-y-5 p-10">
       <div class="grid grid-cols-3 gap-4 justify-between">
-        <UploadFile class="w-1/2" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
+        <UploadFile
+          class="w-1/2"
+          label="Déposez ou cliquez si vous souhaitez ajouter votre logo"
+        />
         <div class="p-2 h-auto">
           <div class="mb-2">
-            <DocumentFieldInput placeholder="Adresse de la société" :fontBold="true" />
+            <DocumentFieldInput
+              placeholder="Adresse de la société"
+              :modelValue="currentOrganisation.billing_address"
+              v-model="organization.billing_address"
+              :fontBold="true"
+            />
           </div>
           <div class="mb-2">
-            <DocumentFieldInput placeholder="Téléphone" :fontBold="true" />
+            <DocumentFieldInput
+              :modelValue="currentOrganisation.phone_number"
+              v-model="organization.phone_number"
+              placeholder="Téléphone"
+              :fontBold="true"
+            />
           </div>
           <div class="mb-2">
-            <DocumentFieldInput placeholder="Adresse mail" :fontBold="true" />
+            <DocumentFieldInput
+              placeholder="Adresse mail"
+              :modelValue="currentOrganisation.email"
+              v-model="organization.email"
+              :fontBold="true"
+            />
           </div>
           <DynamicHeaderFields />
         </div>
         <div class="p-2 h-auto">
           <div class="mb-2">
-            <DocumentFieldInput placeholder="SIREN" :fontBold="true" />
+            <DocumentFieldInput
+              :modelValue="currentOrganisation.siren"
+              v-model="organization.siren"
+              placeholder="SIREN"
+              :fontBold="true"
+            />
           </div>
           <div class="mb-2">
-            <DocumentFieldInput placeholder="Code APE" :fontBold="true" />
+            <DocumentFieldInput
+              :modelValue="currentOrganisation.ape_code"
+              v-model="organization.ape_code"
+              placeholder="Code APE"
+              :fontBold="true"
+            />
           </div>
           <div class="mb-2">
-            <DocumentFieldInput placeholder="Licence N°" :fontBold="true" />
+            <DocumentFieldInput
+              :modelValue="currentOrganisation.licence_number"
+              v-model="organization.licence_number"
+              placeholder="Licence N°"
+              :fontBold="true"
+            />
           </div>
           <DynamicHeaderFields />
         </div>
@@ -31,28 +67,47 @@
       <div class="grid grid-cols-2 gap-20 pb-5 justify-between">
         <div class="flex flex-col space-y-2">
           <DocumentFieldFrame>
-            <DocumentFieldInput modelValue="DEVIS N° 050623001" :fontBold="true" />
+            <DocumentFieldInput
+              modelValue="DEVIS N° 050623001"
+              v-model="quotation.number"
+              :fontBold="true"
+            />
           </DocumentFieldFrame>
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Conseiller: ' + user.first_name + ' ' + user.last_name
-                " :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="
+                  'Conseiller: ' + user.first_name + ' ' + user.last_name
+                "
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Tél: ' + user.phone_number" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Tél: ' + user.phone_number"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
           </div>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput modelValue="Validité devis : 7 jours " :fontBold="true" />
+            <DocumentFieldInput
+              modelValue="Validité devis : 7 jours "
+              v-model="quotation.validity_duratation"
+              :fontBold="true"
+            />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Volume: '" :fontBold="true" />
+              <DocumentFieldInput
+                v-model="quotation.validity_duratation"
+                :modelValue="'Volume: '"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
-            
+
             <DocumentFieldFrame>
               <SelectFormulas />
             </DocumentFieldFrame>
@@ -66,11 +121,17 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Nom: ' + user.last_name" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Nom: ' + user.last_name"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Prenom: ' + user.first_name" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Prenom: ' + user.first_name"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
           </div>
 
@@ -80,10 +141,16 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Tel: ' + user.phone_number" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Tel: ' + user.phone_number"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Email: ' + user.email" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Email: ' + user.email"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
           </div>
         </div>
@@ -94,10 +161,14 @@
           <DocumentLabel name="CHARGEMENT" color="#438A7A" />
 
           <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" @change="setLoadingAddress" class="sr-only peer" />
+            <input
+              type="checkbox"
+              @change="setLoadingAddress"
+              class="sr-only peer"
+            />
             <div
-              class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-            </div>
+              class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
+            ></div>
             <p class="text-sm ml-5 font-semibold leading-6 text-gray-900">
               Adresse de chargement identique à l'adresse du client ?
             </p>
@@ -107,7 +178,10 @@
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
+            <DocumentFieldInput
+              placeholder="Date ou période"
+              :fontBold="true"
+            />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
@@ -141,7 +215,10 @@
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
+            <DocumentFieldInput
+              placeholder="Date ou période"
+              :fontBold="true"
+            />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
@@ -178,44 +255,26 @@
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Assurance contractuelle : '" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Assurance contractuelle : '"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Valeur max par objet : '" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Valeur max par objet : '"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Franchise : '" :fontBold="true" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
-            </DocumentFieldFrame>
-          </span>
-        </div>
-        <div class="flex space-x-2">
-          <span class="w-2/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Assurance ad valorem : '" :fontBold="true" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Valeur max par objet : '" :fontBold="true" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Franchise : '" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Franchise : '"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
@@ -232,7 +291,46 @@
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Tarification'" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Assurance ad valorem : '"
+                :fontBold="true"
+              />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput
+                :modelValue="'Valeur max par objet : '"
+                :fontBold="true"
+              />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput
+                :modelValue="'Franchise : '"
+                :fontBold="true"
+              />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+            </DocumentFieldFrame>
+          </span>
+          <span class="w-1/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+            </DocumentFieldFrame>
+          </span>
+        </div>
+        <div class="flex space-x-2">
+          <span class="w-2/6 p-1">
+            <DocumentFieldFrame>
+              <DocumentFieldInput
+                :modelValue="'Tarification'"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
           </span>
           <span class="w-2/6 p-1">
@@ -254,7 +352,10 @@
         <div class="flex space-x-2">
           <span class="w-1/2 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Modalités de règlement'" :fontBold="true" />
+              <DocumentFieldInput
+                :modelValue="'Modalités de règlement'"
+                :fontBold="true"
+              />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/4 p-1">
@@ -274,7 +375,7 @@
 </template>
 
 <script setup>
-import { usePage } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import UploadFile from "@/Components/Atoms/UploadFile.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 import DynamicHeaderFields from "@/Components/Organisms/DynamicHeaderFields.vue";
@@ -283,12 +384,47 @@ import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
-import 'vue-select/dist/vue-select.css';
+import "vue-select/dist/vue-select.css";
 
 const user = usePage().props.auth.user;
+const currentOrganisation = usePage().props.organization;
+
+const organization = useForm({
+  name: "",
+  siret: "",
+  siren: "",
+  ape_code: "",
+  address: "",
+  billing_address: "",
+  phone_number: "",
+  email: "",
+});
+
+const quotation = useForm({
+  number: "",
+  formula: "",
+  amount: "",
+  payment_condition: "",
+  validity_duratation: "",
+  distance: "",
+  volume: "",
+  estimated_value_of_assets: "",
+});
+
+const form = useForm({
+  clientType: "individual",
+  firstName: "",
+  lastName: "",
+  phoneNumber: "",
+  email: "",
+  address: "",
+  source: "",
+  clientOrganizationName: "",
+  siret: "",
+  siren: "",
+});
 
 const setLoadingAddress = () => {
   console.log("Checked");
 };
-
 </script>
