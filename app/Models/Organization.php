@@ -31,9 +31,4 @@ class Organization extends Model
     {
         return $this->hasMany(Client::class);
     }
-
-    // public function movingJobs(): HasMany
-    // {
-    //     return $this->hasMany(MovingJob::class);
-    // }
 }

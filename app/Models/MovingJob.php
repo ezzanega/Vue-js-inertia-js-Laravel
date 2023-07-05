@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use App\Models\Client;
+use App\Models\Quotation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -33,12 +36,19 @@ class MovingJob extends Model
         'balance',
     ];
 
-    // public function organization(): BelongsTo
-    // {
-    //     return $this->belongsTo(Organization::class, 'organization_id', 'id');
-    // }
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'client_id', 'id');
+    }
+
+    public function quotations(): HasMany
+    {
+        return $this->hasMany(Quotation::class);
+    }
+
+    public function latestQuotation(): HasOne
+    {
+        return $this->hasOne(Quotation::class)->latestOfMany();
     }
 }
