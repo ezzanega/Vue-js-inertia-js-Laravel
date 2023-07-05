@@ -2,25 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
+use App\Models\MovingJob;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Quotation extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'number',
         'formula',
-        'quotation_id',
-        'advisor',
-        'advisor_phone_number',
-        'document_id',
-        'validity',
+        'amount',
+        'payment_condition',
+        'validity_duratation',
+        'distance',
+        'volume',
+        'estimated_value_of_assets',
     ];
 
-    public function document(): BelongsTo
+    public function advisor(): BelongsTo
     {
-        return $this->belongsTo(Document::class, 'document_id', 'id');
+        return $this->belongsTo(User::class, 'advisor_id', 'id');
+    }
+
+    public function movingJob(): BelongsTo
+    {
+        return $this->belongsTo(MovingJob::class, 'moving_job_id', 'id');
     }
 }

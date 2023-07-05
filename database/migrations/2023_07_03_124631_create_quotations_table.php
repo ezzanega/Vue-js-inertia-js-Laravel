@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('estimated_value_of_assets');
             $table->unsignedBigInteger('advisor_id')->nullable();
             $table->foreignId('moving_job_id')->nullable();
-            $table->foreignId('client_id')->nullable();
             $table->timestamps();
         });
     }
