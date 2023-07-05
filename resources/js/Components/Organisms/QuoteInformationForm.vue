@@ -93,7 +93,7 @@
 
           <DocumentFieldFrame>
             <DocumentFieldInput
-              modelValue="Validité devis : 7 jours "
+              placeholder="Validité devis (7 jours, 1 mois ..)"
               v-model="quotation.validity_duratation"
               :fontBold="true"
             />
@@ -101,11 +101,7 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                v-model="quotation.validity_duratation"
-                :modelValue="'Volume: '"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Volume: '" :fontBold="true" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
