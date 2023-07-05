@@ -14,6 +14,7 @@ class MovingJob extends Model
     protected $fillable = [
         'capacity',
         'formula',
+        'volume',
         'loading_address',
         'loading_date',
         'loading_floor',
@@ -27,7 +28,7 @@ class MovingJob extends Model
         'shipping_portaging',
         'shipping_details',
         'discount_percentage',
-        'discount_amount',
+        'discount_amount_ht',
         'advance',
         'balance',
     ];
@@ -36,8 +37,6 @@ class MovingJob extends Model
     // {
     //     return $this->belongsTo(Organization::class, 'organization_id', 'id');
     // }
-
-
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'client_id', 'id');

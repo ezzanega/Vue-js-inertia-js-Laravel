@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('capacity');
             $table->string('formula');
+            $table->string('volume');
             $table->string('loading_address');
             $table->timestamp('loading_date');
             $table->string('loading_floor');
@@ -29,7 +30,7 @@ return new class extends Migration
             $table->string('shipping_portaging');
             $table->text('shipping_details');
             $table->string('discount_percentage');
-            $table->string('discount_amount');
+            $table->string('discount_amount_ht');
             $table->string('advance');
             $table->string('balance');
             $table->foreignId('organization_id');

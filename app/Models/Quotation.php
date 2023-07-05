@@ -11,16 +11,17 @@ class Quotation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'formula',
-        'quotation_id',
-        'advisor',
-        'advisor_phone_number',
-        'document_id',
-        'validity',
+        'number',
+        'validity_duratation'
     ];
 
-    public function document(): BelongsTo
+    public function movingjobs(): BelongsTo
     {
-        return $this->belongsTo(Document::class, 'document_id', 'id');
+        return $this->belongsTo(MovingJob::class, 'moving_job_id', 'id');
     }
+
+   /*public function advisor(): BelongsTo
+    {
+        return $this->belongsTo(Advisor::class, 'advisor_id', 'id');
+    }*/
 }
