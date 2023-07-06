@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Models\MovingJob;
 use App\Models\Quotation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
 {
@@ -17,43 +18,81 @@ class MovingJobController extends Controller
      */
     public function quotation(Request $request): Response
     {
-        $movingjob = MovingJob::create(['organization_id' => $request->user()->organization->organization_id]);
-        $quotation = Quotation::create(['moving_job_id' => $movingjob->id]);
+        $organization = $request->user()->organization;
+        $movingjob = MovingJob::create([]);
+        $quotation = Quotation::create(['organization_id' => $organization->id]);
+        $quotation->movingJob()->associate($movingjob);
+        $quotation->save();
+        $organization = $request->user()->organization;
 
         return Inertia::render('6dem/Devis', [
-            'organization' => $request->user()->organization,
+            'organization' => $organization->only(
+                'id',
+                'name',
+                'siret',
+                'siren',
+                'address',
+                'billing_address',
+                'owner_id'
+            ),
+            'quotation' => $quotation->only(
+                'id',
+                'number',
+                'validity_duratation'
+            ),
+            'movingJob' => $movingjob->only(
+                'id',
+                'capacity',
+                'formula',
+                'volume',
+                'loading_address',
+                'loading_date',
+                'loading_floor',
+                'loading_elevator',
+                'loading_portaging',
+                'loading_details',
+                'shipping_address',
+                'shipping_date',
+                'shipping_floor',
+                'shipping_elevator',
+                'shipping_portaging',
+                'shipping_details',
+                'discount_percentage',
+                'discount_amount_ht',
+                'advance',
+                'balance',
+            ),
             'status' => session('status'),
         ]);
     }
 
-    public function updateQuotation(Request $request, $id)
+    public function updateQuotation(Request $request, $field, $id)
     {
+        $request->validate([
+            $field =>  'required|string|max:125',
+        ]);
+
         $quotation = Quotation::where(['id' => $id])->first();
-        $movingjob = MovingJob::where(['id' => $quotation->moving_job_id])->first();
 
-        $movingjob->capacity = $request->capacity;
-        $movingjob->formula = $request->formula;
-        $movingjob->volume = $request->volume;
-        $movingjob->loading_address = $request->loading_address;
-        $movingjob->loading_date = $request->loading_date;
-        $movingjob->loading_floor = $request->loading_floor;
-        $movingjob->loading_elevator = $request->rolloading_elevatoreName;
-        $movingjob->loading_portaging = $request->loading_portaging;
-        $movingjob->loading_details = $request->loading_details;
-        $movingjob->shipping_address = $request->shipping_address;
-        $movingjob->shipping_date = $request->shipping_date;
-        $movingjob->shipping_floor = $request->shipping_floor;
-        $movingjob->shipping_elevator = $request->shipping_elevator;
-        $movingjob->shipping_portaging = $request->shipping_portaging;
-        $movingjob->shipping_details = $request->shipping_details;
-        $movingjob->discount_percentage = $request->discount_percentage;
-        $movingjob->discount_amount_ht = $request->discount_amount_ht;
-        $movingjob->advance = $request->advance;
-        $movingjob->balance = $request->balance;
+        $quotation->update([
+            $field => $request->$field,
+        ]);
 
-        $quotation->name = $request->validity_duratation;
+        return Redirect::to('/');
+    }
 
-        $movingjob->save();
-        $quotation->save();
+    public function updateMovingJob(Request $request, $field, $id)
+    {
+        $request->validate([
+            $field =>  'required|string|max:125',
+        ]);
+
+        $movingjob = MovingJob::where(['id' => $id])->first();
+
+        $movingjob->update([
+            $field => $request->$field,
+        ]);
+
+        return Redirect::to('/');
     }
 }

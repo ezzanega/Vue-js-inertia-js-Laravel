@@ -14,15 +14,16 @@ class Quotation extends Model
 
     protected $fillable = [
         'number',
-        'validity_duratation'
+        'validity_duratation',
+        'organization_id'
     ];
 
-    public function movingjobs(): BelongsTo
+    public function movingJob(): BelongsTo
     {
         return $this->belongsTo(MovingJob::class, 'moving_job_id', 'id');
     }
 
-   /*public function advisor(): BelongsTo
+    /*public function advisor(): BelongsTo
     {
         return $this->belongsTo(Advisor::class, 'advisor_id', 'id');
     }*/

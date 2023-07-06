@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('loading_portaging')->nullable();
             $table->text('loading_details')->nullable();
             $table->string('shipping_address')->nullable();
-            $table->timestamp('shipping_date'->nullable();
+            $table->timestamp('shipping_date')->nullable();
             $table->string('shipping_floor')->nullable();
             $table->string('shipping_elevator')->nullable();
             $table->string('shipping_portaging')->nullable();
@@ -33,8 +33,8 @@ return new class extends Migration
             $table->string('discount_amount_ht')->nullable();
             $table->string('advance')->nullable();
             $table->string('balance')->nullable();
-            $table->foreignId('organization_id');
-            $table->foreignId('client_id');
+            $table->foreignId('organization_id')->nullable();
+            $table->foreignId('client_id')->nullable();
             $table->timestamps();
         });
     }

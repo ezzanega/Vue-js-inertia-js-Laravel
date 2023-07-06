@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('invoice_at');
             $table->text('contract_terms')->nullable();
             $table->text('legal_terms')->nullable();
+            $table->bigInteger('organization_id')->nullable();
             $table->foreignId('document_id');
             $table->timestamps();
         });

@@ -51,6 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents/nouveau-devis', [MovingJobController::class, 'quotation'])
         ->name('6dem.documents.devis');
 
+    Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'quotation'])
+        ->name('6dem.quotation.update');
+
     Route::get('/6dem/documents/nouvelle-lettre-voiture', function () {
         return inertia('6dem/Lettre de voiture');
     })->name('6dem.documents.lettreVoiture');

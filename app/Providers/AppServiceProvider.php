@@ -3,14 +3,15 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\MovingJob;
+use App\Models\Quotation;
+use App\Models\EmailTemplates;
 use App\Observers\UserObserver;
+use App\Observers\MovingJobObserver;
+use App\Observers\QuotationObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use App\Models\Quotation;
-use App\Observers\QuotationObserver;
-use App\Models\MovingJob;
-use App\Observers\MovingJobObserver;
-use App\Models\EmailTemplates;
+use App\Observers\EmailTemplatesObserver;
 
 class AppServiceProvider extends ServiceProvider
 {

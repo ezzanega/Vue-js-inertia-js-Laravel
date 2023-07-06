@@ -18,6 +18,7 @@ class ClientController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $organization = $request->user()->organization;
         if ($request->clientType === ClientType::PROFETIONAL) {
             $request->validate([
                 'clientType' => 'required|string|max:125',
@@ -41,6 +42,9 @@ class ClientController extends Controller
                 'siret' => $request->siret,
                 'siren' => $request->siren,
             ]);
+
+            $client->organization()->associate($organization);
+            $client->save();
         } else {
             $request->validate([
                 'clientType' => 'required|string|max:125',
@@ -61,6 +65,8 @@ class ClientController extends Controller
                 'address' => $request->address,
                 'source' => $request->source,
             ]);
+            $client->organization()->associate($organization);
+            $client->save();
         }
 
         return Redirect::to('/');

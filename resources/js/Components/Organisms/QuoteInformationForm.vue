@@ -1,7 +1,9 @@
 <template>
   <div>
     <pre>
-      {{ organization }}
+      {{ currentOrganisation }}
+      {{ currentQuotation }}
+      {{ currentMovingJob }}
     </pre>
     <div class="flex flex-col space-y-5 p-10">
       <div class="grid grid-cols-3 gap-4 justify-between">
@@ -68,7 +70,7 @@
         <div class="flex flex-col space-y-2">
           <DocumentFieldFrame>
             <DocumentFieldInput
-              modelValue="DEVIS N° 050623001"
+              :modelValue="'DEVIS N° ' + currentQuotation.number"
               v-model="quotation.number"
               :fontBold="true"
             />
@@ -101,7 +103,7 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Volume: '" :fontBold="true" />
+              <DocumentFieldInput placeholder="Volume" :fontBold="true" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
@@ -371,7 +373,7 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
 import UploadFile from "@/Components/Atoms/UploadFile.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 import DynamicHeaderFields from "@/Components/Organisms/DynamicHeaderFields.vue";
@@ -381,11 +383,15 @@ import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
 import "vue-select/dist/vue-select.css";
+import { watch, reactive } from "vue";
+import { Inertia } from "@inertiajs/inertia";
 
 const user = usePage().props.auth.user;
 const currentOrganisation = usePage().props.organization;
+const currentQuotation = usePage().props.quotation;
+const currentMovingJob = usePage().props.movingJob;
 
-const organization = useForm({
+const organization = reactive({
   name: "",
   siret: "",
   siren: "",
@@ -396,7 +402,7 @@ const organization = useForm({
   email: "",
 });
 
-const quotation = useForm({
+const quotation = reactive({
   number: "",
   formula: "",
   amount: "",
@@ -407,7 +413,7 @@ const quotation = useForm({
   estimated_value_of_assets: "",
 });
 
-const form = useForm({
+const form = reactive({
   clientType: "individual",
   firstName: "",
   lastName: "",
@@ -419,6 +425,27 @@ const form = useForm({
   siret: "",
   siren: "",
 });
+
+let timeout;
+watch(
+  () => quotation.validity_duratation,
+  (newValue, oldValue) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      console.log("Search query stopped changing:", newValue);
+      const result = Inertia.put(
+        route("6dem.quotation.update", {
+          id: currentQuotation.id,
+          field: "validity_duratation",
+        }),
+        {
+          validity_duratation: newValue,
+        }
+      );
+      console.log(result);
+    }, 1500);
+  }
+);
 
 const setLoadingAddress = () => {
   console.log("Checked");

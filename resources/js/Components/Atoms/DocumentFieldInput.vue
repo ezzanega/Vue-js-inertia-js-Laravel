@@ -64,7 +64,6 @@ const inputValue = ref(props.modelValue);
 const editableSpan = ref(null);
 
 watch(inputValue, (newValue) => {
-  console.log(inputValue.value);
   emit("update:modelValue", newValue);
 });
 

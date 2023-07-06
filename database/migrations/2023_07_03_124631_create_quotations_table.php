@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('number')->nullable();
             $table->string('validity_duratation')->nullable();
+            $table->bigInteger('organization_id')->nullable();
             $table->foreignId('advisor_id')->nullable();
             $table->foreignId('moving_job_id')->nullable();
             $table->timestamps();
