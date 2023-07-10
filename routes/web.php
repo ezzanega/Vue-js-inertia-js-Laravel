@@ -1,10 +1,12 @@
 <?php
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\MovingJobController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,9 +48,11 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Documents');
     })->name('6dem.documents');
 
-    Route::get('/6dem/documents/nouveau-devis', function () {
-        return inertia('6dem/Devis');
-    })->name('6dem.documents.devis');
+    Route::get('/6dem/documents/nouveau-devis', [MovingJobController::class, 'quotation'])
+        ->name('6dem.documents.devis');
+
+    Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'quotation'])
+        ->name('6dem.quotation.update');
 
     Route::get('/6dem/documents/nouvelle-lettre-voiture', function () {
         return inertia('6dem/Lettre de voiture');
@@ -87,6 +91,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/templetes', function () {
         return inertia('6dem/Templetes');
     })->name('6dem.templetes');
+
+    # Create Client
+    Route::post('/6dem/clients/create', [ClientController::class, 'store'])
+        ->name('6dem.create.clients');
 });
 
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\InsuranceType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +15,11 @@ return new class extends Migration
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('type');
-            $table->string('franchise');
-            $table->string('amount_ht');
+            $table->enum('type', InsuranceType::values());
+            $table->string('max_value')->nullable();
+            $table->string('franchise')->nullable();
+            $table->string('amount_ht')->nullable();
+            $table->foreignId('organization_id');
             $table->timestamps();
         });
     }

@@ -48,9 +48,7 @@ class SignUpController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        Organization::create([
-            'name' => $request->companyName
-        ]);
+        $this->organizationSetup($request, $user);
 
         $emailTemplate = EmailTemplates::find(1);
         Mail::to($user->email)->send(new MailHandler($user, $emailTemplate));
@@ -61,5 +59,15 @@ class SignUpController extends Controller
 
             return redirect()->intended(RouteServiceProvider::HOME)->withSuccess('You have successfully registered & logged in!');
         }
+    }
+
+    private function organizationSetup(Request $request, User $user)
+    {
+        $organization = Organization::create([
+            'name' => $request->companyName,
+            'owner_id' => $user->id
+        ]);
+        $user->organization()->associate($organization);
+        $user->save();
     }
 }

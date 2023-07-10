@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Enums\ClientType;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,13 +14,15 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
-            $table->string('last_name');
-            $table->string('first_name');
-            $table->string('phone_number');
-            $table->string('email')->unique();
-            $table->string('address');
-            $table->string('source');
+            $table->enum('type', ClientType::values());
+            $table->string('last_name')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('address')->nullable();
+            $table->string('billing_address')->nullable();
+            $table->string('source')->nullable();
+            $table->foreignId('organization_id')->nullable();
             $table->timestamps();
         });
     }

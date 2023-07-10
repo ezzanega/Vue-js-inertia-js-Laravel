@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('waybills', function (Blueprint $table) {
             $table->id();
-            $table->string('waybill_id');
             $table->string('executing_company');
-            $table->string('document_id');
+            $table->bigInteger('organization_id')->nullable();
+            $table->foreignId('document_id');
             $table->timestamps();
         });
     }

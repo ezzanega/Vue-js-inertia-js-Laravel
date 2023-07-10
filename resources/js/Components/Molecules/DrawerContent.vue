@@ -1,8 +1,6 @@
 <template>
-  <form
-    class="w-full"
-  >
-    <div class="flex flex-col divide-y  h-screen divide-neutral-200 bg-white">
+  <form class="w-full">
+    <div class="flex flex-col divide-y h-screen divide-neutral-200 bg-white">
       <div class="flex min-h-0 flex-1 flex-col py-6 overflow-y-scroll">
         <div class="px-4 sm:px-6">
           <div class="flex items-start justify-between">
@@ -20,7 +18,7 @@
                 type="button"
                 class="rounded-md bg-white text-neutral-400 hover:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 tabindex="0"
-                @click="$emit('closeDrawer', $event.target.value)"
+                @click="$emit('closeDrawer')"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -30,11 +28,13 @@
                   stroke="currentColor"
                   aria-hidden="true"
                   class="h-6 w-6"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                /></svg>
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
             </div>
           </div>
@@ -43,26 +43,15 @@
           <slot />
         </div>
       </div>
-
-      <div class="shrink-0 px-4 py-4">
-        <div class="flex flex-wrap justify-end space-x-3 sm:flex-nowrap">
-          <DefaultButton
-            class="w-1/2"
-            buttontext="Valider"
-          />
-        </div>
-      </div>
     </div>
   </form>
 </template>
 
 <script setup>
-  import DefaultButton from '@/Components/Atoms/DefaultButton.vue';
-  defineProps({
-    title: {
-      type: String,
-      default: '',
-    }
-  });
-
+defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
+});
 </script>
