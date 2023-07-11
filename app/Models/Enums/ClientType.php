@@ -7,5 +7,5 @@ class ClientType
     use HasEnums;
 
     const INDIVIDUAL = 'individual';
-    const PROFETIONAL = 'profetional';
+    const PROFESSIONAL = 'professional';
 }

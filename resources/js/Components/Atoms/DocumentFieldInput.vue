@@ -7,6 +7,7 @@
         :class="[fontBold ? 'font-bold' : '']"
         :placeholder="placeholder"
         @input="handleInput"
+        @focusout="$emit('savingValue')"
         ref="editableSpan"
       >
         {{ inputValue }}
@@ -15,9 +16,9 @@
   </div>
 </template>
     
-  <script setup>
+<script setup>
 import { ref, nextTick, onMounted, watch } from "vue";
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue","savingValue"]);
 const props = defineProps({
   modelValue: {
     type: String,

@@ -19,7 +19,7 @@ class ClientController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $organization = $request->user()->organization;
-        if ($request->clientType === ClientType::PROFETIONAL) {
+        if ($request->clientType === ClientType::PROFESSIONAL) {
             $request->validate([
                 'clientType' => 'required|string|max:125',
                 'clientOrganizationName' => 'required|string|max:125',

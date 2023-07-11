@@ -44,7 +44,6 @@ class MovingJobController extends Controller
                 'id',
                 'capacity',
                 'formula',
-                'volume',
                 'loading_address',
                 'loading_date',
                 'loading_floor',
@@ -66,33 +65,43 @@ class MovingJobController extends Controller
         ]);
     }
 
-    public function updateQuotation(Request $request, $field, $id)
+    public function updateQuotation(Request $request, $id, $field)
     {
-        $request->validate([
-            $field =>  'required|string|max:125',
-        ]);
-
         $quotation = Quotation::where(['id' => $id])->first();
+        $movingjob = MovingJob::where(['id' => $quotation->moving_job_id])->first();
 
-        $quotation->update([
-            $field => $request->$field,
+        $request->validate([
+            $field =>  'required|string|max:125',
         ]);
 
-        return Redirect::to('/');
+        if($field == "validity_duration"){
+            $quotation->update([
+                $field => $request->$field,
+            ]);
+        }else{
+            $movingjob->update([
+                $field => $request->$field,
+            ]);
+        }
     }
 
-    public function updateMovingJob(Request $request, $field, $id)
+    /*public function updateMovingJob(Request $request, $id, $field)
     {
         $request->validate([
             $field =>  'required|string|max:125',
         ]);
 
-        $movingjob = MovingJob::where(['id' => $id])->first();
+        if($field == "validity_duration"){
 
-        $movingjob->update([
-            $field => $request->$field,
-        ]);
+        }else{
+        
+            $movingjob = MovingJob::where(['id' => $id])->first();
+
+            $movingjob->update([
+                $field => $request->$field,
+            ]);
+        }
 
         return Redirect::to('/');
-    }
+    }*/
 }

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('capacity')->nullable();
             $table->string('formula')->nullable();
-            $table->string('volume')->nullable();
             $table->string('loading_address')->nullable();
             $table->timestamp('loading_date')->nullable();
             $table->string('loading_floor')->nullable();
