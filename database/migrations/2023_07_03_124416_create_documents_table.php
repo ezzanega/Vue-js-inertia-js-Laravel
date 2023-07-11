@@ -19,13 +19,13 @@ return new class extends Migration
             $table->string('capacity');
             $table->string('formula');
             $table->string('loading_address');
-            $table->timestamp('loading_date');
+            $table->string('loading_date');
             $table->string('loading_floor');
             $table->string('loading_elevator');
             $table->string('loading_portaging');
             $table->string('loading_details');
             $table->string('shipping_address');
-            $table->timestamp('shipping_date');
+            $table->string('shipping_date');
             $table->string('shipping_floor');
             $table->string('shipping_elevator');
             $table->string('shipping_portaging');
