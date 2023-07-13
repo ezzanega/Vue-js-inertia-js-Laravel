@@ -45,9 +45,8 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Clients');
     })->name('6dem.clients');
 
-    Route::get('/6dem/documents', function () {
-        return inertia('6dem/Documents');
-    })->name('6dem.documents');
+    Route::get('/6dem/documents', [ClientController::class, 'index'])
+        ->name('6dem.documents');
 
     Route::get('/6dem/documents/nouveau-devis', [MovingJobController::class, 'quotation'])
         ->name('6dem.documents.devis');
@@ -102,6 +101,9 @@ Route::middleware('auth')->group(function () {
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])
         ->name('6dem.create.clients');
+
+    Route::get('/6dem/clients/search', [ClientController::class, 'search'])
+        ->name('6dem.search.clients');
 });
 
 

@@ -13,8 +13,8 @@
         />
         <SelectableButton
           text="Professionnel"
-          value="profetional"
-          :selected="form.clientType === 'profetional'"
+          value="professional"
+          :selected="form.clientType === 'professional'"
           @selected="clientTypeChange"
         />
       </div>
@@ -76,7 +76,7 @@
       </div>
 
       <div
-        v-if="form.clientType === 'profetional'"
+        v-if="form.clientType === 'professional'"
         class="w-full pt-3 flex flex-col space-y-2"
       >
         <DefaultInput
