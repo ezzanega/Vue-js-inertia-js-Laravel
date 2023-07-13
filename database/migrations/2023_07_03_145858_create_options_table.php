@@ -15,10 +15,11 @@ return new class extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->id();
             $table->enum('type', OptionType::values());
-            $table->string('designation');
-            $table->string('quantity');
-            $table->string('unit');
-            $table->string('price_ht');
+            $table->string('designation')->nullable();
+            $table->string('quantity')->nullable();
+            $table->string('unit')->nullable();
+            $table->string('price_ht')->nullable();
+            $table->foreignId('moving_job_id');
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovingJobController;
+use App\Http\Controllers\OptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,12 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
         ->name('6dem.quotation.update');
+
+    Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])
+        ->name('6dem.option.create');
+
+    Route::put('/6dem/option/update/{id}/{field}', [OptionController::class, 'update'])
+        ->name('6dem.option.update');
 
     Route::get('/6dem/documents/nouvelle-lettre-voiture', function () {
         return inertia('6dem/Lettre de voiture');

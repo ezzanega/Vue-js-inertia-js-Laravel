@@ -108,7 +108,7 @@
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <SelectFormulas :formula="formula"/>
+              <SelectFormulas @savingFormula="saveFormula"/>
             </DocumentFieldFrame>
           </div>
         </div>
@@ -255,7 +255,7 @@
         <DocumentLabel name="OPTIONS" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
-        <DynamicFields />
+        <DynamicFields :option_id="currentOption.id" :movingjob="currentMovingJob.id"/>
       </div>
       <div class="flex flex-col mt-4 space-y-5">
         <DocumentLabel name="FINALISATION DU DEVIS" color="#438A7A" />
@@ -399,6 +399,7 @@ const user = usePage().props.auth.user;
 const currentOrganisation = usePage().props.organization;
 const currentQuotation = usePage().props.quotation;
 const currentMovingJob = usePage().props.movingJob;
+const currentOption = usePage().props.option;
 
 const temp = ref("Test");
 
@@ -455,6 +456,16 @@ const form = reactive({
 const saveField = (field) => {
   console.log(movingjob[field]);
   movingjob.put(route("6dem.quotation.update", {id : currentQuotation.id, field: field}), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("saved"),
+  });
+};
+
+const saveFormula = (formula) => {
+  movingjob.formula = formula.title;
+  console.log(movingjob.formula);
+  movingjob.put(route("6dem.quotation.update", {id : currentQuotation.id, field: 'formula'}), {
     preserveScroll: true,
     preserveState: true,
     onSuccess: () => console.log("saved"),

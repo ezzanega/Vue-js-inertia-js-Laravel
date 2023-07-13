@@ -6,21 +6,26 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\MovingJob;
 use App\Models\Quotation;
+use App\Models\Option;
+use App\Models\Enums\OptionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
 {
-    //
-
-    /*
-     * Display the user's profile form.
-     */
     public function quotation(Request $request): Response
     {
         $organization = $request->user()->organization;
         $movingjob = MovingJob::create([]);
         $quotation = Quotation::create(['organization_id' => $organization->id]);
+        $option = Option::create([
+            'type' => OptionType::OTHER,
+            'designation' => '',
+            'quantity' => '',
+            'unit' => '',
+            'price_ht' => '',
+            'moving_job_id' => $movingjob->id,
+        ]);
         $quotation->movingJob()->associate($movingjob);
         $quotation->save();
         $organization = $request->user()->organization;
@@ -60,6 +65,9 @@ class MovingJobController extends Controller
                 'discount_amount_ht',
                 'advance',
                 'balance',
+            ),
+            'option' => $option->only(
+                'id'
             ),
             'status' => session('status'),
         ]);
