@@ -124,7 +124,7 @@
           <div class="mt-5 pt-16 flex justify-end space-x-4">
             <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
             <DefaultButton
-              @click="createDocument('6dem.documents.devis')"
+              @click="initQuatation"
               class="w-32"
               :disabled="selectedClient == null"
               buttontext="Valider"
@@ -132,7 +132,7 @@
           </div>
         </div>
         <div v-else>
-          <CreateClientForm />
+          <CreateClientForm @created="" />
         </div>
       </div>
     </Modal>
@@ -151,6 +151,7 @@ import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 import { Dropdown } from "floating-vue";
 import { usePage } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
+import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import debounce from "lodash/debounce";
 
@@ -168,10 +169,6 @@ const closeModal = () => {
 
 const clientTypeChange = (value) => {
   clientType.value = value;
-};
-
-const createDocument = (routeLink) => {
-  router.get(route(routeLink));
 };
 
 const confirmDevisCreation = () => {
@@ -201,4 +198,13 @@ const selectClient = async (client) => {
 };
 
 const debouncedFetchResults = debounce(search, 300);
+
+const initQuatation = () => {
+  Inertia.visit(
+    route("6dem.documents.quotation.init", selectedClient.value.id),
+    {
+      method: "post",
+    }
+  );
+};
 </script>

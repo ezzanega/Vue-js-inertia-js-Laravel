@@ -141,7 +141,7 @@ import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import { useForm } from "@inertiajs/vue3";
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["created"]);
 
 const form = useForm({
   clientType: "individual",
@@ -173,7 +173,8 @@ const clientTypeChange = (value) => {
 const createClient = () => {
   form.post(route("6dem.create.clients"), {
     preserveScroll: true,
-    onSuccess: () => emit("close"),
+    onSuccess: (resp) => console.log(resp),
+    // onSuccess: () => emit("created"),
   });
 };
 </script>  

@@ -48,8 +48,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents', [ClientController::class, 'index'])
         ->name('6dem.documents');
 
-    Route::get('/6dem/documents/nouveau-devis', [MovingJobController::class, 'quotation'])
-        ->name('6dem.documents.devis');
+    Route::post('/6dem/quotation/init/{clientId}', [MovingJobController::class, 'initQuotation'])
+        ->name('6dem.documents.quotation.init');
+
+    Route::get('/6dem/documents/quotation/{movingjobId}/{clientId}/{quotationId}/{optionId}', [MovingJobController::class, 'quotation'])
+        ->name('6dem.documents.quotation');
 
     Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
         ->name('6dem.quotation.update');
