@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\MovingJob;
@@ -14,9 +15,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
 {
-    public function quotation(Request $request): Response
+    public function initQuotation(Request $request, $clientId)
     {
         $organization = $request->user()->organization;
+        $client = Client::find($clientId);
         $movingjob = MovingJob::create([]);
         $quotation = Quotation::create(['organization_id' => $organization->id]);
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
@@ -30,7 +32,27 @@ class MovingJobController extends Controller
         ]);
         $quotation->movingJob()->associate($movingjob);
         $quotation->save();
+
+        $movingjob->client()->associate($client);
+        $movingjob->save();
+
+        return Redirect::route('6dem.documents.quotation', [
+            'movingjobId' => $movingjob->id,
+            'clientId' => $client->id,
+            'quotationId' => $quotation->id,
+            'optionId' => $option->id,
+        ]);
+    }
+
+
+    public function quotation(Request $request, $movingjobId, $clientId, $quotationId, $optionId): Response
+    {
         $organization = $request->user()->organization;
+        $client = Client::where('id', $clientId)->with('clientOrganization')->first();
+        $movingjob = MovingJob::find($movingjobId);
+        $quotation = Quotation::find($quotationId);
+        $quotation = Quotation::find($quotationId);
+        $option = Option::find($optionId);
 
         return Inertia::render('6dem/Devis', [
             'organization' => $organization->only(
@@ -72,6 +94,17 @@ class MovingJobController extends Controller
             'option' => $option->only(
                 'id'
             ),
+            'client' => $client->only(
+                'id',
+                'type',
+                'last_name',
+                'first_name',
+                'phone_number',
+                'email',
+                'address',
+                'source',
+                'client_organization'
+            ),
             'status' => session('status'),
         ]);
     }
@@ -85,34 +118,14 @@ class MovingJobController extends Controller
             $field =>  'required|string|max:125',
         ]);
 
-        if($field == "validity_duration"){
+        if ($field == "validity_duration") {
             $quotation->update([
                 $field => $request->$field,
             ]);
-        }else{
+        } else {
             $movingjob->update([
                 $field => $request->$field,
             ]);
         }
     }
-
-    /*public function updateMovingJob(Request $request, $id, $field)
-    {
-        $request->validate([
-            $field =>  'required|string|max:125',
-        ]);
-
-        if($field == "validity_duration"){
-
-        }else{
-        
-            $movingjob = MovingJob::where(['id' => $id])->first();
-
-            $movingjob->update([
-                $field => $request->$field,
-            ]);
-        }
-
-        return Redirect::to('/');
-    }*/
 }
