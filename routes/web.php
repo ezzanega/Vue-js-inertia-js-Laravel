@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ACL\AclController;
+use App\Http\Controllers\AdditionalFieldController;
+use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovingJobController;
 use App\Http\Controllers\OptionController;
@@ -60,6 +62,15 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/option/update/{id}/{field}', [OptionController::class, 'update'])
         ->name('6dem.option.update');
+
+    Route::post('/6dem/additionalFields/create/{id}', [AdditionalFieldController::class, 'store'])
+        ->name('6dem.additionalFields.create');
+
+    Route::put('/6dem/additionalFields/update/{id}/{field}', [AdditionalFieldController::class, 'update'])
+        ->name('6dem.additionalFields.update');
+
+    Route::put('/6dem/insurance/update/{id}/{field}', [InsuranceController::class, 'update'])
+        ->name('6dem.insurance.update');
 
     Route::get('/6dem/documents/nouvelle-lettre-voiture', function () {
         return inertia('6dem/Lettre de voiture');

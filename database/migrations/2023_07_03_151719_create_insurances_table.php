@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
             $table->enum('type', InsuranceType::values());
             $table->string('max_value')->nullable();
             $table->string('franchise')->nullable();

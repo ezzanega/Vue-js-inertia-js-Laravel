@@ -1,9 +1,7 @@
 <template>
   <div>
-    <!-- <pre>
-      {{ currentOrganisation }}
-      {{ currentQuotation }}
-      {{ currentMovingJob }}
+<!--     <pre>
+      {{ currentInsuranceAdValorem }}
     </pre> -->
     <div class="flex flex-col space-y-5 p-10">
       <div class="grid grid-cols-3 gap-4 justify-between">
@@ -36,7 +34,7 @@
               :fontBold="true"
             />
           </div>
-          <DynamicHeaderFields />
+          <DynamicHeaderFields :movingjob="currentMovingJob.id"/>
         </div>
         <div class="p-2 h-auto">
           <div class="mb-2">
@@ -63,7 +61,7 @@
               :fontBold="true"
             />
           </div>
-          <DynamicHeaderFields />
+          <DynamicHeaderFields :movingjob="currentMovingJob.id"/>
         </div>
       </div>
       <div class="grid grid-cols-2 gap-20 pb-5 justify-between">
@@ -209,7 +207,7 @@
             </DocumentFieldFrame>
           </div>
 
-          <DynamicQuoteFields />
+          <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'loading'"/>
         </div>
 
         <div class="flex flex-col space-y-2">
@@ -248,7 +246,7 @@
             </DocumentFieldFrame>
           </div>
 
-          <DynamicQuoteFields />
+          <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'shipping'"/>
         </div>
       </div>
       <div class="flex flex-col mt-4 space-y-2">
@@ -262,72 +260,54 @@
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Assurance contractuelle : '"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Assurance contractuelle'" :fontBold="true"/>
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Valeur max par objet : '"
-                :fontBold="true"
-              />
+              <DocumentFieldInput v-model="insuranceContractual.max_value" :modelValue="'Valeur max par objet : '+ currentInsuranceContractual.max_value" placeholder="Valeur max par objet" :fontBold="true" @savingValue="saveInsurance(currentInsuranceContractual.id,'max_value', 'contractual')"/>
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Franchise : '"
-                :fontBold="true"
-              />
+              <DocumentFieldInput v-model="insuranceContractual.franchise" :modelValue="'Franchise : '+ currentInsuranceContractual.franchise" placeholder="Franchise" :fontBold="true" @savingValue="saveInsurance(currentInsuranceContractual.id,'franchise', 'contractual')"/>
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" :fontBold="true"/>
+              <DocumentFieldInput v-model="insuranceContractual.amount_ht" :modelValue="'Montant HT'+ currentInsuranceContractual.amount_ht" placeholder="Montant HT" :fontBold="true" @savingValue="saveInsurance(currentInsuranceContractual.id,'amount_ht', 'contractual')"/>
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+              <DocumentFieldInput placeholder="'Montant TTC'" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
         </div>
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Assurance ad valorem : '"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Assurance ad valorem'" :fontBold="true"/>
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Valeur max par objet : '"
-                :fontBold="true"
-              />
+              <DocumentFieldInput v-model="insuranceAdValorem.max_value" :modelValue="'Valeur max par objet : '+ currentInsuranceAdValorem.max_value" placeholder="Valeur max par objet" :fontBold="true" @savingValue="saveInsurance(currentInsuranceAdValorem.id,'max_value', 'adValorem')"/>
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-                :modelValue="'Franchise : '"
-                :fontBold="true"
-              />
+              <DocumentFieldInput v-model="insuranceAdValorem.franchise" :modelValue="'Franchise : '+ currentInsuranceAdValorem.franchise" placeholder="Franchise" :fontBold="true" @savingValue="saveInsurance(currentInsuranceAdValorem.id,'franchise', 'adValorem')"/>
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+              <DocumentFieldInput v-model="insuranceAdValorem.amount_ht" :modelValue="'Montant HT : '+ currentInsuranceAdValorem.amount_ht" placeholder="Montant HT" :fontBold="true" @savingValue="saveInsurance(currentInsuranceAdValorem.id,'amount_ht', 'adValorem')"/>
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+              <DocumentFieldInput placeholder="'Montant TTC'" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
         </div>
@@ -400,6 +380,8 @@ const currentOrganisation = usePage().props.organization;
 const currentQuotation = usePage().props.quotation;
 const currentMovingJob = usePage().props.movingJob;
 const currentOption = usePage().props.option;
+const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
+const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
 
 const temp = ref("Test");
 
@@ -412,6 +394,18 @@ const organization = reactive({
   billing_address: "",
   phone_number: "",
   email: "",
+});
+
+const insuranceContractual = useForm({
+  max_value: "",
+  franchise: "",
+  amount_ht: ""
+});
+
+const insuranceAdValorem = useForm({
+  max_value: "",
+  franchise: "",
+  amount_ht: ""
 });
 
 const movingjob = useForm({
@@ -470,6 +464,22 @@ const saveFormula = (formula) => {
     preserveState: true,
     onSuccess: () => console.log("saved"),
   });
+};
+
+const saveInsurance = (id, field, type) => {
+  if (type === 'contractual'){
+    insuranceContractual.put(route("6dem.insurance.update", {id : id, field: field}), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => console.log("saved"),
+    });
+  }else{
+    insuranceAdValorem.put(route("6dem.insurance.update", {id : id, field: field}), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => console.log("saved"),
+    });
+  }
 };
 
 let timeout;

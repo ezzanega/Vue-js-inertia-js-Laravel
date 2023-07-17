@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\MovingJob;
 use App\Models\Quotation;
+use App\Models\Insurance;
 use App\Models\Option;
 use App\Models\Enums\OptionType;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class MovingJobController extends Controller
         $organization = $request->user()->organization;
         $movingjob = MovingJob::create([]);
         $quotation = Quotation::create(['organization_id' => $organization->id]);
+        $insurance = Insurance::where(['organization_id' => $organization->id])->get();
         $option = Option::create([
             'type' => OptionType::OTHER,
             'designation' => '',
@@ -45,6 +47,7 @@ class MovingJobController extends Controller
                 'number',
                 'validity_duratation'
             ),
+            'insurances' => $insurance,
             'movingJob' => $movingjob->only(
                 'id',
                 'capacity',

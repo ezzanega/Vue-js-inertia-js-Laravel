@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Mail\MailHandler;
 use App\Models\Organization;
+use App\Models\Insurance;
+use App\Models\Enums\InsuranceType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\EmailTemplates;
@@ -67,6 +69,22 @@ class SignUpController extends Controller
             'name' => $request->companyName,
             'owner_id' => $user->id
         ]);
+        $insurance = Insurance::create([
+            'type' => InsuranceType::ADVALOREM,
+            'max_value' => "",
+            'franchise' => "",
+            'amount_ht' => "",
+            'organization_id' => $organization->id
+        ]);
+
+        $insurance = Insurance::create([
+            'type' => InsuranceType::CONTRACTUAL,
+            'max_value' => "",
+            'franchise' => "",
+            'amount_ht' => "",
+            'organization_id' => $organization->id
+        ]);
+
         $user->organization()->associate($organization);
         $user->save();
     }
