@@ -1,5 +1,5 @@
 <template>
-  <Head title="Réglages" />
+  <Head title="Mon Compte" />
   <DemLayout>
     <main class="relative flex-1 focus:outline-none overflow-y-auto" id="main">
       <div class="py-6">
@@ -32,10 +32,10 @@
     </main>
   </DemLayout>
 </template>
-        
+
 <script setup>
-import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import DemLayout from "@/Layouts/DemLayout.vue";
 import UpdateAccountFrom from "@/Components/Organisms/UpdateAccountFrom.vue";
 import UpdatePassword from "@/Components/Organisms/UpdatePassword.vue";
 import UpdateOrganization from "@/Components/Organisms/UpdateOrganization.vue";

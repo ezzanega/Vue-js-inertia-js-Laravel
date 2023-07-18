@@ -15,7 +15,9 @@ class ClientController extends Controller
 
     public function index(Request $request): Response
     {
-        return Inertia::render('6dem/Documents', ['clients' => []]);
+        $organization = $request->user()->organization;
+        $clients = Client::where('organization_id', $organization->id)->with('clientOrganization')->get();
+        return Inertia::render('6dem/Clients', ['clients' => $clients]);
     }
 
     /**

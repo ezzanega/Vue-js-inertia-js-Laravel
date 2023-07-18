@@ -6,7 +6,7 @@
           <span class="font-bold text-white text-xl">Sysdem</span></a
         >
       </div>
-<!--       <Dropdown placement="bottom-center">
+      <!--       <Dropdown placement="bottom-center">
         <ProfileMenu
           :full-name="user.first_name + ' ' + user.last_name"
           :email="user.email"
@@ -22,16 +22,18 @@
           role="group"
           aria-labelledby="highlights-headline"
         >
-          <a
-            href="#"
+          <Link
+            :href="route('logout')"
+            method="post"
+            as="button"
             class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-secondary hover:text-primary"
           >
             <span
               class="bg-white mr-4 h-2.5 w-2.5 rounded-full"
               aria-hidden="true"
             />
-            <span class="mr-1 truncate">Activités (0)</span></a
-          >
+            <span class="mr-1 truncate">Se déconnecter</span>
+          </Link>
         </div>
       </div>
     </div>
@@ -40,6 +42,7 @@
 
 
 <script setup>
+import { Link } from "@inertiajs/vue3";
 import { Dropdown } from "floating-vue";
 import ProfileMenuPopperContent from "@/Components/Molecules/ProfileMenuPopperContent.vue";
 import SideBarMenu from "@/Components/Atoms/SideBarMenu.vue";

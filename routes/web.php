@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\AdditionalFieldController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovingJobController;
@@ -43,10 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/dashboard', function () {
         return inertia('6dem/Dashboard');
     })->name('6dem.dashboard');
-
-    Route::get('/6dem/clients', function () {
-        return inertia('6dem/Clients');
-    })->name('6dem.clients');
 
     Route::get('/6dem/documents', [QuotationController::class, 'index'])
         ->name('6dem.documents');
@@ -105,6 +102,16 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Settings');
     })->name('6dem.settings');
 
+    Route::get('/6dem/account', function () {
+        return inertia('6dem/Account');
+    })->name('6dem.account');
+
+    Route::put('/6dem/password/update', [PasswordController::class, 'update'])
+        ->name('6dem.password.update');
+
+    Route::put('/6dem/profile/update', [ProfileController::class, 'update'])
+        ->name('6dem.profile.update');
+
     Route::get('/6dem/storage', function () {
         return inertia('6dem/Storage');
     })->name('6dem.storage');
@@ -112,6 +119,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/templetes', function () {
         return inertia('6dem/Templetes');
     })->name('6dem.templetes');
+
+    Route::get('/6dem/clients', [ClientController::class, 'index'])
+        ->name('6dem.clients');
 
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])
