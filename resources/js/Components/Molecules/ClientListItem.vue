@@ -1,5 +1,5 @@
 <template>
-  <div class="flex px-6 py-4 rounded-xl border-b border-gray-200 bg-white">
+  <div class="flex px-6 py-4 rounded-xl border border-gray-300 bg-white">
     <div class="w-1/12 my-auto">
       <input
         name=""
