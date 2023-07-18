@@ -2,7 +2,7 @@
     <div v-for="item, index in options" :key="item">
         <div class="relative w-full flex items-center">
             <div class="bg-gray-100 mb-2">
-                <DocumentFieldInput placeholder="Nouveau Champ" :modelValue="item.value" :fontBold="true" />
+                <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description" :modelValue="item.description" :fontBold="true" @savingValue="saveField('description', item.id, item.description)"/>
             </div>
             <div class="relative flex items-center justify-center">
                 <button @click="removeRow(index)"
@@ -26,20 +26,43 @@
     
 <script setup>
 import { reactive } from 'vue';
+import { useForm } from "@inertiajs/vue3";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 
+const props = defineProps({
+    movingjob: Number
+});
+
 const options = reactive([]);
+const field = useForm({
+    type:"movingjob-field",
+    description: "",
+    position: "header"
+});
 
 const addRow = () => {
-    options.push({ value: '' })
+    axios.post(route("6dem.additionalFields.create", props.movingjob), field)
+        .then(response => {
+            options.push({ id: response.data, description: '' })
+        })
+        .catch(error => {
+            // Handle the error
+            console.error(error);
+        }
+    );
 };
 
 const removeRow = (index) => {
     options.splice(index, 1)
 };
 
-const saveItem = () => {
+const saveField = (additionalField, id, value) => {
+    field[additionalField] = value;
+    field.put(route("6dem.additionalFields.update", {id : id, field: additionalField}), {
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: () => console.log("saved"),
+    });
 };
-
 </script>
     

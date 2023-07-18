@@ -36,7 +36,7 @@
   >
     <div>
       <DrawerContent title="Create client" @closeDrawer="closeDrawer()">
-        <CreateClientForm @close="closeDrawer()" />
+        <CreateClientForm @created="closeDrawer()" />
       </DrawerContent>
     </div>
   </Drawer>

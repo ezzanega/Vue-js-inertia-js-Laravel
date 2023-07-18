@@ -13,13 +13,18 @@ use Illuminate\Support\Facades\Redirect;
 class ClientController extends Controller
 {
 
+    public function index(Request $request): Response
+    {
+        return Inertia::render('6dem/Documents', ['clients' => []]);
+    }
+
     /**
      * Handle an incoming register request.
      */
     public function store(Request $request): RedirectResponse
     {
         $organization = $request->user()->organization;
-        if ($request->clientType === ClientType::PROFETIONAL) {
+        if ($request->clientType === ClientType::PROFESSIONAL) {
             $request->validate([
                 'clientType' => 'required|string|max:125',
                 'clientOrganizationName' => 'required|string|max:125',
@@ -70,5 +75,28 @@ class ClientController extends Controller
         }
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Handle an incoming search request.
+     */
+    public function search(Request $request)
+    {
+        $search_text = $request->input('search_text');
+        $clients = Client::where('organization_id', auth()->user()->organization->id)
+            ->where(function ($query) use ($search_text) {
+                $query->where('first_name', 'LIKE', "%{$search_text}%")
+                    ->orWhere('email', 'LIKE', "%{$search_text}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search_text}%")
+                    ->orWhereHas('clientOrganization', function ($query) use ($search_text) {
+                        $query->where('name', 'LIKE', "%{$search_text}%");
+                    });
+            })
+            ->with('clientOrganization')
+            ->take(20)
+            ->get();
+
+
+        return $clients;
     }
 }

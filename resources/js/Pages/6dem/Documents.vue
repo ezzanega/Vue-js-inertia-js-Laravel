@@ -3,7 +3,19 @@
   <DemLayout>
     <Tabs>
       <Tab title="Devis">
+        <div v-if="$page.props.quotations.length">
+          <SelectClientModal />
+          <div class="mt-2">
+            <QuotationListItem
+              v-for="(quotation, index) in $page.props.quotations"
+              :key="quotation.id"
+              :number="quotation.number"
+              status="En cours"
+            />
+          </div>
+        </div>
         <ListEmptyMessage
+          v-if="!$page.props.quotations.length"
           message-title="Vous n'avez pas de devis créés"
           message-content="Commencez par ajouter un nouveau devis"
         >
@@ -47,6 +59,7 @@ import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
 import { ref } from "vue";
 import Tabs from "@/Components/Molecules/Tabs.vue";
 import Tab from "@/Components/Atoms/Tab.vue";
+import QuotationListItem from "@/Components/Atoms/QuotationListItem.vue";
 
 let isDrawerOpen = ref(false);
 let innerWidth = ref(window.innerWidth / 4 + "px");

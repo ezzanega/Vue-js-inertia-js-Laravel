@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\MovingJob;
 use App\Models\Quotation;
 use App\Models\EmailTemplates;
+use App\Models\Organization;
 use App\Observers\UserObserver;
 use App\Observers\MovingJobObserver;
 use App\Observers\QuotationObserver;

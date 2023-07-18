@@ -5,14 +5,14 @@
         <label
           v-if="label"
           class="text-sm font-medium text-neutral-700 mb-1 inline-flex items-center"
-          for="name-floating"
+          :for="'name-floating-' + name"
         >
           <span v-if="required" class="mr-1 text-sm text-red-500">*</span>
           <span>{{ label }}</span>
         </label>
         <div class="relative">
           <input
-            id="name-floating"
+            :id="'name-floating-' + name"
             :type="type"
             :placeholder="placeholder"
             :value="modelValue"

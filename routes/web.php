@@ -4,9 +4,13 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ACL\AclController;
+use App\Http\Controllers\AdditionalFieldController;
+use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovingJobController;
+use App\Http\Controllers\QuotationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,15 +48,32 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Clients');
     })->name('6dem.clients');
 
-    Route::get('/6dem/documents', function () {
-        return inertia('6dem/Documents');
-    })->name('6dem.documents');
+    Route::get('/6dem/documents', [QuotationController::class, 'index'])
+        ->name('6dem.documents');
 
-    Route::get('/6dem/documents/nouveau-devis', [MovingJobController::class, 'quotation'])
-        ->name('6dem.documents.devis');
+    Route::post('/6dem/quotation/init/{clientId}', [MovingJobController::class, 'initQuotation'])
+        ->name('6dem.documents.quotation.init');
 
-    Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'quotation'])
+    Route::get('/6dem/documents/quotation/{movingjobId}/{clientId}/{quotationId}/{optionId}', [MovingJobController::class, 'quotation'])
+        ->name('6dem.documents.quotation');
+
+    Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
         ->name('6dem.quotation.update');
+
+    Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])
+        ->name('6dem.option.create');
+
+    Route::put('/6dem/option/update/{id}/{field}', [OptionController::class, 'update'])
+        ->name('6dem.option.update');
+
+    Route::post('/6dem/additionalFields/create/{id}', [AdditionalFieldController::class, 'store'])
+        ->name('6dem.additionalFields.create');
+
+    Route::put('/6dem/additionalFields/update/{id}/{field}', [AdditionalFieldController::class, 'update'])
+        ->name('6dem.additionalFields.update');
+
+    Route::put('/6dem/insurance/update/{id}/{field}', [InsuranceController::class, 'update'])
+        ->name('6dem.insurance.update');
 
     Route::get('/6dem/documents/nouvelle-lettre-voiture', function () {
         return inertia('6dem/Lettre de voiture');
@@ -95,6 +116,9 @@ Route::middleware('auth')->group(function () {
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])
         ->name('6dem.create.clients');
+
+    Route::get('/6dem/clients/search', [ClientController::class, 'search'])
+        ->name('6dem.search.clients');
 });
 
 

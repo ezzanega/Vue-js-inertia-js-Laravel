@@ -20,5 +20,9 @@ defineProps({
     type: String,
     default: "button",
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>

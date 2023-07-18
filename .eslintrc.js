@@ -13,5 +13,6 @@ module.exports = {
     'vue/v-on-event-hyphenation': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/require-explicit-emits': 'off',
+    'max-len': ['error', { 'code': 120 }],
   }
 }
