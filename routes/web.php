@@ -44,10 +44,6 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Dashboard');
     })->name('6dem.dashboard');
 
-    Route::get('/6dem/clients', function () {
-        return inertia('6dem/Clients');
-    })->name('6dem.clients');
-
     Route::get('/6dem/documents', [QuotationController::class, 'index'])
         ->name('6dem.documents');
 
@@ -112,6 +108,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/templetes', function () {
         return inertia('6dem/Templetes');
     })->name('6dem.templetes');
+
+    Route::get('/6dem/clients', [ClientController::class, 'index'])
+        ->name('6dem.clients');
 
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])
