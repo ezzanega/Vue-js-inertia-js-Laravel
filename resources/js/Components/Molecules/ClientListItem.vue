@@ -4,7 +4,7 @@
       <input
         name=""
         type="checkbox"
-        class="form-checkbox rounded-md text-bflex h-5 w-5"
+        class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0"
       />
     </div>
     <div class="flex gap-3 text-left w-3/12 my-auto">
