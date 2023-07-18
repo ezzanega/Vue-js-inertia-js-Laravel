@@ -9,7 +9,7 @@
       class="w-full rounded-xl bg-white text-left text-sm px-6 py-4 font-medium text-gray-900 flex justify-between border-b border-gray-200"
     >
       <div class="w-1/12"></div>
-      <div class="w-3/12">Nom</div>
+      <div class="w-3/12">Client</div>
       <div class="w-3/12">Télephone</div>
       <div class="w-3/12">Type de client</div>
       <div class="w-1/12">Source</div>

@@ -71,7 +71,7 @@
         <Drawer
           :is-open="isDrawerOpen"
           :speed="500"
-          :max-width="innerWidth"
+          max-width="680px"
           @close="closeDrawer"
         >
           <div>
@@ -98,7 +98,6 @@ import DrawerContent from "@/Components/Molecules/DrawerContent.vue";
 import { ref } from "vue";
 
 let isDrawerOpen = ref(false);
-let innerWidth = ref(window.innerWidth / 2 + "px");
 
 const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value;

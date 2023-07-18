@@ -31,7 +31,7 @@
   <Drawer
     :is-open="isDrawerOpen"
     :speed="500"
-    :max-width="innerWidth"
+    max-width="680px"
     @close="closeDrawer"
   >
     <div>
@@ -64,7 +64,7 @@ defineProps({
 });
 
 let isDrawerOpen = ref(false);
-let innerWidth = ref(window.innerWidth / 2 + "px");
+let innerWidth = "680px";
 
 const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value;

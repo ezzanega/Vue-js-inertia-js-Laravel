@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\AdditionalFieldController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovingJobController;
@@ -100,6 +101,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/settings', function () {
         return inertia('6dem/Settings');
     })->name('6dem.settings');
+
+    Route::get('/6dem/account', function () {
+        return inertia('6dem/Account');
+    })->name('6dem.account');
+
+    Route::put('/6dem/password/update', [PasswordController::class, 'update'])
+        ->name('6dem.password.update');
+
+    Route::put('/6dem/profile/update', [ProfileController::class, 'update'])
+        ->name('6dem.profile.update');
 
     Route::get('/6dem/storage', function () {
         return inertia('6dem/Storage');
