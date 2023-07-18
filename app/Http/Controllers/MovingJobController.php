@@ -21,7 +21,6 @@ class MovingJobController extends Controller
         $client = Client::find($clientId);
         $movingjob = MovingJob::create([]);
         $quotation = Quotation::create(['organization_id' => $organization->id]);
-        $insurance = Insurance::where(['organization_id' => $organization->id])->get();
         $option = Option::create([
             'type' => OptionType::OTHER,
             'designation' => '',
@@ -53,6 +52,7 @@ class MovingJobController extends Controller
         $quotation = Quotation::find($quotationId);
         $quotation = Quotation::find($quotationId);
         $option = Option::find($optionId);
+        $insurance = Insurance::where(['organization_id' => $organization->id])->get();
 
         return Inertia::render('6dem/Devis', [
             'organization' => $organization->only(
