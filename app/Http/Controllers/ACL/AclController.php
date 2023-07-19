@@ -20,14 +20,26 @@ use Illuminate\Support\Facades\Redirect;
 class AclController extends Controller
 {
 
-    public function create(): Response
+    public function index(Request $request): Response
     {
+        $organization = $request->user()->organization;
+
+        $invitedUsers = InviteUser::where('organization', $organization->id)->get()->toArray();
+        $usersInvited = User::where('organization_id', $organization->id)->get()->toArray();
+
+        $mergedArray = array_merge($invitedUsers, $usersInvited);
+
+        $mergedCollection = collect($mergedArray);
+        $sortedArray = $mergedCollection->sortByDesc('created_at');
+
         $roles = $this->getAllRoles();
         $permissions = $this->getAllPermissions();
 
         return inertia('6dem/Manage', [
             'roles' => $roles,
             'permissions' => $permissions,
+            'permissions' => $permissions,
+            'teamMembres' => $sortedArray
         ]);
     }
 
@@ -123,12 +135,18 @@ class AclController extends Controller
             'role' => 'required|string|max:250|exists:roles,name',
         ]);
 
+        $organization = $request->user()->organization;
+
         $inviteUser = InviteUser::create([
             'email' => $request->email,
             'role' => $request->role,
+            'organization' => $organization->id
         ]);
-        $data = ['invitationLink' => 'http://127.0.0.1:8000/signup'];
+
+        $data = ['invitationLink' => config('app.url') . '/signup?organisation=' . $organization->name];
         $emailTemplate = EmailTemplates::find(2);
         Mail::to($inviteUser->email)->send(new GenericMailHandler($emailTemplate, $data));
+
+        return Redirect::to('/6dem/manage');
     }
 }

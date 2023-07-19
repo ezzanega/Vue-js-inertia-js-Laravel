@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Invoice');
     })->name('6dem.documents.invoice');
 
-    Route::get('/6dem/manage', [AclController::class, 'create'])
+    Route::get('/6dem/manage', [AclController::class, 'index'])
         ->name('6dem.manage');
 
     Route::post('/6dem/manage/role', [AclController::class, 'store'])
