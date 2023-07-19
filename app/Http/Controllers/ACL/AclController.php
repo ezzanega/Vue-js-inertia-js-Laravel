@@ -147,6 +147,6 @@ class AclController extends Controller
         $emailTemplate = EmailTemplates::find(2);
         Mail::to($inviteUser->email)->send(new GenericMailHandler($emailTemplate, $data));
 
-        return Redirect::to('/6dem/manage');
+        return Redirect::route('6dem.manage');
     }
 }
