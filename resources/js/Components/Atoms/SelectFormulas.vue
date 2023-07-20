@@ -12,9 +12,12 @@
 
 <script setup>
 import vSelect from 'vue-select';
-const emit = defineEmits(["savingFormula"]);
+import { usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
-const selected = ref(null);
+
+const emit = defineEmits(["savingFormula"]);
+const currentMovingJob = usePage().props.movingJob;
+const selected = ref(currentMovingJob.formula);
 const options = [
   {
     title: "Standard",

@@ -9,7 +9,7 @@ use App\Models\Enums\Positions;
 
 class AdditionalFieldController extends Controller
 {
-     /**
+    /**
      * Handle an incoming register request.
      */
     public function store(Request $request, $id)
@@ -18,11 +18,10 @@ class AdditionalFieldController extends Controller
             'type' => 'required|string|max:125|',
             'position' => 'required|string|max:125|'
         ]);
-        
+
         $additionalField = AdditionalField::create([
             'type' => $request->type,
-            'description' => $request->description,
-            'position' => $request->position,
+            'description' => $request->description
         ]);
 
         switch ($request->position) {
@@ -32,11 +31,11 @@ class AdditionalFieldController extends Controller
             case Positions::SHIPPING:
                 $additionalField->position = Positions::SHIPPING;
                 break;
-            case Positions::HEADER:
-                $additionalField->position = Positions::HEADER;
+            case Positions::HEADERRIGHT:
+                $additionalField->position = Positions::HEADERRIGHT;
                 break;
             default:
-                $additionalField->position = Positions::HEADER;
+                $additionalField->position = Positions::HEADERLEFT;
         }
 
         switch ($request->type) {

@@ -30,17 +30,24 @@ import { useForm } from "@inertiajs/vue3";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 
 const props = defineProps({
-    movingjob: Number
+    fields:{
+        type: Array,
+        default: []
+    },
+    movingjob: Number,
+    position: String
 });
 
-const options = reactive([]);
+const options = reactive(props.fields);
+
 const field = useForm({
     type:"movingjob-field",
     description: "",
-    position: "header"
+    position: ""
 });
 
 const addRow = () => {
+    field.position = props.position;
     axios.post(route("6dem.additionalFields.create", props.movingjob), field)
         .then(response => {
             options.push({ id: response.data, description: '' })

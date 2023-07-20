@@ -18,4 +18,21 @@ class QuotationController extends Controller
             'quotations' => $quotations,
         ]);
     }
+
+    /**
+     * Handle an incoming search request.
+     */
+    public function search(Request $request)
+    {
+        $search_text = $request->input('search_text');
+        $quotation = Quotation::where('organization_id', auth()->user()->organization->id)
+            ->where(function ($query) use ($search_text) {
+                $query->where('number', 'LIKE', "%{$search_text}%");
+            })
+            ->with('movingJob.client')
+            ->take(20)
+            ->get();
+            
+        return $quotation;
+    }
 }

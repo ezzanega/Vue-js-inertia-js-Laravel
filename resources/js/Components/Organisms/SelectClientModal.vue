@@ -144,14 +144,12 @@ import Modal from "@/Components/Modal.vue";
 import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import IconButton from "@/Components/Atoms/IconButton.vue";
-import { router, useForm } from "@inertiajs/vue3";
+import { router, useForm, usePage } from "@inertiajs/vue3";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
-import { Dropdown } from "floating-vue";
-import { usePage } from "@inertiajs/vue3";
+import { Dropdown } from "floating-vue"; 
 import { ref, watch } from "vue";
-import { Inertia } from "@inertiajs/inertia";
 import axios from "axios";
 import debounce from "lodash/debounce";
 
@@ -200,7 +198,7 @@ const selectClient = async (client) => {
 const debouncedFetchResults = debounce(search, 300);
 
 const initQuatation = () => {
-  Inertia.visit(
+  router.visit(
     route("6dem.documents.quotation.init", selectedClient.value.id),
     {
       method: "post",

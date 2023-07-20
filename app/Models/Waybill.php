@@ -11,13 +11,18 @@ class Waybill extends Model
     use HasFactory;
 
     protected $fillable = [
-        'waybill_id',
+        'number',
         'executing_company',
-        'document_id'
+        'organization_id'
     ];
 
-    public function document(): BelongsTo
+    public function movingJob(): BelongsTo
+    {
+        return $this->belongsTo(MovingJob::class, 'moving_job_id', 'id');
+    }
+
+    /*public function document(): BelongsTo
     {
         return $this->belongsTo(Document::class, 'document_id', 'id');
-    }
+    }*/
 }

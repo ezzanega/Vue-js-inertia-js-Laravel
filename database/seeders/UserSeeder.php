@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Organization;
+use App\Models\Client;
+use App\Models\Enums\ClientType;
 use App\Models\Insurance;
 use App\Models\Enums\InsuranceType;
 use Illuminate\Database\Seeder;
@@ -30,6 +32,16 @@ class UserSeeder extends Seeder
             'owner_id' => $user->id
         ]);
 
+        $client = Client::create([
+            'type' => ClientType::INDIVIDUAL,
+            'first_name' => 'James',
+            'last_name' => 'Doe',
+            'phone_number' => '00000000',
+            'email' => 'jamesdoe@gmail.com',
+            'address' => 'Nowhere to be found',
+            'source' => 'From my auntie',
+        ]);
+
         $insurance = Insurance::create([
             'type' => InsuranceType::ADVALOREM,
             'max_value' => "",
@@ -46,6 +58,9 @@ class UserSeeder extends Seeder
             'organization_id' => $organization->id
         ]);
         
+        $client->organization()->associate($organization);
+        $client->save();
+
         $user->organization()->associate($organization);
         $user->save();
     }

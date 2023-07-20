@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('capacity')->nullable();
             $table->string('formula')->nullable();
             $table->string('loading_address')->nullable();
-            $table->timestamp('loading_date')->nullable();
+            $table->string('loading_date')->nullable();
             $table->string('loading_floor')->nullable();
             $table->string('loading_elevator')->nullable();
             $table->string('loading_portaging')->nullable();
             $table->text('loading_details')->nullable();
             $table->string('shipping_address')->nullable();
-            $table->timestamp('shipping_date')->nullable();
+            $table->string('shipping_date')->nullable();
             $table->string('shipping_floor')->nullable();
             $table->string('shipping_elevator')->nullable();
             $table->string('shipping_portaging')->nullable();

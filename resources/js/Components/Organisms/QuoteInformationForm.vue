@@ -1,8 +1,5 @@
 <template>
   <div>
-<!--     <pre>
-      {{ currentInsuranceAdValorem }}
-    </pre> -->
     <div class="flex flex-col space-y-5 p-10">
       <div class="grid grid-cols-3 gap-4 justify-between">
         <UploadFile
@@ -34,7 +31,7 @@
               :fontBold="true"
             />
           </div>
-          <DynamicHeaderFields :movingjob="currentMovingJob.id"/>
+          <DynamicHeaderFields :movingjob="currentMovingJob.id" :position="'header-left'"/>
         </div>
         <div class="p-2 h-auto">
           <div class="mb-2">
@@ -61,7 +58,7 @@
               :fontBold="true"
             />
           </div>
-          <DynamicHeaderFields :movingjob="currentMovingJob.id"/>
+          <DynamicHeaderFields :movingjob="currentMovingJob.id" :position="'header-right'"/>
         </div>
       </div>
       <div class="grid grid-cols-2 gap-20 pb-5 justify-between">
@@ -94,15 +91,15 @@
           <DocumentFieldFrame>
             <DocumentFieldInput
               placeholder="Validité devis (7 jours, 1 mois ..)"
-              v-model="newQuotation.validity_duratation"
+              v-model="movingjob.validity_duration"
               :fontBold="true"
-              @savingValue="saveField('validity_duratation')"
+              @savingValue="saveField('validity_duration')"
             />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Volume" v-model="movingjob.balance" :fontBold="true" />
+              <DocumentFieldInput placeholder="Volume" v-model="movingjob.capacity" :fontBold="true" @savingValue="saveField('capacity')" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
@@ -113,45 +110,29 @@
 
         <div class="flex flex-col space-y-2">
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Client" :fontBold="true" />
+            <DocumentFieldInput modelValue="Client" :fontBold="true" />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-              placeholder="Nom"
-                :modelValue="last_name"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Nom: ' + currentClient.last_name" :fontBold="true"/>
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput
-              placeholder="Prenom"
-                :modelValue="first_name"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Prénom: ' + currentClient.first_name" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
+            <DocumentFieldInput :modelValue="'Adresse: ' + currentClient.address" :fontBold="true" />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput
-              placeholder="Téléphone"
-              :modelValue="phone_number"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Tel: ' + currentClient.phone_number" :fontBold="true" />
             </DocumentFieldFrame>
             <DocumentFieldFrame>
-              <DocumentFieldInput
-              placeholder="Email"
-                :modelValue="email"
-                :fontBold="true"
-              />
+              <DocumentFieldInput :modelValue="'Email: ' + currentClient.email" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
         </div>
@@ -181,7 +162,7 @@
           <DocumentFieldFrame>
             <DocumentFieldInput
               placeholder="Date ou période"
-              :modelValue="movingjob.loading_date"
+              v-model="movingjob.loading_date"
               :fontBold="true"
               @savingValue="saveField('loading_date')"
             />
@@ -220,7 +201,7 @@
           <DocumentFieldFrame>
             <DocumentFieldInput
               placeholder="Date ou période"
-              :modelValue="movingjob.shipping_date"
+              v-model="movingjob.shipping_date"
               :fontBold="true"
               @savingValue="saveField('shipping_date')"
             />
@@ -253,7 +234,7 @@
         <DocumentLabel name="OPTIONS" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
-        <DynamicFields :option_id="currentOption.id" :movingjob="currentMovingJob.id"/>
+        <DynamicFields :movingjob="currentMovingJob.id"/>
       </div>
       <div class="flex flex-col mt-4 space-y-5">
         <DocumentLabel name="FINALISATION DU DEVIS" color="#438A7A" />
@@ -372,18 +353,16 @@ import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
 import "vue-select/dist/vue-select.css";
-import { watch, reactive, ref } from "vue";
-import { Inertia } from "@inertiajs/inertia";
+import { reactive, ref } from "vue";
 
 const user = usePage().props.auth.user;
 const currentOrganisation = usePage().props.organization;
 const currentQuotation = usePage().props.quotation;
 const currentMovingJob = usePage().props.movingJob;
-const currentOption = usePage().props.option;
+const currentClient = usePage().props.client;
+const currentOption = usePage().props.options;
 const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
 const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
-
-const temp = ref("Test");
 
 const organization = reactive({
   name: "",
@@ -409,25 +388,25 @@ const insuranceAdValorem = useForm({
 });
 
 const movingjob = useForm({
-  capacity: "",
-  formula: "",
-  loading_address: "",
-  loading_date: "",
-  loading_floor: "",
-  loading_elevator: "",
-  loading_portaging: "",
-  loading_details: "",
-  shipping_address: "",
-  shipping_date: "",
-  shipping_floor: "",
-  shipping_elevator: "",
-  shipping_portaging: "",
-  billing_address: "",
-  shipping_details: "",
-  discount_percentage: "",
-  discount_amount_ht: "",
-  advance: "",
-  balance: ""
+  validity_duration: currentMovingJob.validity_duration,
+  capacity: currentMovingJob.capacity,
+  formula: currentMovingJob.formula,
+  loading_address: currentMovingJob.loading_address,
+  loading_date: currentMovingJob.loading_date,
+  loading_floor: currentMovingJob.loading_floor,
+  loading_elevator: currentMovingJob.loading_elevator,
+  loading_portaging: currentMovingJob.loading_portaging,
+  loading_details: currentMovingJob.loading_details,
+  shipping_address: currentMovingJob.shipping_address,
+  shipping_date: currentMovingJob.shipping_date,
+  shipping_floor: currentMovingJob.shipping_floor,
+  shipping_elevator: currentMovingJob.shipping_elevator,
+  shipping_portaging: currentMovingJob.shipping_portaging,
+  shipping_details: currentMovingJob.shipping_details,
+  discount_percentage: currentMovingJob.discount_percentage,
+  discount_amount_ht: currentMovingJob.discount_amount_ht,
+  advance: currentMovingJob.advance,
+  balance: currentMovingJob.balance
 });
 
 const newQuotation = reactive({
@@ -448,11 +427,11 @@ const form = reactive({
 });
 
 const saveField = (field) => {
-  console.log(movingjob[field]);
   movingjob.put(route("6dem.quotation.update", {id : currentQuotation.id, field: field}), {
     preserveScroll: true,
     preserveState: true,
     onSuccess: () => console.log("saved"),
+    onError: (errors) => console.log(errors)
   });
 };
 
@@ -463,6 +442,7 @@ const saveFormula = (formula) => {
     preserveScroll: true,
     preserveState: true,
     onSuccess: () => console.log("saved"),
+    onError: (errors) => console.log(errors)
   });
 };
 
@@ -478,6 +458,7 @@ const saveInsurance = (id, field, type) => {
       preserveScroll: true,
       preserveState: true,
       onSuccess: () => console.log("saved"),
+      onError: (errors) => console.log(errors)
     });
   }
 };

@@ -37,7 +37,7 @@
 
 <script setup>
 import { reactive } from 'vue';
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import { ref } from 'vue';
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import SettingsAddButtonPopperContent from "@/Components/Atoms/SettingsAddButtonPopperContent.vue";
@@ -47,8 +47,9 @@ import RemoveButton from "@/Components/Atoms/RemoveButton.vue";
 import SelectMeasurement from "@/Components/Atoms/SelectMeasurement.vue";
 import { Dropdown } from "floating-vue";
 
+const currentOptions = usePage().props.options;
+
 const props = defineProps({
-    option_id: Number,
     movingjob: Number
 });
 
@@ -57,13 +58,14 @@ const option = useForm({
   type: "other-option",
   designation: "",
   quantity: "",
-  unit: "",
+  unit: 0,
   price_ht: ""
 });
 
-const options = reactive([
-    { id:props.option_id, description: '', qty: '', priceHT: '', priceTTC: '', selectedMeasurement:0 }
-]);
+const options = reactive(currentOptions.map(function(option){
+    return { id: option.id, description: option.designation, qty: option.quantity, priceHT: option.price_ht, priceTTC: option.price_ht, selectedMeasurement: option.unit }
+    })
+)
 
 const addRow = () => {
     axios.post(route("6dem.option.create", props.movingjob), option)
@@ -79,7 +81,7 @@ const addRow = () => {
 
 const addRowWarehouse = () => {
     option.type = "warehouse-option";
-    option.unit = "jours(s)";
+    option.unit = 7;
     axios.post(route("6dem.option.create", props.movingjob), option)
         .then(response => {
             options.push({ id: response.data, description: 'Stockage en garde meuble', qty: '', priceHT: '', priceTTC: '', selectedMeasurement:7 })
@@ -93,7 +95,7 @@ const addRowWarehouse = () => {
 
 const addRowElevator = () => {
     option.type = "elevator-option";
-    option.unit = "heure(s)";
+    option.unit = 8;
     axios.post(route("6dem.option.create", props.movingjob), option)
         .then(response => {
             options.push({ id: response.data, description: 'Monte meuble', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:8 })
@@ -107,7 +109,7 @@ const addRowElevator = () => {
 
 const addRowPiano = () => {
     option.type = "piano-option";
-    option.unit = "kg";
+    option.unit = 4;
     axios.post(route("6dem.option.create", props.movingjob), option)
         .then(response => {
             options.push({ id: response.data, description: 'Transport de piano', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:4 })
@@ -127,11 +129,12 @@ const removeRow = (index) => {
 };
 
 const saveField = (field, id, value) => {
-    option[field] = value
+    option[field] = value;
     option.put(route("6dem.option.update", {id : id, field: field}), {
         preserveScroll: true,
         preserveState: true,
         onSuccess: () => console.log("saved"),
+        onError: (errors) => console.log(errors),
     });
 };
 

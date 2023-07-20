@@ -57,6 +57,18 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
         ->name('6dem.quotation.update');
 
+    Route::get('/6dem/quotation/search', [QuotationController::class, 'search'])
+        ->name('6dem.search.quotation');
+        
+    Route::post('/6dem/waybill/init/{quotationId}', [MovingJobController::class, 'initWaybill'])
+    ->name('6dem.documents.waybill.init');
+
+    Route::get('/6dem/documents/waybill/{movingjobId}/{clientId}/{waybillId}', [MovingJobController::class, 'waybill'])
+        ->name('6dem.documents.waybill');
+
+    Route::put('/6dem/waybill/update/{id}/{field}', [MovingJobController::class, 'updateWaybill'])
+        ->name('6dem.waybill.update');
+
     Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])
         ->name('6dem.option.create');
 

@@ -8,5 +8,6 @@ class Positions
 
     const LOADING = 'loading';
     const SHIPPING = 'shipping';
-    const HEADER = 'header';
+    const HEADERLEFT = 'header-left';
+    const HEADERRIGHT = 'header-right';
 }

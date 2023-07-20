@@ -33,7 +33,7 @@ class OptionController extends Controller
         $option = Option::where(['id' => $id])->first();
 
         $request->validate([
-            $field =>  'required|string|max:125',
+            $field =>  'required|max:125',
         ]);
 
         $option->update([
