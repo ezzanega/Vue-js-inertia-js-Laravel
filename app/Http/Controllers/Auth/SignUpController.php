@@ -6,12 +6,13 @@ use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Mail\MailHandler;
-use App\Models\Organization;
 use App\Models\Insurance;
-use App\Models\Enums\InsuranceType;
+use App\Models\InviteUser;
+use App\Models\Organization;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\EmailTemplates;
+use App\Models\Enums\InsuranceType;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -65,27 +66,35 @@ class SignUpController extends Controller
 
     private function organizationSetup(Request $request, User $user)
     {
-        $organization = Organization::create([
-            'name' => $request->companyName,
-            'owner_id' => $user->id
-        ]);
-        $insurance = Insurance::create([
-            'type' => InsuranceType::ADVALOREM,
-            'max_value' => "",
-            'franchise' => "",
-            'amount_ht' => "",
-            'organization_id' => $organization->id
-        ]);
+        $invitedUser = InviteUser::where('email', $user->email)->first();
+        if (!$invitedUser) {
+            $organization = Organization::create([
+                'name' => $request->companyName,
+                'owner_id' => $user->id
+            ]);
+            $insurance = Insurance::create([
+                'type' => InsuranceType::ADVALOREM,
+                'max_value' => "",
+                'franchise' => "",
+                'amount_ht' => "",
+                'organization_id' => $organization->id
+            ]);
 
-        $insurance = Insurance::create([
-            'type' => InsuranceType::CONTRACTUAL,
-            'max_value' => "",
-            'franchise' => "",
-            'amount_ht' => "",
-            'organization_id' => $organization->id
-        ]);
+            $insurance = Insurance::create([
+                'type' => InsuranceType::CONTRACTUAL,
+                'max_value' => "",
+                'franchise' => "",
+                'amount_ht' => "",
+                'organization_id' => $organization->id
+            ]);
 
-        $user->organization()->associate($organization);
-        $user->save();
+            $user->organization()->associate($organization);
+            $user->save();
+        } else {
+            $organization = Organization::find((int)$invitedUser->organization);
+            $user->organization()->associate($organization);
+            $user->save();
+            $invitedUser->delete();
+        }
     }
 }
