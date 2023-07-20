@@ -22,8 +22,7 @@ class EmailTemplatesSeeder extends Seeder
         EmailTemplates::create([
             'type' => '',
             'subject' => 'Invitation à rejoindre le CRM 6dem',
-            'message' => 'Pour démarrer avec 6dem, il vous suffit de cliquer sur le lien ci-dessous pour créer votre compte : <br/> 
-                            [invitationLink] <br/>',
+            'message' => 'Pour démarrer avec 6dem, il vous suffit de <a href="[invitationLink]" target="_blank">cliquer ici</a> pour créer votre compte',
         ]);
     }
 }
