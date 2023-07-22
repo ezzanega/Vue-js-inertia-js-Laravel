@@ -24,9 +24,10 @@ class SignUpController extends Controller
     /**
      * Display the Register view.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        return Inertia::render('Auth/SignUp');
+        $organization = $request->input('organization') ? $request->input('organization') : '';
+        return Inertia::render('Auth/SignUp', ['organization' => $organization]);
     }
 
     /**
@@ -54,7 +55,13 @@ class SignUpController extends Controller
         $this->organizationSetup($request, $user);
 
         $emailTemplate = EmailTemplates::find(1);
-        Mail::to($user->email)->send(new MailHandler($user, $emailTemplate));
+        Mail::to($user->email)->send(new MailHandler($emailTemplate, [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'full_name' => $user->getFullName(),
+            'phone_number' => $user->phone_number,
+            'email' => $user->email,
+        ]));
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {

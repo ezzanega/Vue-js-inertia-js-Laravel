@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use App\Models\EmailTemplates;
@@ -16,17 +15,14 @@ class MailHandler extends Mailable
 {
     use Queueable, SerializesModels;
 
-
-    public $user;
     public $emailTemplate;
     public $data;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user, EmailTemplates $emailTemplate,  $data = null)
+    public function __construct($emailTemplate,  $data = [])
     {
-        $this->user = $user;
         $this->emailTemplate = $emailTemplate;
         $this->data = $data;
     }
@@ -36,12 +32,21 @@ class MailHandler extends Mailable
      */
     public function envelope(): Envelope
     {
+        $from = ['email' => 'hello@sysdem.fr', 'name' => 'Support Sysdem'];
+        $replyTo = ['email' => 'support@sysdem.fr', 'name' => 'Support Sysdem'];
+
+        $parameters = json_decode($this->emailTemplate->parameters, true);
+        $subject =  $this->emailTemplate->subject;
+        foreach ($parameters as $key => $value) {
+            if ($this->data[$key]) $subject = str_replace($value, $this->data[$key], $subject);
+        }
+
         return new Envelope(
-            from: new Address('hello@xendar.io', 'Xendar Support'),
+            from: new Address($from['email'], $from['name']),
             replyTo: [
-                new Address('support@xendar.io', 'Xendar Support'),
+                new Address($replyTo['email'], $replyTo['name']),
             ],
-            subject: $this->emailTemplate->subject,
+            subject: $subject,
         );
     }
 
@@ -50,12 +55,16 @@ class MailHandler extends Mailable
      */
     public function content(): Content
     {
+        $parameters = json_decode($this->emailTemplate->parameters, true);
+        $body =  $this->emailTemplate->body;
+        foreach ($parameters as $key => $value) {
+            if ($this->data[$key]) $body = str_replace($value, $this->data[$key], $body);
+        }
+
         return new Content(
             view: 'email.template',
             with: [
-                'user' => $this->user,
-                'template' => $this->emailTemplate,
-                'data' => $this->data,
+                'body' => $body,
             ],
         );
     }

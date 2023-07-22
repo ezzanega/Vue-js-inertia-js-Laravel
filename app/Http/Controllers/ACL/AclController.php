@@ -5,16 +5,14 @@ namespace App\Http\Controllers\ACL;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Mail\MailHandler;
 use App\Models\InviteUser;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplates;
-use App\Mail\GenericMailHandler;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
 class AclController extends Controller
@@ -143,9 +141,16 @@ class AclController extends Controller
             'organization' => $organization->id
         ]);
 
-        $data = ['invitationLink' => config('app.url') . '/signup?organisation=' . $organization->name];
+        $user = $request->user();
+
+        $data = [
+            'from_name' => $user->getFullName(),
+            'organization' => $organization->name,
+            'invitation_link' => config('app.url') . '/signup?organization=' . $organization->name
+        ];
         $emailTemplate = EmailTemplates::find(2);
-        Mail::to($inviteUser->email)->send(new GenericMailHandler($emailTemplate, $data));
+
+        Mail::to($inviteUser->email)->send(new MailHandler($emailTemplate, $data));
 
         return Redirect::route('6dem.manage');
     }

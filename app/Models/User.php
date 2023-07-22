@@ -48,6 +48,12 @@ class User extends Authenticatable
     ];
 
 
+    public function getFullName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class, 'organization_id', 'id');

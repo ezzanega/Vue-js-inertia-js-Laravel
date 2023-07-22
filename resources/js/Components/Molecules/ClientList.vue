@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden space-y-4">
+  <div class="overflow-hidden space-y-2">
     <SearchBar
       name="client"
       class="shrink mt-1 mx-1 w-1/3"
