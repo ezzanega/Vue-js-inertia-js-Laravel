@@ -21,9 +21,9 @@ return new class extends Migration
             $table->text('google_map_url')->nullable();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
-            $table->bigIncrements('client_id')->nullable();
-            $table->bigIncrements('organization_id')->nullable();
-            $table->bigIncrements('client_organization_id')->nullable();
+            $table->foreignId('client_id')->nullable();
+            $table->foreignId('organization_id')->nullable();
+            $table->foreignId('client_organization_id')->nullable();
             $table->timestamps();
         });
     }
