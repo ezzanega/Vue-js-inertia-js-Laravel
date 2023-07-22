@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Location;
 use App\Models\MovingJob;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -17,7 +19,6 @@ class Organization extends Model
         'name',
         'siret',
         'siren',
-        'address',
         'billing_address',
         'owner_id'
     ];
@@ -30,5 +31,10 @@ class Organization extends Model
     public function clients(): HasMany
     {
         return $this->hasMany(Client::class);
+    }
+
+    public function billingAddress(): HasOne
+    {
+        return $this->hasOne(Location::class);
     }
 }

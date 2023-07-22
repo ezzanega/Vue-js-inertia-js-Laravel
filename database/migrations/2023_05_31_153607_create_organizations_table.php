@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('siret')->nullable();
             $table->string('siren')->nullable();
-            $table->string('address')->nullable();
-            $table->string('billing_address')->nullable();
             $table->string('owner_id')->nullable();
             $table->timestamps();
         });

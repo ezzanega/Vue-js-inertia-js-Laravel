@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Location;
 use App\Models\MovingJob;
 use App\Models\Organization;
 use App\Models\ClientOrganizations;
@@ -43,5 +44,10 @@ class Client extends Model
     public function clientOrganization(): HasOne
     {
         return $this->hasOne(ClientOrganizations::class);
+    }
+
+    public function address(): HasOne
+    {
+        return $this->hasOne(Location::class);
     }
 }

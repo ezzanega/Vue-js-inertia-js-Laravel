@@ -42,6 +42,17 @@
           />
         </div>
 
+        <GMapAutocomplete
+          placeholder="Adresse du client"
+          autocomplete="off"
+          value="1 rue de la rep"
+          @place_changed="setAddressData"
+          class="form-input h-12 w-full rounded-md border-tertiary bg-tertiary border-none focus:outline-none focus:ring-primary focus:border-none"
+          :options="{
+            componentRestrictions: { country: 'FR' },
+          }"
+        />
+
         <DefaultInput
           :required="true"
           v-model="form.address"
@@ -140,8 +151,14 @@ import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import { useForm } from "@inertiajs/vue3";
+import { parseLocation } from "@/utils/index";
+import { onMounted, ref } from "vue";
 
 const emit = defineEmits(["created"]);
+
+const setAddressData = (location) => {
+  console.log(parseLocation(location));
+};
 
 const form = useForm({
   clientType: "individual",
@@ -178,3 +195,9 @@ const createClient = () => {
   });
 };
 </script>  
+
+<style>
+.pac-container {
+  z-index: 10000 !important;
+}
+</style>

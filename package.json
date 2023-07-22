@@ -26,6 +26,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@fawmi/vue-google-maps": "^0.9.79",
         "@headlessui/vue": "^1.7.14",
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.2",
