@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\EmailTemplates;
+use App\Models\Enums\MailType;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -14,15 +15,30 @@ class EmailTemplatesSeeder extends Seeder
     public function run(): void
     {
         EmailTemplates::create([
-            'type' => '',
-            'subject' => 'Confirmation de ton inscription sur le CRM 6dem ✅',
-            'message' => 'Hello, [fistName] <br/> Ton inscription a bien été prise en compte.<br/> nous te remercions pour ta confiance.',
+            'name' => 'Welcome email',
+            'type' => MailType::GENERIC,
+            'subject' => 'Confirmation de ton inscription sur le CRM Sysdem ✅',
+            'body' => 'Hello, [firstName] <br/> Ton inscription a bien été prise en compte.<br/> nous te remercions pour ta confiance.',
+            'parameters' => json_encode([
+                'first_name' => '[firstName]',
+                'last_name' => '[lastName]',
+                'email' => '[email]',
+                'full_name' => '[fullName]',
+                'phone_number' => '[phoneNumber]',
+            ])
         ]);
 
+
         EmailTemplates::create([
-            'type' => '',
-            'subject' => 'Invitation à rejoindre le CRM 6dem',
-            'message' => 'Pour démarrer avec 6dem, il vous suffit de <a href="[invitationLink]" target="_blank">cliquer ici</a> pour créer votre compte',
+            'name' => 'Invitation email',
+            'type' => MailType::GENERIC,
+            'subject' => '[fromName] de [organizationName] vous invite à rejoindre le CRM Sysdem',
+            'body' => 'Hello,<br/> [fromName] de [organizationName] vous a invité à rejoindre son équipe.<br/>Pour commencer, il vous suffit de <a href="[invitationLink]" target="_blank">cliquer ici</a> pour créer votre compte',
+            'parameters' => json_encode([
+                'invitation_link' => '[invitationLink]',
+                'from_name' => '[fromName]',
+                'organization' => '[organizationName]',
+            ])
         ]);
     }
 }

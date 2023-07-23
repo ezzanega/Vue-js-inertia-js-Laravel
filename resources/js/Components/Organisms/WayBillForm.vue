@@ -13,7 +13,7 @@
           <div class="mb-2">
             <DocumentFieldInput placeholder="Adresse mail" :fontBold="true" />
           </div>
-          <DynamicHeaderFields />
+          <DynamicHeaderFields :fields="currentAdditionalHeaderLeftFields" :position="'header-left'"/>
         </div>
         <div class="p-2 h-auto">
           <div class="mb-2">
@@ -25,13 +25,13 @@
           <div class="mb-2">
             <DocumentFieldInput placeholder="Licence N°" :fontBold="true" />
           </div>
-          <DynamicHeaderFields />
+          <DynamicHeaderFields :fields="currentAdditionalHeaderRightFields" :position="'header-right'"/>
         </div>
       </div>
       <div class="grid grid-cols-2 gap-20 pb-5 justify-between">
         <div class="flex flex-col space-y-2">
           <DocumentFieldFrame>
-            <DocumentFieldInput modelValue="LETTRE DE VOITURE N° JJMMAAAA001" :fontBold="true" />
+            <DocumentFieldInput :modelValue="'LETTRE DE VOITURE N° ' + currentWaybill.number" :fontBold="true" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -40,11 +40,11 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Volume: '" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Volume: ' + currentMovingJob.capacity" :fontBold="true" />
             </DocumentFieldFrame>
             
             <DocumentFieldFrame>
-              <SelectFormulas />
+              <SelectFormulas @savingFormula="saveFormula"/>
             </DocumentFieldFrame>
           </div>
         </div>
@@ -56,24 +56,24 @@
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Nom: ' + user.last_name" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Nom: ' + currentClient.last_name" :fontBold="true"/>
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Prenom: ' + user.first_name" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Prénom: ' + currentClient.first_name" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="'Adresse: '" :fontBold="true" />
+            <DocumentFieldInput :modelValue="'Adresse: ' + currentClient.address" :fontBold="true" />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Tel: ' + user.phone_number" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Tel: ' + currentClient.phone_number" :fontBold="true" />
             </DocumentFieldFrame>
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Email: ' + user.email" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Email: ' + currentClient.email" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
         </div>
@@ -84,67 +84,67 @@
           <DocumentLabel name="CHARGEMENT" color="#438A7A" />
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
+            <DocumentFieldInput v-model="movingjob.loading_address" :modelValue="'Adresse: ' + currentMovingJob.loading_address" :fontBold="true" @savingValue="saveField('loading_address')" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
+            <DocumentFieldInput v-model="movingjob.loading_date" :modelValue="'Date ou période: ' + currentMovingJob.loading_date" :fontBold="true" @savingValue="saveField('loading_date')" />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Étage" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.loading_floor" :modelValue="'Étage: ' + currentMovingJob.loading_floor" :fontBold="true" @savingValue="saveField('loading_floor')" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Ascenseur" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.loading_elevator" :modelValue="'Ascenseur: ' + currentMovingJob.loading_elevator" :fontBold="true" @savingValue="saveField('loading_elevator')" />
             </DocumentFieldFrame>
           </div>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Portage" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.loading_portaging" :modelValue="'Portage: ' + currentMovingJob.loading_portaging" :fontBold="true" @savingValue="saveField('loading_portaging')" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Détails" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.loading_details" :modelValue="'Détails: ' + currentMovingJob.loading_details" :fontBold="true" @savingValue="saveField('loading_details')" />
             </DocumentFieldFrame>
           </div>
 
-          <DynamicQuoteFields />
+          <DynamicQuoteFields :fields="currentAdditionalLoadingFields" :position="'loading'"/>
         </div>
 
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="LIVRAISON" color="#438A7A" />
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse" :fontBold="true" />
+            <DocumentFieldInput v-model="movingjob.shipping_address" :modelValue="'Adresse: ' + currentMovingJob.shipping_address" :fontBold="true" @savingValue="saveField('shipping_address')" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date ou période" :fontBold="true" />
+            <DocumentFieldInput v-model="movingjob.shipping_date" :modelValue="'Date ou période: ' + currentMovingJob.shipping_date" :fontBold="true" @savingValue="saveField('shipping_date')" />
           </DocumentFieldFrame>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Étage" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.shipping_floor" :modelValue="'Étage: ' + currentMovingJob.shipping_floor" :fontBold="true" @savingValue="saveField('shipping_floor')" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Ascenseur" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.shipping_elevator" :modelValue="'Ascenseur: ' + currentMovingJob.shipping_elevator" :fontBold="true" @savingValue="saveField('shipping_elevator')" />
             </DocumentFieldFrame>
           </div>
 
           <div class="flex space-x-2">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Portage" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.shipping_portaging" :modelValue="'Portage: ' + currentMovingJob.shipping_portaging" :fontBold="true" @savingValue="saveField('shipping_portaging')" />
             </DocumentFieldFrame>
 
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Détails" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.shipping_details" :modelValue="'Détails: ' + currentMovingJob.shipping_details" :fontBold="true" @savingValue="saveField('shipping_details')" />
             </DocumentFieldFrame>
           </div>
 
-          <DynamicQuoteFields />
+          <DynamicQuoteFields :fields="currentAdditionalShippingFields" :position="'shipping'"/>
         </div>
       </div>
       <div class="flex flex-col mt-4 space-y-2">
@@ -158,54 +158,54 @@
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Assurance contractuelle : '" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Assurance contractuelle'" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Valeur max par objet : '" :fontBold="true" />
+              <DocumentFieldInput v-model="insuranceContractual.max_value" :modelValue="'Valeur max par objet: ' + currentInsuranceContractual.max_value" :fontBold="true" @savingValue="saveInsurance(currentInsuranceContractual.id,'max_value', 'contractual')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Franchise : '" :fontBold="true" />
+              <DocumentFieldInput v-model="insuranceContractual.franchise" :modelValue="'Franchise: ' + currentInsuranceContractual.franchise" :fontBold="true" @savingValue="saveInsurance(currentInsuranceContractual.id,'franchise', 'contractual')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+              <DocumentFieldInput v-model="insuranceContractual.amount_ht" :modelValue="'Montant HT: ' + currentInsuranceContractual.amount_ht" :fontBold="true" @savingValue="saveInsurance(currentInsuranceContractual.id,'amount_ht', 'contractual')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Montant TTC:' " :fontBold="true" />
             </DocumentFieldFrame>
           </span>
         </div>
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Assurance ad valorem : '" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Assurance ad valorem'" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Valeur max par objet : '" :fontBold="true" />
+              <DocumentFieldInput v-model="insuranceAdValorem.max_value" :modelValue="'Valeur max par objet: ' + currentInsuranceAdValorem.max_value" :fontBold="true" @savingValue="saveInsurance(currentInsuranceAdValorem.id,'max_value', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Franchise : '" :fontBold="true" />
+              <DocumentFieldInput v-model="insuranceAdValorem.franchise" :modelValue="'Franchise: ' + currentInsuranceAdValorem.franchise" :fontBold="true" @savingValue="saveInsurance(currentInsuranceAdValorem.id,'franchise', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+              <DocumentFieldInput v-model="insuranceAdValorem.amount_ht" :modelValue="'Montant HT: ' + currentInsuranceAdValorem.amount_ht" :fontBold="true" @savingValue="saveInsurance(currentInsuranceAdValorem.id,'amount_ht', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Montant TTC: '" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
         </div>
@@ -217,17 +217,17 @@
           </span>
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Remise en %" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.discount_percentage" :modelValue="'Remise en %: ' + currentMovingJob.discount_percentage" :fontBold="true" @savingValue="saveField('discount_percentage')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.discount_amount_ht" :modelValue="'Montant HT: ' + currentMovingJob.discount_amount_ht" :fontBold="true" @savingValue="saveField('discount_amount_ht')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :fontBold="true" />
+              <DocumentFieldInput :modelValue="'Montant TTC: '" :fontBold="true" />
             </DocumentFieldFrame>
           </span>
         </div>
@@ -239,12 +239,12 @@
           </span>
           <span class="w-1/4 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Acompte en %" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.advance" :modelValue="'Acompte en %: ' + currentMovingJob.advance" :fontBold="true" @savingValue="saveField('advance')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/4 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Solde en %" :fontBold="true" />
+              <DocumentFieldInput v-model="movingjob.balance" :modelValue="'Solde en %: ' + currentMovingJob.balance" :fontBold="true" @savingValue="saveField('balance')" />
             </DocumentFieldFrame>
           </span>
         </div>
@@ -254,7 +254,7 @@
 </template>
 
 <script setup>
-import { usePage } from "@inertiajs/vue3";
+import { usePage, useForm } from "@inertiajs/vue3";
 import UploadFile from "@/Components/Atoms/UploadFile.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 import DynamicHeaderFields from "@/Components/Organisms/DynamicHeaderFields.vue";
@@ -265,11 +265,119 @@ import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
 import SelectOperative from "@/Components/Atoms/SelectOperative.vue";
 import 'vue-select/dist/vue-select.css';
+import "vue-select/dist/vue-select.css";
+import { reactive, ref } from "vue";
 
 const user = usePage().props.auth.user;
+const currentOrganisation = usePage().props.organization;
+const currentWaybill= usePage().props.waybill;
+const currentMovingJob = usePage().props.movingJob;
+const currentClient = usePage().props.client;
+const currentAdditionalShippingFields = usePage().props.additionalFields.find(field => field.position === "shipping");
+const currentAdditionalLoadingFields = usePage().props.additionalFields.find(field => field.position === "loading");
+const currentAdditionalHeaderLeftFields = usePage().props.additionalFields.find(field => field.position === "header-left");
+const currentAdditionalHeaderRightFields = usePage().props.additionalFields.find(field => field.position === "header-right");
+const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
+const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
 
-const setLoadingAddress = () => {
-  console.log("Checked");
+const organization = reactive({
+  name: "",
+  siret: "",
+  siren: "",
+  ape_code: "",
+  address: "",
+  billing_address: "",
+  phone_number: "",
+  email: "",
+});
+
+const insuranceContractual = useForm({
+  max_value: currentInsuranceContractual.max_value,
+  franchise: currentInsuranceContractual.franchise,
+  amount_ht: currentInsuranceContractual.amount_ht
+});
+
+const insuranceAdValorem = useForm({
+  max_value: currentInsuranceAdValorem.max_value,
+  franchise: currentInsuranceAdValorem.franchise,
+  amount_ht: currentInsuranceAdValorem.amount_ht
+});
+
+const movingjob = useForm({
+  capacity: currentMovingJob.capacity,
+  formula: currentMovingJob.formula,
+  loading_address: currentMovingJob.loading_address,
+  loading_date: currentMovingJob.loading_date,
+  loading_floor: currentMovingJob.loading_floor,
+  loading_elevator: currentMovingJob.loading_elevator,
+  loading_portaging: currentMovingJob.loading_portaging,
+  loading_details: currentMovingJob.loading_details,
+  shipping_address: currentMovingJob.shipping_address,
+  shipping_date: currentMovingJob.shipping_date,
+  shipping_floor: currentMovingJob.shipping_floor,
+  shipping_elevator: currentMovingJob.shipping_elevator,
+  shipping_portaging: currentMovingJob.shipping_portaging,
+  shipping_details: currentMovingJob.shipping_details,
+  discount_percentage: currentMovingJob.discount_percentage,
+  discount_amount_ht: currentMovingJob.discount_amount_ht,
+  advance: currentMovingJob.advance,
+  balance: currentMovingJob.balance
+});
+
+const newQuotation = reactive({
+  validity_duratation: ""
+});
+
+const form = reactive({
+  clientType: "individual",
+  firstName: "",
+  lastName: "",
+  phoneNumber: "",
+  email: "",
+  address: "",
+  source: "",
+  clientOrganizationName: "",
+  siret: "",
+  siren: "",
+});
+
+const saveField = (field) => {
+  console.log(movingjob[field]);
+  movingjob.put(route("6dem.waybill.update", {id : currentWaybill.id, field: field}), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("saved"),
+  });
 };
+
+const saveFormula = (formula) => {
+  movingjob.formula = formula.title;
+  console.log(movingjob.formula);
+  movingjob.put(route("6dem.waybill.update", {id : currentWaybill.id, field: 'formula'}), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("saved"),
+    onError: (errors) => console.log(errors)
+  });
+};
+
+const saveInsurance = (id, field, type) => {
+  if (type === 'contractual'){
+    insuranceContractual.put(route("6dem.insurance.update", {id : id, field: field}), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => console.log("saved"),
+      onError: (errors) => console.log(errors)
+    });
+  }else{
+    insuranceAdValorem.put(route("6dem.insurance.update", {id : id, field: field}), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => console.log("saved"),
+      onError: (errors) => console.log(errors)
+    });
+  }
+};
+
 
 </script>

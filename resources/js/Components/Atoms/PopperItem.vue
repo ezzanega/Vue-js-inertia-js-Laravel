@@ -12,11 +12,10 @@
 </template>
 
 <script setup>
-  defineProps({
-    item: {
-      type: String,
-      default: '',
-    },
-  });
-
+defineProps({
+  item: {
+    type: String,
+    default: "",
+  },
+});
 </script>

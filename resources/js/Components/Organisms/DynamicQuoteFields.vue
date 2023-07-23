@@ -1,4 +1,7 @@
 <template>
+    <pre>
+        {{ options }}
+    </pre>
     <div v-for="item, index in options" :key="item">
         <DocumentFieldFrame  @removingField="removeRow(index)" :removable="true">
             <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description" :fontBold="true" @savingValue="saveField('description', item.id, item.description)"/>
@@ -16,11 +19,15 @@
     
 <script setup>
 import { reactive } from 'vue';
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 
 const props = defineProps({
+    fields:{
+        type: Array,
+        default: []
+    },
     movingjob: Number,
     position: String
 });
@@ -31,7 +38,7 @@ const field = useForm({
     position: ""
 });
 
-const options = reactive([]);
+const options = reactive(props.fields);
 
 const addRow = () => {
     field.position = props.position;

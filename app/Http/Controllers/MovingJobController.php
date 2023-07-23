@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdditionalField;
 use App\Models\Client;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -9,6 +10,7 @@ use App\Models\MovingJob;
 use App\Models\Quotation;
 use App\Models\Insurance;
 use App\Models\Option;
+use App\Models\Waybill;
 use App\Models\Enums\OptionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -25,10 +27,13 @@ class MovingJobController extends Controller
             'type' => OptionType::OTHER,
             'designation' => '',
             'quantity' => '',
-            'unit' => '',
-            'price_ht' => '',
-            'moving_job_id' => $movingjob->id,
+            'unit' => 0,
+            'price_ht' => ''
         ]);
+
+        $option->movingJob()->associate($movingjob);
+        $option->save();
+
         $quotation->movingJob()->associate($movingjob);
         $quotation->save();
 
@@ -43,6 +48,26 @@ class MovingJobController extends Controller
         ]);
     }
 
+    public function initWaybill(Request $request, $quotationId)
+    {
+        $organization = $request->user()->organization;
+        $quotation = Quotation::find($quotationId);
+        $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
+        $client = Client::find($movingjob->client_id);
+        $waybill = Waybill::create(['organization_id' => $organization->id]);
+
+        $waybill->movingJob()->associate($movingjob);
+        $waybill->save();
+
+        $movingjob->client()->associate($client);
+        $movingjob->save();
+
+        return Redirect::route('6dem.documents.waybill', [
+            'movingjobId' => $movingjob->id,
+            'clientId' => $client->id,
+            'waybillId' => $waybill->id,
+        ]);
+    }
 
     public function quotation(Request $request, $movingjobId, $clientId, $quotationId, $optionId): Response
     {
@@ -50,8 +75,7 @@ class MovingJobController extends Controller
         $client = Client::where('id', $clientId)->with('clientOrganization')->first();
         $movingjob = MovingJob::find($movingjobId);
         $quotation = Quotation::find($quotationId);
-        $quotation = Quotation::find($quotationId);
-        $option = Option::find($optionId);
+        $options = Option::where('moving_job_id', $movingjobId)->get();
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
 
         return Inertia::render('6dem/Devis', [
@@ -64,6 +88,7 @@ class MovingJobController extends Controller
                 'billing_address',
                 'owner_id'
             ),
+            'additionalFields' => [],
             'quotation' => $quotation->only(
                 'id',
                 'number',
@@ -91,8 +116,74 @@ class MovingJobController extends Controller
                 'advance',
                 'balance',
             ),
-            'option' => $option->only(
-                'id'
+            'options' => $options,
+            'client' => $client->only(
+                'id',
+                'type',
+                'last_name',
+                'first_name',
+                'phone_number',
+                'email',
+                'address',
+                'source',
+                'client_organization'
+            ),
+            'status' => session('status'),
+        ]);
+    }
+
+    public function waybill(Request $request, $movingjobId, $clientId, $waybillId): Response
+    {
+        $organization = $request->user()->organization;
+        $client = Client::where('id', $clientId)->with('clientOrganization')->first();
+        $movingjob = MovingJob::find($movingjobId);
+        $additionalFields = AdditionalField::where('moving_job_id', $movingjobId)->get();
+        $options = Option::where('moving_job_id', $movingjobId)->get();
+        $waybill = Quotation::find($waybillId);
+        $insurance = Insurance::where(['organization_id' => $organization->id])->get();
+
+        return Inertia::render('6dem/Lettre de voiture', [
+            'organization' => $organization->only(
+                'id',
+                'name',
+                'siret',
+                'siren',
+                'address',
+                'billing_address',
+                'owner_id'
+            ),
+            'waybill' => $waybill->only(
+                'id',
+                'number',
+                'executing_company'
+            ),
+            'additionalFields' => $additionalFields->only(
+                'id',
+                'description',
+                'position'
+            ),
+            'insurances' => $insurance,
+            'options' => $options,
+            'movingJob' => $movingjob->only(
+                'id',
+                'capacity',
+                'formula',
+                'loading_address',
+                'loading_date',
+                'loading_floor',
+                'loading_elevator',
+                'loading_portaging',
+                'loading_details',
+                'shipping_address',
+                'shipping_date',
+                'shipping_floor',
+                'shipping_elevator',
+                'shipping_portaging',
+                'shipping_details',
+                'discount_percentage',
+                'discount_amount_ht',
+                'advance',
+                'balance',
             ),
             'client' => $client->only(
                 'id',
@@ -118,8 +209,28 @@ class MovingJobController extends Controller
             $field =>  'required|string|max:125',
         ]);
 
-        if ($field == "validity_duration") {
+        if ($field === "validity_duration") {
             $quotation->update([
+                $field => $request->$field,
+            ]);
+        } else {
+            $movingjob->update([
+                $field => $request->$field,
+            ]);
+        }
+    }
+
+    public function updateWaybill(Request $request, $id, $field)
+    {
+        $waybill = Waybill::where(['id' => $id])->first();
+        $movingjob = MovingJob::where(['id' => $waybill->moving_job_id])->first();
+
+        $request->validate([
+            $field =>  'required|string|max:125',
+        ]);
+
+        if ($field == "validity_duration") {
+            $waybill->update([
                 $field => $request->$field,
             ]);
         } else {

@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
-            $table->string('address')->nullable();
-            $table->string('billing_address')->nullable();
             $table->string('source')->nullable();
             $table->foreignId('organization_id')->nullable();
             $table->timestamps();

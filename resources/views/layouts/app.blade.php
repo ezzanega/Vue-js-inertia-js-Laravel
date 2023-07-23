@@ -7,6 +7,9 @@
     @routes
     @vite('resources/js/app.js')
     @inertiaHead
+    <script
+        src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyC7TOs-73yQEUsNqVchkrvTr6I5gxYF5kE">
+    </script>
 </head>
 
 <body>

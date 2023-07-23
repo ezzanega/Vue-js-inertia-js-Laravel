@@ -7,6 +7,7 @@ use Inertia\Response;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\Enums\ClientType;
+use App\Models\Location;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
@@ -28,39 +29,58 @@ class ClientController extends Controller
         $organization = $request->user()->organization;
         if ($request->clientType === ClientType::PROFESSIONAL) {
             $request->validate([
-                'clientType' => 'required|string|max:125',
-                'clientOrganizationName' => 'required|string|max:125',
-                'phoneNumber' => 'required|string|max:125',
-                'email' => 'required|string|max:125',
-                'address' => 'required|string|max:125',
-                'source' => 'required|string|max:125',
+                'clientType' => 'required|string|max:255',
+                'clientOrganizationName' => 'required|string|max:255',
+                'phoneNumber' => 'required|string|max:255',
+                'email' => 'required|string|max:255',
+                'address' => 'required|string',
+                'city' => 'required|string',
+                'country' => 'required|string',
+                'source' => 'required|string|max:255',
             ]);
 
             $client = Client::create([
+                'first_name' => $request->firstName,
+                'last_name' => $request->lastName,
                 'type' => $request->clientType,
                 'phone_number' => $request->phoneNumber,
                 'email' => $request->email,
-                'address' => $request->address,
                 'source' => $request->source,
             ]);
 
-            $client->clientOrganization()->create([
+            $location = $client->address()->create([
+                'address' => $request->address,
+                'city' => $request->city,
+                'postal_code' => $request->postalCode,
+                'country' => $request->country,
+                'full_address' => $request->fullAddress,
+                'lat' => $request->lat,
+                'lng' => $request->lng,
+                'google_map_url' => $request->googleMapUrl,
+            ]);
+
+            $clientOrganization = $client->clientOrganization()->create([
                 'name' => $request->clientOrganizationName,
                 'siret' => $request->siret,
                 'siren' => $request->siren,
             ]);
 
+            $location->clientOrganization()->associate($clientOrganization);
+            $location->save();
+
             $client->organization()->associate($organization);
             $client->save();
         } else {
             $request->validate([
-                'clientType' => 'required|string|max:125',
-                'firstName' => 'required|string|max:125',
-                'lastName' => 'required|string|max:125',
-                'phoneNumber' => 'required|string|max:125',
-                'email' => 'required|string|max:125',
-                'address' => 'required|string|max:125',
-                'source' => 'required|string|max:125',
+                'clientType' => 'required|string|max:255',
+                'firstName' => 'required|string|max:255',
+                'lastName' => 'required|string|max:255',
+                'phoneNumber' => 'required|string|max:255',
+                'email' => 'required|string|max:255',
+                'address' => 'required|string',
+                'city' => 'required|string',
+                'country' => 'required|string',
+                'source' => 'required|string|max:255',
             ]);
 
             $client = Client::create([
@@ -69,14 +89,24 @@ class ClientController extends Controller
                 'last_name' => $request->lastName,
                 'phone_number' => $request->phoneNumber,
                 'email' => $request->email,
-                'address' => $request->address,
                 'source' => $request->source,
+            ]);
+
+            $client->address()->create([
+                'address' => $request->address,
+                'city' => $request->city,
+                'postal_code' => $request->postalCode,
+                'country' => $request->country,
+                'full_address' => $request->fullAddress,
+                'lat' => $request->lat,
+                'lng' => $request->lng,
+                'google_map_url' => $request->googleMapUrl,
             ]);
             $client->organization()->associate($organization);
             $client->save();
         }
 
-        return Redirect::to('/');
+        return Redirect::route('6dem.clients');
     }
 
     /**

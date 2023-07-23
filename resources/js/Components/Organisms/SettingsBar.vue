@@ -4,7 +4,7 @@
     <div class="flex flex-1 justify-between pr-4 sm:pr-6 lg:pr-8">
       <div class="flex flex-1">
         <div class="mx-8 max-w-xs py-5 lg:block">
-          <h1 class="text-primary truncate font-semibold text-neutral-800">
+          <h1 class="text-primary truncate font-semibold">
             Personnalisation du devis
           </h1>
         </div>
@@ -12,13 +12,13 @@
           <!--  -->
         </span>
         <div class="mx-5 flex items-center">
-          <h1 class="text-primary truncate font-semibold mx-2 text-neutral-800">
+          <h1 class="text-primary truncate font-semibold mx-2">
             Couleur Primaire :
           </h1>
           <ColorPicker />
         </div>
         <div class="mx-5 flex items-center">
-          <h1 class="text-primary truncate font-semibold mx-2 text-neutral-800">
+          <h1 class="text-primary truncate font-semibold mx-2">
             Couleur Secondaire :
           </h1>
           <ColorPicker />

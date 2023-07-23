@@ -17,9 +17,9 @@ return new class extends Migration
             $table->enum('type', OptionType::values());
             $table->string('designation')->nullable();
             $table->string('quantity')->nullable();
-            $table->string('unit')->nullable();
+            $table->integer('unit')->nullable();
             $table->string('price_ht')->nullable();
-            $table->foreignId('moving_job_id');
+            $table->foreignId('moving_job_id')->nullable();
             $table->timestamps();
         });
     }
