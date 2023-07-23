@@ -17,6 +17,11 @@
               class="card bg-white ring-1 ring-neutral-600 ring-opacity-5 rounded-lg shadow overflow-hidden"
             >
               <div class="px-4 py-5 sm:p-6">
+                <Message
+                  v-show="$page.props.status === 'account-updated'"
+                  status="success"
+                  message="Vos informations ont bien été mises à jour"
+                />
                 <div class="w-full pt-3 flex flex-col space-y-2">
                   <div class="w-full pt-3 flex space-x-2">
                     <DefaultInput
@@ -66,6 +71,7 @@
 <script setup>
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
+import Message from "@/Components/Atoms/Message.vue";
 import { usePage, useForm } from "@inertiajs/vue3";
 
 const user = usePage().props.auth.user;

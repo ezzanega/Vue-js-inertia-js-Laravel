@@ -17,6 +17,11 @@
               class="card bg-white ring-1 ring-neutral-600 ring-opacity-5 rounded-lg shadow overflow-hidden"
             >
               <div class="px-4 py-5 sm:p-6">
+                <Message
+                  v-show="$page.props.status === 'password-updated'"
+                  status="success"
+                  message="Votre mot de passe bien a été mis à jour"
+                />
                 <div class="w-full pt-3 flex flex-col space-y-2">
                   <DefaultInput
                     class="w-full"
@@ -61,6 +66,7 @@
 <script setup>
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
+import Message from "@/Components/Atoms/Message.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 

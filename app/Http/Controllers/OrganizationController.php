@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Location;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class OrganizationController extends Controller
 {
+
+    public function accountSettings(Request $request): Response
+    {
+        return Inertia::render('6dem/Settings', [
+            'organization' => Organization::where('id', $request->user()->organization->id)->with('billingAddress')->first(),
+            'status' => session('status'),
+        ]);
+    }
 
 
     public function update(Request $request)
@@ -61,6 +72,6 @@ class OrganizationController extends Controller
             ]);
         }
 
-        return Redirect::route('6dem.dashboard');
+        return back()->with('status', 'organization-updated');
     }
 }

@@ -115,13 +115,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
         ->name('6dem.manage.invite.user');
 
-    Route::get('/6dem/settings', function () {
-        return inertia('6dem/Settings');
-    })->name('6dem.settings');
+    Route::get('/6dem/settings', [OrganizationController::class, 'accountSettings'])
+        ->name('6dem.settings');
 
-    Route::get('/6dem/account', function () {
-        return inertia('6dem/Account');
-    })->name('6dem.account');
+    Route::get('/6dem/account', [OrganizationController::class, 'accountSettings'])
+        ->name('6dem.account');
 
     Route::put('/6dem/password/update', [PasswordController::class, 'update'])
         ->name('6dem.password.update');
