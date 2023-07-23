@@ -49,6 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents', [QuotationController::class, 'index'])
         ->name('6dem.documents');
 
+    Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
+        ->name('6dem.documents.quotation.preview');
+
     # Organization
     Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
         ->name('6dem.organization.update');
