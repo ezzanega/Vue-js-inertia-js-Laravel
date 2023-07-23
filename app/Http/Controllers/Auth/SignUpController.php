@@ -77,6 +77,8 @@ class SignUpController extends Controller
         if (!$invitedUser) {
             $organization = Organization::create([
                 'name' => $request->companyName,
+                'email' => $user->email,
+                'phone_number' => $user->phone_number,
                 'owner_id' => $user->id
             ]);
             $insurance = Insurance::create([

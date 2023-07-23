@@ -18,8 +18,11 @@ class Organization extends Model
     protected $fillable = [
         'name',
         'siret',
+        'email',
+        'phone_number',
         'siren',
-        'billing_address',
+        'code_ape',
+        'licence',
         'owner_id'
     ];
 

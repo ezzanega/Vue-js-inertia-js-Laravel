@@ -29,7 +29,20 @@ class UserSeeder extends Seeder
 
         $organization = Organization::create([
             'name' => '6dem SAS',
+            'email' => $user->email,
+            'phone_number' => $user->phone_number,
             'owner_id' => $user->id
+        ]);
+
+        $organization->billingAddress()->create([
+            "address" => "1 Rue Jean Jaurès",
+            "city" => "Annecy",
+            "postal_code" => "74000",
+            "country" => "France",
+            "full_address" => "1 Rue Jean Jaurès, 74000 Annecy, France",
+            'lat' => '',
+            'lng' => '',
+            "google_map_url" => "https://maps.google.com/?q=1+Rue+Jean+Jaur%C3%A8s,+74000+Annecy,+France&ftid=0x478b8ff09da5c881:0x68fea6b028d4e264"
         ]);
 
         $client = Client::create([

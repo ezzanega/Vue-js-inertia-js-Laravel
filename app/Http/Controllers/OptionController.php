@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Option;
 
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class OptionController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-            'type' => 'required|string|max:125|'
+            'type' => 'required|string|max:255'
         ]);
 
         $option = Option::create([
@@ -33,7 +34,7 @@ class OptionController extends Controller
         $option = Option::where(['id' => $id])->first();
 
         $request->validate([
-            $field =>  'required|max:125',
+            $field =>  'required|max:255',
         ]);
 
         $option->update([

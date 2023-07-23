@@ -1,6 +1,10 @@
 <template>
   <Head title="Dashboard" />
   <DemLayout>
+    <CompleteOrganizationModal
+      :showModal="showCompleteOrganizationModal"
+      @close="closeModal"
+    />
     <div class="py-6">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="sm:py-4">
@@ -95,8 +99,32 @@ import DashboardCard from "@/Components/Molecules/DashboardCard.vue";
 import AppointmentCardContent from "@/Components/Organisms/AppointmentCardContent.vue";
 import AgendaCardContent from "@/Components/Organisms/AgendaCardContent.vue";
 import WayBillsCardContent from "@/Components/Organisms/WayBillsCardContent.vue";
+import CompleteOrganizationModal from "@/Components/Organisms/CompleteOrganizationModal.vue";
 import InvoicesCardContent from "@/Components/Organisms/InvoicesCardContent.vue";
 import QuotationsCardContent from "@/Components/Organisms/QuotationsCardContent.vue";
 import TasksCardContent from "@/Components/Organisms/TasksCardContent.vue";
 import { Head } from "@inertiajs/vue3";
+import { onMounted, ref } from "vue";
+
+const props = defineProps({
+  organization: Object,
+});
+
+const showCompleteOrganizationModal = ref(false);
+
+onMounted(() => {
+  if (
+    props.organization.billing_address == null ||
+    props.organization.siren == null
+  ) {
+    setTimeout(() => {
+      console.log("Hello, after 3 seconds!");
+      showCompleteOrganizationModal.value = true;
+    }, 1500);
+  }
+});
+
+const closeModal = () => {
+  showCompleteOrganizationModal.value = false;
+};
 </script>

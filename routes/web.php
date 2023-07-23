@@ -8,9 +8,11 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\AdditionalFieldController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovingJobController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\QuotationController;
 
 /*
@@ -41,12 +43,15 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Index');
     });
 
-    Route::get('/6dem/dashboard', function () {
-        return inertia('6dem/Dashboard');
-    })->name('6dem.dashboard');
+    Route::get('/6dem/dashboard', [DashboardController::class, 'index'])
+        ->name('6dem.dashboard');
 
     Route::get('/6dem/documents', [QuotationController::class, 'index'])
         ->name('6dem.documents');
+
+    # Organization
+    Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
+        ->name('6dem.organization.update');
 
     Route::post('/6dem/quotation/init/{clientId}', [MovingJobController::class, 'initQuotation'])
         ->name('6dem.documents.quotation.init');
@@ -59,9 +64,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/quotation/search', [QuotationController::class, 'search'])
         ->name('6dem.search.quotation');
-        
+
     Route::post('/6dem/waybill/init/{quotationId}', [MovingJobController::class, 'initWaybill'])
-    ->name('6dem.documents.waybill.init');
+        ->name('6dem.documents.waybill.init');
 
     Route::get('/6dem/documents/waybill/{movingjobId}/{clientId}/{waybillId}', [MovingJobController::class, 'waybill'])
         ->name('6dem.documents.waybill');

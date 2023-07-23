@@ -21,9 +21,9 @@
 
       <div
         v-if="form.clientType === 'individual'"
-        class="w-full pt-3 flex flex-col space-y-2"
+        class="w-full flex flex-col space-y-2"
       >
-        <div class="w-full pt-3 flex space-x-2">
+        <div class="w-full flex space-x-2">
           <DefaultInput
             class="w-1/2"
             :required="true"
@@ -52,7 +52,7 @@
           @place_changed="setAddressData"
         />
 
-        <div class="w-full pt-3 flex space-x-2">
+        <div class="w-full flex space-x-2">
           <DefaultInput
             class="w-1/3"
             :required="true"
@@ -107,7 +107,7 @@
 
       <div
         v-if="form.clientType === 'professional'"
-        class="w-full pt-3 flex flex-col space-y-2"
+        class="w-full flex flex-col space-y-2"
       >
         <DefaultInput
           :required="true"
@@ -125,7 +125,7 @@
           label="Siren/Siret de la societé"
         />
 
-        <div class="w-full pt-3 flex space-x-2">
+        <div class="w-full flex space-x-2">
           <DefaultInput
             class="w-1/2"
             :required="true"
@@ -162,7 +162,7 @@
           @place_changed="setAddressData"
         />
 
-        <div class="w-full pt-3 flex space-x-2">
+        <div class="w-full flex space-x-2">
           <DefaultInput
             class="w-1/3"
             :required="true"
@@ -225,7 +225,6 @@ import { onMounted, ref } from "vue";
 const emit = defineEmits(["close"]);
 
 const setAddressData = (location) => {
-  console.log(location);
   form.address = location.address;
   form.city = location.city;
   form.postalCode = location.postalCode;
