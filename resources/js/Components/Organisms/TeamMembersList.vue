@@ -78,7 +78,7 @@
               v-if="!member.first_name"
               class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700"
             >
-              {{ member.role }}
+              {{ getRoleLabel(member.role) }}
             </span>
 
             <div v-else class="flex">
