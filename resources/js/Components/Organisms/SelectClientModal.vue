@@ -132,7 +132,7 @@
           </div>
         </div>
         <div v-else>
-          <CreateClientForm @created="" />
+          <CreateClientForm />
         </div>
       </div>
     </Modal>
@@ -148,29 +148,29 @@ import { router, useForm, usePage } from "@inertiajs/vue3";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
-import { Dropdown } from "floating-vue"; 
+import { Dropdown } from "floating-vue";
 import { ref, watch } from "vue";
 import axios from "axios";
 import debounce from "lodash/debounce";
 
-const clientSelectionModal = ref(false);
 const searchQuery = ref("");
 const searchResults = ref([]);
 const searching = ref(false);
 const selectedClient = ref(null);
 const clientType = ref("existing");
 const props = usePage().props;
+const clientSelectionModal = ref(false);
 
 const closeModal = () => {
   clientSelectionModal.value = false;
 };
 
-const clientTypeChange = (value) => {
-  clientType.value = value;
-};
-
 const confirmDevisCreation = () => {
   clientSelectionModal.value = true;
+};
+
+const clientTypeChange = (value) => {
+  clientType.value = value;
 };
 
 watch(searchQuery, (newQuery) => {

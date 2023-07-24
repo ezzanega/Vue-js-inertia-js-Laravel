@@ -6,12 +6,7 @@
         <div v-if="$page.props.quotations.length">
           <SelectClientModal />
           <div class="mt-2">
-            <QuotationListItem
-              v-for="(quotation, index) in $page.props.quotations"
-              :key="quotation.id"
-              :number="quotation.number"
-              status="En cours"
-            />
+            <DocumentList />
           </div>
         </div>
         <ListEmptyMessage
@@ -61,17 +56,13 @@
   
 <script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
-import { Head, Link } from "@inertiajs/vue3";
-import IconButton from "@/Components/Atoms/IconButton.vue";
-import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
-import Drawer from "@/Components/Organisms/Drawer.vue";
-import DrawerContent from "@/Components/Molecules/DrawerContent.vue";
 import SelectClientModal from "@/Components/Organisms/SelectClientModal.vue";
 import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
+import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
+import DocumentList from "@/Components/Molecules/DocumentList.vue";
 import { ref } from "vue";
 import Tabs from "@/Components/Molecules/Tabs.vue";
 import Tab from "@/Components/Atoms/Tab.vue";
-import QuotationListItem from "@/Components/Atoms/QuotationListItem.vue";
 import WaybillListItem from "@/Components/Atoms/WaybillListItem.vue";
 
 let isDrawerOpen = ref(false);

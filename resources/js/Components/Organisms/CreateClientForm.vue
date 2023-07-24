@@ -21,9 +21,9 @@
 
       <div
         v-if="form.clientType === 'individual'"
-        class="w-full pt-3 flex flex-col space-y-2"
+        class="w-full flex flex-col space-y-2"
       >
-        <div class="w-full pt-3 flex space-x-2">
+        <div class="w-full flex space-x-2">
           <DefaultInput
             class="w-1/2"
             :required="true"
@@ -42,13 +42,43 @@
           />
         </div>
 
-        <DefaultInput
+        <LocationAutocomplete
           :required="true"
           v-model="form.address"
           :error="form.errors.address"
           name="address"
           label="Adresse"
+          placeholder="Adresse du client"
+          @place_changed="setAddressData"
         />
+
+        <div class="w-full flex space-x-2">
+          <DefaultInput
+            class="w-1/3"
+            :required="true"
+            v-model="form.city"
+            :error="form.errors.city"
+            name="city"
+            label="Ville"
+          />
+          <DefaultInput
+            class="w-1/3"
+            :required="false"
+            v-model="form.postalCode"
+            :error="form.errors.postalCode"
+            name="postalCode"
+            label="Code postal"
+          />
+
+          <DefaultInput
+            class="w-1/3"
+            :required="false"
+            v-model="form.country"
+            :error="form.errors.country"
+            name="country"
+            label="Pays"
+          />
+        </div>
 
         <DefaultInput
           :required="true"
@@ -77,16 +107,8 @@
 
       <div
         v-if="form.clientType === 'professional'"
-        class="w-full pt-3 flex flex-col space-y-2"
+        class="w-full flex flex-col space-y-2"
       >
-        <DefaultInput
-          :required="true"
-          v-model="form.siren"
-          :error="form.errors.siren"
-          name="siren"
-          label="Siren/Siret"
-        />
-
         <DefaultInput
           :required="true"
           v-model="form.clientOrganizationName"
@@ -97,11 +119,76 @@
 
         <DefaultInput
           :required="true"
+          v-model="form.siren"
+          :error="form.errors.siren"
+          name="siren"
+          label="Siren/Siret de la societé"
+        />
+
+        <div class="w-full flex space-x-2">
+          <DefaultInput
+            class="w-1/2"
+            :required="true"
+            v-model="form.firstName"
+            :error="form.errors.firstName"
+            name="fist_name"
+            label="Prénom"
+          />
+          <DefaultInput
+            class="w-1/2"
+            :required="false"
+            v-model="form.lastName"
+            :error="form.errors.lastName"
+            name="last_name"
+            label="Nom"
+          />
+        </div>
+
+        <DefaultInput
+          :required="true"
           v-model="form.phoneNumber"
           :error="form.errors.phoneNumber"
           name="phone"
           label="Téléphone"
         />
+
+        <LocationAutocomplete
+          :required="true"
+          v-model="form.address"
+          :error="form.errors.address"
+          name="address"
+          label="Adresse de Facturation"
+          placeholder="Adresse du client"
+          @place_changed="setAddressData"
+        />
+
+        <div class="w-full flex space-x-2">
+          <DefaultInput
+            class="w-1/3"
+            :required="true"
+            v-model="form.city"
+            :error="form.errors.city"
+            name="city"
+            label="Ville"
+          />
+          <DefaultInput
+            class="w-1/3"
+            :required="false"
+            v-model="form.postalCode"
+            :error="form.errors.postalCode"
+            name="postalCode"
+            label="Code postal"
+          />
+
+          <DefaultInput
+            class="w-1/3"
+            :required="false"
+            v-model="form.country"
+            :error="form.errors.country"
+            name="country"
+            label="Pays"
+          />
+        </div>
 
         <DefaultInput
           :required="false"
@@ -109,14 +196,6 @@
           :error="form.errors.email"
           name="email"
           label="Email"
-        />
-
-        <DefaultInput
-          :required="true"
-          v-model="form.address"
-          :error="form.errors.address"
-          name="address"
-          label="Adresse de Facturation"
         />
 
         <DefaultInput
@@ -139,9 +218,22 @@
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
+import LocationAutocomplete from "@/Components/Atoms/LocationAutocomplete.vue";
 import { useForm } from "@inertiajs/vue3";
+import { onMounted, ref } from "vue";
 
-const emit = defineEmits(["created"]);
+const emit = defineEmits(["close"]);
+
+const setAddressData = (location) => {
+  form.address = location.address;
+  form.city = location.city;
+  form.postalCode = location.postalCode;
+  form.country = location.country;
+  form.fullAddress = location.fullAddress;
+  form.lat = location.lat;
+  form.lng = location.lng;
+  form.googleMapUrl = location.googleMapUrl;
+};
 
 const form = useForm({
   clientType: "individual",
@@ -149,11 +241,18 @@ const form = useForm({
   lastName: "",
   phoneNumber: "",
   email: "",
-  address: "",
   source: "",
   clientOrganizationName: "",
   siret: "",
   siren: "",
+  address: "",
+  city: "",
+  postalCode: "",
+  country: "",
+  fullAddress: "",
+  lat: "",
+  lng: "",
+  googleMapUrl: "",
 });
 
 const clientTypeChange = (value) => {
@@ -167,14 +266,27 @@ const clientTypeChange = (value) => {
   form.source = "";
   form.siret = "";
   form.siren = "";
+  form.address = "";
+  form.city = "";
+  form.postalCode = "";
+  form.country = "";
+  form.fullAddress = "";
+  form.lat = "";
+  form.lng = "";
+  form.googleMapUrl = "";
   form.clearErrors();
 };
 
 const createClient = () => {
   form.post(route("6dem.create.clients"), {
     preserveScroll: true,
-    onSuccess: (resp) => console.log(resp),
-    // onSuccess: () => emit("created"),
+    onSuccess: () => emit("close"),
   });
 };
 </script>  
+
+<style>
+.pac-container {
+  z-index: 10000 !important;
+}
+</style>

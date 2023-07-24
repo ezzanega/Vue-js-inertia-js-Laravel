@@ -156,7 +156,7 @@
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import GoogleIcon from "@/Components/Atoms/GoogleIcon.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, Link, usePage, useForm } from "@inertiajs/vue3";
 
 const form = useForm({
   companyName: "",
@@ -169,12 +169,13 @@ const form = useForm({
   optin: false,
 });
 
+const props = usePage().props;
+
+form.companyName = props.organization;
+
 const submit = () => {
   form.post(route("6dem.signup"), {
     onFinish: () => form.reset("password"),
   });
 };
 </script>
-  
-  <style lang="scss" scoped>
-</style>

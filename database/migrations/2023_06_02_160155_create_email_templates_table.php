@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\MailType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +15,11 @@ return new class extends Migration
         Schema::create('email_templates', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('type');
+            $table->enum('type', MailType::values());
+            $table->string('name');
             $table->string('subject');
-            $table->text('message');
+            $table->text('body');
+            $table->json('parameters')->nullable();
             $table->timestamps();
         });
     }

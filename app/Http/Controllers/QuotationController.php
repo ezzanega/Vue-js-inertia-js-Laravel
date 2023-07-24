@@ -12,8 +12,7 @@ class QuotationController extends Controller
 
     public function index(Request $request): Response
     {
-        $quotations = Quotation::with('movingJob')->latest()->get();
-
+        $quotations = Quotation::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
         return Inertia::render('6dem/Documents', [
             'quotations' => $quotations,
         ]);
@@ -32,7 +31,15 @@ class QuotationController extends Controller
             ->with('movingJob.client')
             ->take(20)
             ->get();
-            
+
         return $quotation;
+    }
+
+    public function preview(Request $request, $id): Response
+    {
+        $quotation = Quotation::where('id', $id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
+        return Inertia::render('6dem/PrewiewQuotation', [
+            'quotation' => $quotation,
+        ]);
     }
 }
