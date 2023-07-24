@@ -1,5 +1,5 @@
 <template>
-    <v-select taggable label="title" :options="options" :create-option="operative => ({ title: operative })" push-tags
+    <v-select taggable v-model="selected" label="title" :options="options" :create-option="operative => ({ title: operative })" push-tags
       placeholder="Société exécutante :" class="border-none">
       <template v-slot:no-options="{ search, searching }">
         <template v-if="searching">
@@ -12,6 +12,11 @@
   
   <script setup>
   import vSelect from 'vue-select';
+  import { usePage } from "@inertiajs/vue3";
+  import { ref } from "vue";
+
+  const emit = defineEmits(["savingOperative"]);
+  const selected = ref();
   const options = [
     {
       title: "L'agence du déménagement"

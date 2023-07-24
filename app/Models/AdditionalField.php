@@ -9,10 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AdditionalField extends Model
 {
     use HasFactory;
+
+    protected $attributes = [
+        'description' => ''
+    ];
     
     protected $fillable = [
         'type',
         'description',
+        'position',
         'moving_job_id',
         'quotation_id',
         'waybill_id',

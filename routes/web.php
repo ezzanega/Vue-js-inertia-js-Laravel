@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Dashboard');
     })->name('6dem.dashboard');
 
-    Route::get('/6dem/documents', [QuotationController::class, 'index'])
+    Route::get('/6dem/documents', [MovingJobController::class, 'index'])
         ->name('6dem.documents');
 
     Route::post('/6dem/quotation/init/{clientId}', [MovingJobController::class, 'initQuotation'])

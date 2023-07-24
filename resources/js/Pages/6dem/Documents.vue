@@ -23,7 +23,19 @@
         </ListEmptyMessage>
       </Tab>
       <Tab title="Lettres de voiture">
+        <div v-if="$page.props.waybills.length">
+          <SelectQuoteModal />
+          <div class="mt-2">
+            <WaybillListItem
+              v-for="(waybill, index) in $page.props.waybills"
+              :key="waybill.id"
+              :number="waybill.number"
+              status="En cours"
+            />
+          </div>
+        </div>
         <ListEmptyMessage
+          v-if="!$page.props.waybills.length"
           message-title="Vous n'avez pas de lettres de voiture créées"
           message-content="Commencez par ajouter une nouvelle lettre de voiture"
         >
@@ -60,6 +72,7 @@ import { ref } from "vue";
 import Tabs from "@/Components/Molecules/Tabs.vue";
 import Tab from "@/Components/Atoms/Tab.vue";
 import QuotationListItem from "@/Components/Atoms/QuotationListItem.vue";
+import WaybillListItem from "@/Components/Atoms/WaybillListItem.vue";
 
 let isDrawerOpen = ref(false);
 let innerWidth = ref(window.innerWidth / 4 + "px");

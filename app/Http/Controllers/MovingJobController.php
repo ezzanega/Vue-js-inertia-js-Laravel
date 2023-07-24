@@ -17,6 +17,17 @@ use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
 {
+    public function index(Request $request): Response
+    {
+        $quotations = Quotation::with('movingJob')->latest()->get();
+        $waybills = Waybill::with('movingJob')->latest()->get();
+
+        return Inertia::render('6dem/Documents', [
+            'quotations' => $quotations,
+            'waybills' => $waybills
+        ]);
+    }
+
     public function initQuotation(Request $request, $clientId)
     {
         $organization = $request->user()->organization;
@@ -157,11 +168,7 @@ class MovingJobController extends Controller
                 'number',
                 'executing_company'
             ),
-            'additionalFields' => $additionalFields->only(
-                'id',
-                'description',
-                'position'
-            ),
+            'additionalFields' => $additionalFields,
             'insurances' => $insurance,
             'options' => $options,
             'movingJob' => $movingjob->only(

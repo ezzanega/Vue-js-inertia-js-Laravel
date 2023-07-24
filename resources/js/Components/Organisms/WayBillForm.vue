@@ -13,7 +13,7 @@
           <div class="mb-2">
             <DocumentFieldInput placeholder="Adresse mail" :fontBold="true" />
           </div>
-          <DynamicHeaderFields :fields="currentAdditionalHeaderLeftFields" :position="'header-left'"/>
+          <DynamicHeaderFields :movingjob="currentMovingJob.id" :position="'header-left'"/>
         </div>
         <div class="p-2 h-auto">
           <div class="mb-2">
@@ -25,7 +25,7 @@
           <div class="mb-2">
             <DocumentFieldInput placeholder="Licence N°" :fontBold="true" />
           </div>
-          <DynamicHeaderFields :fields="currentAdditionalHeaderRightFields" :position="'header-right'"/>
+          <DynamicHeaderFields :movingjob="currentMovingJob.id" :position="'header-right'"/>
         </div>
       </div>
       <div class="grid grid-cols-2 gap-20 pb-5 justify-between">
@@ -111,7 +111,7 @@
             </DocumentFieldFrame>
           </div>
 
-          <DynamicQuoteFields :fields="currentAdditionalLoadingFields" :position="'loading'"/>
+          <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'loading'"/>
         </div>
 
         <div class="flex flex-col space-y-2">
@@ -144,7 +144,7 @@
             </DocumentFieldFrame>
           </div>
 
-          <DynamicQuoteFields :fields="currentAdditionalShippingFields" :position="'shipping'"/>
+          <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'shipping'"/>
         </div>
       </div>
       <div class="flex flex-col mt-4 space-y-2">
