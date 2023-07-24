@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('subject');
             $table->text('body');
             $table->json('parameters')->nullable();
+            $table->foreignId('organization_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

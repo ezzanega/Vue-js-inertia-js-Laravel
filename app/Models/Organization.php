@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\Location;
 use App\Models\MovingJob;
+use App\Models\EmailTemplates;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,6 +46,11 @@ class Organization extends Model
     public function billingAddress(): HasOne
     {
         return $this->hasOne(Location::class);
+    }
+
+    public function emailTemplates(): HasMany
+    {
+        return $this->hasMany(EmailTemplates::class);
     }
 
     public function addRole($roleName)
