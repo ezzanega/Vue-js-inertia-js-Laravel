@@ -81,6 +81,9 @@ class SignUpController extends Controller
                 'phone_number' => $user->phone_number,
                 'owner_id' => $user->id
             ]);
+
+            $user->assignRole('admin');
+
             $insurance = Insurance::create([
                 'type' => InsuranceType::ADVALOREM,
                 'max_value' => "",
@@ -100,6 +103,7 @@ class SignUpController extends Controller
             $user->organization()->associate($organization);
             $user->save();
         } else {
+            $user->assignRole($invitedUser->role);
             $organization = Organization::find((int)$invitedUser->organization);
             $user->organization()->associate($organization);
             $user->save();

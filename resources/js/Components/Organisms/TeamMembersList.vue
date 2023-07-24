@@ -35,7 +35,7 @@
           <th scope="col" class="px-6 py-4 font-medium text-gray-900">
             Status
           </th>
-          <!-- <th scope="col" class="px-6 py-4 font-medium text-gray-900">Rôle</th> -->
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Rôle</th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
         </tr>
       </thead>
@@ -73,7 +73,24 @@
               Invitation en cours
             </span>
           </td>
-          <!-- <td class="px-6 py-4">{{ member.role }}</td> -->
+          <td class="px-6 py-4">
+            <span
+              v-if="!member.first_name"
+              class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700"
+            >
+              {{ member.role }}
+            </span>
+
+            <div v-else class="flex">
+              <span
+                v-for="(role, index) in member.roles"
+                :key="index"
+                class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700"
+              >
+                {{ getRoleLabel(role.name) }}
+              </span>
+            </div>
+          </td>
           <td class="px-6 py-4">
             <div class="flex justify-end gap-4">
               <svg
@@ -104,6 +121,7 @@ import IconButton from "@/Components/Atoms/IconButton.vue";
 import InviteUserForm from "@/Components/Organisms/InviteUserForm.vue";
 import { usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
+import { getRoleLabel } from "@/utils/index";
 
 defineProps({
   teamMembres: Array,

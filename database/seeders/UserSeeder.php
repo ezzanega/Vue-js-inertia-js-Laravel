@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Enums\ClientType;
 use App\Models\Insurance;
 use App\Models\Enums\InsuranceType;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -33,6 +34,8 @@ class UserSeeder extends Seeder
             'phone_number' => $user->phone_number,
             'owner_id' => $user->id
         ]);
+
+        $user->assignRole('admin');
 
         $organization->billingAddress()->create([
             "address" => "1 Rue Jean Jaurès",
