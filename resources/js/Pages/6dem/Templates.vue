@@ -2,7 +2,7 @@
   <Head title="Templates de mail" />
   <DemLayout>
     <div class="mb-4 text-sm text-gray-600">
-      <MailTemplatesList v-if="templates" :templates="templates" />
+      <MailTemplatesList v-if="templates.length" :templates="templates" />
       <ListEmptyMessage
         v-else
         message-title="Ajouter des modèles de mail"

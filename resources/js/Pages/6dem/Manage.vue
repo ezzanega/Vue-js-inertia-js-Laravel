@@ -1,7 +1,7 @@
 <template>
   <Head title="Gestion de l'équipe" />
   <DemLayout>
-    <TeamMembersList v-if="teamMembres" :teamMembres="teamMembres" />
+    <TeamMembersList v-if="teamMembres.length" :teamMembres="teamMembres" />
     <ListEmptyMessage
       v-else
       message-title="Inviter vos collaborateurs"
