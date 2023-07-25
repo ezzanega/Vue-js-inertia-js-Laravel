@@ -58,4 +58,9 @@ class Organization extends Model
         $role = Role::findOrCreate($roleName);
         $this->roles()->attach($role);
     }
+
+    public function settings(): HasOne
+    {
+        return $this->hasOne(Settings::class);
+    }
 }

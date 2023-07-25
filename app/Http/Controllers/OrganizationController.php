@@ -14,7 +14,7 @@ class OrganizationController extends Controller
 
     public function accountSettings(Request $request): Response
     {
-        return Inertia::render('6dem/Settings', [
+        return Inertia::render('6dem/Account', [
             'organization' => Organization::where('id', $request->user()->organization->id)->with('billingAddress')->first(),
             'status' => session('status'),
         ]);

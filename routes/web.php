@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ACL\AclController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\MovingJobController;
@@ -40,9 +41,8 @@ Route::get('/design-system', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return inertia('6dem/Index');
-    });
+    Route::get('/', [DashboardController::class, 'index'])
+        ->name('6dem.index');
 
     Route::get('/6dem/dashboard', [DashboardController::class, 'index'])
         ->name('6dem.dashboard');
@@ -119,8 +119,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
         ->name('6dem.manage.invite.user');
 
-    Route::get('/6dem/settings', [OrganizationController::class, 'accountSettings'])
+    Route::get('/6dem/settings', [SettingsController::class, 'index'])
         ->name('6dem.settings');
+
+    Route::put('/6dem/settings', [SettingsController::class, 'update'])
+        ->name('6dem.settings.update');
 
     Route::get('/6dem/account', [OrganizationController::class, 'accountSettings'])
         ->name('6dem.account');

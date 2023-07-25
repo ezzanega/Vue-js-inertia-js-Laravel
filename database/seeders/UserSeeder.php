@@ -48,6 +48,14 @@ class UserSeeder extends Seeder
             "google_map_url" => "https://maps.google.com/?q=1+Rue+Jean+Jaur%C3%A8s,+74000+Annecy,+France&ftid=0x478b8ff09da5c881:0x68fea6b028d4e264"
         ]);
 
+        $organization->settings()->create([
+            "quotation_validity_duratation" => "",
+            "ducuments_general_conditions" => "",
+            "ducuments_primary_color" => "",
+            "ducuments_secondary_color" => "",
+            "legal_notice" => "",
+        ]);
+
         $client = Client::create([
             'type' => ClientType::INDIVIDUAL,
             'first_name' => 'James',

@@ -7,23 +7,13 @@
           <div class="sm:py-4">
             <div class="">
               <div class="m-auto max-w-7xl">
-                <UpdateAccountFrom />
+                <UpdateSettingsFrom />
 
                 <div class="hidden sm:block" aria-hidden="true">
                   <div class="py-5">
                     <div class="border-t border-neutral-200"></div>
                   </div>
                 </div>
-
-                <UpdatePassword />
-
-                <div class="hidden sm:block" aria-hidden="true">
-                  <div class="py-5">
-                    <div class="border-t border-neutral-200"></div>
-                  </div>
-                </div>
-
-                <UpdateOrganization />
               </div>
             </div>
           </div>
@@ -36,7 +26,5 @@
 <script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head } from "@inertiajs/vue3";
-import UpdateAccountFrom from "@/Components/Organisms/UpdateAccountFrom.vue";
-import UpdatePassword from "@/Components/Organisms/UpdatePassword.vue";
-import UpdateOrganization from "@/Components/Organisms/UpdateOrganization.vue";
+import UpdateSettingsFrom from "@/Components/Settings/UpdateSettingsFrom.vue";
 </script>

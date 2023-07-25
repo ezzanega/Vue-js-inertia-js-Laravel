@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AdditionalField;
-use App\Models\Client;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\MovingJob;
-use App\Models\Quotation;
-use App\Models\Insurance;
+use App\Models\Client;
 use App\Models\Option;
 use App\Models\Waybill;
-use App\Models\Enums\OptionType;
+use App\Models\Settings;
+use App\Models\Insurance;
+use App\Models\MovingJob;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
+use App\Models\AdditionalField;
+use App\Models\Enums\OptionType;
 use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
 {
     public function index(Request $request): Response
     {
-        $quotations = Quotation::with('movingJob')->latest()->get();
+        $quotations = Quotation::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
         $waybills = Waybill::with('movingJob')->latest()->get();
 
         return Inertia::render('6dem/Documents', [
@@ -88,6 +89,7 @@ class MovingJobController extends Controller
         $quotation = Quotation::find($quotationId);
         $options = Option::where('moving_job_id', $movingjobId)->get();
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
+        $settings = Settings::where('organization_id', $organization->id)->first();
 
         return Inertia::render('6dem/Devis', [
             'organization' => $organization->only(
@@ -106,6 +108,7 @@ class MovingJobController extends Controller
                 'validity_duratation'
             ),
             'insurances' => $insurance,
+            'settings' => $settings,
             'movingJob' => $movingjob->only(
                 'id',
                 'capacity',
@@ -152,6 +155,7 @@ class MovingJobController extends Controller
         $options = Option::where('moving_job_id', $movingjobId)->get();
         $waybill = Quotation::find($waybillId);
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
+        $settings = Settings::where('organization_id', $organization->id)->first();
 
         return Inertia::render('6dem/Lettre de voiture', [
             'organization' => $organization->only(
@@ -170,6 +174,7 @@ class MovingJobController extends Controller
             ),
             'additionalFields' => $additionalFields,
             'insurances' => $insurance,
+            'settings' => $settings,
             'options' => $options,
             'movingJob' => $movingjob->only(
                 'id',
