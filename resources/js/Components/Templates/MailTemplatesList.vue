@@ -1,9 +1,9 @@
 <template>
   <div class="overflow-hidden m-5">
     <IconButton
-      @click="openInviteUserModal"
+      @click="openCreateMailTemplateModal"
       class="p-2"
-      text="Inviter un collaborateur"
+      text="Ajouter un modèle de mail"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -21,8 +21,7 @@
         />
       </svg>
     </IconButton>
-    <InviteUserForm
-      :roles="roles"
+    <CreateMailTemplateModal
       :openModal="inviteUserModal"
       @closeModal="closeModal"
     />
@@ -31,68 +30,61 @@
     >
       <thead class="bg-gray-50">
         <tr>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900">Nom</th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900">
-            Status
+            Objet du mail
           </th>
-          <th scope="col" class="px-6 py-4 font-medium text-gray-900">Rôle</th>
+          <th scope="col" class="px-6 py-4 font-medium text-gray-900">
+            Contenu du mail
+          </th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100 border-t border-gray-100">
         <tr
-          v-for="(member, index) in teamMembres"
+          v-for="(mail, index) in templates"
           :key="index"
           class="hover:bg-gray-50"
         >
           <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
             <div class="text-sm">
               <div class="font-medium text-gray-700">
-                {{
-                  member.first_name
-                    ? member.first_name + " " + member.last_name
-                    : ""
-                }}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="mr-3 h-6 w-6 shrink-0"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                  />
+                </svg>
               </div>
-              <div class="text-gray-400">{{ member.email }}</div>
             </div>
           </th>
           <td class="px-6 py-4">
-            <span
-              v-if="member.first_name"
-              class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-600"
-            >
-              <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-              Compte actif
-            </span>
-            <span
-              v-else
-              class="inline-flex items-center gap-1 rounded-full bg-yellow-50 px-2 py-1 text-xs font-semibold text-yellow-600"
-            >
-              <span class="h-1.5 w-1.5 rounded-full bg-yellow-600"></span>
-              Invitation en cours
-            </span>
-          </td>
-          <td class="px-6 py-4">
-            <span
-              v-if="!member.first_name"
-              class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700"
-            >
-              {{ getRoleLabel(member.role) }}
-            </span>
-
-            <div v-else class="flex">
-              <span
-                v-for="(role, index) in member.roles"
-                :key="index"
-                class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700"
-              >
-                {{ getRoleLabel(role.name) }}
-              </span>
+            <div class="truncate w-56">
+              {{ mail.name }}
             </div>
           </td>
           <td class="px-6 py-4">
-            <div class="flex justify-end gap-4">
+            <div class="truncate w-56">
+              {{ mail.subject }}
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="truncate w-56">
+              {{ mail.body }}
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="truncate">
+              <div class="flex justify-end gap-4"></div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -115,23 +107,20 @@
     </table>
   </div>
 </template>
-
-<script setup>
+  
+  <script setup>
+import CreateMailTemplateModal from "@/Components/Templates/CreateMailTemplateModal.vue";
 import IconButton from "@/Components/Atoms/IconButton.vue";
-import InviteUserForm from "@/Components/Organisms/InviteUserForm.vue";
 import { usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
-import { getRoleLabel } from "@/utils/index";
 
 defineProps({
-  teamMembres: Array,
+  templates: Array,
 });
-
-const roles = usePage().props.roles;
 
 const inviteUserModal = ref(false);
 
-const openInviteUserModal = () => {
+const openCreateMailTemplateModal = () => {
   inviteUserModal.value = true;
 };
 

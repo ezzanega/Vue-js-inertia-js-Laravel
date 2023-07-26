@@ -6,14 +6,16 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ACL\AclController;
-use App\Http\Controllers\AdditionalFieldController;
-use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsuranceController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovingJobController;
-use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\MailTemplatesController;
+use App\Http\Controllers\AdditionalFieldController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\WaybillController;
 
@@ -41,9 +43,8 @@ Route::get('/design-system', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return inertia('6dem/Index');
-    });
+    Route::get('/', [DashboardController::class, 'index'])
+        ->name('6dem.index');
 
     Route::get('/6dem/dashboard', [DashboardController::class, 'index'])
         ->name('6dem.dashboard');
@@ -123,8 +124,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
         ->name('6dem.manage.invite.user');
 
-    Route::get('/6dem/settings', [OrganizationController::class, 'accountSettings'])
+    Route::get('/6dem/settings', [SettingsController::class, 'index'])
         ->name('6dem.settings');
+
+    Route::put('/6dem/settings', [SettingsController::class, 'update'])
+        ->name('6dem.settings.update');
 
     Route::get('/6dem/account', [OrganizationController::class, 'accountSettings'])
         ->name('6dem.account');
@@ -139,9 +143,12 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Storage');
     })->name('6dem.storage');
 
-    Route::get('/6dem/templetes', function () {
-        return inertia('6dem/Templetes');
-    })->name('6dem.templetes');
+    Route::get('/6dem/templates', [MailTemplatesController::class, 'index'])
+        ->name('6dem.mail.templates');
+
+    Route::post('/6dem/templates/create', [MailTemplatesController::class, 'store'])
+        ->name('6dem.mail.templates.create');
+
 
     Route::get('/6dem/clients', [ClientController::class, 'index'])
         ->name('6dem.clients');

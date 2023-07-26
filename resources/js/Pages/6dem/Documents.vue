@@ -55,6 +55,7 @@ import SelectClientModal from "@/Components/Organisms/SelectClientModal.vue";
 import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import QuotationList from "@/Components/Molecules/QuotationList.vue";
+import { Head } from "@inertiajs/vue3";
 import { ref } from "vue";
 import Tabs from "@/Components/Molecules/Tabs.vue";
 import Tab from "@/Components/Atoms/Tab.vue";

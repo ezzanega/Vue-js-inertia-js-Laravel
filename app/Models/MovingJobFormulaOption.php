@@ -2,25 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\Organization;
+use App\Models\MovingJobFormula;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class EmailTemplates extends Model
+class MovingJobFormulaOption extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'subject',
         'type',
-        'body',
-        'parameters',
+        'text',
     ];
 
-    public function organization(): BelongsTo
+    public function formula(): BelongsTo
     {
-        return $this->belongsTo(Organization::class, 'organization_id', 'id');
+        return $this->belongsTo(MovingJobFormula::class, 'moving_job_formula_id', 'id');
     }
 }
