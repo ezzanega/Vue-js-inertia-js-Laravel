@@ -14,6 +14,16 @@
                     <div class="border-t border-neutral-200"></div>
                   </div>
                 </div>
+
+                <UpdateFormulas />
+
+                <div class="hidden sm:block" aria-hidden="true">
+                  <div class="py-5">
+                    <div class="border-t border-neutral-200"></div>
+                  </div>
+                </div>
+
+                {{ formulas[0].options[0].type }}
               </div>
             </div>
           </div>
@@ -25,6 +35,9 @@
         
 <script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import UpdateSettingsFrom from "@/Components/Settings/UpdateSettingsFrom.vue";
+import UpdateFormulas from "@/Components/Settings/UpdateFormulas.vue";
+
+const formulas = usePage().props.formulas;
 </script>

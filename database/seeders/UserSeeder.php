@@ -2,14 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Organization;
-use App\Models\Client;
-use App\Models\Enums\ClientType;
-use App\Models\Insurance;
-use App\Models\Enums\InsuranceType;
 use App\Models\Role;
+use App\Models\User;
+use App\Models\Client;
+use App\Models\Insurance;
+use Illuminate\Support\Str;
+use App\Models\Organization;
 use Illuminate\Database\Seeder;
+use App\Models\Enums\ClientType;
+use App\Support\MovingJobFormula;
+use App\Models\Enums\InsuranceType;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -55,6 +57,26 @@ class UserSeeder extends Seeder
             "ducuments_secondary_color" => "",
             "legal_notice" => "",
         ]);
+
+        foreach (MovingJobFormula::all() as $key => $formula) {
+            $movingJobFormula = $organization->movingJobFormulas()->create([
+                "name" => $key,
+                "slug" => Str::slug($key)
+            ]);
+            foreach ($formula['organization-side'] as $item) {
+                $movingJobFormula->options()->create([
+                    'type' => 'organization-side',
+                    'text' => $item,
+                ]);
+            }
+
+            foreach ($formula['client-side'] as $item) {
+                $movingJobFormula->options()->create([
+                    'type' => 'client-side',
+                    'text' => $item,
+                ]);
+            }
+        }
 
         $client = Client::create([
             'type' => ClientType::INDIVIDUAL,

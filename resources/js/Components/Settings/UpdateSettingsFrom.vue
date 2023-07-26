@@ -29,7 +29,7 @@
                   :error="form.errors.quotation_validity_duratation"
                 />
 
-                <div class="py-6 flex flex-start">
+                <div class="py-6 flex flex-col space-y-5">
                   <ColorPicker
                     name="ducuments_primary_color"
                     label="Couleur primaire documents"

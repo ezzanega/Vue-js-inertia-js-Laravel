@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Settings;
 use Inertia\Inertia;
+use App\Models\Settings;
 use Illuminate\Http\Request;
+use App\Models\MovingJobFormula;
 
 class SettingsController extends Controller
 {
@@ -13,8 +14,10 @@ class SettingsController extends Controller
     {
         $organization = $request->user()->organization;
         $settings = Settings::where('organization_id', $organization->id)->first();
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
         return Inertia::render('6dem/Settings', [
             'settings' => $settings,
+            'formulas' => $movingJobFormulas,
             'status' => session('status'),
         ]);
     }

@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Location;
 use App\Models\MovingJob;
 use App\Models\EmailTemplates;
+use App\Models\MovingJobFormula;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -53,14 +54,19 @@ class Organization extends Model
         return $this->hasMany(EmailTemplates::class);
     }
 
+    public function settings(): HasOne
+    {
+        return $this->hasOne(Settings::class);
+    }
+
+    public function movingJobFormulas(): HasMany
+    {
+        return $this->hasMany(MovingJobFormula::class);
+    }
+
     public function addRole($roleName)
     {
         $role = Role::findOrCreate($roleName);
         $this->roles()->attach($role);
-    }
-
-    public function settings(): HasOne
-    {
-        return $this->hasOne(Settings::class);
     }
 }
