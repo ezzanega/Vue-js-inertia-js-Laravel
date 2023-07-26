@@ -14,6 +14,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MovingJobController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\WaybillController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/dashboard', [DashboardController::class, 'index'])
         ->name('6dem.dashboard');
 
-    Route::get('/6dem/documents', [MovingJobController::class, 'index'])
+    Route::get('/6dem/documents', [DocumentController::class, 'index'])
         ->name('6dem.documents');
 
     Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
@@ -76,6 +78,9 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/waybill/update/{id}/{field}', [MovingJobController::class, 'updateWaybill'])
         ->name('6dem.waybill.update');
+
+    Route::get('/6dem/waybill/preview/{id}', [WaybillController::class, 'preview'])
+        ->name('6dem.documents.waybill.preview');
 
     Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])
         ->name('6dem.option.create');

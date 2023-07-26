@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Enums\QuotationStatus;
 
 return new class extends Migration
 {
@@ -15,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('number')->nullable();
+            $table->enum('status', QuotationStatus::values());
             $table->string('validity_duratation')->nullable();
             $table->bigInteger('organization_id')->nullable();
             $table->foreignId('advisor_id')->nullable();

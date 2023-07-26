@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Enums\WaybillStatus;
 
 return new class extends Migration
 {
@@ -15,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('number')->nullable();
+            $table->enum('status', WaybillStatus::values());
             $table->string('executing_company')->nullable();
             $table->foreignId('organization_id')->nullable();
             $table->foreignId('moving_job_id')->nullable();

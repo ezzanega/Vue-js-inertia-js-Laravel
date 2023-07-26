@@ -61,7 +61,7 @@
             />
           </svg>
           <template #popper>
-            <DocumentActionsPopperContent :id="document.id" />
+            <QuotationActionsPopperContent :id="document.id" />
           </template>
         </Dropdown>
       </div>
@@ -71,7 +71,7 @@
   
   <script setup>
 import { Dropdown } from "floating-vue";
-import DocumentActionsPopperContent from "@/Components/Molecules/DocumentActionsPopperContent.vue";
+import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
 defineProps({
   document: {
     required: true,
