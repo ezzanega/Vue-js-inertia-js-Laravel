@@ -22,8 +22,6 @@
                     <div class="border-t border-neutral-200"></div>
                   </div>
                 </div>
-
-                {{ formulas[0].options[0].type }}
               </div>
             </div>
           </div>
