@@ -34,3 +34,29 @@ const getComponent = (result, type) => {
     );
     return component ? component.long_name : null;
 };
+
+
+
+export const getRoleLabel = (role) => {
+    const roles = [
+        {
+            name: 'admin',
+            label: 'Administrateur'
+        },
+        {
+            name: 'sales',
+            label: 'Commercial'
+        },
+        {
+            name: 'operator',
+            label: 'Déménageur'
+        },
+        {
+            name: 'lead-operator',
+            label: "Chef d'exploitation"
+        }
+    ];
+
+    const roleObject = roles.find(r => r.name === role);
+    return roleObject ? roleObject.label : 'Role not found';
+};

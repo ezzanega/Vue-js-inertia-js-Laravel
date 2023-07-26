@@ -1,7 +1,15 @@
 <template>
-    <pre>
-        {{ options }}
-    </pre>
+    <div v-if="currentAdditionalFields">
+        <div v-for="item, index in currentAdditionalFields" :key="item">
+            <div v-if="item.position === props.position">
+                <div class="my-3">
+                    <DocumentFieldFrame @removingField="removeAdditionalRow(index)" :removable="true">
+                        <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description" :fontBold="true" @savingValue="saveField('description', item.id, item.description)"/>
+                    </DocumentFieldFrame>
+                </div>
+            </div>
+        </div>
+    </div>
     <div v-for="item, index in options" :key="item">
         <DocumentFieldFrame  @removingField="removeRow(index)" :removable="true">
             <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description" :fontBold="true" @savingValue="saveField('description', item.id, item.description)"/>
@@ -23,11 +31,9 @@ import { useForm, usePage } from "@inertiajs/vue3";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 
+const currentAdditionalFields = usePage().props.additionalFields;
+
 const props = defineProps({
-    fields:{
-        type: Array,
-        default: []
-    },
     movingjob: Number,
     position: String
 });
@@ -38,7 +44,7 @@ const field = useForm({
     position: ""
 });
 
-const options = reactive(props.fields);
+const options = reactive([]);
 
 const addRow = () => {
     field.position = props.position;
@@ -55,6 +61,10 @@ const addRow = () => {
 
 const removeRow = (index) => {
     options.splice(index, 1)
+};
+
+const removeAdditionalRow = (index) => {
+    currentAdditionalFields.splice(index, 1)
 };
 
 const saveField = (additionalField, id, value) => {

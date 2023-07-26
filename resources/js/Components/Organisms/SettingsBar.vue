@@ -11,18 +11,18 @@
         <span class="h-navbar border-l border-neutral-200 lg:block">
           <!--  -->
         </span>
-        <div class="mx-5 flex items-center">
-          <h1 class="text-primary truncate font-semibold mx-2">
-            Couleur Primaire :
-          </h1>
-          <ColorPicker />
-        </div>
-        <div class="mx-5 flex items-center">
-          <h1 class="text-primary truncate font-semibold mx-2">
-            Couleur Secondaire :
-          </h1>
-          <ColorPicker />
-        </div>
+        <ColorPicker
+          label="Couleur Primaire"
+          :color="form.ducuments_primary_color"
+          v-model="form.ducuments_primary_color"
+          @update:modelValue="updateSettings"
+        />
+        <ColorPicker
+          label="Couleur Secondaire"
+          :color="form.ducuments_secondary_color"
+          v-model="form.ducuments_secondary_color"
+          @update:modelValue="updateSettings"
+        />
       </div>
       <div class="ml-3 flex items-center lg:ml-6">
         <span class="mx-3 h-navbar border-l border-neutral-200 lg:mx-6" />
@@ -76,4 +76,22 @@
 <script setup>
 import { Dropdown } from "floating-vue";
 import ColorPicker from "@/Components/Atoms/ColorPicker.vue";
+import { useForm, usePage } from "@inertiajs/vue3";
+
+const settings = usePage().props.settings;
+
+const form = useForm({
+  ducuments_primary_color: "",
+  ducuments_secondary_color: "",
+});
+
+form.ducuments_primary_color = settings.ducuments_primary_color;
+form.ducuments_secondary_color = settings.ducuments_secondary_color;
+
+const updateSettings = () => {
+  form.put(route("6dem.settings.update"), {
+    preserveScroll: true,
+    onSuccess: (resp) => console.log(resp),
+  });
+};
 </script>

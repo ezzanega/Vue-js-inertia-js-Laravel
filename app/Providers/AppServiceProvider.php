@@ -3,16 +3,17 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\Waybill;
 use App\Models\MovingJob;
 use App\Models\Quotation;
-use App\Models\Waybill;
-use App\Models\EmailTemplates;
 use App\Models\Organization;
+use App\Models\EmailTemplates;
 use App\Observers\UserObserver;
+use App\Observers\WaybillObserver;
 use App\Observers\MovingJobObserver;
 use App\Observers\QuotationObserver;
-use App\Observers\WaybillObserver;
 use Illuminate\Support\Facades\Schema;
+use App\Observers\OrganizationObserver;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\EmailTemplatesObserver;
 
@@ -38,5 +39,6 @@ class AppServiceProvider extends ServiceProvider
         MovingJob::observe(MovingJobObserver::class);
         Waybill::observe(WaybillObserver::class);
         EmailTemplates::observe(EmailTemplatesObserver::class);
+        Organization::observe(OrganizationObserver::class);
     }
 }

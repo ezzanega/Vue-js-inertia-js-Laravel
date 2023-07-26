@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class EmailTemplates extends Model
+class Settings extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'subject',
-        'type',
-        'body',
-        'parameters',
+        'quotation_validity_duratation',
+        'ducuments_general_conditions',
+        'ducuments_primary_color',
+        'ducuments_secondary_color',
+        'legal_notice',
     ];
 
     public function organization(): BelongsTo

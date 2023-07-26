@@ -14,6 +14,27 @@ class MovingJob extends Model
 {
     use HasFactory;
 
+    /* protected $attributes = [
+        'capacity' => '',
+        'volume' => '',
+        'loading_address' => '',
+        'loading_date' => '',
+        'loading_floor' => '',
+        'loading_elevator' => '',
+        'loading_portaging' => '',
+        'loading_details' => '',
+        'shipping_address' => '',
+        'shipping_date' => '',
+        'shipping_floor' => '',
+        'shipping_elevator' => '',
+        'shipping_portaging' => '',
+        'shipping_details' => '',
+        'discount_percentage' => '',
+        'discount_amount_ht' => '',
+        'advance' => '',
+        'balance' => ''
+    ];
+ */
     protected $fillable = [
         'capacity',
         'formula',

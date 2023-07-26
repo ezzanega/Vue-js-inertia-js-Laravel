@@ -86,6 +86,7 @@ import { ref, onMounted } from "vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
+import { getRoleLabel } from "@/utils/index";
 
 const props = defineProps({
   roles: Array,
@@ -98,7 +99,7 @@ const emit = defineEmits(["closeModal"]);
 onMounted(() => {
   props.roles.forEach((role) => {
     rolesOptions.value.push({
-      name: role.name,
+      name: getRoleLabel(role.name),
       value: role.name,
     });
   });

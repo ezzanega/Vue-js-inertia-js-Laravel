@@ -23,20 +23,15 @@ class AclController extends Controller
         $organization = $request->user()->organization;
 
         $invitedUsers = InviteUser::where('organization', $organization->id)->get()->toArray();
-        $usersInvited = User::where('organization_id', $organization->id)->get()->toArray();
+        $usersInvited = User::where('organization_id', $organization->id)->with('roles')->get()->toArray();
 
         $mergedArray = array_merge($invitedUsers, $usersInvited);
 
         $mergedCollection = collect($mergedArray);
         $sortedArray = $mergedCollection->sortByDesc('created_at');
 
-        $roles = $this->getAllRoles();
-        $permissions = $this->getAllPermissions();
-
         return inertia('6dem/Manage', [
-            'roles' => $roles,
-            'permissions' => $permissions,
-            'permissions' => $permissions,
+            'roles' => $organization->roles,
             'teamMembres' => $sortedArray
         ]);
     }
@@ -74,9 +69,9 @@ class AclController extends Controller
         $this->create();
     }
 
-    public function getAllRoles()
+    public function getAllRoles($organization)
     {
-        $roles = DB::table('roles')->get();
+        $roles = DB::table('roles')->where('organization_id', $organization->id)->get();
 
         return $roles;
     }
