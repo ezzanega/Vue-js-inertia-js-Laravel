@@ -6,7 +6,7 @@
         <div v-if="$page.props.quotations.length">
           <SelectClientModal />
           <div class="mt-2">
-            <DocumentList />
+            <QuotationList />
           </div>
         </div>
         <ListEmptyMessage
@@ -21,12 +21,7 @@
         <div v-if="$page.props.waybills.length">
           <SelectQuoteModal />
           <div class="mt-2">
-            <WaybillListItem
-              v-for="(waybill, index) in $page.props.waybills"
-              :key="waybill.id"
-              :number="waybill.number"
-              status="En cours"
-            />
+            <WaybillList />
           </div>
         </div>
         <ListEmptyMessage
@@ -59,12 +54,12 @@ import DemLayout from "@/Layouts/DemLayout.vue";
 import SelectClientModal from "@/Components/Organisms/SelectClientModal.vue";
 import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
-import DocumentList from "@/Components/Molecules/DocumentList.vue";
+import QuotationList from "@/Components/Molecules/QuotationList.vue";
 import { Head } from "@inertiajs/vue3";
 import { ref } from "vue";
 import Tabs from "@/Components/Molecules/Tabs.vue";
 import Tab from "@/Components/Atoms/Tab.vue";
-import WaybillListItem from "@/Components/Atoms/WaybillListItem.vue";
+import WaybillList from "@/Components/Molecules/WaybillList.vue";
 
 let isDrawerOpen = ref(false);
 let innerWidth = ref(window.innerWidth / 4 + "px");

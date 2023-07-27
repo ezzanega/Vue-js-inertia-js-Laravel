@@ -16,6 +16,8 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\MailTemplatesController;
 use App\Http\Controllers\AdditionalFieldController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\WaybillController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/dashboard', [DashboardController::class, 'index'])
         ->name('6dem.dashboard');
 
-    Route::get('/6dem/documents', [MovingJobController::class, 'index'])
+    Route::get('/6dem/documents', [DocumentController::class, 'index'])
         ->name('6dem.documents');
 
     Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
@@ -77,6 +79,9 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/waybill/update/{id}/{field}', [MovingJobController::class, 'updateWaybill'])
         ->name('6dem.waybill.update');
+
+    Route::get('/6dem/waybill/preview/{id}', [WaybillController::class, 'preview'])
+        ->name('6dem.documents.waybill.preview');
 
     Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])
         ->name('6dem.option.create');
@@ -154,6 +159,18 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/clients/search', [ClientController::class, 'search'])
         ->name('6dem.search.clients');
+
+    Route::get('/6dem/tasks', function () {
+        return inertia('6dem/Tasks');
+    })->name('6dem.tasks');
+
+    Route::get('/6dem/calendar', function () {
+        return inertia('6dem/Calendar');
+    })->name('6dem.calendar');
+
+    Route::get('/6dem/messages', function () {
+        return inertia('6dem/Messages');
+    })->name('6dem.messages');
 });
 
 

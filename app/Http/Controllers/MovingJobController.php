@@ -14,6 +14,8 @@ use App\Models\Quotation;
 use Illuminate\Http\Request;
 use App\Models\AdditionalField;
 use App\Models\Enums\OptionType;
+use App\Models\Enums\QuotationStatus;
+use App\Models\Enums\WaybillStatus;
 use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
@@ -34,7 +36,10 @@ class MovingJobController extends Controller
         $organization = $request->user()->organization;
         $client = Client::find($clientId);
         $movingjob = MovingJob::create([]);
-        $quotation = Quotation::create(['organization_id' => $organization->id]);
+        $quotation = Quotation::create([
+            'organization_id' => $organization->id,
+            'status' => QuotationStatus::NOTSENT
+        ]);
         $option = Option::create([
             'type' => OptionType::OTHER,
             'designation' => '',
@@ -66,7 +71,10 @@ class MovingJobController extends Controller
         $quotation = Quotation::find($quotationId);
         $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
         $client = Client::find($movingjob->client_id);
-        $waybill = Waybill::create(['organization_id' => $organization->id]);
+        $waybill = Waybill::create([
+            'organization_id' => $organization->id,
+            'status' => WaybillStatus::NOTSIGNED
+        ]);
 
         $waybill->movingJob()->associate($movingjob);
         $waybill->save();
@@ -83,8 +91,8 @@ class MovingJobController extends Controller
 
     public function quotation(Request $request, $movingjobId, $clientId, $quotationId, $optionId): Response
     {
-        $organization = $request->user()->organization;
-        $client = Client::where('id', $clientId)->with('clientOrganization')->first();
+        $organization = $request->user()->organization->with('billingAddress')->first();
+        $client = Client::where('id', $clientId)->with(['address','clientOrganization'])->first();
         $movingjob = MovingJob::find($movingjobId);
         $quotation = Quotation::find($quotationId);
         $options = Option::where('moving_job_id', $movingjobId)->get();
@@ -92,15 +100,7 @@ class MovingJobController extends Controller
         $settings = Settings::where('organization_id', $organization->id)->first();
 
         return Inertia::render('6dem/Devis', [
-            'organization' => $organization->only(
-                'id',
-                'name',
-                'siret',
-                'siren',
-                'address',
-                'billing_address',
-                'owner_id'
-            ),
+            'organization' => $organization,
             'additionalFields' => [],
             'quotation' => $quotation->only(
                 'id',
@@ -148,25 +148,17 @@ class MovingJobController extends Controller
 
     public function waybill(Request $request, $movingjobId, $clientId, $waybillId): Response
     {
-        $organization = $request->user()->organization;
-        $client = Client::where('id', $clientId)->with('clientOrganization')->first();
+        $organization = $request->user()->organization->with('billingAddress')->first();
+        $client = Client::where('id', $clientId)->with(['address','clientOrganization'])->first();
         $movingjob = MovingJob::find($movingjobId);
         $additionalFields = AdditionalField::where('moving_job_id', $movingjobId)->get();
         $options = Option::where('moving_job_id', $movingjobId)->get();
-        $waybill = Quotation::find($waybillId);
+        $waybill = Waybill::find($waybillId);
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
 
         return Inertia::render('6dem/Lettre de voiture', [
-            'organization' => $organization->only(
-                'id',
-                'name',
-                'siret',
-                'siren',
-                'address',
-                'billing_address',
-                'owner_id'
-            ),
+            'organization' => $organization,
             'waybill' => $waybill->only(
                 'id',
                 'number',

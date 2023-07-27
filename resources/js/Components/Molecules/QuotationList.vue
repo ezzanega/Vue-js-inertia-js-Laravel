@@ -16,7 +16,7 @@
       <div class="w-1/12"></div>
     </div>
 
-    <DocumentListItem
+    <QuotationListItem
       v-for="(document, index) in $page.props.quotations"
       :key="index"
       :document="document"
@@ -25,7 +25,7 @@
 </template>
   
   <script setup>
-import DocumentListItem from "@/Components/Molecules/DocumentListItem.vue";
+import QuotationListItem from "@/Components/Molecules/QuotationListItem.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 </script>
   

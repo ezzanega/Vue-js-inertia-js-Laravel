@@ -127,8 +127,6 @@ class ClientController extends Controller
             ->with('clientOrganization')
             ->take(20)
             ->get();
-
-
         return $clients;
     }
 }

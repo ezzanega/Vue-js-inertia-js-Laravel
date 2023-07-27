@@ -51,7 +51,7 @@
                   />
                 </svg>
                 <template #popper>
-                  <DocumentActionsPopperContent :id="quotation.id" />
+                  <QuotationActionsPopperContent :id="quotation.id" />
                 </template>
               </Dropdown>
             </div>
@@ -66,7 +66,7 @@
   <script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
 import { Dropdown } from "floating-vue";
-import DocumentActionsPopperContent from "@/Components/Molecules/DocumentActionsPopperContent.vue";
+import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
 import QuotationDocument from "@/Components/Organisms/QuotationDocument.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { Head, usePage } from "@inertiajs/vue3";
