@@ -167,6 +167,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/calendar', function () {
         return inertia('6dem/Calendar');
     })->name('6dem.calendar');
+
+    Route::get('/6dem/messages', function () {
+        return inertia('6dem/Messages');
+    })->name('6dem.messages');
 });
 
 
