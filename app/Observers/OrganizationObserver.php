@@ -2,11 +2,17 @@
 
 namespace App\Observers;
 
-use App\Models\Role;
+use Illuminate\Support\Str;
 use App\Models\Organization;
 
 class OrganizationObserver
 {
+
+    public function creating(Organization $movingjob): void
+    {
+        $movingjob->uuid = Str::uuid();
+    }
+
     public function created(Organization $organization): void
     {
         $organization->addRole('admin');
