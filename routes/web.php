@@ -159,6 +159,18 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/clients/search', [ClientController::class, 'search'])
         ->name('6dem.search.clients');
+
+    Route::get('/6dem/tasks', function () {
+        return inertia('6dem/Tasks');
+    })->name('6dem.tasks');
+
+    Route::get('/6dem/calendar', function () {
+        return inertia('6dem/Calendar');
+    })->name('6dem.calendar');
+
+    Route::get('/6dem/messages', function () {
+        return inertia('6dem/Messages');
+    })->name('6dem.messages');
 });
 
 

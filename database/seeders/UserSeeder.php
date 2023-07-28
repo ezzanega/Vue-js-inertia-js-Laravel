@@ -17,6 +17,14 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
+    // Sources Options
+    // Internet
+    // Marketing par mail
+    // Hors ligne (Bouche à oreil)
+    // Recherche organique
+    // Recherche payante
+    // Références
+    // Réseaux sociaux
     /**
      * Run the database seeds.
      */
