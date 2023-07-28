@@ -485,11 +485,11 @@ const previewWaybill = () => {
     });
   };
 
-onMounted(() => {
+/*onMounted(() => {
   calculateDistance();
 })
 
-/*const  calculateDistance = async () => {
+const  calculateDistance = async () => {
       try {
         const { data: data1 } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${currentOrganisation.billing_address.full_address}&key=${`GooglAIzaSyC7TOs-73yQEUsNqVchkrvTr6I5gxYF5kEe_Maps_API_Key`}`);
         const { data: data2 } = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${currentClient.address.full_address}&key=${`AIzaSyC7TOs-73yQEUsNqVchkrvTr6I5gxYF5kE`}`);
