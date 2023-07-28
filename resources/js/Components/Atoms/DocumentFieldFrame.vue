@@ -1,6 +1,6 @@
 <template>
-  <div class="relative w-full flex items-center">
-    <div class="p-1 border border-gray-200 rounded-md bg-gray-100 flex-grow">
+  <div class="relative w-full flex items-center" :class="classText">
+    <div class="p-1 border border-gray-200 rounded-md bg-gray-100 flex-grow" :class="classText">
       <slot />
     </div>
     <div v-if="removable" @click="deleteField" class="relative flex items-center justify-center">
@@ -25,10 +25,14 @@
 </template>
   
 <script setup>
+import { ref } from "vue";
 const props = defineProps({
   removable: {
     type: Boolean,
     default: false,
+  },
+  className: {
+    type: String
   },
   addable: {
     type: Boolean,
@@ -36,6 +40,7 @@ const props = defineProps({
   }
 });
 
+const classText = ref(props.className);
 const emit = defineEmits(['removingField']);
 
 const deleteField = () => {

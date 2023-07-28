@@ -1,6 +1,6 @@
 <template>
-  <div class="col-span-12">
-    <div class="flex">
+  <div class="col-span-12 h-full">
+    <div class="flex" :class="classText">
       <span
         contenteditable="true"
         class="editable"
@@ -23,6 +23,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     required: true,
+  },
+
+  className: {
+    type: String
   },
 
   name: {
@@ -61,6 +65,7 @@ const props = defineProps({
   },
 });
 
+const classText = ref(props.className);
 const inputValue = ref(props.modelValue);
 const editableSpan = ref(null);
 
