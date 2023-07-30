@@ -1,6 +1,6 @@
 <template>
   <v-select taggable v-model="selected" label="title" :options="options" :create-option="formula => ({ title: formula, price: 0 })" push-tags
-    placeholder="Formule" class="border-none" @focusout="$emit('savingFormula', selected)">
+    placeholder="Sélectionner une formule" class="border-none" @focusout="$emit('savingFormula', selected)">
     <template v-slot:no-options="{ search, searching }">
       <template v-if="searching">
         Aucun résultat trouvé pour <em>{{ search }}.</em>.

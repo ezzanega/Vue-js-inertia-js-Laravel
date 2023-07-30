@@ -103,7 +103,7 @@ import CompleteOrganizationModal from "@/Components/Organisms/CompleteOrganizati
 import InvoicesCardContent from "@/Components/Organisms/InvoicesCardContent.vue";
 import QuotationsCardContent from "@/Components/Organisms/QuotationsCardContent.vue";
 import TasksCardContent from "@/Components/Organisms/TasksCardContent.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 
 const props = defineProps({
@@ -112,13 +112,24 @@ const props = defineProps({
 
 const showCompleteOrganizationModal = ref(false);
 
-onMounted(() => {
+const user = usePage().props.auth.user;
+
+onMounted(async () => {
+  console.log(user);
+  const autoLoggedUrl = `http://ec2-15-237-84-62.eu-west-3.compute.amazonaws.com:5000?token=${user.taskpro_token}`;
+  try {
+    const result = await axios.get(autoLoggedUrl);
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+
+  localStorage.setItem("token", user.taskpro_token);
   if (
     props.organization.billing_address == null ||
     props.organization.siren == null
   ) {
     setTimeout(() => {
-      console.log("Hello, after 3 seconds!");
       showCompleteOrganizationModal.value = true;
     }, 1500);
   }

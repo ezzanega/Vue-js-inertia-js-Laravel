@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            $table->string('taskpro_user_id')->nullable();
+            $table->text('taskpro_token')->nullable();
             $table->string('last_name');
             $table->string('first_name');
             $table->string('phone_number');

@@ -103,7 +103,7 @@ import CompleteOrganizationModal from "@/Components/Organisms/CompleteOrganizati
 import InvoicesCardContent from "@/Components/Organisms/InvoicesCardContent.vue";
 import QuotationsCardContent from "@/Components/Organisms/QuotationsCardContent.vue";
 import TasksCardContent from "@/Components/Organisms/TasksCardContent.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 
 const props = defineProps({
@@ -118,7 +118,6 @@ onMounted(() => {
     props.organization.siren == null
   ) {
     setTimeout(() => {
-      console.log("Hello, after 3 seconds!");
       showCompleteOrganizationModal.value = true;
     }, 1500);
   }

@@ -11,6 +11,7 @@ use App\Models\InviteUser;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplates;
+use App\Services\TaskProService;
 use App\Models\Enums\InsuranceType;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class SignUpController extends Controller
     /**
      * Handle an incoming register request.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, TaskProService $taskProService): RedirectResponse
     {
         $request->validate([
             'companyName' => 'required|string|max:125|unique:organizations,name',
@@ -44,7 +45,11 @@ class SignUpController extends Controller
             'password' => 'required|min:8'
         ]);
 
+        $taskProResponse = $taskProService->register($request->firstName, $request->lastName, $request->email, $request->password);
+
         $user = User::create([
+            'taskpro_user_id' => $taskProResponse["_id"],
+            'taskpro_token' => $taskProResponse["token"],
             'first_name' => $request->firstName,
             'last_name' => $request->lastName,
             'phone_number' => $request->phoneNumber,
@@ -52,7 +57,7 @@ class SignUpController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        $this->organizationSetup($request, $user);
+        $this->organizationSetup($request, $user, $taskProService);
 
         $emailTemplate = EmailTemplates::find(1);
         Mail::to($user->email)->send(new MailHandler($emailTemplate, [
@@ -71,11 +76,13 @@ class SignUpController extends Controller
         }
     }
 
-    private function organizationSetup(Request $request, User $user)
+    private function organizationSetup(Request $request, User $user, TaskProService $taskProService)
     {
         $invitedUser = InviteUser::where('email', $user->email)->first();
         if (!$invitedUser) {
+            $taskProResponse = $taskProService->createOrganization($request->companyName, $user);
             $organization = Organization::create([
+                'taskpro_organization_id' => $taskProResponse["_id"],
                 'name' => $request->companyName,
                 'email' => $user->email,
                 'phone_number' => $user->phone_number,
@@ -106,6 +113,7 @@ class SignUpController extends Controller
             $user->assignRole($invitedUser->role);
             $organization = Organization::find((int)$invitedUser->organization);
             $user->organization()->associate($organization);
+            $taskProService->addMember($organization->taskpro_organization_id, $user);
             $user->save();
             $invitedUser->delete();
         }

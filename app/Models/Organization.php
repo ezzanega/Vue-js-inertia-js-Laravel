@@ -26,7 +26,8 @@ class Organization extends Model
         'siren',
         'code_ape',
         'licence',
-        'owner_id'
+        'owner_id',
+        'taskpro_organization_id'
     ];
 
     public function users(): HasMany
