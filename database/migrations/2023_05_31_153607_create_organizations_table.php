@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            $table->string('taskpro_organization_id')->nullable();
             $table->string('name');
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();

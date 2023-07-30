@@ -26,6 +26,8 @@ class User extends Authenticatable
         'phone_number',
         'email',
         'password',
+        'taskpro_user_id',
+        'taskpro_token',
     ];
 
     /**

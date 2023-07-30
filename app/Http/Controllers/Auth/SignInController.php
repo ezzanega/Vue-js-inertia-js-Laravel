@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Request;
+use App\Services\TaskProService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Providers\RouteServiceProvider;
 
 
 class SignInController extends Controller
@@ -24,7 +26,7 @@ class SignInController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, TaskProService $taskProService): RedirectResponse
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -34,6 +36,11 @@ class SignInController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
+            $taskProResponse = $taskProService->login($credentials['email'], $credentials['password']);
+            $user = User::find(Auth::user()->id);
+            $user->update([
+                "taskpro_token" => $taskProResponse['token']
+            ]);
             return redirect()->intended(RouteServiceProvider::HOME)->withSuccess('You have successfully logged in!');
         }
 
