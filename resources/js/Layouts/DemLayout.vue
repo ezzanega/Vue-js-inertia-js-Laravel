@@ -4,7 +4,7 @@
       <div class="hidden bg-white md:flex md:shrink-0 shadow">
         <SideBar />
       </div>
-  
+
       <div class="flex w-0 flex-1 flex-col overflow-hidden">
         <!-- Top Bar -->
         <TopBar />
@@ -24,8 +24,7 @@
 </template>
   
   <script setup>
-    import SideBar from '@/Components/Organisms/SideBar.vue';
-    import TopBar from '@/Components/Organisms/TopBar.vue';
-  defineProps({
-  });
-  </script>
+import SideBar from "@/Components/Organisms/SideBar.vue";
+import TopBar from "@/Components/Organisms/TopBar.vue";
+defineProps({});
+</script>
