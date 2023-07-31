@@ -112,19 +112,7 @@ const props = defineProps({
 
 const showCompleteOrganizationModal = ref(false);
 
-const user = usePage().props.auth.user;
-
 onMounted(async () => {
-  console.log(user);
-  const autoLoggedUrl = `http://ec2-15-237-84-62.eu-west-3.compute.amazonaws.com:5000?token=${user.taskpro_token}`;
-  try {
-    const result = await axios.get(autoLoggedUrl);
-    console.log(result);
-  } catch (e) {
-    console.log(e);
-  }
-
-  localStorage.setItem("token", user.taskpro_token);
   if (
     props.organization.billing_address == null ||
     props.organization.siren == null
