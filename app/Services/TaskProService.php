@@ -48,7 +48,7 @@ class TaskProService
             'email' => $user->email,
         ]);
 
-        $invitationId = $response->json()['invitationId'];
+        $invitationId = $response->json()['addedMember']['invitationId'];
 
         $result = Http::withHeaders([
             'Authorization' => 'Token ' . $user->taskpro_token,

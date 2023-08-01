@@ -37,7 +37,7 @@ class SignUpController extends Controller
     public function store(Request $request, TaskProService $taskProService): RedirectResponse
     {
         $request->validate([
-            'companyName' => 'required|string|max:125|unique:organizations,name',
+            'companyName' => 'required|string|max:125',
             'firstName' => 'required|string|max:125',
             'lastName' => 'required|string|max:125',
             'phoneNumber' => 'string|max:125',
@@ -89,8 +89,6 @@ class SignUpController extends Controller
                 'owner_id' => $user->id
             ]);
 
-            $user->assignRole('admin');
-
             $insurance = Insurance::create([
                 'type' => InsuranceType::ADVALOREM,
                 'max_value' => "",
@@ -107,6 +105,7 @@ class SignUpController extends Controller
                 'organization_id' => $organization->id
             ]);
 
+            $user->assignRole('admin');
             $user->organization()->associate($organization);
             $user->save();
         } else {
