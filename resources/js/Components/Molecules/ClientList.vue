@@ -21,6 +21,12 @@
       :key="index"
       :client="client"
     />
+    <div
+      v-if="!$page.props.clients.length"
+      class="w-full text-center text-lg py-2"
+    >
+      Pas de client enregitré ...
+    </div>
   </div>
 </template>
 
