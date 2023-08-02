@@ -46,6 +46,7 @@
       <div class="px-4 sm:px-6">
         <div class="w-full py-3 flex flex-col space-y-2">
           <div class="my-6 space-y-5">
+            
             <DefaultInput
               :required="true"
               type="email"
@@ -77,7 +78,7 @@
     </div>
   </Modal>
 </template>
-  
+
   <script setup>
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
@@ -122,4 +123,4 @@ const closeModal = () => {
   form.reset();
   emit("closeModal");
 };
-</script>   
+</script>
