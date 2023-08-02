@@ -89,11 +89,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/option/update/{id}/{field}', [OptionController::class, 'update'])
         ->name('6dem.option.update');
 
+    Route::delete('/6dem/option/delete/{id}', [OptionController::class, 'delete'])
+        ->name('6dem.option.delete');
+
     Route::post('/6dem/additionalFields/create/{id}', [AdditionalFieldController::class, 'store'])
         ->name('6dem.additionalFields.create');
 
     Route::put('/6dem/additionalFields/update/{id}/{field}', [AdditionalFieldController::class, 'update'])
         ->name('6dem.additionalFields.update');
+
+    Route::delete('/6dem/additionalFields/delete/{id}', [AdditionalFieldController::class, 'delete'])
+        ->name('6dem.additionalFields.delete');
 
     Route::put('/6dem/insurance/update/{id}/{field}', [InsuranceController::class, 'update'])
         ->name('6dem.insurance.update');
@@ -148,7 +154,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/6dem/templates/create', [MailTemplatesController::class, 'store'])
         ->name('6dem.mail.templates.create');
-
 
     Route::get('/6dem/clients', [ClientController::class, 'index'])
         ->name('6dem.clients');
