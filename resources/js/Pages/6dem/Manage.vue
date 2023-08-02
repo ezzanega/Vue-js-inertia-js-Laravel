@@ -1,9 +1,8 @@
 <template>
   <Head title="Gestion de l'équipe" />
   <DemLayout>
-    <TeamMembersList v-if="teamMembres.length" :teamMembres="teamMembres" />
-    <ListEmptyMessage
-      v-else
+    <TeamMembersList :teamMembres="teamMembres" />
+    <!-- <ListEmptyMessage
       message-title="Inviter vos collaborateurs"
       message-content="Commencez par ajouter un nouveau collaborateur"
     >
@@ -34,7 +33,7 @@
         :openModal="inviteUserModal"
         @closeModal="closeModal"
       />
-    </ListEmptyMessage>
+    </ListEmptyMessage> -->
   </DemLayout>
 </template>
 
@@ -49,11 +48,13 @@ import TeamMembersList from "@/Components/Organisms/TeamMembersList.vue";
 
 router.reload({ only: ["teamMembres"] });
 
-defineProps({
+const props = defineProps({
   roles: Array,
   permissions: Array,
   teamMembres: Array,
 });
+
+console.log(props.teamMembres.length);
 
 const inviteUserModal = ref(false);
 
