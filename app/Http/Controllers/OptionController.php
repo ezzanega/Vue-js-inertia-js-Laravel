@@ -41,4 +41,10 @@ class OptionController extends Controller
             $field => $request->$field,
         ]);
     }
+
+    public function delete($id)
+    {
+        $option = Option::where(['id' => $id])->first();
+        $option->delete();
+    }
 }

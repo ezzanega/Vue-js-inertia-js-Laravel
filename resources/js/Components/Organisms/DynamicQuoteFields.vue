@@ -3,7 +3,7 @@
         <div v-for="item, index in currentAdditionalFields" :key="item">
             <div v-if="item.position === props.position">
                 <div class="my-3">
-                    <DocumentFieldFrame @removingField="removeAdditionalRow(index)" :removable="true">
+                    <DocumentFieldFrame @removingField="removeAdditionalRow(index, item.id)" :removable="true">
                         <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description" :fontBold="true" @savingValue="saveField('description', item.id, item.description)"/>
                     </DocumentFieldFrame>
                 </div>
@@ -11,7 +11,7 @@
         </div>
     </div>
     <div v-for="item, index in options" :key="item">
-        <DocumentFieldFrame  @removingField="removeRow(index)" :removable="true">
+        <DocumentFieldFrame  @removingField="removeRow(index, item.id)" :removable="true">
             <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description" :fontBold="true" @savingValue="saveField('description', item.id, item.description)"/>
         </DocumentFieldFrame>
     </div>
@@ -50,7 +50,7 @@ const addRow = () => {
     field.position = props.position;
     axios.post(route("6dem.additionalFields.create", props.movingjob), field)
         .then(response => {
-            options.push({ id: response.data, description: '' })
+            options.push({ id: response.data, description: '' });
         })
         .catch(error => {
             // Handle the error
@@ -59,8 +59,16 @@ const addRow = () => {
     );
 };
 
-const removeRow = (index) => {
-    options.splice(index, 1)
+const removeRow = (index, id) => {
+    axios.delete(route("6dem.additionalFields.delete", id))
+        .then(response => {
+            options.splice(index, 1);
+        })
+        .catch(error => {
+            // Handle the error
+            console.error(error);
+        }
+    );
 };
 
 const removeAdditionalRow = (index) => {

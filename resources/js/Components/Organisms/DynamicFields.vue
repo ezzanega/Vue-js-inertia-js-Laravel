@@ -29,7 +29,7 @@
                         <SettingsAddButtonPopperContent @addingElevator="addRowElevator" @addingPiano="addRowPiano" @addingWarehouse="addRowWarehouse" @addingNew="addRow" />
                     </template>
                 </Dropdown>
-                <RemoveButton @click="removeRow(index)" />
+                <RemoveButton @click="removeRow(index, item.id)" />
             </span>
         </div>
     </div>
@@ -122,10 +122,18 @@ const addRowPiano = () => {
 };
 
 
-const removeRow = (index) => {
-    if (options.length > 1) {
-        options.splice(index, 1)
-    }
+const removeRow = (index, id) => {
+    axios.delete(route("6dem.option.delete", id))
+        .then(response => {
+            if (options.length > 1) {
+                options.splice(index, 1)
+            }
+        })
+        .catch(error => {
+            // Handle the error
+            console.error(error);
+        }
+    );
 };
 
 const saveField = (field, id, value) => {

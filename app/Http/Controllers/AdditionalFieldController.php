@@ -57,14 +57,20 @@ class AdditionalFieldController extends Controller
 
     public function update(Request $request, $id, $field)
     {
-        $option = AdditionalField::where(['id' => $id])->first();
+        $additionalField = AdditionalField::where(['id' => $id])->first();
 
         $request->validate([
             $field =>  'required|string|max:125',
         ]);
 
-        $option->update([
+        $additionalField->update([
             $field => $request->$field,
         ]);
+    }
+
+    public function delete($id)
+    {
+        $additionalField = AdditionalField::where(['id' => $id])->first();
+        $additionalField->delete();
     }
 }

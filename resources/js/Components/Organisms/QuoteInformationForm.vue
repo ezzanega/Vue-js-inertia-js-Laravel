@@ -132,8 +132,12 @@
             </p>
           </label>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse de chargement" v-model="movingjob.loading_address"
-              :model-value="movingjob.loading_address" @savingValue="saveField('loading_address')" />
+            <DocumentFieldInputAddress
+              :required="true"
+              name="loading_address"
+              placeholder="Adresse de chargement"
+              @place_changed="setLoadingAddressData"
+            />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -172,8 +176,12 @@
           <DocumentLabel name="Livraison" color="#438A7A" />
           <div class="pt-6"></div>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse de livraison" v-model="movingjob.shipping_address"
-              @savingValue="saveField('shipping_address')" />
+            <DocumentFieldInputAddress
+              :required="true"
+              name="shipping_address"
+              placeholder="Adresse de livraison"
+              @place_changed="setShippingAddressData"
+            />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -343,6 +351,7 @@ import UploadFile from "@/Components/Atoms/UploadFile.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
+import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
@@ -465,6 +474,16 @@ const saveInsurance = (id, field, type) => {
       onError: (errors) => console.log(errors)
     });
   }
+};
+
+const setLoadingAddressData = (location) => {
+  movingjob.loading_address = location.fullAddress;
+  saveField('loading_address');
+};
+
+const setShippingAddressData = (location) => {
+  movingjob.shipping_address = location.fullAddress;
+  saveField('shipping_address');
 };
 
 const previewQuotation = () => {
