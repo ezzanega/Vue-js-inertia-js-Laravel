@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('moving_job_formulas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->foreignId('organization_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });

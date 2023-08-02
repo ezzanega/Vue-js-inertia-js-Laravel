@@ -66,26 +66,6 @@ class UserSeeder extends Seeder
             "legal_notice" => "",
         ]);
 
-        foreach (MovingJobFormula::all() as $key => $formula) {
-            $movingJobFormula = $organization->movingJobFormulas()->create([
-                "name" => $key,
-                "slug" => Str::slug($key)
-            ]);
-            foreach ($formula['organization-side'] as $item) {
-                $movingJobFormula->options()->create([
-                    'type' => 'organization-side',
-                    'text' => $item,
-                ]);
-            }
-
-            foreach ($formula['client-side'] as $item) {
-                $movingJobFormula->options()->create([
-                    'type' => 'client-side',
-                    'text' => $item,
-                ]);
-            }
-        }
-
         $client = Client::create([
             'type' => ClientType::INDIVIDUAL,
             'first_name' => 'James',
