@@ -1,7 +1,7 @@
 <template>
     <div class="w-auto">
       <div class="space-y-0.5">
-        <PopperItem item="Modifier le Mail" @click="openUpModal">
+        <PopperItem item="Modifier le Mail" @click="$emit('openUpModal')">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -35,12 +35,23 @@
         </PopperItem>
       </div>
     </div>
-  </template>
+</template>
 
-    <script setup>
+<script setup>
     import PopperItem from "@/Components/Atoms/PopperItem.vue";
     import { ref } from "vue";
 
+    const props = defineProps({
+        isModalUpOpen: Boolean,
+    });
+
+    // const isModalUpOpen = ref(false);
+
+    // const openUpModal = () => {
+    //     isModalUpOpen.value = true;
+    // };
+
     const PopperItemClicked = () => {};
 
-  </script>
+
+</script>

@@ -9,7 +9,7 @@
                 data-headlessui-state="open"
                 class="text-lg font-medium"
               >
-                Créer un modèle de mail
+                Modifier un modèle de mail
               </h2>
               <span class="text-sm">
                 Nous avons intégré cette fonctionnalité qui vous permet d'ajouter
@@ -73,37 +73,14 @@
                 <p class="text-gray-500">
                   Vous avez maintenant la possibilité d'ajouter des variables
                   personnalisées à vos modèles de mail pour rendre vos messages
-                  plus personnels et adaptés à chaque destinataire. Par exemple,
-                  en ajoutant
-                  <span class="font-bold text-blue-600">[PrenomClient]</span> à
-                  votre modèle de mail, le système remplacera automatiquement
-                  <span class="font-bold text-blue-600">[PrenomClient]</span> par
-                  le prénom de chaque destinataire individuel lors de l'envoi du
-                  courrier. <br />
-                  <br />
-                  <span class="font-bold text-blue-600">[PrenomClient]</span>:
-                  Prénom du client,<br />
-                  <span class="font-bold text-blue-600">[NomDuClient]</span>: Nom
-                  du client,<br />
-                  <span class="font-bold text-blue-600">[EmailClient]</span>:
-                  L'adresse email du client,<br />
-                  <span class="font-bold text-blue-600">[AdresseClient]</span>:
-                  L'Adresse du client,<br />
-                  <span class="font-bold text-blue-600">[DemDate]</span>: Date du
-                  déménagament,<br />
-                  <span class="font-bold text-blue-600">[NumeroDevis]</span>:
-                  Numéro du Devis,<br />
-                  <span class="font-bold text-blue-600">[NumeroLV]</span>: Numéro
-                  de la lettre de voiture,<br />
-                  <span class="font-bold text-blue-600">[NumeroFacture]</span>:
-                  Numéro de la Facture
+                  plus personnels et adaptés à chaque destinataire.
                 </p>
               </div>
             </div>
 
             <div class="mt-6 flex justify-end space-x-4">
               <SecondaryButton @click="closeUpModal"> Annuler </SecondaryButton>
-              <DefaultButton type="submit" class="w-32" buttontext="Créer" />
+              <DefaultButton type="submit" class="w-32" buttontext="Modifier" />
             </div>
           </div>
         </form>
@@ -121,7 +98,8 @@
 
   const props = defineProps({
     openUpModal: Boolean,
-  });
+
+    });
 
   const emit = defineEmits(["closeUpModal"]);
 
