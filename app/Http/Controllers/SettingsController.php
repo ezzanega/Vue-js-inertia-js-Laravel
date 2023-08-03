@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Settings;
 use Illuminate\Http\Request;
+use App\Models\Insurance;
 use App\Models\MovingJobFormula;
 
 class SettingsController extends Controller
@@ -15,10 +16,12 @@ class SettingsController extends Controller
         $organization = $request->user()->organization;
         $settings = Settings::where('organization_id', $organization->id)->first();
         $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
+        $insurances = Insurance::where(['organization_id' => $organization->id])->get();
         return Inertia::render('6dem/Settings', [
             'settings' => $settings,
             'formulas' => $movingJobFormulas,
             'status' => session('status'),
+            'insurances' => $insurances
         ]);
     }
 
@@ -32,6 +35,7 @@ class SettingsController extends Controller
             'ducuments_primary_color' => $request->ducuments_primary_color,
             'ducuments_secondary_color' => $request->ducuments_secondary_color,
             'legal_notice' => $request->legal_notice,
+            'vat' => $request->vat
         ];
         $filledSettingsData = array_filter($settingsData, function ($value) {
             return $value !== null;

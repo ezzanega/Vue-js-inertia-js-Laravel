@@ -13,17 +13,14 @@ class Invoice extends Model
     protected $fillable = [
         'type',
         'number',
-        'total_excl_tax',
-        'vat',
-        'total_incl_tax',
-        'invoice_at',
-        'contract_terms',
-        'legal_terms',
-        'document_id',
+        'executing_company',
+        'amount_ht',
+        'status',
+        'organization_id',
     ];
 
-    public function document(): BelongsTo
+    public function movingJob(): BelongsTo
     {
-        return $this->belongsTo(Document::class, 'document_id', 'id');
+        return $this->belongsTo(MovingJob::class, 'moving_job_id', 'id');
     }
 }

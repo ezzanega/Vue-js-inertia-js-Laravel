@@ -61,7 +61,7 @@
             />
           </svg>
           <template #popper>
-            <QuotationActionsPopperContent :id="document.id" />
+            <QuotationActionsPopperContent :moving_job_id="document.moving_job.id" :client_id="document.moving_job.client.id" :id="document.id" />
           </template>
         </Dropdown>
       </div>

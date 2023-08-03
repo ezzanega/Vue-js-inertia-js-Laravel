@@ -4,6 +4,7 @@ use App\Models\Enums\InvoiceType;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Models\Enums\InvoiceStatus;
 
 return new class extends Migration
 {
@@ -16,15 +17,12 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->enum('type', InvoiceType::values());
-            $table->string('number');
-            $table->string('total_excl_tax');
-            $table->string('vat');
-            $table->string('total_incl_tax');
-            $table->string('invoice_at');
-            $table->text('contract_terms')->nullable();
-            $table->text('legal_terms')->nullable();
-            $table->bigInteger('organization_id')->nullable();
-            $table->foreignId('document_id');
+            $table->string('number')->nullable();
+            $table->string('amount_ht')->nullable();
+            $table->enum('status', InvoiceStatus::values());
+            $table->string('executing_company')->nullable();
+            $table->foreignId('organization_id')->nullable();
+            $table->foreignId('moving_job_id')->nullable();
             $table->timestamps();
         });
     }

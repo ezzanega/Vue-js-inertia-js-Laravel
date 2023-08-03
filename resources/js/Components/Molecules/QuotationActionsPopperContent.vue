@@ -22,7 +22,7 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Modifier" @clicked="PopperItemClicked">
+      <PopperItem item="Modifier" @clicked="updateQuotation">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -100,10 +100,21 @@ const props = defineProps({
   id: {
     required: true,
   },
+  moving_job_id: {
+    required: true,
+  },
+  client_id: {
+    required: true,
+  },
 });
 const PopperItemClicked = () => {};
 const previewQuotation = () => {
   router.visit(route("6dem.documents.quotation.preview", props.id), {
+    method: "get",
+  });
+};
+const updateQuotation = () => {
+  router.visit(route("6dem.documents.quotation", [props.moving_job_id, props.client_id, props.id]), {
     method: "get",
   });
 };

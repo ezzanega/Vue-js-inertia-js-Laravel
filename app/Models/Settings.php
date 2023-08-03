@@ -17,6 +17,7 @@ class Settings extends Model
         'ducuments_primary_color',
         'ducuments_secondary_color',
         'legal_notice',
+        'vat'
     ];
 
     public function organization(): BelongsTo
