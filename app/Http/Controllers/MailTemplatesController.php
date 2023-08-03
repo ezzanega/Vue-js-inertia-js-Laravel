@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplates;
 use App\Models\Enums\MailType;
+use Illuminate\Support\Facades\Redirect;
+
 
 class MailTemplatesController extends Controller
 {
@@ -35,5 +37,12 @@ class MailTemplatesController extends Controller
         ]);
 
         return back();
+    }
+
+    public function delete(EmailTemplates $mail)
+    {
+        $mail->delete();
+        return redirect()->back();
+        //return Redirect::route('6dem.mail.templates');
     }
 }

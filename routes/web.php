@@ -149,11 +149,14 @@ Route::middleware('auth')->group(function () {
         return inertia('6dem/Storage');
     })->name('6dem.storage');
 
+    // Manage Mail
     Route::get('/6dem/templates', [MailTemplatesController::class, 'index'])
         ->name('6dem.mail.templates');
 
     Route::post('/6dem/templates/create', [MailTemplatesController::class, 'store'])
         ->name('6dem.mail.templates.create');
+
+    Route::delete('/maildel/{mail}', [MailTemplatesController::class, 'delete'])->name('maildel');
 
     Route::get('/6dem/clients', [ClientController::class, 'index'])
         ->name('6dem.clients');
@@ -176,6 +179,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/messages', function () {
         return inertia('6dem/Messages');
     })->name('6dem.messages');
+
+
+
 });
 
 

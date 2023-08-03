@@ -112,7 +112,8 @@
                   <!-- <MailActionsPopperContent /> -->
                   <div class="w-auto">
                     <div class="space-y-0.5">
-                      <PopperItem item="Modifier le Mail"
+
+                      <PopperItem  item="Modifier le Mail"
                        @click="openUpModal">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +130,8 @@
                           />
                         </svg>
                       </PopperItem>
-                      <PopperItem item="Supprimer le Mail" @clicked="PopperItemClicked">
+                      <PopperItem item="Supprimer le Mail"
+                      @click.prevent="deleteMail(mail.id)">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -161,6 +163,7 @@
 </template>
 
 <script setup>
+    import { Inertia } from '@inertiajs/inertia';
     import { Dropdown } from "floating-vue";
     import PopperItem from "@/Components/Atoms/PopperItem.vue";
 
@@ -173,9 +176,10 @@
     import IconButton from "@/Components/Atoms/IconButton.vue";
     import { usePage } from "@inertiajs/vue3";
     import { ref } from "vue";
+    import { router } from "@inertiajs/vue3";
 
     defineProps({
-        templates: Array,
+        templates: Object,
     });
 
     const inviteUserModal = ref(false);
@@ -197,5 +201,16 @@
     const closeUpModal = () => {
         isModalUpOpen.value = false;
     };
+    function deleteMail(id){
+        //alert(id);
+        if(window.confirm('etes vous sur de vouloir supprimer ce mail?')){
+            Inertia.delete(route('maildel', { id: id }));
+
+        }
+
+    }
 
 </script>
+
+
+
