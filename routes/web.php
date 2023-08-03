@@ -123,6 +123,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/insurance/update/{id}/{field}', [InsuranceController::class, 'update'])
         ->name('6dem.insurance.update');
 
+    Route::put('/6dem/insurance/update/contractual', [InsuranceController::class, 'contractual'])
+        ->name('6dem.insurance.contractual');
+
+    Route::put('/6dem/insurance/update/ad-valorem', [InsuranceController::class, 'adValorem'])
+        ->name('6dem.insurance.adValorem');
+
     # Roles & Permissions
     Route::get('/6dem/manage', [AclController::class, 'index'])
         ->name('6dem.manage');

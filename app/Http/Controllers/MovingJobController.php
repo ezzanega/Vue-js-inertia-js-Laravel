@@ -122,7 +122,7 @@ class MovingJobController extends Controller
         $movingjob = MovingJob::find($movingjobId);
         $quotation = Quotation::find($quotationId);
         $options = Option::where('moving_job_id', $movingjobId)->get();
-        $insurance = Insurance::where(['organization_id' => $organization->id])->get();
+        $insurances = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
 
         return Inertia::render('6dem/Devis', [
@@ -133,7 +133,7 @@ class MovingJobController extends Controller
                 'number',
                 'validity_duratation'
             ),
-            'insurances' => $insurance,
+            'insurances' => $insurances,
             'settings' => $settings,
             'movingJob' => $movingjob->only(
                 'id',

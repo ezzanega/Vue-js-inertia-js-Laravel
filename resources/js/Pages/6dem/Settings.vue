@@ -22,6 +22,8 @@
                     <div class="border-t border-neutral-200"></div>
                   </div>
                 </div>
+
+                <UpdateInsurances />
               </div>
             </div>
           </div>
@@ -36,6 +38,5 @@ import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head, usePage } from "@inertiajs/vue3";
 import UpdateSettingsFrom from "@/Components/Settings/UpdateSettingsFrom.vue";
 import UpdateFormulas from "@/Components/Settings/UpdateFormulas.vue";
-
-const formulas = usePage().props.formulas;
+import UpdateInsurances from "@/Components/Settings/UpdateInsurances.vue";
 </script>
