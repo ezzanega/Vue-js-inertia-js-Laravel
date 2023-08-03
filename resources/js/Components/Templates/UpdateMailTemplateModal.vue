@@ -1,5 +1,5 @@
 <template>
-    <Modal :show="openModal" @close="closeModal">
+    <Modal :show="openUpModal" @close="closeUpModal">
       <div class="flex min-h-0 flex-1 flex-col py-6 overflow-y-scroll">
         <div class="px-4 sm:px-6">
           <div class="flex items-start justify-between">
@@ -9,7 +9,7 @@
                 data-headlessui-state="open"
                 class="text-lg font-medium"
               >
-                Modifier un modèle de mail
+                Créer un modèle de mail
               </h2>
               <span class="text-sm">
                 Nous avons intégré cette fonctionnalité qui vous permet d'ajouter
@@ -23,7 +23,7 @@
                 type="button"
                 class="rounded-md bg-white text-neutral-400 hover:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 tabindex="0"
-                @click="closeModal"
+                @click="closeUpModal"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -67,19 +67,51 @@
                 placeholder="Contenu du mail"
               />
             </div>
-                Bonjour Modal
+
+            <div class="py-3">
+              <div>
+                <p class="text-gray-500">
+                  Vous avez maintenant la possibilité d'ajouter des variables
+                  personnalisées à vos modèles de mail pour rendre vos messages
+                  plus personnels et adaptés à chaque destinataire. Par exemple,
+                  en ajoutant
+                  <span class="font-bold text-blue-600">[PrenomClient]</span> à
+                  votre modèle de mail, le système remplacera automatiquement
+                  <span class="font-bold text-blue-600">[PrenomClient]</span> par
+                  le prénom de chaque destinataire individuel lors de l'envoi du
+                  courrier. <br />
+                  <br />
+                  <span class="font-bold text-blue-600">[PrenomClient]</span>:
+                  Prénom du client,<br />
+                  <span class="font-bold text-blue-600">[NomDuClient]</span>: Nom
+                  du client,<br />
+                  <span class="font-bold text-blue-600">[EmailClient]</span>:
+                  L'adresse email du client,<br />
+                  <span class="font-bold text-blue-600">[AdresseClient]</span>:
+                  L'Adresse du client,<br />
+                  <span class="font-bold text-blue-600">[DemDate]</span>: Date du
+                  déménagament,<br />
+                  <span class="font-bold text-blue-600">[NumeroDevis]</span>:
+                  Numéro du Devis,<br />
+                  <span class="font-bold text-blue-600">[NumeroLV]</span>: Numéro
+                  de la lettre de voiture,<br />
+                  <span class="font-bold text-blue-600">[NumeroFacture]</span>:
+                  Numéro de la Facture
+                </p>
+              </div>
+            </div>
+
             <div class="mt-6 flex justify-end space-x-4">
-              <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
+              <SecondaryButton @click="closeUpModal"> Annuler </SecondaryButton>
               <DefaultButton type="submit" class="w-32" buttontext="Créer" />
             </div>
           </div>
         </form>
       </div>
     </Modal>
-</template>
+  </template>
 
 <script setup>
-
   import Modal from "@/Components/Modal.vue";
   import SecondaryButton from "@/Components/SecondaryButton.vue";
   import { useForm } from "@inertiajs/vue3";
@@ -88,14 +120,18 @@
   import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 
   const props = defineProps({
-    openModal: Boolean,
+    openUpModal: Boolean,
   });
-  
-  const emit = defineEmits(["closeModal"]);
 
-  const closeModal = () => {
+  const emit = defineEmits(["closeUpModal"]);
+
+  const form = useForm({
+    subject: "",
+    body: "",
+  });
+
+  const closeUpModal = () => {
     form.reset();
-    emit("closeModal");
+    emit("closeUpModal");
   };
-</script>
-
+  </script>

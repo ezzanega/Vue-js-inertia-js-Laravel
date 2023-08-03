@@ -1,7 +1,7 @@
 <template>
     <div class="w-auto">
       <div class="space-y-0.5">
-        <PopperItem item="Modifier le Mail" @click="openUpModal">
+        <PopperItem item="Modifier le Role" @clicked="PopperItemClicked">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -17,7 +17,7 @@
             />
           </svg>
         </PopperItem>
-        <PopperItem item="Supprimer le Mail" @clicked="PopperItemClicked">
+        <PopperItem item="Supprimer le collaborateur" @clicked="PopperItemClicked">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -39,8 +39,6 @@
 
     <script setup>
     import PopperItem from "@/Components/Atoms/PopperItem.vue";
-    import { ref } from "vue";
-
     const PopperItemClicked = () => {};
 
   </script>
