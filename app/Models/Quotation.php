@@ -15,6 +15,7 @@ class Quotation extends Model
     protected $fillable = [
         'number',
         'validity_duratation',
+        'status',
         'organization_id'
     ];
 

@@ -6,11 +6,13 @@ use App\Models\User;
 use App\Models\Waybill;
 use App\Models\MovingJob;
 use App\Models\Quotation;
+use App\Models\Invoice;
 use App\Models\Organization;
 use App\Models\EmailTemplates;
 use App\Observers\UserObserver;
 use App\Observers\WaybillObserver;
 use App\Observers\MovingJobObserver;
+use App\Observers\InvoiceObserver;
 use App\Observers\QuotationObserver;
 use Illuminate\Support\Facades\Schema;
 use App\Observers\OrganizationObserver;
@@ -40,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
         Waybill::observe(WaybillObserver::class);
         EmailTemplates::observe(EmailTemplatesObserver::class);
         Organization::observe(OrganizationObserver::class);
+        Invoice::observe(InvoiceObserver::class);
     }
 }
