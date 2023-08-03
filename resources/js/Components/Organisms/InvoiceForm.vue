@@ -223,22 +223,6 @@
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-1 justify-items-center">
-      <div class="space-y-5">
-        <div class="flex space-x-5 items-center">
-          <input type="checkbox" class="appearance-none checked:bg-primary focus:bg-primary focus:ring-primary active:bg-primary rounded" />
-          <h4>J'accepte les conditions générales d'utilisation</h4>
-        </div>
-        <div class="flex space-x-5 items-center">
-          <input type="checkbox" class="appearance-none checked:bg-primary rounded" />
-          <h4>J'accepte les conditions générales de vente</h4>
-        </div>
-        <div class="flex space-x-5 items-center">
-          <input type="checkbox" class="appearance-none checked:bg-primary rounded" />
-          <h4>Signature électronique</h4>
-        </div>
-      </div>
-    </div>
     <div class="flex flex-row w-1/6 pb-10 mt-10 mx-auto">
       <DefaultButton @click="previewInvoice" buttontext="Générer le document" />
     </div>
