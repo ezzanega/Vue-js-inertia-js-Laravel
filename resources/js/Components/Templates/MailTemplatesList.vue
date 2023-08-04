@@ -152,10 +152,15 @@ const closeUpModal = () => {
 
 
 function deleteMail(id) {
-
-  if (window.confirm('etes vous sur de vouloir supprimer ce mail?')) {
-    Inertia.delete(route('maildel', { id: id }));
-  }
+  axios.delete(route("6dem.mail.templates.delete", id))
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      // Handle the error
+      console.error(error);
+    }
+    );
 
 }
 

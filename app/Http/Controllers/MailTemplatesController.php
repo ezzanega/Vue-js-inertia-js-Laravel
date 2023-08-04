@@ -65,9 +65,10 @@ public function update(Request $request, EmailTemplates $mail)
     return back();
     }
     
-    public function delete(EmailTemplates $mail)
+    public function delete(EmailTemplates $id)
     {
-        $mail->delete();
-        return redirect()->back();
+        $emailTemplate = EmailTemplates::where(['id' => $id])->first();
+        $emailTemplate->delete();
+        return back();
     }
 }
