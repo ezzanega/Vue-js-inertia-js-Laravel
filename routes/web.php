@@ -157,12 +157,13 @@ Route::middleware('auth')->group(function () {
         ->name('6dem.mail.templates.create');
 
     Route::delete('/maildel/{mail}', [MailTemplatesController::class, 'delete'])->name('maildel');
+    Route::put('/6dem/templates/{mail}', [MailTemplatesController::class, 'update'])
+    ->name('6dem.mail.templates.update');
 
     Route::get('/6dem/clients', [ClientController::class, 'index'])
         ->name('6dem.clients');
 
-    Route::put('/6dem/templates/{mail}', [MailTemplatesController::class, 'update'])
-        ->name('6dem.mail.templates.update');
+
 
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])

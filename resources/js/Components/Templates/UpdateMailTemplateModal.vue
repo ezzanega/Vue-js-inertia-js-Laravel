@@ -44,7 +44,7 @@
             </div>
           </div>
         </div>
-        <form class="px-4 sm:px-6" @submit.prevent="submit" >
+        <form class="px-4 sm:px-6">
           <input type="hidden" disabled v-model="mailData.id" name="id" />
           <div class="w-full py-3 flex flex-col space-y-2">
             <div class="my-1 space-y-2">
@@ -83,53 +83,37 @@
 
             <div class="mt-6 flex justify-end space-x-4">
               <SecondaryButton @click="closeUpModal"> Annuler </SecondaryButton>
-              <DefaultButton type="submit" class="w-32" buttontext="Modifier" />
+              <DefaultButton type="submit" @click="$emit('submit')" class="w-32" buttontext="Modifier" />
             </div>
           </div>
         </form>
       </div>
     </Modal>
-  </template>
+</template>
 
-  <script setup>
+<script setup>
   import Modal from "@/Components/Modal.vue";
-  import { Inertia } from '@inertiajs/inertia';
   import SecondaryButton from "@/Components/SecondaryButton.vue";
   import { useForm } from "@inertiajs/vue3";
   import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
   import TextArea from "@/Components/Atoms/TextArea.vue";
   import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
-  import { defineProps, defineEmits } from 'vue';
 
   const props = defineProps({
     openUpModal: Boolean,
     mailData: Object,
-  });
+    });
 
   const emit = defineEmits(["closeUpModal"]);
 
   const form = useForm({
-    subject: props.mailData.subject,
-    body: props.mailData.body,
+    subject: "",
+    body: "",
   });
 
-  function closeUpModal() {
+  const closeUpModal = () => {
     form.reset();
     emit("closeUpModal");
-  }
+  };
 
-  async function submit() {
-    const updatedMail = {
-      subject: form.data.subject,
-      body: form.data.body,
-    };
-
-    try {
-      await Inertia.put(route('6dem.mail.templates.update', { mail: props.mailData.id }), updatedMail);
-      closeUpModal();
-    } catch (error) {
-      // Gérer les erreurs si nécessaire
-      console.error(error);
-    }
-  }
-</script>
+  </script>

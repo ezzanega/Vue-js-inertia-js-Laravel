@@ -161,6 +161,7 @@
       :openUpModal="isModalUpOpen"
       @closeUpModal="closeUpModal"
       :mailData="selectedMail"
+      @submit="updateMail(selectedMail)"
       />
     </div>
   </template>
@@ -177,14 +178,17 @@
       import CreateMailTemplateModal from "@/Components/Templates/CreateMailTemplateModal.vue";
 
       import IconButton from "@/Components/Atoms/IconButton.vue";
-      import { usePage } from "@inertiajs/vue3";
+      import { usePage,useForm } from "@inertiajs/vue3";
       import { ref } from "vue";
       import { router } from "@inertiajs/vue3";
 
       defineProps({
           templates: Object,
       });
-
+      const form = useForm({
+          subject: "",
+          body: "",
+      });
       const inviteUserModal = ref(false);
 
       const openCreateMailTemplateModal = () => {
@@ -220,4 +224,23 @@
           }
 
       }
-</script>
+
+      // function modifier mail template
+      function updateMail(mail) {
+          form.subject=mail.subject
+          form.body=mail.body
+      //   const updatedMail = {
+      //     subject: mail.subject,
+      //     body: mail.body,
+      //   };
+
+        form.put(route('6dem.mail.templates.update', { mail: mail.id }), {
+          preserveScroll: true,
+          onSuccess: () => console.log(),
+          });
+      }
+
+  </script>
+
+
+

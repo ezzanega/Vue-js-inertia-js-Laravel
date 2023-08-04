@@ -62,7 +62,7 @@ public function update(Request $request, EmailTemplates $mail)
         'body' => $request->body,
     ]);
 
-    return redirect()->route('6dem.mail.templates.update'); // Redirect back to the templates list
+    return back();
     }
 
 
