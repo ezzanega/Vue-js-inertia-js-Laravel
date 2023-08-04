@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('client_id')->nullable();
             $table->foreignId('organization_id')->nullable();
             $table->foreignId('client_organization_id')->nullable();
+            $table->foreignId('executing_company_id')->nullable();
             $table->timestamps();
         });
     }
