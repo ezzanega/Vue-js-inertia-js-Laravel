@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplates;
 use App\Models\Enums\MailType;
+use Illuminate\Support\Facades\Redirect;
+
 
 class MailTemplatesController extends Controller
 {
@@ -35,5 +37,40 @@ class MailTemplatesController extends Controller
         ]);
 
         return back();
+    }
+
+    // MailTemplatesController.php
+
+public function update(Request $request, EmailTemplates $mail)
+{
+    $organization = $request->user()->organization;
+
+    // Check if the email template belongs to the user's organization
+    if ($mail->organization_id !== $organization->id) {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $request->validate([
+        'subject' => 'required|string|max:255',
+        'body' => 'required|min:3|max:3000',
+    ]);
+
+    $mail->update([
+        'type' => MailType::CUSTOM,
+        'name' => Str::slug($request->subject),
+        'subject' => $request->subject,
+        'body' => $request->body,
+    ]);
+
+    return redirect()->route('6dem.mail.templates.update'); // Redirect back to the templates list
+    }
+
+
+
+    public function delete(EmailTemplates $mail)
+    {
+        $mail->delete();
+        // return redirect()->back();
+        return Redirect::route('6dem.mail.templates');
     }
 }
