@@ -119,6 +119,12 @@ import { usePage, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
 
+import { reactive } from 'vue';
+
+const state = reactive({
+  templates: []
+});
+
 defineProps({
   templates: Object,
 });
@@ -152,16 +158,14 @@ const closeUpModal = () => {
 
 
 function deleteMail(id) {
-  axios.delete(route("6dem.mail.templates.delete", id))
+  axios.delete(route("6dem.mail.templates.delete", { id: id }))
     .then(response => {
-      console.log(response)
+      console.log(response);
     })
     .catch(error => {
       // Handle the error
       console.error(error);
-    }
-    );
-
+    });
 }
 
 </script>

@@ -64,11 +64,26 @@ public function update(Request $request, EmailTemplates $mail)
 
     return back();
     }
-    
-    public function delete(EmailTemplates $id)
+
+    // public function delete(EmailTemplates $id)
+    // {
+    //     $emailTemplate = EmailTemplates::where(['id' => $id])->first();
+    //     $emailTemplate->delete();
+    //     return back();
+    // }
+    // MailTemplatesController.php
+    public function delete($id)
     {
-        $emailTemplate = EmailTemplates::where(['id' => $id])->first();
+        $emailTemplate = EmailTemplates::find($id);
+
+        if (!$emailTemplate) {
+            return response()->json(['message' => 'Email template not found'], 404);
+        }
+
         $emailTemplate->delete();
-        return back();
+
+        //return response()->json(['message' => 'Email template deleted'], 200);
+        //return back();
     }
+
 }
