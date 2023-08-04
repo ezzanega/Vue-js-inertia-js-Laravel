@@ -68,7 +68,6 @@ public function update(Request $request, EmailTemplates $mail)
     public function delete(EmailTemplates $mail)
     {
         $mail->delete();
-        // return redirect()->back();
-        return Redirect::route('6dem.mail.templates');
+        return redirect()->back();
     }
 }

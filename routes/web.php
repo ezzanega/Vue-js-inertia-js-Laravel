@@ -157,6 +157,7 @@ Route::middleware('auth')->group(function () {
         ->name('6dem.mail.templates.create');
 
     Route::delete('/maildel/{mail}', [MailTemplatesController::class, 'delete'])->name('maildel');
+    
     Route::put('/6dem/templates/{mail}', [MailTemplatesController::class, 'update'])
     ->name('6dem.mail.templates.update');
 

@@ -44,7 +44,7 @@
             </div>
           </div>
         </div>
-        <form class="px-4 sm:px-6">
+        <form class="px-4 sm:px-6" @submit.prevent="updateMailTemplate">
           <input type="hidden" disabled v-model="mailData.id" name="id" />
           <div class="w-full py-3 flex flex-col space-y-2">
             <div class="my-1 space-y-2">
@@ -52,22 +52,22 @@
                 :required="true"
                 type="Objet du mail"
                 name="subject"
-                v-model="mailData.subject"
+                v-model="form.subject"
                 :error="form.errors.subject"
                 label="Objet du mail"
                 placeholder="Objet du mail"
-                :value="mailData.subject"
+                :value="form.subject"
               />
 
               <TextArea
                 :required="true"
                 type="Contenu du mail"
                 name="body"
-                v-model="mailData.body"
+                v-model="form.body"
                 :error="form.errors.body"
                 label="Contenu du mail"
                 placeholder="Contenu du mail"
-                :value="mailData.body"
+                :value="form.body"
               />
             </div>
 
@@ -83,7 +83,7 @@
 
             <div class="mt-6 flex justify-end space-x-4">
               <SecondaryButton @click="closeUpModal"> Annuler </SecondaryButton>
-              <DefaultButton type="submit" @click="$emit('submit')" class="w-32" buttontext="Modifier" />
+              <DefaultButton type="submit" class="w-32" buttontext="Modifier" />
             </div>
           </div>
         </form>
@@ -107,9 +107,16 @@
   const emit = defineEmits(["closeUpModal"]);
 
   const form = useForm({
-    subject: "",
-    body: "",
+    subject: props.mailData.subject,
+    body: props.mailData.body,
   });
+
+  const updateMailTemplate = () => {
+  form.put(route("6dem.mail.templates.update", {mail: props.mailData.id}), {
+    preserveScroll: true,
+    onSuccess: () => closeUpModal(),
+  });
+};
 
   const closeUpModal = () => {
     form.reset();
