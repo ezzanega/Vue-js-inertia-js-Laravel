@@ -64,9 +64,7 @@ public function update(Request $request, EmailTemplates $mail)
 
     return back();
     }
-
-
-
+    
     public function delete(EmailTemplates $mail)
     {
         $mail->delete();
