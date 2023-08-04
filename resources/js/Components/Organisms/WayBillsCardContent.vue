@@ -33,14 +33,14 @@
     </div>
   </div>
 </template>
-  
+
   <script setup>
 import IconButton from "@/Components/Atoms/IconButton.vue";
 
 const invoices = [
   { number: "N° 8706222", client: "M. Smith" },
   { number: "N° 4506222", client: "M. Abdoul" },
-  { number: "N° 9206222", client: "M. Doe" },
+  { number: "N° 9206222", client: "Mle. Bouchra" },
   { number: "N° 9306222", client: "M. Khalid" },
 ];
 </script>
