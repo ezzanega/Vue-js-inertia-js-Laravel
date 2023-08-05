@@ -130,6 +130,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
         ->name('6dem.manage.invite.user');
 
+    //Gérer les collaborateurs
+    Route::delete('/6dem/manage/collaborateur/delete/{memberId}/{membeRole}', [AclController::class, 'deleteMember'])
+        ->name('6dem.manage.collaborateur.delete');
+
     Route::get('/6dem/settings', [SettingsController::class, 'index'])
         ->name('6dem.settings');
 
@@ -157,7 +161,7 @@ Route::middleware('auth')->group(function () {
         ->name('6dem.mail.templates.create');
 
     Route::delete('/6dem/templates/delete/{id}', [MailTemplatesController::class, 'delete'])->name('6dem.mail.templates.delete');
-    
+
     Route::put('/6dem/templates/{mail}', [MailTemplatesController::class, 'update'])
     ->name('6dem.mail.templates.update');
 
