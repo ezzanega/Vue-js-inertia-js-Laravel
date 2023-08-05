@@ -112,17 +112,23 @@ onMounted(() => {
       value: role.name,
     });
   });
-  const roleUser=props.MemberData.roles.role;
-  console.log('Roles options:', rolesOptions.value);
 });
 
 // Create the form object using useForm
 const form = useForm({
     email:props.MemberData.email,
-  role: props.MemberData.role,
+    //role: props.MemberData.role,
+    //role: props.MembreData.roles ? props.MembreData.roles[0].name : props.MemberData.role,
+    role : getInitialRole(),
 });
 
-const selected=ref(props.MemberData.role);
+function getInitialRole() {
+  if (props.MemberData.roles && props.MemberData.roles.length > 0) {
+    return props.MemberData.roles[0].name;
+  } else {
+    return props.MemberData.role;
+  }
+}
 
 const updateRole = () => {
   alert('update function')
@@ -132,4 +138,6 @@ const closeUpRoleModal = () => {
   form.reset();
   emit("closeUpRoleModal");
 };
+console.log(props.MemberData);
+
 </script>
