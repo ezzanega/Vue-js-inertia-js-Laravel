@@ -104,7 +104,7 @@
     </table>
     <!-- le formulaire d'update -->
     <UpdateMailTemplateModal v-if="isModalUpOpen && selectedMail" :openUpModal="isModalUpOpen"
-      @closeUpModal="closeUpModal" :mailData="selectedMail" />
+    @closeUpModal="closeUpModal" :mailData="selectedMail" />
   </div>
 </template>
 

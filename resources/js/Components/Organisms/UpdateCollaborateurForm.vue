@@ -12,9 +12,10 @@
                 Modifier le role d'un collaborateur
               </h2>
               <span class="text-sm">
-                Un mail contenant un lien d'invitation sera envoyé à l'utilisateur
+                <!-- Un mail contenant un lien d'invitation sera envoyé à l'utilisateur
                 pour qu'il crée un compte. Le lien sera valable pendant 3 jours et
-                sera invalidé après la création du compte.
+                sera invalidé après la création du compte. -->
+                {{ MemberData.email }}
               </span>
             </div>
             <div class="ml-3 flex h-7 items-center">
@@ -43,38 +44,43 @@
             </div>
           </div>
         </div>
-        <div class="px-4 sm:px-6">
-          <div class="w-full py-3 flex flex-col space-y-2">
-            <div class="my-6 space-y-5">
+            <form>
+                <input type="label" disabled v-model="MemberData.role" name="id" />
+                <input type="label" disabled :value="getRoleLabel(MemberData.role)" name="id" />
+                <div class="px-4 sm:px-6">
+                <div class="w-full py-3 flex flex-col space-y-2">
+                    <div class="my-6 space-y-5">
 
-              <!-- <DefaultInput
-                :required="true"
-                type="email"
-                name="email"
-                v-model="form.email"
-                :error="form.errors.email"
-                label="Email du collaborateur"
-                placeholder="Email du collaborateur"
-              /> -->
-              <DefaultSelectInput
-                name="type"
-                label="Rôle"
-                v-model="form.role"
-                :options="rolesOptions"
-                :error="form.errors.role"
-              />
-            </div>
+                        <!-- <DefaultInput
+                            :required="true"
+                            type="email"
+                            name="email"
+                            v-model="form.email"
+                            :error="form.errors.email"
+                            label="Email du collaborateur"
+                            placeholder="Email du collaborateur"
+                        /> -->
+                        <DefaultSelectInput
+                        name="role"
+                        label="Rôle"
+                        :modelValue="form.role"
+                        :selectedValue="form.role"
+                        :options="rolesOptions"
+                        :error="form.errors.role"
+                        />
+                    </div>
 
-            <div class="mt-6 flex justify-end space-x-4">
-              <SecondaryButton @click="closeUpRoleModal"> Annuler </SecondaryButton>
-              <DefaultButton
-                @click="updateRole"
-                class="w-32"
-                buttontext="Modifier le Role"
-              />
-            </div>
-          </div>
-        </div>
+                    <div class="mt-6 flex justify-end space-x-4">
+                    <SecondaryButton @click="closeUpRoleModal"> Annuler </SecondaryButton>
+                    <DefaultButton
+                        @click="updateRole"
+                        class="w-32"
+                        buttontext="Modifier le Role"
+                    />
+                    </div>
+                </div>
+                </div>
+            </form>
       </div>
     </Modal>
   </template>
@@ -89,34 +95,38 @@
   import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
   import { getRoleLabel } from "@/utils/index";
 
-  const props = defineProps({
-    roles: Array,
-    openModal: Boolean,
-  });
 
-  const rolesOptions = ref([]);
-  const emit = defineEmits(["closeUpRoleModal"]);
+const props = defineProps({
+  roles: Array,
+  openModal: Boolean,
+  MemberData: Object,
+});
 
-  onMounted(() => {
-    props.roles.forEach((role) => {
-      rolesOptions.value.push({
-        name: getRoleLabel(role.name),
-        value: role.name,
-      });
+const rolesOptions = ref([]);
+const emit = defineEmits(["closeUpRoleModal"]);
+
+onMounted(() => {
+  props.roles.forEach((role) => {
+    rolesOptions.value.push({
+      name: getRoleLabel(role.name),
+      value: role.name,
     });
   });
 
-  const form = useForm({
-    email: "",
-    role: "",
-  });
+  console.log('Roles options:', rolesOptions.value);
+});
 
-  const updateRole = () => {
-    alert('update function')
-  };
+// Create the form object using useForm
+const form = useForm({
+  role: props.MemberData.role,
+});
 
-  const closeUpRoleModal = () => {
-    form.reset();
-    emit("closeUpRoleModal");
-  };
+const updateRole = () => {
+  alert('update function')
+};
+
+const closeUpRoleModal = () => {
+  form.reset();
+  emit("closeUpRoleModal");
+};
 </script>

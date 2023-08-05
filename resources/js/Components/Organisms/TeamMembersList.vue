@@ -119,7 +119,7 @@
                         <!-- Items User actif -->
                         <div class="space-y-0.5"
                          v-if="member.first_name">
-                            <PopperItem item="Modifier le Role User" @click="openUpRoleModal">
+                            <PopperItem item="Modifier le Role User" @click="openUpRoleModal(member)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -135,7 +135,7 @@
                                 />
                               </svg>
                             </PopperItem>
-                            <PopperItem item="Supprimer User" @click.prevent="deleteUserdMembre(member.id,'user')">
+                            <PopperItem item="Supprimer User" @click.prevent="deleteUserdMembre(member,'user')">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -155,7 +155,7 @@
                         <!-- Items Invited User -->
                         <div class="space-y-0.5"
                          v-else>
-                            <PopperItem item="Modifier le Role Invited" @click="openUpRoleModal">
+                            <PopperItem item="Modifier le Role Invited" @click="openUpRoleModal(member)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -196,11 +196,12 @@
         </tr>
       </tbody>
     </table>
-    <UpdateCollaborateurForm
+
+    <UpdateCollaborateurForm v-if="RoleModal && selectedMember"
     :roles="roles"
     :openModal="RoleModal"
     @closeUpRoleModal="closeUpRoleModal"
-    />
+    :MemberData="selectedMember" />
   </div>
 </template>
 
@@ -249,8 +250,10 @@
 
     //Traitement de modification de collaborateur
     const RoleModal = ref(false);
-    const openUpRoleModal = () => {
+    const selectedMember = ref(null);
+    const openUpRoleModal = (MemberData) => {
         RoleModal.value = true;
+        selectedMember.value = MemberData;
     };
 
     const closeUpRoleModal = () => {
