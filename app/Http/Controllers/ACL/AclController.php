@@ -165,8 +165,21 @@ class AclController extends Controller
         return Redirect::route('6dem.manage');
         //return  'envoyé';
     }
-    public function deleteInvited()
+    public function UpdateRoleUser($id)
     {
+        return $id;
+    }
+    public function UpdateRoleInvite(Request $request,$id)
+    {
+        $request->validate([
+            'role' => 'required|string|max:250|exists:roles,name',
+        ]);
+
+        $invited_collaborateur = InviteUser::find($id);
+        $invited_collaborateur->update([
+            'role' => $request->role,
+        ]);
+        return back();
 
     }
 }

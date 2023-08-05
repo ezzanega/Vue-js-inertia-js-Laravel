@@ -134,6 +134,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/6dem/manage/collaborateur/delete/{memberId}/{membeRole}', [AclController::class, 'deleteMember'])
         ->name('6dem.manage.collaborateur.delete');
 
+    Route::put('/6dem/manage/collaborateur/updateUserRole/{id}', [AclController::class, 'UpdateRoleUser'])
+        ->name('6dem.manage.collaborateur.userRole.update');
+
+    Route::put('/6dem/manage/collaborateur/updateInvitRole/{id}', [AclController::class, 'UpdateRoleInvite'])
+        ->name('6dem.manage.collaborateur.inviteRole.update');
+
     Route::get('/6dem/settings', [SettingsController::class, 'index'])
         ->name('6dem.settings');
 

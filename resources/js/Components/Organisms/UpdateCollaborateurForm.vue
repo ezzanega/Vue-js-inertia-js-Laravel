@@ -45,12 +45,11 @@
           </div>
         </div>
             <form>
-                <input type="hidden" disabled v-model="MemberData.role" name="id" />
+                <input type="hidden" disabled v-model="MemberData.id" name="id" />
                 <input type="hidden" disabled :value="getRoleLabel(MemberData.role)" name="id" />
                 <div class="px-4 sm:px-6">
                 <div class="w-full py-3 flex flex-col space-y-2">
                     <div class="my-6 space-y-5">
-
                         <DefaultInput
                             :required="true"
                             type="email"
@@ -62,18 +61,18 @@
                             placeholder="Email du collaborateur"
                         />
                         <DefaultSelectInput
-                        name="role"
-                        label="Rôle"
-                        v-model="form.role"
-                        :options="rolesOptions"
-                        :error="form.errors.role"
+                            name="role"
+                            label="Rôle"
+                            v-model="form.role"
+                            :options="rolesOptions"
+                            :error="form.errors.role"
                         />
                     </div>
 
                     <div class="mt-6 flex justify-end space-x-4">
                     <SecondaryButton @click="closeUpRoleModal"> Annuler </SecondaryButton>
                     <DefaultButton
-                        @click="updateRole"
+                        @click="updateRole(MemberData.id)"
                         class="w-32"
                         buttontext="Modifier le Role"
                     />
@@ -121,6 +120,7 @@ const form = useForm({
     //role: props.MembreData.roles ? props.MembreData.roles[0].name : props.MemberData.role,
     role : getInitialRole(),
 });
+let membreUpType = ''; // Declare the variable here
 
 function getInitialRole() {
   if (props.MemberData.roles && props.MemberData.roles.length > 0) {
@@ -129,15 +129,30 @@ function getInitialRole() {
     return props.MemberData.role;
   }
 }
-
-const updateRole = () => {
-  alert('update function')
+const updateRole = (id) => {
+    if (props.MemberData.roles && props.MemberData.roles.length > 0) {
+        // Update in the user table logic
+        console.log(`Updating role for user with ID: ${id}`);
+        form.put(route("6dem.manage.collaborateur.userRole.update", {id: id}), {
+        preserveScroll: true,
+        onSuccess: () => closeUpRoleModal(),
+        });
+    } else {
+        // Update in the inviteuser table logic
+        console.log(`Updating role for invite user with ID: ${id}`);
+        form.put(route("6dem.manage.collaborateur.inviteRole.update", {id: id}), {
+        preserveScroll: true,
+        onSuccess: () => closeUpRoleModal(),
+        });
+    }
 };
 
+// const updateRole = (id) => {
+//         alert('update function');
+//     };
 const closeUpRoleModal = () => {
   form.reset();
   emit("closeUpRoleModal");
 };
-console.log(props.MemberData);
 
 </script>
