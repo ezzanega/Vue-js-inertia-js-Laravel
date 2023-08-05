@@ -41,28 +41,28 @@ class MailTemplatesController extends Controller
 
     // MailTemplatesController.php
 
-public function update(Request $request, EmailTemplates $mail)
-{
-    $organization = $request->user()->organization;
+    public function update(Request $request, EmailTemplates $mail)
+    {
+        $organization = $request->user()->organization;
 
-    // Check if the email template belongs to the user's organization
-    if ($mail->organization_id !== $organization->id) {
-        abort(403, 'Unauthorized action.');
-    }
+        // Check if the email template belongs to the user's organization
+        if ($mail->organization_id !== $organization->id) {
+            abort(403, 'Unauthorized action.');
+        }
 
-    $request->validate([
-        'subject' => 'required|string|max:255',
-        'body' => 'required|min:3|max:3000',
-    ]);
+        $request->validate([
+            'subject' => 'required|string|max:255',
+            'body' => 'required|min:3|max:3000',
+        ]);
 
-    $mail->update([
-        'type' => MailType::CUSTOM,
-        'name' => Str::slug($request->subject),
-        'subject' => $request->subject,
-        'body' => $request->body,
-    ]);
+        $mail->update([
+            'type' => MailType::CUSTOM,
+            'name' => Str::slug($request->subject),
+            'subject' => $request->subject,
+            'body' => $request->body,
+        ]);
+        return back();
 
-    return back();
     }
 
     // public function delete(EmailTemplates $id)
@@ -71,7 +71,6 @@ public function update(Request $request, EmailTemplates $mail)
     //     $emailTemplate->delete();
     //     return back();
     // }
-    // MailTemplatesController.php
     public function delete($id)
     {
         $emailTemplate = EmailTemplates::find($id);
@@ -79,11 +78,10 @@ public function update(Request $request, EmailTemplates $mail)
         if (!$emailTemplate) {
             return response()->json(['message' => 'Email template not found'], 404);
         }
-
         $emailTemplate->delete();
-
         //return response()->json(['message' => 'Email template deleted'], 200);
         //return back();
+        return Redirect::route('6dem.mail.templates');
     }
 
 }

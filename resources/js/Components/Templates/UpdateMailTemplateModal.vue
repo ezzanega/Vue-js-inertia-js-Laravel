@@ -112,10 +112,10 @@
   });
 
   const updateMailTemplate = () => {
-  form.put(route("6dem.mail.templates.update", {mail: props.mailData.id}), {
-    preserveScroll: true,
-    onSuccess: () => closeUpModal(),
-  });
+    form.put(route("6dem.mail.templates.update", {mail: props.mailData.id}), {
+        preserveScroll: true,
+        onSuccess: () => closeUpModal(),
+    });
 };
 
   const closeUpModal = () => {

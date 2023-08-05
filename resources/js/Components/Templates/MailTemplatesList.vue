@@ -1,4 +1,5 @@
 <template>
+
   <div class="overflow-hidden m-5">
     <IconButton @click="openCreateMailTemplateModal" class="p-2" text="Ajouter un modèle de mail">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor"
@@ -6,8 +7,11 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
       </svg>
     </IconButton>
+    <Message
+    status="success"
+    message="Mail a bien été mis à jour"
+    />
     <CreateMailTemplateModal :openModal="inviteUserModal" @closeModal="closeModal" />
-
     <table
       class="w-full mt-2 border-collapse bg-white text-left text-sm text-gray-500 border border-gray-200 shadow-md rounded-lg">
       <thead class="bg-gray-50">
@@ -70,9 +74,9 @@
                 </svg>
                 <template #popper>
                   <!-- <MailActionsPopperContent /> -->
+
                   <div class="w-auto">
                     <div class="space-y-0.5">
-
                       <PopperItem item="Modifier le Mail" @click="openUpModal(mail)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor"
@@ -98,6 +102,7 @@
         </tr>
       </tbody>
     </table>
+    <!-- le formulaire d'update -->
     <UpdateMailTemplateModal v-if="isModalUpOpen && selectedMail" :openUpModal="isModalUpOpen"
       @closeUpModal="closeUpModal" :mailData="selectedMail" />
   </div>
@@ -105,6 +110,7 @@
 
 <script setup>
 import { Inertia } from '@inertiajs/inertia';
+import Message from "@/Components/Atoms/Message.vue";
 import { Dropdown } from "floating-vue";
 import PopperItem from "@/Components/Atoms/PopperItem.vue";
 
@@ -115,15 +121,12 @@ import UpdateMailTemplateModal from "@/Components/Templates/UpdateMailTemplateMo
 import CreateMailTemplateModal from "@/Components/Templates/CreateMailTemplateModal.vue";
 
 import IconButton from "@/Components/Atoms/IconButton.vue";
-import { usePage, useForm } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
 
 import { reactive } from 'vue';
 
-const state = reactive({
-  templates: []
-});
 
 defineProps({
   templates: Object,
@@ -140,12 +143,8 @@ const closeModal = () => {
 };
 
 const isModalUpOpen = ref(false);
-
-// const openUpModal = () => {
-//     isModalUpOpen.value = true;
-// };
 const selectedMail = ref(null);
-
+//Open  et Close de formulaire d'update Mail
 const openUpModal = (mail) => {
   isModalUpOpen.value = true;
   selectedMail.value = mail;
@@ -156,16 +155,11 @@ const closeUpModal = () => {
   isModalUpOpen.value = false;
 };
 
-
+//La suppression de Mail
 function deleteMail(id) {
-  axios.delete(route("6dem.mail.templates.delete", { id: id }))
-    .then(response => {
-      console.log(response);
+    router.delete(`/6dem/templates/delete/${id}`, {
+    onBefore: () => confirm('etes-vous sur de vouloire supprimer ce Mail?'),
     })
-    .catch(error => {
-      // Handle the error
-      console.error(error);
-    });
 }
 
 </script>
