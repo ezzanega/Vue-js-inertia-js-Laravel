@@ -45,26 +45,26 @@
           </div>
         </div>
             <form>
-                <input type="label" disabled v-model="MemberData.role" name="id" />
-                <input type="label" disabled :value="getRoleLabel(MemberData.role)" name="id" />
+                <input type="hidden" disabled v-model="MemberData.role" name="id" />
+                <input type="hidden" disabled :value="getRoleLabel(MemberData.role)" name="id" />
                 <div class="px-4 sm:px-6">
                 <div class="w-full py-3 flex flex-col space-y-2">
                     <div class="my-6 space-y-5">
 
-                        <!-- <DefaultInput
+                        <DefaultInput
                             :required="true"
                             type="email"
                             name="email"
                             v-model="form.email"
                             :error="form.errors.email"
+                            :disabled="true"
                             label="Email du collaborateur"
                             placeholder="Email du collaborateur"
-                        /> -->
+                        />
                         <DefaultSelectInput
                         name="role"
                         label="Rôle"
-                        :modelValue="form.role"
-                        :selectedValue="form.role"
+                        v-model="form.role"
                         :options="rolesOptions"
                         :error="form.errors.role"
                         />
@@ -112,14 +112,17 @@ onMounted(() => {
       value: role.name,
     });
   });
-
+  const roleUser=props.MemberData.roles.role;
   console.log('Roles options:', rolesOptions.value);
 });
 
 // Create the form object using useForm
 const form = useForm({
+    email:props.MemberData.email,
   role: props.MemberData.role,
 });
+
+const selected=ref(props.MemberData.role);
 
 const updateRole = () => {
   alert('update function')

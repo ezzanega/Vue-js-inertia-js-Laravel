@@ -11,6 +11,7 @@
       @input="$emit('update:modelValue', $event.target.value)"
       :id="name"
       :name="name"
+      :value="modelValue"
       class="form-input h-12 w-full rounded-md border-tertiary bg-tertiary border-none focus:outline-none focus:ring-primary focus:border-none"
     >
       <option value="" selected="selected">--</option>
