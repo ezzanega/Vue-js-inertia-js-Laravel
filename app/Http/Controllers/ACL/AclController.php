@@ -22,14 +22,11 @@ class AclController extends Controller
     {
         $organization = $request->user()->organization;
 
-        //Hna kanjibo InviteUser w User Bjouj
         $invitedUsers = InviteUser::where('organization', $organization->id)->get()->toArray();
         $usersInvited = User::where('organization_id', $organization->id)->with('roles')->get()->toArray();
-        //hna kandirohom f tableau wahed
         $mergedArray = array_merge($invitedUsers, $usersInvited);
 
         $mergedCollection = collect($mergedArray);
-        //Tri de la collection par date de création décroissante
         $sortedArray = $mergedCollection->sortByDesc('created_at');
 
         return inertia('6dem/Manage', [
@@ -165,9 +162,18 @@ class AclController extends Controller
         return Redirect::route('6dem.manage');
         //return  'envoyé';
     }
-    public function UpdateRoleUser($id)
+    public function UpdateRoleUser(Request $request,$id)
     {
-        return $id;
+        $request->validate([
+            'role' => 'required|string|max:250|exists:roles,name',
+        ]);
+
+        $active_collaborateur = User::where(['id' => $id])->first();
+        $active_collaborateur->syncRoles([]);
+        $active_collaborateur->assignRole($request->role);
+
+
+        return back();
     }
     public function UpdateRoleInvite(Request $request,$id)
     {
