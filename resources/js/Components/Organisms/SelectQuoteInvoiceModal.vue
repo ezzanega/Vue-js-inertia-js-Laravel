@@ -1,6 +1,6 @@
 <template>
     <div>
-        <IconButton @click="confirmWaybillCreation" class="mt-6" text="Ajouter une lettre de voiture">
+        <IconButton @click="confirmWaybillCreation" class="mt-6" text="Ajouter une facture">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor"
                 aria-hidden="true" class="pointer-events-none shrink-0 w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -10,7 +10,7 @@
             <div class="w-full p-6 flex flex-col space-y-2">
                 <div class="mt-2 border-b border-gray-200 divide-x">
                     <p class="text-lg ml-2 font-semibold leading-6 text-gray-900">
-                        Créer une lettre de voiture
+                        Créer une facture
                     </p>
                 </div>
                 <div class="w-full pt-3 flex space-x-2">
@@ -67,7 +67,8 @@
                                 <span class="">Client : {{ selectedQuotation.moving_job.client.first_name + " " +
                                     selectedQuotation.moving_job.client.last_name }}</span>
                                 <span class="">Date de chargement : {{ selectedQuotation.moving_job.loading_date }}</span>
-                                <span class="">Adresse de chargement : {{ selectedQuotation.moving_job.loading_address }}</span>
+                                <span class="">Adresse de chargement : {{ selectedQuotation.moving_job.loading_address
+                                }}</span>
                             </div>
                         </a>
                     </div>
@@ -150,10 +151,11 @@ const debouncedFetchQuotationResults = debounce(searchQuotation, 300);
 
 const initDocument = () => {
     router.visit(
-        route("6dem.documents.waybill.init", selectedQuotation.value.id),
+        route("6dem.documents.invoice.init", selectedQuotation.value.id),
         {
             method: "post",
         }
     );
+
 };
 </script>

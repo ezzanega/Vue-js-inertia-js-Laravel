@@ -62,7 +62,6 @@ class MailTemplatesController extends Controller
             'body' => $request->body,
         ]);
         return back();
-
     }
 
     // public function delete(EmailTemplates $id)
@@ -83,5 +82,4 @@ class MailTemplatesController extends Controller
         //return back();
         return Redirect::route('6dem.mail.templates');
     }
-
 }

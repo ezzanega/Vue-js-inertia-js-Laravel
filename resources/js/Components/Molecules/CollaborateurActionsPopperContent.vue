@@ -1,7 +1,7 @@
 <template>
     <div class="w-auto">
       <div class="space-y-0.5">
-        <PopperItem item="Modifier le Role" @clicked="PopperItemClicked">
+        <PopperItem item="Modifier le collaborateur" @clicked="PopperItemClicked">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -38,7 +38,7 @@
   </template>
 
     <script setup>
-    import PopperItem from "@/Components/Atoms/PopperItem.vue";
-    const PopperItemClicked = () => {};
+  import PopperItem from "@/Components/Atoms/PopperItem.vue";
 
+  const PopperItemClicked = () => {};
   </script>

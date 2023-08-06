@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('moving_job_formulas', function (Blueprint $table) {
+        Schema::create('executing_companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
-            $table->foreignId('organization_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('siret')->nullable();
+            $table->string('siren')->nullable();
+            $table->string('field')->nullable();
+            $table->foreignId('organization_id')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moving_job_formulas');
+        Schema::dropIfExists('executing_companies');
     }
 };

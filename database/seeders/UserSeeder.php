@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\Organization;
 use Illuminate\Database\Seeder;
 use App\Models\Enums\ClientType;
+use App\Services\TaskProService;
 use App\Support\MovingJobFormula;
 use App\Models\Enums\InsuranceType;
 use Illuminate\Support\Facades\Hash;
@@ -17,20 +18,19 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
-    // Sources Options
-    // Internet
-    // Marketing par mail
-    // Hors ligne (Bouche à oreil)
-    // Recherche organique
-    // Recherche payante
-    // Références
-    // Réseaux sociaux
+
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(TaskProService $taskProService): void
     {
+        $taskProResponse = $taskProService->login('jhon.doe@6dem.com', '6dem01');
+        if (!array_key_exists('token', $taskProResponse)) {
+            $taskProResponse = $taskProService->register('Jhon', 'Doe', 'jhon.doe@6dem.com', '6dem01');
+        }
         $user = User::create([
+            'taskpro_user_id' => $taskProResponse["_id"],
+            'taskpro_token' => $taskProResponse["token"],
             'first_name' => 'Jhon',
             'last_name' => 'Doe',
             'phone_number' => '06XXXXXX01',
@@ -38,14 +38,17 @@ class UserSeeder extends Seeder
             'password' => Hash::make('6dem01')
         ]);
 
+        $taskProOrganizationResponse = $taskProService->createOrganization('Sysdem SAS', $user);
         $organization = Organization::create([
-            'name' => '6dem SAS',
+            'taskpro_organization_id' => $taskProOrganizationResponse["_id"],
+            'name' => 'Sysdem SAS',
             'email' => $user->email,
             'phone_number' => $user->phone_number,
             'owner_id' => $user->id
         ]);
 
         $user->assignRole('admin');
+
 
         $organization->billingAddress()->create([
             "address" => "1 Rue Jean Jaurès",
@@ -65,26 +68,6 @@ class UserSeeder extends Seeder
             "ducuments_secondary_color" => "",
             "legal_notice" => "",
         ]);
-
-        foreach (MovingJobFormula::all() as $key => $formula) {
-            $movingJobFormula = $organization->movingJobFormulas()->create([
-                "name" => $key,
-                "slug" => Str::slug($key)
-            ]);
-            foreach ($formula['organization-side'] as $item) {
-                $movingJobFormula->options()->create([
-                    'type' => 'organization-side',
-                    'text' => $item,
-                ]);
-            }
-
-            foreach ($formula['client-side'] as $item) {
-                $movingJobFormula->options()->create([
-                    'type' => 'client-side',
-                    'text' => $item,
-                ]);
-            }
-        }
 
         $client = Client::create([
             'type' => ClientType::INDIVIDUAL,

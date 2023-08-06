@@ -38,9 +38,11 @@ class SignInController extends Controller
 
             $taskProResponse = $taskProService->login($credentials['email'], $credentials['password']);
             $user = User::find(Auth::user()->id);
-            $user->update([
-                "taskpro_token" => $taskProResponse['token']
-            ]);
+            if (array_key_exists('token', $taskProResponse)) {
+                $user->update([
+                    "taskpro_token" => $taskProResponse['token']
+                ]);
+            }
             return redirect()->intended(RouteServiceProvider::HOME)->withSuccess('You have successfully logged in!');
         }
 

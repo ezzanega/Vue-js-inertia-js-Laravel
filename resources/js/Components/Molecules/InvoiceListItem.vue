@@ -17,28 +17,10 @@
         </svg>
       </div>
       <div class="text-left w-3/12 my-auto">{{ document.number }}</div>
-      <div class="flex gap-3 text-left w-3/12 my-auto">
-        <div class="text-sm">
-          <div class="font-medium text-gray-700">
-            {{
-              document.moving_job.client.type == "professional"
-                ? document.moving_job.client.client_organization.name +
-                  " (" +
-                  document.moving_job.client.client_organization.siren +
-                  ")"
-                : document.moving_job.client.first_name +
-                  " " +
-                  document.moving_job.client.last_name
-            }}
-          </div>
-          <div class="text-gray-400">{{ document.moving_job.client.email }}</div>
-        </div>
-      </div>
+      <div class="text-left w-3/12 my-auto">{{ document.moving_job.loading_date }}</div>
       <div class="text-left w-2/12 my-auto">{{ document.status }}</div>
-      <div class="text-left w-2/12 my-auto">
-        {{ document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier" }}
-      </div>
-      <div class="text-left w-2/12 my-auto">{{ document.moving_job.loading_date }}</div>
+      <div class="text-left w-2/12 my-auto">{{ document.amount_ht }}</div>
+      <div class="text-left w-2/12 my-auto"></div>
       <div class="w-1/12 my-auto">
         <div class="flex justify-end gap-4">
           <Dropdown placement="bottom-end">
@@ -62,7 +44,7 @@
               />
             </svg>
             <template #popper>
-              <WaybillActionsPopperContent :moving_job_id="document.moving_job.id" :client_id="document.moving_job.client.id" :id="document.id" />
+              <InvoiceActionsPopperContent :moving_job_id="document.moving_job.id" :client_id="document.moving_job.client.id"  :id="document.id" />
             </template>
           </Dropdown>
         </div>
@@ -72,7 +54,7 @@
     
     <script setup>
   import { Dropdown } from "floating-vue";
-  import WaybillActionsPopperContent from "@/Components/Molecules/WaybillActionsPopperContent.vue";
+  import InvoiceActionsPopperContent from "@/Components/Molecules/InvoiceActionsPopperContent.vue";
   defineProps({
     document: {
       required: true,
