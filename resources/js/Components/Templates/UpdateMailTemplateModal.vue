@@ -44,7 +44,8 @@
             </div>
           </div>
         </div>
-        <form class="px-4 sm:px-6">
+        <form class="px-4 sm:px-6" @submit.prevent="updateMailTemplate">
+          <input type="hidden" disabled v-model="mailData.id" name="id" />
           <div class="w-full py-3 flex flex-col space-y-2">
             <div class="my-1 space-y-2">
               <DefaultInput
@@ -55,6 +56,7 @@
                 :error="form.errors.subject"
                 label="Objet du mail"
                 placeholder="Objet du mail"
+                :value="form.subject"
               />
 
               <TextArea
@@ -65,6 +67,7 @@
                 :error="form.errors.body"
                 label="Contenu du mail"
                 placeholder="Contenu du mail"
+                :value="form.body"
               />
             </div>
 
@@ -86,7 +89,7 @@
         </form>
       </div>
     </Modal>
-  </template>
+</template>
 
 <script setup>
   import Modal from "@/Components/Modal.vue";
@@ -98,15 +101,22 @@
 
   const props = defineProps({
     openUpModal: Boolean,
-
+    mailData: Object,
     });
 
   const emit = defineEmits(["closeUpModal"]);
 
   const form = useForm({
-    subject: "",
-    body: "",
+    subject: props.mailData.subject,
+    body: props.mailData.body,
   });
+
+  const updateMailTemplate = () => {
+    form.put(route("6dem.mail.templates.update", {mail: props.mailData.id}), {
+        preserveScroll: true,
+        onSuccess: () => closeUpModal(),
+    });
+};
 
   const closeUpModal = () => {
     form.reset();

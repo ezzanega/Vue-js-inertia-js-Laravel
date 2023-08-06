@@ -24,7 +24,6 @@ class AclController extends Controller
 
         $invitedUsers = InviteUser::where('organization', $organization->id)->get()->toArray();
         $usersInvited = User::where('organization_id', $organization->id)->with('roles')->get()->toArray();
-
         $mergedArray = array_merge($invitedUsers, $usersInvited);
 
         $mergedCollection = collect($mergedArray);
@@ -148,5 +147,45 @@ class AclController extends Controller
         Mail::to($inviteUser->email)->send(new MailHandler($emailTemplate, $data));
 
         return Redirect::route('6dem.manage');
+    }
+
+    public function deleteMember($memberId,$membeRole)
+    {
+        if($membeRole=='user')
+        {
+            $collaborateur = User::find($memberId);
+        }else if($membeRole=='invited')
+        {
+            $collaborateur = InviteUser::find($memberId);
+        }
+        $collaborateur->delete();
+        return Redirect::route('6dem.manage');
+        //return  'envoyé';
+    }
+    public function UpdateRoleUser(Request $request,$id)
+    {
+        $request->validate([
+            'role' => 'required|string|max:250|exists:roles,name',
+        ]);
+
+        $active_collaborateur = User::where(['id' => $id])->first();
+        $active_collaborateur->syncRoles([]);
+        $active_collaborateur->assignRole($request->role);
+
+
+        return back();
+    }
+    public function UpdateRoleInvite(Request $request,$id)
+    {
+        $request->validate([
+            'role' => 'required|string|max:250|exists:roles,name',
+        ]);
+
+        $invited_collaborateur = InviteUser::find($id);
+        $invited_collaborateur->update([
+            'role' => $request->role,
+        ]);
+        return back();
+
     }
 }

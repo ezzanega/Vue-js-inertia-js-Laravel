@@ -39,10 +39,47 @@ class MailTemplatesController extends Controller
         return back();
     }
 
-    public function delete(EmailTemplates $mail)
+    // MailTemplatesController.php
+
+    public function update(Request $request, EmailTemplates $mail)
     {
-        $mail->delete();
-        return redirect()->back();
-        //return Redirect::route('6dem.mail.templates');
+        $organization = $request->user()->organization;
+
+        // Check if the email template belongs to the user's organization
+        if ($mail->organization_id !== $organization->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'subject' => 'required|string|max:255',
+            'body' => 'required|min:3|max:3000',
+        ]);
+
+        $mail->update([
+            'type' => MailType::CUSTOM,
+            'name' => Str::slug($request->subject),
+            'subject' => $request->subject,
+            'body' => $request->body,
+        ]);
+        return back();
+    }
+
+    // public function delete(EmailTemplates $id)
+    // {
+    //     $emailTemplate = EmailTemplates::where(['id' => $id])->first();
+    //     $emailTemplate->delete();
+    //     return back();
+    // }
+    public function delete($id)
+    {
+        $emailTemplate = EmailTemplates::find($id);
+
+        if (!$emailTemplate) {
+            return response()->json(['message' => 'Email template not found'], 404);
+        }
+        $emailTemplate->delete();
+        //return response()->json(['message' => 'Email template deleted'], 200);
+        //return back();
+        return Redirect::route('6dem.mail.templates');
     }
 }

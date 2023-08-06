@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/quotation/search', [QuotationController::class, 'search'])
         ->name('6dem.search.quotation');
-        
+
     # Waybill
     Route::get('/6dem/waybill/preview/{id}', [WaybillController::class, 'preview'])
         ->name('6dem.documents.waybill.preview');
@@ -149,6 +149,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
         ->name('6dem.manage.invite.user');
 
+    //Gérer les collaborateurs
+    Route::delete('/6dem/manage/collaborateur/delete/{memberId}/{membeRole}', [AclController::class, 'deleteMember'])
+        ->name('6dem.manage.collaborateur.delete');
+
+    Route::put('/6dem/manage/collaborateur/updateUserRole/{id}', [AclController::class, 'UpdateRoleUser'])
+        ->name('6dem.manage.collaborateur.userRole.update');
+
+    Route::put('/6dem/manage/collaborateur/updateInvitRole/{id}', [AclController::class, 'UpdateRoleInvite'])
+        ->name('6dem.manage.collaborateur.inviteRole.update');
+
     Route::get('/6dem/settings', [SettingsController::class, 'index'])
         ->name('6dem.settings');
 
@@ -176,9 +186,15 @@ Route::middleware('auth')->group(function () {
         ->name('6dem.mail.templates.create');
 
     Route::delete('/maildel/{mail}', [MailTemplatesController::class, 'delete'])->name('maildel');
+    Route::delete('/6dem/templates/delete/{id}', [MailTemplatesController::class, 'delete'])->name('6dem.mail.templates.delete');
+
+    Route::put('/6dem/templates/{mail}', [MailTemplatesController::class, 'update'])
+        ->name('6dem.mail.templates.update');
 
     Route::get('/6dem/clients', [ClientController::class, 'index'])
         ->name('6dem.clients');
+
+
 
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])
@@ -198,9 +214,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/messages', function () {
         return inertia('6dem/Messages');
     })->name('6dem.messages');
-
-
-
 });
 
 
