@@ -6,19 +6,20 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ACL\AclController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WaybillController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsuranceController;
-use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MovingJobController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\PdfGeneratorController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\MailTemplatesController;
 use App\Http\Controllers\AdditionalFieldController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\WaybillController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,13 @@ Route::get('/resetpassword', function () {
 Route::get('/design-system', function () {
     return inertia('6dem/DesignSystem');
 });
+
+
+Route::get('/test-quotation-documents', function () {
+    return view('documents.quotation-v1');
+});
+
+Route::get('/test-documents', [PdfGeneratorController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])
