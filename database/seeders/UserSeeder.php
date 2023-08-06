@@ -24,7 +24,10 @@ class UserSeeder extends Seeder
      */
     public function run(TaskProService $taskProService): void
     {
-        $taskProResponse = $taskProService->register('Jhon', 'Doe', 'jhon.doe@6dem.com', Hash::make('6dem01'));
+        $taskProResponse = $taskProService->login('jhon.doe@6dem.com', '6dem01');
+        if (!array_key_exists('token', $taskProResponse)) {
+            $taskProResponse = $taskProService->register('Jhon', 'Doe', 'jhon.doe@6dem.com', '6dem01');
+        }
         $user = User::create([
             'taskpro_user_id' => $taskProResponse["_id"],
             'taskpro_token' => $taskProResponse["token"],

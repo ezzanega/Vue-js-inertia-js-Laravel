@@ -35,7 +35,7 @@ class InsuranceController extends Controller
             return $value !== null;
         });
         $insurance->update($filledContractualInsurance);
-        return back()->with('contractualStatus', 'settings-updated');
+        return back()->with('status', 'insurance-contractual-updated');
     }
 
     public function adValorem(Request $request)
@@ -51,6 +51,6 @@ class InsuranceController extends Controller
             return $value !== null;
         });
         $insurance->update($filledAdValoremInsurance);
-        return back()->with('adValoremStatus', 'settings-updated');
+        return back()->with('status', 'insurance-adValorem-updated');
     }
 }

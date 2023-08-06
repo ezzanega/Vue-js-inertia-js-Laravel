@@ -13,7 +13,7 @@
                 <form @submit.prevent="updateContractual">
                     <div class="card bg-white ring-1 ring-neutral-600 ring-opacity-5 rounded-lg shadow overflow-hidden">
                         <div class="px-4 py-5 sm:p-6">
-                            <Message v-show="$page.props.contractualStatus === 'settings-updated'" status="success"
+                            <Message v-show="$page.props.status === 'insurance-contractual-updated'" status="success"
                                 message="Vos paramètres ont été mis à jour" />
                             <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl">
                                 Assurance Contractuelle
@@ -43,7 +43,7 @@
                 <form @submit.prevent="updateAdValorem">
                     <div class="card bg-white ring-1 ring-neutral-600 ring-opacity-5 rounded-lg shadow overflow-hidden">
                         <div class="px-4 py-5 sm:p-6">
-                            <Message v-show="$page.props.adValoremStatus === 'settings-updated'" status="success"
+                            <Message v-show="$page.props.status === 'insurance-adValorem-updated'" status="success"
                                 message="Vos paramètres ont été mis à jour" />
                             <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl">
                                 Assurance Ad Valorem
