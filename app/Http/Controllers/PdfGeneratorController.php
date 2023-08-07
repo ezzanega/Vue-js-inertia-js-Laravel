@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 
 class PdfGeneratorController extends Controller
 {
-    public function index()
+
+    public function quotation(Request $request, $id)
     {
-        $data = [
-            'imagePath'    => 'https://static.vecteezy.com/system/resources/previews/000/596/678/original/circle-line-logo-template-vector-icon.jpg',
-            'name'         => 'John Doe',
-            'address'      => 'USA',
-            'mobileNumber' => '000000000',
-            'email'        => 'john.doe@email.com'
-        ];
-        $pdf = PDF::loadView('documents.quotation-v1', $data);
-        return $pdf->stream('quotation.pdf');
+        $quotation = Quotation::where('id', $id)->with(['movingJob.client', 'movingJob.client.address', 'movingJob.client.clientOrganization'])->first();
+        $pdf = PDF::loadView('documents.quotation-v1', [
+            'quotation' => $quotation,
+            'advisor' => $request->user(),
+            'organization' => $request->user()->organization
+        ]);
+        $filename = 'Devis N°' . $quotation->number;
+        return $pdf->stream($filename);
     }
 }

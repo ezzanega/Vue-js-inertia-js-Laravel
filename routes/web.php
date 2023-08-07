@@ -49,7 +49,10 @@ Route::get('/test-quotation-documents', function () {
     return view('documents.quotation-v1');
 });
 
-Route::get('/test-documents', [PdfGeneratorController::class, 'index']);
+
+Route::get('/test-quotation-doc', function () {
+    return view('documents.test');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])
@@ -63,6 +66,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
         ->name('6dem.documents.quotation.preview');
+
+    # Documents
+    Route::get('/6dem/quotation/pdf/{id}', [PdfGeneratorController::class, 'quotation'])
+        ->name('6dem.quotation.pdf');
+
 
     # Organization
     Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
