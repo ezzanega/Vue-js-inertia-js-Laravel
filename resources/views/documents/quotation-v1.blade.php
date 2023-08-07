@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title> Devis N°{{ $quotation->number }}</title>
+    <title> Devis N°{{ $quotation->number }}.pdf</title>
 </head>
 
 <body>

@@ -17,7 +17,7 @@ class PdfGeneratorController extends Controller
             'advisor' => $request->user(),
             'organization' => $request->user()->organization
         ]);
-        $filename = 'Devis N°' . $quotation->number;
+        $filename = 'Devis N°' . $quotation->number . '.pdf';
         return $pdf->stream($filename);
     }
 }
