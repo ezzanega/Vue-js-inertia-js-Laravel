@@ -1,6 +1,6 @@
 <template>
-    <v-select v-model="measurement" :reduce="option => option.id" taggable label="label" :options="options" :create-option="measurement => (measurement)"
-        push-tags class="border-none" @focusout="$emit('savingMeasurement', measurement)" >
+    <v-select class="style-chooser border-none" v-model="measurement" :reduce="option => option.id" taggable label="label" :options="options" :create-option="measurement => (measurement)"
+        push-tags @focusout="$emit('savingMeasurement', measurement)" >
         <template v-slot:no-options="{ search, searching }">
             <template v-if="searching">
                 Aucun résultat trouvé pour <em>{{ search }}.</em>.
@@ -35,3 +35,10 @@ const options = [
 ];
 
 </script>
+
+<style scoped>
+.style-chooser {
+    background: transparent; 
+    border-radius: 0.3rem
+}
+</style>

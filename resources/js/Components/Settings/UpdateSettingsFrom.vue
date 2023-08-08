@@ -32,9 +32,18 @@
 
                 <TextArea name="legal_notice" label="Mentions légales" v-model="form.legal_notice"
                   :error="form.errors.legal_notice" />
+
+                <DefaultInput name="quotation_validity_duratation" label="TVA (en %)"
+                  v-model="form.vat" :error="form.errors.vat" />
+
+                <DefaultSelectInput
+                  name="paiement-process"
+                  label="Modalités de règlement"
+                  v-model="form.role"
+                  :options="paiementProcessOPtions"
+                  :error="form.errors.paiementProcess"
+                />
               </div>
-              <DefaultInput name="quotation_validity_duratation" label="TVA (en %)"
-                v-model="form.vat" :error="form.errors.vat" />
             </div>
             <div class="bg-neutral-50 px-4 py-4 sm:px-6">
               <div class="flex justify-end">
@@ -50,6 +59,7 @@
   
 <script setup>
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
+import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import TextArea from "@/Components/Atoms/TextArea.vue";
 import ColorPicker from "@/Components/Atoms/ColorPicker.vue";
@@ -66,6 +76,38 @@ const form = useForm({
   legal_notice: "",
   vat: ""
 });
+
+const paiementProcessOPtions = [
+  {
+    name:"Accompte/Solde 20%/80%",
+    value:'20-80'
+  },
+
+  {
+    name:"Accompte/Solde 30%/70%",
+    value:'30-70'
+  },
+  {
+    name:"Accompte/Solde 40%/60%",
+    value:'40-60'
+  },
+  {
+    name:"Accompte/Solde 50%/50%",
+    value:'50-50'
+  },
+  {
+    name:"Accompte/Solde 60%/40%",
+    value:'50-50'
+  },
+  {
+    name:"Règlement en 1 fois",
+    value:'100'
+  },
+  {
+    name:"Autres",
+    value:'Others'
+  }
+]
 
 form.quotation_validity_duratation = settings.quotation_validity_duratation;
 form.ducuments_general_conditions = settings.ducuments_general_conditions;
