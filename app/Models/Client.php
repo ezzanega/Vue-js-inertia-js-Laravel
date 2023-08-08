@@ -49,4 +49,9 @@ class Client extends Model
     {
         return $this->hasOne(Location::class);
     }
+
+    public function getFullName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

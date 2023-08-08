@@ -62,11 +62,7 @@
           </div>
         </div>
       </div>
-      <iframe src="/test-documents" width="100%" height="600px"></iframe>
-      <!-- <iframe v-if="pdfUrl" :src="pdfUrl" width="100%" height="600px"></iframe>
-      <div ref="pdfContent" class="pdf-content">
-        <QuotationDocument :document="quotation" />
-      </div> -->
+      <iframe :src="`/6dem/quotation/pdf/${quotation.id}`" width="100%" height="600px"></iframe>
     </div>
   </DemLayout>
 </template>
@@ -74,88 +70,11 @@
   <script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
 import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
-import QuotationDocument from "@/Components/Documents/QuotationDocument.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import html2pdf from "html2pdf.js";
 import { Dropdown } from "floating-vue";
 import { Head, usePage } from "@inertiajs/vue3";
-import { onMounted, ref } from "vue";
 
 const quotation = usePage().props.quotation;
-
-// const pdfContent = ref(null);
-// const pdfUrl = ref(null);
-
-// onMounted(() => {
-//   pdfContent.value.style.display = "block";
-
-//   const opt = {
-//     margin: 0,
-//     filename: `Devis N°${quotation.number}.pdf`,
-//     image: { type: "webp", quality: 1 },
-//     html2canvas: { scale: 2 },
-//     jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-//   };
-//   html2pdf()
-//     .set(opt)
-//     .from(pdfContent.value)
-//     .outputPdf("blob")
-//     .then((blob) => {
-//       if (pdfUrl.value) {
-//         URL.revokeObjectURL(pdfUrl.value);
-//       }
-//       pdfUrl.value = URL.createObjectURL(blob);
-//       pdfContent.value.style.display = "none";
-//     });
-// });
-
-// const preview = () => {
-//   const config = {
-//     filename: "test.pdf",
-//     image: { type: "webp", quality: 1.0 },
-//     html2canvas: { dpi: 75, scale: 2, letterRendering: true },
-//     pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-//     jsPDF: {
-//       orientation: "portrait",
-//       unit: "in",
-//       format: "a4",
-//       compressPDF: true,
-//     },
-//   };
-
-//   pdfContent.value.style.display = "block";
-//   html2pdf()
-//     .from(pdfContent.value)
-//     .set(config)
-//     .toPdf()
-//     .get("pdf")
-//     .then((pdf) => {
-//       var totalPages = pdf.internal.getNumberOfPages();
-//       for (let i = 1; i <= totalPages; i++) {
-//         pdf.setPage(i);
-//         pdf.setFontSize(10);
-//         pdf.setTextColor(150);
-//         pdf.text(
-//           "okay for testing",
-//           pdf.internal.pageSize.getWidth() - 30,
-//           pdf.internal.pageSize.getHeight() - 10
-//         );
-//       }
-//       pdfContent.value.style.display = "none";
-//     })
-//     .save();
-// };
-
-// const download = () => {
-//   const opt = {
-//     margin: 0,
-//     filename: `Devis N°${quotation.number}.pdf`,
-//     image: { type: "html", quality: 0.98 },
-//     html2canvas: { scale: 2 },
-//     jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-//   };
-//   html2pdf().set(opt).from(pdfContent.value).save();
-// };
 </script>
 
 <style scoped>
