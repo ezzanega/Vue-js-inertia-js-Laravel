@@ -13,7 +13,7 @@ class Invoice extends Model
     protected $fillable = [
         'type',
         'number',
-        'executing_company',
+        'executing_company_id',
         'amount_ht',
         'status',
         'organization_id',
@@ -22,5 +22,10 @@ class Invoice extends Model
     public function movingJob(): BelongsTo
     {
         return $this->belongsTo(MovingJob::class, 'moving_job_id', 'id');
+    }
+
+    public function executingCompany(): BelongsTo
+    {
+        return $this->belongsTo(ExecutingCompany::class, 'executing_company_id', 'id');
     }
 }

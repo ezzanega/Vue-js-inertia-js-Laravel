@@ -33,7 +33,7 @@
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.ape_code" placeholder="Code APE" />
+            <DocumentFieldInput :modelValue="currentOrganisation.code_ape" placeholder="Code APE" />
           </DocumentFieldFrame>
         </div>
         <div>
@@ -65,10 +65,13 @@
           </DocumentFieldFrame>
         </div>
       </div>
-      <div>
-        <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise" />
-        </DocumentFieldFrame>
+      <div v-if="currentClient.type == 'professional'">
+        <div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise"
+              :modelValue="currentClient.client_organization.name" />
+          </DocumentFieldFrame>
+        </div>
       </div>
       <div>
         <DocumentFieldFrame>
@@ -82,7 +85,7 @@
       </div>
       <DocumentLabel name="Lettre de voiture" color="#438A7A" />
       <DocumentFieldFrame>
-        <SelectOperative />
+        <SelectOperative @savingExecutingCompany="saveExecutingCompany" />
       </DocumentFieldFrame>
       <div v-if="currentClient.type == 'individual'">
         <div class="grid grid-cols-3 gap-6 pb-5 justify-between">
@@ -131,13 +134,8 @@
             </p>
           </label>
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress
-              :required="true"
-              name="loading_address"
-              :value="currentMovingJob.loading_address"
-              placeholder="Adresse de chargement"
-              @place_changed="setLoadingAddressData"
-            />
+            <DocumentFieldInputAddress :required="true" name="loading_address" :value="currentMovingJob.loading_address"
+              placeholder="Adresse de chargement" @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -179,13 +177,8 @@
           <DocumentLabel name="Livraison" color="#438A7A" />
           <div class="pt-6"></div>
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress
-              :required="true"
-              :value="currentMovingJob.shipping_address"
-              name="shipping_address"
-              placeholder="Adresse de livraison"
-              @place_changed="setShippingAddressData"
-            />
+            <DocumentFieldInputAddress :required="true" :value="currentMovingJob.shipping_address" name="shipping_address"
+              placeholder="Adresse de livraison" @place_changed="setShippingAddressData" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -428,8 +421,8 @@ const movingjob = useForm({
   balance: currentMovingJob.balance
 });
 
-const newQuotation = reactive({
-  validity_duratation: ""
+const newWaybill = useForm({
+  executing_company_id: ""
 });
 
 const form = reactive({
@@ -459,6 +452,17 @@ const saveFormula = (formula) => {
   movingjob.formula = formula.title;
   console.log(movingjob.formula);
   movingjob.put(route("6dem.waybill.update", { id: currentWaybill.id, field: 'formula' }), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("saved"),
+    onError: (errors) => console.log(errors)
+  });
+};
+
+const saveExecutingCompany = (executinCompany) => {
+  newWaybill.executing_company_id = executinCompany.id;
+  console.log(newWaybill.executing_company_id);
+  newWaybill.put(route("6dem.waybill.update", { id: currentWaybill.id, field: 'executing_company_id' }), {
     preserveScroll: true,
     preserveState: true,
     onSuccess: () => console.log("saved"),
@@ -499,10 +503,10 @@ const updateTTC = () => {
 };
 
 const previewWaybill = () => {
-    router.visit(route("6dem.documents.waybill.preview", currentWaybill.id), {
-      method: "get",
-    });
-  };
+  router.visit(route("6dem.documents.waybill.preview", currentWaybill.id), {
+    method: "get",
+  });
+};
 
 /*onMounted(() => {
   calculateDistance();

@@ -12,7 +12,7 @@ class Waybill extends Model
 
     protected $fillable = [
         'number',
-        'executing_company',
+        'executing_company_id',
         'status',
         'organization_id'
     ];
@@ -22,8 +22,8 @@ class Waybill extends Model
         return $this->belongsTo(MovingJob::class, 'moving_job_id', 'id');
     }
 
-    /*public function document(): BelongsTo
+    public function executingCompany(): BelongsTo
     {
-        return $this->belongsTo(Document::class, 'document_id', 'id');
-    }*/
+        return $this->belongsTo(ExecutingCompany::class, 'executing_company_id', 'id');
+    }
 }

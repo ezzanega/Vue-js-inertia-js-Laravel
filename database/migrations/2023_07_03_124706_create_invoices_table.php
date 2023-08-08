@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('number')->nullable();
             $table->string('amount_ht')->nullable();
             $table->enum('status', InvoiceStatus::values());
-            $table->string('executing_company')->nullable();
+            $table->foreignId('executing_company_id')->nullable();
             $table->foreignId('organization_id')->nullable();
             $table->foreignId('moving_job_id')->nullable();
             $table->timestamps();

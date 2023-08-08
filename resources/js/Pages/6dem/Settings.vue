@@ -32,6 +32,12 @@
                 </div>
 
                 <UpdateExecutingCompanies />
+
+                <div class="hidden sm:block" aria-hidden="true">
+                  <div class="py-5">
+                    <div class="border-t border-neutral-200"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -43,9 +49,11 @@
         
 <script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
-import { Head, usePage } from "@inertiajs/vue3";
+import { Head, usePage, router } from "@inertiajs/vue3";
 import UpdateSettingsFrom from "@/Components/Settings/UpdateSettingsFrom.vue";
 import UpdateFormulas from "@/Components/Settings/UpdateFormulas.vue";
 import UpdateInsurances from "@/Components/Settings/UpdateInsurances.vue";
 import UpdateExecutingCompanies from "@/Components/Settings/UpdateExecutingCompanies.vue";
+
+
 </script>

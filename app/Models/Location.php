@@ -40,7 +40,7 @@ class Location extends Model
         return $this->belongsTo(ClientOrganizations::class, 'client_organization_id', 'id');
     }
 
-    public function executinCompany(): BelongsTo
+    public function executingCompany(): BelongsTo
     {
         return $this->belongsTo(ExecutingCompany::class, 'executing_company_id', 'id');
     }

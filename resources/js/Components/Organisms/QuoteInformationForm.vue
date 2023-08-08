@@ -33,12 +33,12 @@
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.ape_code" placeholder="Code APE" />
+            <DocumentFieldInput :modelValue="currentOrganisation.code_ape" placeholder="Code APE" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.licence_number" placeholder="Licence N°" />
+            <DocumentFieldInput :modelValue="currentOrganisation.licence" placeholder="Licence N°" />
           </DocumentFieldFrame>
         </div>
       </div>
@@ -65,10 +65,13 @@
           </DocumentFieldFrame>
         </div>
       </div>
-      <div>
-        <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise" />
-        </DocumentFieldFrame>
+      <div v-if="currentClient.type == 'professional'">
+        <div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Nom complet de l'entreprise"
+              :modelValue="currentClient.client_organization.name" />
+          </DocumentFieldFrame>
+        </div>
       </div>
       <div>
         <DocumentFieldFrame>
@@ -132,12 +135,8 @@
             </p>
           </label>
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress
-              :required="true"
-              name="loading_address"
-              placeholder="Adresse de chargement"
-              @place_changed="setLoadingAddressData"
-            />
+            <DocumentFieldInputAddress :required="true" name="loading_address" placeholder="Adresse de chargement"
+              @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -176,12 +175,8 @@
           <DocumentLabel name="Livraison" color="#438A7A" />
           <div class="pt-6"></div>
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress
-              :required="true"
-              name="shipping_address"
-              placeholder="Adresse de livraison"
-              @place_changed="setShippingAddressData"
-            />
+            <DocumentFieldInputAddress :required="true" name="shipping_address" placeholder="Adresse de livraison"
+              @place_changed="setShippingAddressData" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -360,11 +355,11 @@ import "vue-select/dist/vue-select.css";
 import { reactive, ref, onMounted } from "vue";
 
 const user = usePage().props.auth.user;
+const currentSettingss = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
 const currentQuotation = usePage().props.quotation;
 const currentMovingJob = usePage().props.movingJob;
 const currentClient = usePage().props.client;
-const currentOption = usePage().props.options;
 const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
 const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
 
@@ -393,7 +388,7 @@ const insuranceAdValorem = useForm({
 });
 
 const movingjob = useForm({
-  validity_duration: currentMovingJob.validity_duration ? currentMovingJob.validity_duration : "",
+  validity_duration: currentMovingJob.validity_duration ? currentMovingJob.validity_duration : currentSettingss.quotation_validity_duratation,
   capacity: currentMovingJob.capacity ? currentMovingJob.capacity : "",
   formula: currentMovingJob.formula ? currentMovingJob.formula : "",
   loading_address: currentMovingJob.loading_address ? currentMovingJob.loading_address : "",
@@ -487,8 +482,8 @@ const setShippingAddressData = (location) => {
 };
 
 const previewQuotation = () => {
-    router.visit(route("6dem.documents.quotation.preview", currentQuotation.id), {
-      method: "get",
-    });
-  };
+  router.visit(route("6dem.documents.quotation.preview", currentQuotation.id), {
+    method: "get",
+  });
+};
 </script>
