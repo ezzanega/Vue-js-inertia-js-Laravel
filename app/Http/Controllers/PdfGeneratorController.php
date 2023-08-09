@@ -31,6 +31,7 @@ class PdfGeneratorController extends Controller
                 "client-side"  => $movingJobFormulaOptionsClientSide,
                 "organization-side"   => $movingJobFormulaOptionsOrganizationSide,
             ],
+            'settings' => $organization->settings,
             'organization' => $organization
         ]);
         $filename = 'Devis N°' . $quotation->number . '.pdf';
@@ -44,6 +45,7 @@ class PdfGeneratorController extends Controller
         $waybill = Waybill::where('id', $id)->with(['movingJob.client', 'movingJob.client.address', 'movingJob.client.clientOrganization'])->first();
         $pdf = PDF::loadView('documents.waybill-v1', [
             'waybill' => $waybill,
+            'settings' => $organization->settings,
             'organization' => $organization
         ]);
         $filename = 'Lettre de voiture N°' . $waybill->number . '.pdf';
@@ -55,20 +57,9 @@ class PdfGeneratorController extends Controller
     {
         $organization = $request->user()->organization;
         $invoice = Invoice::where('id', $id)->with(['movingJob.client', 'movingJob.client.address', 'movingJob.client.clientOrganization'])->first();
-        $movingJobFormula = MovingJobFormula::where(['organization_id' => $organization->id, 'slug' => $invoice->movingJob->formula])->first();
-        $movingJobFormulaOptionsClientSide = [];
-        $movingJobFormulaOptionsOrganizationSide = [];
-        if ($movingJobFormula) {
-            $movingJobFormulaOptionsClientSide = MovingJobFormulaOption::where(['moving_job_formula_id' => $movingJobFormula->id, 'type' => 'client-side'])->get();
-            $movingJobFormulaOptionsOrganizationSide = MovingJobFormulaOption::where(['moving_job_formula_id' => $movingJobFormula->id, 'type' => 'organization-side'])->get();
-        }
         $pdf = PDF::loadView('documents.invoice-v1', [
             'invoice' => $invoice,
-            'advisor' => $request->user(),
-            'movingJobFormula' => [
-                "client-side"  => $movingJobFormulaOptionsClientSide,
-                "organization-side"   => $movingJobFormulaOptionsOrganizationSide,
-            ],
+            'settings' => $organization->settings,
             'organization' => $organization
         ]);
         $filename = 'Devis N°' . $invoice->number . '.pdf';

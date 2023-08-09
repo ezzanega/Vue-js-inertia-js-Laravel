@@ -103,7 +103,7 @@
         <!-- Livraison -->
         <table
             style="width: 50%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; float: right;">
-            <tr style="background-color: #f0f0f0;">
+            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Livraison</th>
             </tr>
             <tr>
@@ -130,7 +130,7 @@
         <!-- Chargement -->
         <table
             style="width: 50%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: #f0f0f0;">
+            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Chargement</th>
             </tr>
             <tr>
@@ -158,7 +158,7 @@
         @if ($quotation->movingJob->client->type === 'individual')
             <table
                 style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em; color: #333;">
-                <tr style="background-color: #f0f0f0;">
+                <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                     <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
                     <th style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</th>
                     <th style="padding: 8px;">Prix TTC</th>
@@ -201,7 +201,7 @@
         @else
             <table
                 style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; color: #333;">
-                <tr style="background-color: #f0f0f0;">
+                <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                     <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
                     <th style="padding: 8px; border-right: 1px solid #ccc;">Quantité</th>
                     <th style="padding: 8px; border-right: 1px solid #ccc;">Valeur</th>
@@ -228,7 +228,7 @@
         <!-- Montant final du devis -->
         <table
             style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: #f0f0f0;">
+            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th colspan="3" style="padding: 8px; text-transform: uppercase;">Montant final du devis</th>
             </tr>
             <tr>
@@ -251,7 +251,7 @@
         <!-- Assurance -->
         <table
             style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: #f0f0f0;">
+            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th colspan="5" style="padding: 8px; text-transform: uppercase;">Assurance</th>
             </tr>
             <tr>
@@ -274,7 +274,7 @@
         <!-- Modalité de réglement -->
         <table
             style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: #f0f0f0;">
+            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Modalité de réglement</th>
             </tr>
             <tr>
@@ -296,7 +296,7 @@
                     BIC: XXXX-XXXX<br>
                 </td>
                 <td
-                    style="width: 50%; height: 65px; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
+                    style="width: 50%; height: 65px; background-color: {{ $settings->ducuments_primary_color }}; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
                     Date et Signature du Client <br>
                     Précédé de la mention “lu et approuvé”.
                 </td>

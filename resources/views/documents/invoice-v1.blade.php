@@ -50,8 +50,9 @@
         </table>
 
         <div style="text-align: center; margin-top: 20px; padding: 2px;">
-            <span style="font-size: 1em; font-weight: 600; background-color: #f0f0f0; padding: 2px;">
-                Facture N°<span style="color: #438A7A; font-weight: 900;">{{ $invoice->number }}</span>
+            <span
+                style="font-size: 1em; font-weight: 600; background-color: {{ $settings->ducuments_primary_color }}; padding: 2px;">
+                Facture N°<span style="font-weight: 900;">{{ $invoice->number }}</span>
             </span>
         </div>
 
@@ -62,26 +63,27 @@
                         style="width: 100%; margin-top: 8px; border: 1px solid #ccc; text-align: left; font-size: 0.65em;">
                         <tr>
                             <td
-                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: #f0f0f0;">
+                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 Date:</td>
                             <td style="padding: 8px; border-bottom: 1px solid #ccc;">10/08/2023</td>
                         </tr>
                         <tr>
                             <td
-                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: #f0f0f0;">
+                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 Type:
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid #ccc;">Accompte</td>
                         </tr>
                         <tr>
                             <td
-                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: #f0f0f0;">
+                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 Devis
                             </td>
                             <td style="padding: 8px; border-bottom: 1px solid #ccc;">N°{{ $invoice->number }}</td>
                         </tr>
                         <tr>
-                            <td style="padding: 8px; border-right: 1px solid #ccc; background-color: #f0f0f0;">
+                            <td
+                                style="padding: 8px; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 Lettre de voiture
                             </td>
                             <td style="padding: 8px;">N°{{ $invoice->number }}</td>
@@ -105,7 +107,7 @@
         <!-- Options Table -->
         <table
             style="width: 100%; margin-top: 20px; border: 1px solid #ccc; text-align: center; font-size: 0.65em; color: #333;">
-            <tr style="background-color: #f0f0f0;">
+            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Désignation</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</th>
                 <th style="padding: 8px;">Prix TTC</th>
@@ -163,18 +165,20 @@
                         style="width: 100%; margin-top: 8px; border: 1px solid #ccc; text-align: left; font-size: 0.65em;">
                         <tr>
                             <td
-                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: #f0f0f0;">
+                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 Prix HT</td>
                             <td style="padding: 8px; border-bottom: 1px solid #ccc;">1090€</td>
                         </tr>
                         <tr>
                             <td
-                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: #f0f0f0;">
+                                style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 TVA(20%)</td>
                             <td style="padding: 8px; border-bottom: 1px solid #ccc;">190€</td>
                         </tr>
                         <tr>
-                            <td style="padding: 8px; border-right: 1px solid #ccc; background-color: #f0f0f0;">Prix TTC
+                            <td
+                                style="padding: 8px; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
+                                Prix TTC
                             </td>
                             <td style="padding: 8px;">1990€</td>
                         </tr>
