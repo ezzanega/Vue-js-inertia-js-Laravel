@@ -202,8 +202,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/clients', [ClientController::class, 'index'])
         ->name('6dem.clients');
 
-
-
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])
         ->name('6dem.create.clients');

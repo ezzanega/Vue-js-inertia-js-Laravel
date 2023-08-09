@@ -55,7 +55,8 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Envoyer un mail" @clicked="PopperItemClicked">
+      <PopperItem item="Envoyer un mail" @clicked="openMailModal">
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -91,9 +92,17 @@
     </div>
   </div>
 </template>
-  
+
   <script setup>
 import PopperItem from "@/Components/Atoms/PopperItem.vue";
+
+import { defineEmits } from 'vue';
+
+const emit = defineEmits(["openMailModal"]);
+
+const openMailModal = () => {
+  emit('openMailModal');
+};
 
 const PopperItemClicked = () => {};
 </script>

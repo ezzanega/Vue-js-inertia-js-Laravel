@@ -15,11 +15,11 @@
       <div class="w-1/12">Source</div>
       <div class="w-1/12"></div>
     </div>
-
     <ClientListItem
       v-for="(client, index) in $page.props.clients"
       :key="index"
       :client="client"
+      @openMailModal="openMailModal"
     />
     <div
       v-if="!$page.props.clients.length"
@@ -33,4 +33,11 @@
 <script setup>
 import ClientListItem from "@/Components/Molecules/ClientListItem.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
+import { ref } from 'vue';
+const emit = defineEmits(["openMailModal"]);
+const openMailModal = () => {
+  //isMailopen.value = true;
+  emit("openMailModal");
+  console.log('Client List : ' +isMailopen);
+};
 </script>
