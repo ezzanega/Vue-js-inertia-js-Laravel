@@ -15,7 +15,7 @@
               </span>
   
               <div class="mx-5 hidden xl:flex items-center">
-                <SecondaryButton> Modifier </SecondaryButton>
+                <SecondaryButton @click="updateWaybill"> Modifier </SecondaryButton>
               </div>
   
               <div class="mx-5 hidden xl:flex items-center">
@@ -58,7 +58,7 @@
             </div>
           </div>
         </div>
-        <WaybillDocument :document="waybill" />
+        <iframe :src="`/6dem/waybill/pdf/${waybill.id}`" width="100%" height="600px"></iframe>
       </div>
     </DemLayout>
   </template>
@@ -67,9 +67,15 @@
   import DemLayout from "@/Layouts/DemLayout.vue";
   import { Dropdown } from "floating-vue";
   import WaybillActionsPopperContent from "@/Components/Molecules/WaybillActionsPopperContent.vue";
-  import WaybillDocument from "@/Components/Organisms/WaybillDocument.vue";
   import SecondaryButton from "@/Components/SecondaryButton.vue";
-  import { Head, usePage } from "@inertiajs/vue3";
+  import { Head, usePage, router } from "@inertiajs/vue3";
   
   const waybill = usePage().props.waybill;
+
+
+  const updateWaybill = () => {
+  router.visit(route("6dem.documents.waybill", [waybill.moving_job.id, waybill.moving_job.client.id, waybill.id]), {
+    method: "get",
+  });
+};
   </script>

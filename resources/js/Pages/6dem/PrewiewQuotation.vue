@@ -69,24 +69,8 @@ import { router } from "@inertiajs/vue3";
 const quotation = usePage().props.quotation;
 
 const updateQuotation = () => {
-  router.visit(route("6dem.documents.quotation.preview", quotation.id), {
-    method: "get",
-  });
-
   router.visit(route("6dem.documents.quotation", [quotation.moving_job.id, quotation.moving_job.client.id, quotation.id]), {
     method: "get",
   });
 };
 </script>
-
-<style scoped>
-.pdf-content {
-  display: none;
-}
-
-@media print {
-  .pdf-content {
-    display: block;
-  }
-}
-</style>

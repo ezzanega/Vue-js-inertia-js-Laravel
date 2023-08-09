@@ -115,7 +115,7 @@
       <div class="flex flex-col space-y-2 pb-8">
         <DynamicFields />
       </div>
-      <DocumentLabel name="Assurances" color="#438A7A" />
+      <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
       <div class="flex space-x-2">
         <span class="w-2/6 p-1">
           <DocumentFieldFrame>

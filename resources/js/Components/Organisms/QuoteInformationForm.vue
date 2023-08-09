@@ -206,7 +206,7 @@
     </div>
     <div class="flex flex-col space-y-5 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-5">
-        <DocumentLabel name="Assurances" color="#438A7A" />
+        <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>

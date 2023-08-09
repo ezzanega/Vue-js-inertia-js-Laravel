@@ -58,7 +58,7 @@
             </div>
           </div>
         </div>
-        <InvoiceDocument :document="invoice" />
+        <iframe :src="`/6dem/invoice/pdf/${invoice.id}`" width="100%" height="600px"></iframe>
       </div>
     </DemLayout>
   </template>
@@ -67,7 +67,6 @@
   import DemLayout from "@/Layouts/DemLayout.vue";
   import { Dropdown } from "floating-vue";
   import InvoiceActionsPopperContent from "@/Components/Molecules/InvoiceActionsPopperContent.vue";
-  import InvoiceDocument from "@/Components/Organisms/InvoiceDocument.vue";
   import SecondaryButton from "@/Components/SecondaryButton.vue";
   import { Head, usePage } from "@inertiajs/vue3";
   
