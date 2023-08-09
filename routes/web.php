@@ -20,6 +20,7 @@ use App\Http\Controllers\PdfGeneratorController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\MailTemplatesController;
 use App\Http\Controllers\AdditionalFieldController;
+use App\Http\Controllers\ExecutingCompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,12 @@ Route::middleware('auth')->group(function () {
     # Documents
     Route::get('/6dem/quotation/pdf/{id}', [PdfGeneratorController::class, 'quotation'])
         ->name('6dem.quotation.pdf');
+
+    Route::get('/6dem/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
+        ->name('6dem.waybill.pdf');
+
+    Route::get('/6dem/invoice/pdf/{id}', [PdfGeneratorController::class, 'invoice'])
+        ->name('6dem.invoice.pdf');
 
 
     # Organization
@@ -165,6 +172,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/manage/invite-user', [AclController::class, 'inviteUser'])
         ->name('6dem.manage.invite.user');
 
+    Route::get('/6dem/settings', [SettingsController::class, 'index'])
+        ->name('6dem.settings');
+
+    Route::put('/6dem/settings', [SettingsController::class, 'update'])
+        ->name('6dem.settings.update');
+
+    #Executing Companies
+    Route::post('/6dem/executing-comapnies/create', [ExecutingCompanyController::class, 'store'])
+        ->name('6dem.create.executingCompany');
+
+    Route::put('/6dem/executingCompany/update/{id}', [ExecutingCompanyController::class, 'update'])
+        ->name('6dem.udpate.executingCompany');
+
+    Route::delete('/6dem/executingCompany/delete/{id}', [ExecutingCompanyController::class, 'delete'])
+        ->name('6dem.executingCompany.delete');
+
     //Gérer les collaborateurs
     Route::delete('/6dem/manage/collaborateur/delete/{memberId}/{membeRole}', [AclController::class, 'deleteMember'])
         ->name('6dem.manage.collaborateur.delete');
@@ -174,12 +197,6 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/manage/collaborateur/updateInvitRole/{id}', [AclController::class, 'UpdateRoleInvite'])
         ->name('6dem.manage.collaborateur.inviteRole.update');
-
-    Route::get('/6dem/settings', [SettingsController::class, 'index'])
-        ->name('6dem.settings');
-
-    Route::put('/6dem/settings', [SettingsController::class, 'update'])
-        ->name('6dem.settings.update');
 
     Route::get('/6dem/account', [OrganizationController::class, 'accountSettings'])
         ->name('6dem.account');
@@ -209,8 +226,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/clients', [ClientController::class, 'index'])
         ->name('6dem.clients');
-
-
 
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])

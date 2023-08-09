@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Client;
-use Illuminate\Http\Request;
-use App\Models\Enums\ClientType;
 use App\Models\Location;
+use Illuminate\Http\Request;
+use App\Models\EmailTemplates;
+use App\Models\Enums\ClientType;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
@@ -18,7 +19,8 @@ class ClientController extends Controller
     {
         $organization = $request->user()->organization;
         $clients = Client::where('organization_id', $organization->id)->with('clientOrganization')->get();
-        return Inertia::render('6dem/Clients', ['clients' => $clients]);
+        $mails = EmailTemplates::where('organization_id', $organization->id)->get();
+        return Inertia::render('6dem/Clients', ['clients' => $clients,'mails'=>$mails]);
     }
 
     /**

@@ -1,9 +1,9 @@
 <template>
-  <div class="px-28">
+  <div class="2xl:px-28">
     <div class="pt-14 grid justify-items-center">
       <UploadFile class="w-1/6" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
     </div>
-    <div class="flex flex-col space-y-5 px-10 mt-24">
+    <div class="flex flex-col space-y-5 px-8 mt-24">
       <div class="text-center text-4xl font-bold pb-5">
         <h1>Informations pré-remplies</h1>
       </div>
@@ -33,12 +33,12 @@
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.ape_code" placeholder="Code APE" />
+            <DocumentFieldInput :modelValue="currentOrganisation.code_ape" placeholder="Code APE" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.licence_number" placeholder="Licence N°" />
+            <DocumentFieldInput :modelValue="currentOrganisation.licence" placeholder="Licence N°" />
           </DocumentFieldFrame>
         </div>
       </div>
@@ -65,18 +65,16 @@
           </DocumentFieldFrame>
         </div>
       </div>
-      <div>
-        <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise" />
-        </DocumentFieldFrame>
-      </div>
-      <div>
-        <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Adresse de la société" :modelValue="currentClient.address.full_address" />
-        </DocumentFieldFrame>
+      <div v-if="currentClient.type == 'professional'">
+        <div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Nom complet de l'entreprise"
+              :modelValue="currentClient.client_organization.name" />
+          </DocumentFieldFrame>
+        </div>
       </div>
     </div>
-    <div class="flex flex-col space-y-5 px-10 mt-16">
+    <div class="flex flex-col space-y-5 px-8 mt-16">
       <div class="text-center text-4xl font-bold pb-5">
         <h1>Informations à remplir</h1>
       </div>
@@ -96,9 +94,7 @@
             </DocumentFieldFrame>
           </div>
           <div>
-            <DocumentFieldFrame>
-              <SelectFormulas @savingFormula="saveFormula" />
-            </DocumentFieldFrame>
+            <DocumentSelectInput v-model="movingjob.formula" :value="movingjob.formula" @change="saveFormula" :options="formulaOptaions" default-text="Formule de déménagament"/>
           </div>
         </div>
       </div>
@@ -121,23 +117,10 @@
       <div class="grid grid-cols-2 gap-20 justify-between">
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="Chargement" color="#438A7A" />
-
-          <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" @change="setLoadingAddress" class="sr-only peer" />
-            <div
-              class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-            </div>
-            <p class="text-sm ml-5 font-semibold leading-6 text-gray-900">
-              Adresse de chargement identique à l'adresse du client ?
-            </p>
-          </label>
+          <ToggleButton v-model:checked="sameAddressAsClient" label="Adresse de chargement identique à l'adresse du client ?" />
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress
-              :required="true"
-              name="loading_address"
-              placeholder="Adresse de chargement"
-              @place_changed="setLoadingAddressData"
-            />
+            <DocumentFieldInputAddress  :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
+              @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -176,12 +159,8 @@
           <DocumentLabel name="Livraison" color="#438A7A" />
           <div class="pt-6"></div>
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress
-              :required="true"
-              name="shipping_address"
-              placeholder="Adresse de livraison"
-              @place_changed="setShippingAddressData"
-            />
+            <DocumentFieldInputAddress :value="movingjob.shipping_address" name="shipping_address" placeholder="Adresse de livraison"
+              @place_changed="setShippingAddressData" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -217,7 +196,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col space-y-5 px-10 mt-8">
+    <div class="flex flex-col space-y-5 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-5">
         <DocumentLabel name="Options" color="#438A7A" />
       </div>
@@ -225,9 +204,9 @@
         <DynamicFields :movingjob="currentMovingJob.id" />
       </div>
     </div>
-    <div class="flex flex-col space-y-5 px-10 mt-8">
+    <div class="flex flex-col space-y-5 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-5">
-        <DocumentLabel name="Assurances" color="#438A7A" />
+        <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
@@ -298,7 +277,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col px-10 pb-10 mt-10">
+    <div class="flex flex-col px-8 pb-10 mt-10">
       <div class="flex flex-col space-y-5 px-16">
         <DocumentLabel name="Finalisation du devis" color="#438A7A" />
         <div class="grid grid-cols-4 gap-6 justify-between">
@@ -333,7 +312,7 @@
             </DocumentFieldFrame>
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Montant TTC"
-                :modelValue="'Montant TTC: ' + movingjob.discount_amount * vat" />
+                :modelValue="'Montant TTC: ' + movingjob.discount_amount_ht * vat" />
             </DocumentFieldFrame>
           </div>
         </div>
@@ -350,25 +329,34 @@ import { usePage, useForm, router } from "@inertiajs/vue3";
 import UploadFile from "@/Components/Atoms/UploadFile.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
+import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
-import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
+import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import "vue-select/dist/vue-select.css";
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, computed } from "vue";
+
+import { watch } from "vue";
 
 const user = usePage().props.auth.user;
+const currentSettingss = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
 const currentQuotation = usePage().props.quotation;
 const currentMovingJob = usePage().props.movingJob;
 const currentClient = usePage().props.client;
-const currentOption = usePage().props.options;
 const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
 const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
+const movingJobFormulas = usePage().props.movingJobFormulas;
 
-const vat = 1;
+const formulaOptaions = movingJobFormulas.map(item => ({
+  name: item.name,
+  value: item.slug
+}));
+
+const vat = 20;
 const organization = reactive({
   name: "",
   siret: "",
@@ -393,7 +381,7 @@ const insuranceAdValorem = useForm({
 });
 
 const movingjob = useForm({
-  validity_duration: currentMovingJob.validity_duration ? currentMovingJob.validity_duration : "",
+  validity_duration: currentMovingJob.validity_duration ? currentMovingJob.validity_duration : currentSettingss.quotation_validity_duratation,
   capacity: currentMovingJob.capacity ? currentMovingJob.capacity : "",
   formula: currentMovingJob.formula ? currentMovingJob.formula : "",
   loading_address: currentMovingJob.loading_address ? currentMovingJob.loading_address : "",
@@ -414,6 +402,12 @@ const movingjob = useForm({
   balance: currentMovingJob.balance ? currentMovingJob.balance : ""
 });
 
+const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
+
+const discountAmountTtc = computed(() => {
+  return currentMovingJob.discount_amount_ht * 20;
+});
+
 const newQuotation = reactive({
   validity_duratation: ""
 });
@@ -431,13 +425,14 @@ const form = reactive({
   siren: "",
 });
 
-const setLoadingAddress = () => {
-  if (movingjob.loading_address === currentClient.address.full_address) {
-    movingjob.loading_address = "";
-  } else {
+watch(sameAddressAsClient, (value) => {
+  if (value) {
     movingjob.loading_address = currentClient.address.full_address;
+    saveField('loading_address');
+  } else {
+    movingjob.loading_address = "";
   }
-};
+});
 
 const saveField = (field) => {
   movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: field }), {
@@ -449,7 +444,6 @@ const saveField = (field) => {
 };
 
 const saveFormula = (formula) => {
-  movingjob.formula = formula.title;
   console.log(movingjob.formula);
   movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: 'formula' }), {
     preserveScroll: true,
@@ -487,8 +481,8 @@ const setShippingAddressData = (location) => {
 };
 
 const previewQuotation = () => {
-    router.visit(route("6dem.documents.quotation.preview", currentQuotation.id), {
-      method: "get",
-    });
-  };
+  router.visit(route("6dem.documents.quotation.preview", currentQuotation.id), {
+    method: "get",
+  });
+};
 </script>

@@ -15,11 +15,7 @@
             </span>
 
             <div class="mx-5 hidden xl:flex items-center">
-              <SecondaryButton> Modifier </SecondaryButton>
-            </div>
-
-            <div class="mx-5 hidden xl:flex items-center">
-              <SecondaryButton> Créer une lettre de voiture </SecondaryButton>
+              <SecondaryButton @click="updateQuotation"> Modifier </SecondaryButton>
             </div>
 
             <div class="mx-5 hidden xl:flex items-center">
@@ -27,12 +23,8 @@
             </div>
 
             <div class="mx-5 hidden xl:flex items-center">
-              <SecondaryButton @click="preview">Aperçu</SecondaryButton>
+              <SecondaryButton>Envoyer au client</SecondaryButton>
             </div>
-
-            <!-- <div class="mx-5 hidden xl:flex items-center">
-              <SecondaryButton>Envoyer par mail</SecondaryButton>
-            </div> -->
 
             <div class="mx-5 hidden xl:flex items-center">
               <SecondaryButton>Supprimer</SecondaryButton>
@@ -73,18 +65,12 @@ import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActio
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { Dropdown } from "floating-vue";
 import { Head, usePage } from "@inertiajs/vue3";
-
+import { router } from "@inertiajs/vue3";
 const quotation = usePage().props.quotation;
+
+const updateQuotation = () => {
+  router.visit(route("6dem.documents.quotation", [quotation.moving_job.id, quotation.moving_job.client.id, quotation.id]), {
+    method: "get",
+  });
+};
 </script>
-
-<style scoped>
-.pdf-content {
-  display: none;
-}
-
-@media print {
-  .pdf-content {
-    display: block;
-  }
-}
-</style>

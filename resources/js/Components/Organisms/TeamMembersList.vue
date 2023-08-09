@@ -248,7 +248,7 @@
             })
     }
 
-    //Traitement de modification de collaborateur
+    //Traitement de modification du collaborateur
     const RoleModal = ref(false);
     const selectedMember = ref(null);
     const openUpRoleModal = (MemberData) => {

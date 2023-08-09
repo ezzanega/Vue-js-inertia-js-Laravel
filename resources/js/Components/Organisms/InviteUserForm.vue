@@ -96,6 +96,7 @@ const props = defineProps({
 
 const rolesOptions = ref([]);
 const emit = defineEmits(["closeModal"]);
+console.log(props.roles)
 
 onMounted(() => {
   props.roles.forEach((role) => {
@@ -105,7 +106,7 @@ onMounted(() => {
     });
   });
 });
-
+console.log(rolesOptions)
 const form = useForm({
   email: "",
   role: "",
