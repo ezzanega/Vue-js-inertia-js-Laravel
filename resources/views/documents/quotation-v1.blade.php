@@ -3,607 +3,312 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Quotation</title>
+    <title> Devis N°{{ $quotation->number }}.pdf</title>
     <style>
+        @font-face {
+            font-family: 'Arial';
+            font-style: normal;
+            font-weight: normal;
+            src: url('/fonts/arial.ttf') format('truetype');
+        }
+
         body {
-            background-color: #f7fafc;
-        }
-
-        .container {
-            max-width: 85rem;
-            padding: 1rem 1rem;
-            margin: 2rem auto;
-        }
-
-        .inner-container {
-            max-width: 75%;
-            margin: 0 auto;
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border-radius: 1rem;
-            padding: 1rem;
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .flex-col {
-            flex-direction: column;
-        }
-
-        .space-x-10>*+* {
-            margin-left: 2.5rem;
-        }
-
-        .mt-4 {
-            margin-top: 1rem;
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-        .text-gray-800 {
-            color: #2d3748;
-        }
-
-        .text-gray-500 {
-            color: #6b7280;
-        }
-
-        .font-semibold {
-            font-weight: 600;
-        }
-
-        .text-lg {
-            font-size: 1.125rem;
-        }
-
-        .text-2xl {
-            font-size: 1.5rem;
-        }
-
-        .text-3xl {
-            font-size: 1.875rem;
-        }
-
-        .text-sm {
-            font-size: 0.875rem;
-        }
-
-        .bg-gray-100 {
-            background-color: #f7fafc;
-        }
-
-        .border {
-            border: 1px solid #e2e8f0;
-        }
-
-        .border-r {
-            border-right: 1px solid #e2e8f0;
-        }
-
-        .border-b {
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .rounded-lg {
-            border-radius: 0.5rem;
-        }
-
-        .rounded-t-lg {
-            border-top-left-radius: 0.5rem;
-            border-top-right-radius: 0.5rem;
-        }
-
-        .px-4 {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .py-2 {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
-
-        .uppercase {
-            text-transform: uppercase;
-        }
-
-        .not-italic {
-            font-style: normal;
-        }
-
-        .grid {
-            display: grid;
-        }
-
-        .grid-cols-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .gap-2 {
-            grid-gap: 0.5rem;
-        }
-
-        .gap-4 {
-            grid-gap: 1rem;
-        }
-
-        .grid-cols-6 {
-            grid-template-columns: repeat(6, 1fr);
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-xs {
-            font-size: 0.75rem;
-        }
-
-        .text-md {
-            font-size: 1.125rem;
-        }
-
-        .font-medium {
-            font-weight: 500;
-        }
-
-        .mt-4 {
-            margin-top: 1rem;
-        }
-
-        .grid-cols-5 {
-            grid-template-columns: repeat(5, 1fr);
-        }
-
-        .grid-cols-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-        .uppercase {
-            text-transform: uppercase;
-        }
-
-        .h-32 {
-            height: 8rem;
-        }
-
-        .gap-5 {
-            grid-gap: 1.25rem;
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .space-x-10>*+* {
-            margin-left: 2.5rem;
-        }
-
-        .text-lg {
-            font-size: 1.125rem;
-        }
-
-        .md\:text-xl {
-            font-size: 1.25rem;
-        }
-
-        .md\:text-3xl {
-            font-size: 2rem;
-        }
-
-        .text-2xl {
-            font-size: 1.5rem;
-        }
-
-        .text-gray-800 {
-            color: #2D3748;
-        }
-
-        .text-gray-500 {
-            color: #718096;
-        }
-
-        .font-semibold {
-            font-weight: 600;
-        }
-
-        .mt-2 {
-            margin-top: 0.5rem;
-        }
-
-        .mt-4 {
-            margin-top: 1rem;
-        }
-
-        .text-sm {
-            font-size: 0.875rem;
-        }
-
-        .space-y-2>*+* {
-            margin-top: 0.5rem;
-        }
-
-        .border {
-            border: 1px solid #E2E8F0;
-        }
-
-        .border-gray-200 {
-            border-color: #EDF2F7;
-        }
-
-        .rounded-lg {
-            border-radius: 0.5rem;
-        }
-
-        .py-2 {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
-
-        .px-4 {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .grid-cols-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .grid-cols-1 {
-            grid-template-columns: repeat(1, 1fr);
-        }
-
-        .grid-cols-4 {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .gap-4 {
-            grid-gap: 1rem;
-        }
-
-        .gap-x-2 {
-            column-gap: 0.5rem;
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-        /* This is a guess based on the class name. The actual behavior might differ. */
-        .not-italic {
-            font-style: normal;
-        }
-
-        .justify-between {
-            justify-content: space-between;
+            font-family: 'Arial', sans-serif;
         }
     </style>
 </head>
 
-<body class="bg-gray-50">
-    <div style="padding: 8px; background-color: #fff;">
-        <div class="flex space-x-10">
-            <div>
-                <svg class="w-10 h-10" width="26" height="26" viewBox="0 0 26 26" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M1 26V13C1 6.37258 6.37258 1 13 1C19.6274 1 25 6.37258 25 13C25 19.6274 19.6274 25 13 25H12"
-                        class="stroke-blue-600" stroke="currentColor" stroke-width="2" />
-                    <path
-                        d="M5 26V13.16C5 8.65336 8.58172 5 13 5C17.4183 5 21 8.65336 21 13.16C21 17.6666 17.4183 21.32 13 21.32H12"
-                        class="stroke-blue-600" stroke="currentColor" stroke-width="2" />
-                    <circle cx="13" cy="13.0214" r="5" fill="currentColor" class="fill-blue-600" />
-                </svg>
+<body>
+    <div style="background-color: #fff;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%;">
+                    <h1 style="font-size: 1em; font-weight: 600;">Logo</h1>
+                </td>
+                <td style="width: 50%; text-align: left;">
+                    <span style="font-size: 1em; font-weight: 600; color: #333;">{{ $organization->name }}</span>
+                    <table style="width: 100%; font-size: 0.65em; color: #333;">
+                        <tr>
+                            <td>
+                                <address>
+                                    Adresse: {{ $organization->billingAddress->address }}<br>
+                                    Téléphone: {{ $organization->phone_number }}<br>
+                                    Email: {{ $organization->email }}<br>
+                                </address>
+                            </td>
+                            <td>
+                                <address>
+                                    SIREN: {{ $organization->siren }}<br>
+                                    Licence: {{ $organization->licence }}<br>
+                                    Code APE: {{ $organization->code_ape }}
+                                </address>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <!-- Devis and Client Details -->
+        <table style="width: 100%; margin-top: 4px;">
+            <tr>
+                <td style="width: 50%; text-align: left; border: 1px solid #ccc; padding: 8px; border-radius: 8px;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td colspan="4"
+                                style=" border-bottom: 1px solid #ccc; font-size: 0.65em; font-weight: 600; color: #777; padding: 8px;">
+                                Devis N°<span style="color: #438A7A; font-weight: 900;">{{ $quotation->number }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"
+                                style="border-bottom: 1px solid #ccc; font-size: 0.65em; color: #333; padding: 8px;">
+                                Conseiller: {{ $advisor->getFullName() }}
+                            </td>
+                            <td colspan="2"
+                                style="border-bottom: 1px solid #ccc; font-size: 0.65em; color: #333; padding: 8px;">
+                                Tél:
+                                {{ $advisor->phone_number }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"
+                                style="border-bottom: 1px solid #ccc; font-size: 0.65em; color: #333; padding: 8px;">
+                                Formule: {{ $quotation->movingJob->formula }}
+                            </td>
+                            <td colspan="2"
+                                style="border-bottom: 1px solid #ccc; font-size: 0.65em; color: #333; padding: 8px;">
+                                Validité: {{ $quotation->validity_duratation }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="font-size: 0.65em; color: #333; padding: 8px;">Volume:
+                                {{ $quotation->movingJob->volume }}</td>
+                            <td colspan="2" style="font-size: 0.65em; color: #333; padding: 8px;">Distence:
+                                {{ $quotation->movingJob->distance }}</td>
+                        </tr>
+                    </table>
+                </td>
 
-                <h1 class="mt-2 text-lg md:text-xl font-semibold">Sysdem
-                </h1>
-            </div>
-
-            <div class="text-left">
-                <h2 class="text-2xl md:text-3xl font-semibold text-gray-800">Nom de l'entreprise</h2>
-                <div class="flex justify-between  mt-4 not-italic text-sm text-gray-800">
-                    <address>
-                        Adresse:<br>
-                        Téléphone:<br>
-                        Email:<br>
+                <td style="width: 50%; border: 1px solid #ccc; padding: 8px; border-radius: 8px; font-size: 0.65em;">
+                    <span style="color: #333;">CLIENT :</span>
+                    <span style="color: #333;">{{ $quotation->movingJob->client->getFullName() }}</span>
+                    <address style="color: #777;">
+                        {{ $quotation->movingJob->client->address->address }}<br />
+                        {{ $quotation->movingJob->client->address->postal_code . ' ' . $quotation->movingJob->client->address->city }}
+                        <br />
+                        Tél : {{ $quotation->movingJob->client->phone_number }}
                     </address>
-                    <address>
-                        SIREN:<br>
-                        Licence:<br>
-                        Code APE:
-                    </address>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-4 grid grid-cols-2 gap-4">
-            <div class="text-left text-sm space-y-2 border border-gray-200 rounded-lg py-2">
-                <div class="grid grid-cols-1 gap-2">
-                    <dl class="px-4 grid grid-cols-2 gap-x-2">
-                        <dt class="text-lg font-semibold col-span-4 text-gray-500">Devis N°<span
-                                class="not-italic">1234567890</span></dt>
-                    </dl>
-                    <div class="block border-b border-gray-200"></div>
-                    <dl class="px-4 grid grid-cols-2 gap-x-2">
-                        <dt class="font-semibold text-gray-800">Conseiller: Khalid ZIDANI</dt>
-                        <dd class="font-semibold text-gray-800">Tél: 0157638291</dd>
-                    </dl>
-                    <div class="block border-b border-gray-200"></div>
-                    <dl class="px-4 grid grid-cols-2 gap-x-2">
-                        <dt class="font-semibold text-gray-800">Formule: Standard</dt>
-                        <dd class="font-semibold text-gray-800">Validité: 1 mois</dd>
-                    </dl>
-                    <div class="block border-b border-gray-200"></div>
-                    <dl class="px-4 grid grid-cols-2 gap-x-2">
-                        <dt class="font-semibold text-gray-800">Volume: 20m"</dt>
-                        <dd class="font-semibold text-gray-800">Distence: 20km</dd>
-                    </dl>
-                </div>
-            </div>
-
-            <div class="border border-gray-200 rounded-lg px-4 py-2">
-                <h3 class="text-lg font-semibold text-gray-800">CLIENT :</h3>
-                <h3 class="text-lg font-semibold text-gray-800">Jhon Doe</h3>
-                <address class="mt-2 not-italic text-gray-500">
-                    123, rue de Sysdem <br />
-                    12300 CRM-Ville<br />
-                    Tél : 0919783783
-                </address>
-            </div>
-        </div>
-
-        <div class="mt-4 grid grid-cols-2 gap-4">
-            <div class="border border-gray-200 rounded-lg text-sm">
-                <div
-                    class="text-md font-semibold col-span-4 text-gray-800 uppercase px-4 py-2 bg-gray-100 rounded-t-lg">
-                    Chargement
-                </div>
-
-                <div class="block border-b border-gray-200"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="col-span-full border-gray-200 px-4 py-2">
-                        Adresse
-                    </div>
-                </div>
-
-                <div class="block border-b border-gray-200"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="border-r border-gray-200 px-4 py-2">
-                        Date ou période
-                    </div>
-                    <div class="border-gray-200 px-4 py-2">
-                        Étage
-                    </div>
-                </div>
-
-                <div class="block border-b border-gray-200"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="border-r border-gray-200 px-4 py-2">
-                        Portage
-                    </div>
-                    <div class="border-gray-200 px-4 py-2">
-                        Ascenseur
-                    </div>
-                </div>
-
-                <div class="block border-b border-gray-200"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="col-span-full border-gray-200 px-4 py-2">
-                        Détails
-                    </div>
-                </div>
-            </div>
-
-            <div class="border border-gray-200 rounded-lg text-sm">
-                <div
-                    class="text-md font-semibold col-span-4 text-gray-800 uppercase px-4 py-2 bg-gray-100 rounded-t-lg">
-                    Livraison
-                </div>
-
-                <div class="block border-b border-gray-200"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="col-span-full border-gray-200 px-4 py-2">
-                        Adresse
-                    </div>
-                </div>
-
-                <div class="block border-b border-gray-200"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="border-r border-gray-200 px-4 py-2">
-                        Date ou période
-                    </div>
-                    <div class="border-gray-200 px-4 py-2">
-                        Étage
-                    </div>
-                </div>
-
-                <div class="block border-b border-gray-200"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="border-r border-gray-200 px-4 py-2">
-                        Portage
-                    </div>
-                    <div class="border-gray-200 px-4 py-2">
-                        Ascenseur
-                    </div>
-                </div>
-
-                <div class="block border-b border-gray-200"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="col-span-full border-gray-200 px-4 py-2">
-                        Détails
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-4 border border-gray-200 rounded-lg text-sm">
-            <div class="grid grid-cols-6 bg-gray-100 rounded-t-lg">
-                <div class="col-span-2 text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Option</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Quantité</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Valeur</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Prix HT</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2">Prix TTC</div>
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-6">
-                <div class="col-span-2 text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Description</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Nombre</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Valeur + Unité</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Prix €</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2">Prix €</div>
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-6">
-                <div class="col-span-2 text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Description</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Nombre</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Valeur + Unité</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Prix €</div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2">Prix €</div>
-            </div>
-
-        </div>
-
-        <div class="mt-4 border border-gray-200 rounded-lg text-sm">
-            <div class="text-md font-semibold col-span-4 text-gray-800 uppercase px-4 py-2 bg-gray-100 rounded-t-lg">
-                Assurance
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-6">
-                <div class="col-span-2 text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Assurance contractuelle
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Valeur max. par objet
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Franchise
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Prix HT
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2">Prix TTC</div>
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-6">
-                <div class="col-span-2 text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Assurance ad valorem
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Valeur max. par objet
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Franchise
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Prix HT
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2">Prix TTC</div>
-            </div>
-
-        </div>
-
-        <div class="mt-4 border border-gray-200 rounded-lg text-sm">
-            <div class="text-md font-semibold col-span-4 text-gray-800 uppercase px-4 py-2 bg-gray-100 rounded-t-lg">
-                Montant final du devis
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-5">
-                <div class="col-span-3 text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Total des prestations
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Prix HT
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2">Prix TTC</div>
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-5">
-                <div class="col-span-3 text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Remise en %
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Prix HT
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2">Prix TTC</div>
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-5">
-                <div class="col-span-3 text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Tarif final
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Prix HT
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2">Prix TTC</div>
-            </div>
-
-        </div>
-
-        <div class="mt-4 border border-gray-200 rounded-lg text-sm">
-            <div class="text-md font-semibold col-span-4 text-gray-800 uppercase px-4 py-2 bg-gray-100 rounded-t-lg">
-                Modalité de réglement
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-2">
-                <div class="text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Accompte en % TTC
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-gray-200">
-                    Montant en €
-                </div>
-            </div>
-
-            <div class="block border-b border-gray-200"></div>
-            <div class="grid grid-cols-2">
-                <div class="text-left text-xs font-medium text-gray-800 px-4 py-2 border-r border-gray-200">
-                    Solde % TTC
-                </div>
-                <div class="text-center text-xs font-medium text-gray-800 px-4 py-2 border-gray-200">
-                    Montant en €
-                </div>
-            </div>
-
-        </div>
-
-        <div class="mt-4 text-sm grid grid-cols-2 gap-5">
-            <div class="rib">
-                Coordonnées bancaire pour un paiement par virement : <br>
-                IBAN: XXXX-XXXX-XXXX-XXXX<br>
-                BIC: XXXX-XXXX<br>
-            </div>
-            <div class="h-32 bg-gray-100 border border-gray-200 rounded-lg text-center p-4">
-                <p>Date et Signature du Client</p>
-                <p>Précédé de la mention “lu et approuvé”.</p>
-            </div>
-        </div>
-
+                </td>
+            </tr>
+        </table>
+        <!-- Livraison -->
+        <table
+            style="width: 50%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; float: right;">
+            <tr style="background-color: #f0f0f0;">
+                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Livraison</th>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
+                    {{ $quotation->movingJob->shipping_address }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
+                    période: {{ $quotation->movingJob->shipping_date }}
+                </td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
+                    {{ $quotation->movingJob->shipping_floor }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
+                    {{ $quotation->movingJob->shipping_portaging }}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
+                    {{ $quotation->movingJob->shipping_elevator }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">Détails: {{ $quotation->movingJob->shipping_details }}</td>
+            </tr>
+        </table>
+        <!-- Chargement -->
+        <table
+            style="width: 50%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
+            <tr style="background-color: #f0f0f0;">
+                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Chargement</th>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
+                    {{ $quotation->movingJob->loading_address }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
+                    période: {{ $quotation->movingJob->loading_date }}
+                </td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
+                    {{ $quotation->movingJob->loading_floor }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
+                    {{ $quotation->movingJob->loading_portaging }}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
+                    {{ $quotation->movingJob->loading_elevator }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">Détails: {{ $quotation->movingJob->loading_details }}</td>
+            </tr>
+        </table>
+        <!-- Options Table -->
+        @if ($quotation->movingJob->client->type === 'individual')
+            <table
+                style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em; color: #333;">
+                <tr style="background-color: #f0f0f0;">
+                    <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
+                    <th style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</th>
+                    <th style="padding: 8px;">Prix TTC</th>
+                </tr>
+                <tr>
+                    <td
+                        style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; display: flex; justify-content: space-between;">
+                        <table style="width: 100%;">
+                            <tr>
+                                <th style="text-decoration: underline; font-weight: 600;">A notre charge</th>
+                                <th style="text-decoration: underline; font-weight: 600;">A votre charge</th>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%; border-right: 1px solid #ccc;">
+                                    <ul>
+                                        @foreach ($movingJobFormula['organization-side'] as $option)
+                                            <li>{{ $option->text }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td style="width: 50%;">
+                                    <ul>
+                                        @foreach ($movingJobFormula['client-side'] as $option)
+                                            <li>{{ $option->text }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">500 €</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc;">600 €</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-right: 1px solid #ccc;">Monte meuble</td>
+                    <td style="padding: 8px; border-right: 1px solid #ccc;">150 €</td>
+                    <td style="padding: 8px;">180 €</td>
+                </tr>
+            </table>
+        @else
+            <table
+                style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; color: #333;">
+                <tr style="background-color: #f0f0f0;">
+                    <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
+                    <th style="padding: 8px; border-right: 1px solid #ccc;">Quantité</th>
+                    <th style="padding: 8px; border-right: 1px solid #ccc;">Valeur</th>
+                    <th style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</th>
+                    <th style="padding: 8px;">Prix TTC</th>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Description 1
+                    </td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">5</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">100 €</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">500 €</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ccc;">600 €</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border-right: 1px solid #ccc;">Description 2</td>
+                    <td style="padding: 8px; border-right: 1px solid #ccc;">3</td>
+                    <td style="padding: 8px; border-right: 1px solid #ccc;">50 €</td>
+                    <td style="padding: 8px; border-right: 1px solid #ccc;">150 €</td>
+                    <td style="padding: 8px;">180 €</td>
+                </tr>
+            </table>
+        @endif
+        <!-- Montant final du devis -->
+        <table
+            style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
+            <tr style="background-color: #f0f0f0;">
+                <th colspan="3" style="padding: 8px; text-transform: uppercase;">Montant final du devis</th>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Total des
+                    prestations</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Prix HT</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Prix TTC</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Remise en %</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Prix HT</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Prix TTC</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Tarif final</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</td>
+                <td style="padding: 8px;">Prix TTC</td>
+            </tr>
+        </table>
+        <!-- Assurance -->
+        <table
+            style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
+            <tr style="background-color: #f0f0f0;">
+                <th colspan="5" style="padding: 8px; text-transform: uppercase;">Assurance</th>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Assurance
+                    contractuelle</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Valeur max. par
+                    objet</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Franchise</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Prix HT</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Prix TTC</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Assurance ad valorem</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Valeur max. par objet</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Franchise</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</td>
+                <td style="padding: 8px;">Prix TTC</td>
+            </tr>
+        </table>
+        <!-- Modalité de réglement -->
+        <table
+            style="width: 100%; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
+            <tr style="background-color: #f0f0f0;">
+                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Modalité de réglement</th>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Accompte en %
+                    TTC</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">50% - 500 €</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Solde % TTC</td>
+                <td style="padding: 8px;">50% - 500 €</td>
+            </tr>
+        </table>
+        <!-- Footer -->
+        <table style="width: 100%; margin-top: 4px; font-size: 0.55em;">
+            <tr>
+                <td style="width: 50%;">
+                    Coordonnées bancaire pour un paiement par virement : <br>
+                    IBAN: XXXX-XXXX-XXXX-XXXX<br>
+                    BIC: XXXX-XXXX<br>
+                </td>
+                <td
+                    style="width: 50%; height: 65px; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
+                    Date et Signature du Client <br>
+                    Précédé de la mention “lu et approuvé”.
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
+
+</html>
+
+
+</div>
+</body>
+
+</html>

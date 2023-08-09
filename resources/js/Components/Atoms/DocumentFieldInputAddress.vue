@@ -8,7 +8,8 @@
             :value="value"
             @place_changed="placeChanged"
             @focusout="$emit('savingValue')"
-            class="form-input custom w-full rounded-md border-tertiary bg-tertiary"
+            @input="$emit('update:modelValue', $event.target.value)"
+            class="form-input custom w-full rounded-md border-tertiary bg-tertiary border-none focus:outline-none focus:ring-0 focus:border-none"
             :options="{
               componentRestrictions: { country: 'FR' },
             }"
@@ -32,11 +33,6 @@ const props = defineProps({
   name: {
     type: String,
     default: "",
-  },
-
-  required: {
-    type: Boolean,
-    default: false,
   },
 
   className: {
@@ -65,15 +61,10 @@ const props = defineProps({
 });
 
 const classText = ref(props.className);
-const inputValue = ref(props.value);
 
 const placeChanged = (location) => {
   emit("place_changed", parseLocation(location));
 };
-
-watch(inputValue, (newValue) => {
-  emit("update:modelValue", newValue);
-});
 
 </script>
 <style scoped>

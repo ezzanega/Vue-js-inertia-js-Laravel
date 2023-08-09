@@ -10,14 +10,14 @@ use App\Models\ExecutingCompany;
 
 class ExecutingCompanyController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $organization = $request->user()->organization;
         $executingCompany = ExecutingCompany::create([
             'name' => $request->name,
             'siret' => $request->siret,
             'siren' => $request->siren,
-            'phone_number' => $request->phoneNumber,
+            'phone_number' => $request->phone_number,
             'email' => $request->email,
             'field' => $request->field,
         ]);
@@ -39,7 +39,7 @@ class ExecutingCompanyController extends Controller
         $executingCompany->organization()->associate($organization);
         $executingCompany->save();
 
-        return Redirect::route('6dem.settings');
+        return back();
     }
 
     public function update(Request $request, $id)
@@ -74,5 +74,13 @@ class ExecutingCompanyController extends Controller
         $location->update($filledLocationData);
         $executingCompagny->update($filledExecutingData);
         return back()->with('status', 'executing-updated');
+    }
+
+    public function delete($id)
+    {
+        $executingCompagny = ExecutingCompany::where(['id' => $id])->first();
+        $executingCompagny->delete();
+
+        return Redirect::route('6dem.settings');
     }
 }

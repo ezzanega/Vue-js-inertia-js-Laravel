@@ -4,8 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Quotation</title>
-    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-    <style>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- <style>
         body {
             background-color: #f7fafc;
         }
@@ -286,7 +286,7 @@
         .justify-between {
             justify-content: space-between;
         }
-    </style>
+    </style> --}}
 </head>
 
 <body class="bg-gray-50">
