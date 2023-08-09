@@ -13,6 +13,8 @@
     message="Mail a bien été mis à jour"
     /> -->
     <CreateMailTemplateModal :openModal="inviteUserModal" @closeModal="closeModal" />
+    <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+    @closedelModal="closedelModal()"/>
     <table
       class="w-full mt-2 border-collapse bg-white text-left text-sm text-gray-500 border border-gray-200 shadow-md rounded-lg">
       <thead class="bg-gray-50">
@@ -105,6 +107,10 @@
     <!-- le formulaire d'update -->
     <UpdateMailTemplateModal v-if="isModalUpOpen && selectedMail" :openUpModal="isModalUpOpen"
     @closeUpModal="closeUpModal" :mailData="selectedMail" />
+    
+    <IconButton @click="opendelModal" class="p-2" text="delete modal">
+    </IconButton>
+
   </div>
 </template>
 
@@ -115,6 +121,8 @@ import PopperItem from "@/Components/Atoms/PopperItem.vue";
 import MailActionsPopperContent from "@/Components/Molecules/MailActionsPopperContent.vue";
 import UpdateMailTemplateModal from "@/Components/Templates/UpdateMailTemplateModal.vue";
 import CreateMailTemplateModal from "@/Components/Templates/CreateMailTemplateModal.vue";
+import DeleteFormModal from "@/Components/Templates/DeleteFormModal.vue";
+
 import IconButton from "@/Components/Atoms/IconButton.vue";
 import { usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -153,6 +161,16 @@ function deleteMail(id) {
     onBefore: () => confirm('etes-vous sur de vouloire supprimer ce Mail?'),
   })
 }
+
+const isModaldelOpen=ref(false);
+const opendelModal = () => {
+    isModaldelOpen.value = true;
+  // console.log(selectedMail.value);
+};
+
+const closedelModal = () => {
+    isModaldelOpen.value = false;
+};
 
 </script>
 
