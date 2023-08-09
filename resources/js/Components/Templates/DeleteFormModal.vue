@@ -20,6 +20,7 @@
         </div>
         <div class="p-3 mt-2 text-center space-x-4 md:block">
             <button
+            @click="deleteFunction"
             class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-red-500 hover:text-white"
             >
                 Supprimer
@@ -41,9 +42,14 @@
 
     });
 
-  const emit = defineEmits(["closedelModal"]);
-  const closedelModal = () => {
+const emit = defineEmits(["closedelModal"]);
+
+const closedelModal = () => {
     emit("closedelModal");
-  };
+};
+
+const deleteFunction = () => {
+    emit("deleteFunction");
+};
 
 </script>
