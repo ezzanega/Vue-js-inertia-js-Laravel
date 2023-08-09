@@ -43,7 +43,7 @@
             <div class="my-1 space-y-2">
                 <DefaultSelectInput
                     name="mails"
-                    label="Emails"
+                    label="Liste des Emails"
                     v-model="form.mail"
                     :options="mailsOptions"
                     :error="form.errors.mails"

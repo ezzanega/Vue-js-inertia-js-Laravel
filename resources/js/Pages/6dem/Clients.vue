@@ -33,8 +33,6 @@
           </div>
         </Drawer>
         <ClientList class="mt-2"  @openMailModal="openMailModal"/>
-        <IconButton @click="openMailModal" class="mt-6" text="Envoyer un Mail">
-        </IconButton>
         <ClientMailModal :isMailopen="isMailopen" @closeMailModal="closeMailModal" />
 
       </div>
