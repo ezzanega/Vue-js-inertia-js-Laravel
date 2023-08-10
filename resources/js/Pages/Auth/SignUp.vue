@@ -57,14 +57,13 @@
                   :error="form.errors.lastName"
                 />
               </div>
-              <DefaultInput
+              <DefaultSelectInput
                 class="w-full"
-                type="text"
-                :required="false"
+                name="position"
                 label="Poste occupé"
                 placeholder="Sélectionner un poste"
-                name="position"
                 v-model="form.position"
+                :options="positionOptions"
                 :error="form.errors.position"
               />
               <DefaultInput
@@ -156,6 +155,7 @@
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import GoogleIcon from "@/Components/Atoms/GoogleIcon.vue";
+import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import { Head, Link, usePage, useForm } from "@inertiajs/vue3";
 
 const form = useForm({
@@ -170,6 +170,37 @@ const form = useForm({
 });
 
 const props = usePage().props;
+
+const positionOptions = [
+  {
+    name: 'Dirigeant',
+    value: 'Dirigeant',
+  },
+  {
+    name: 'Directeur',
+    value: 'Directeur',
+  },
+  {
+    name: 'Gérant',
+    value: 'Gérant',
+  },
+  {
+    name: "Chef d'exploitation",
+    value: "Chef d'exploitation",
+  },
+  {
+    name: 'Directeur commercial',
+    value: 'Directeur commercial',
+  },
+  {
+    name: 'Assistant(e) commercial(e)',
+    value: 'Assistant(e) commercial(e)',
+  },
+  {
+    name: 'Chauffeur-Déménageur',
+    value: 'Chauffeur-Déménageur',
+  },
+];
 
 form.companyName = props.organization;
 

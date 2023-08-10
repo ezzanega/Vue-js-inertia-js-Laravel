@@ -16,13 +16,13 @@
             d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
         </svg>
       </PopperItem>
-      <PopperItem item="Créer une facture pour ce devis" @clicked="PopperItemClicked">
+      <!-- <PopperItem item="Créer une facture associée" @clicked="createInvoice">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
         </svg>
-      </PopperItem>
+      </PopperItem> -->
       <PopperItem item="Envoyer au client" @clicked="PopperItemClicked">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
@@ -30,7 +30,7 @@
             d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
         </svg>
       </PopperItem>
-      <PopperItem item="Supprimer le devis" @clicked="PopperItemClicked">
+      <PopperItem item="Supprimer la lettre de voiture" @clicked="PopperItemClicked">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
           <path stroke-linecap="round" stroke-linejoin="round"

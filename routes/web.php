@@ -62,16 +62,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/dashboard', [DashboardController::class, 'index'])
         ->name('6dem.dashboard');
 
-    Route::get('/6dem/documents', [DocumentController::class, 'index'])
-        ->name('6dem.documents');
-
-    Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
-        ->name('6dem.documents.quotation.preview');
-
     # Documents
     Route::get('/6dem/quotation/pdf/{id}', [PdfGeneratorController::class, 'quotation'])
         ->name('6dem.quotation.pdf');
 
+    Route::get('/6dem/documents', [DocumentController::class, 'index'])
+        ->name('6dem.documents');
     Route::get('/6dem/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
         ->name('6dem.waybill.pdf');
 
@@ -93,13 +89,14 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
         ->name('6dem.quotation.update');
 
+
+    Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
+        ->name('6dem.documents.quotation.preview');
+
     Route::get('/6dem/quotation/search', [QuotationController::class, 'search'])
         ->name('6dem.search.quotation');
 
     # Waybill
-    Route::get('/6dem/waybill/preview/{id}', [WaybillController::class, 'preview'])
-        ->name('6dem.documents.waybill.preview');
-
     Route::post('/6dem/waybill/init/{quotationId}', [MovingJobController::class, 'initWaybill'])
         ->name('6dem.documents.waybill.init');
 
@@ -109,10 +106,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/waybill/update/{id}/{field}', [MovingJobController::class, 'updateWaybill'])
         ->name('6dem.waybill.update');
 
-    # Invoice
-    Route::get('/6dem/invoice/preview/{id}', [InvoiceController::class, 'preview'])
-        ->name('6dem.documents.invoice.preview');
+    Route::get('/6dem/waybill/preview/{id}', [WaybillController::class, 'preview'])
+        ->name('6dem.documents.waybill.preview');
 
+    Route::get('/6dem/waybill/search', [WaybillController::class, 'search'])
+        ->name('6dem.search.waybill');
+
+    # Invoice
     Route::post('/6dem/invoice/init/{quotationId}', [MovingJobController::class, 'initInvoice'])
         ->name('6dem.documents.invoice.init');
 
@@ -121,6 +121,12 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/invoice/update/{id}/{field}', [MovingJobController::class, 'updateInvoice'])
         ->name('6dem.invoice.update');
+
+    Route::get('/6dem/invoice/preview/{id}', [InvoiceController::class, 'preview'])
+        ->name('6dem.documents.invoice.preview');
+
+    Route::get('/6dem/invoice/search', [InvoiceController::class, 'search'])
+        ->name('6dem.search.invoice');
 
     # Option
     Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])

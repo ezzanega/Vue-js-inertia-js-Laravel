@@ -7,5 +7,5 @@ class WaybillStatus
     use HasEnums;
 
     const SIGNED = 'Signé';
-    const NOTSIGNED = 'Non-signé';
+    const NOTSIGNED = 'Non signé';
 }

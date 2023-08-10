@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Quotation;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class QuotationController extends Controller
@@ -27,6 +28,10 @@ class QuotationController extends Controller
         $quotation = Quotation::where('organization_id', auth()->user()->organization->id)
             ->where(function ($query) use ($search_text) {
                 $query->where('number', 'LIKE', "%{$search_text}%");
+            })
+            ->orWhereHas('movingJob.client', function ($query) use ($search_text) {
+                $query->where('first_name', 'LIKE', "%{$search_text}%")
+                ->orWhere('last_name', 'LIKE', "%{$search_text}%");
             })
             ->with('movingJob.client')
             ->take(20)

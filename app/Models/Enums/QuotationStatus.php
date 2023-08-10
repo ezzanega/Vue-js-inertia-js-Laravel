@@ -7,9 +7,9 @@ class QuotationStatus
     use HasEnums;
 
     const SENT = 'Envoyé';
-    const NOTSENT = 'Non-envoyé';
+    const ACCEPTED = 'Accepté';
     const DENIED = 'Refusé';
     const EXPIRED = 'Expiré';
     const SIGNED = 'Signé';
-    const NOTSIGNED = 'Non-signé';
+    const NOTSIGNED = 'Non signé';
 }

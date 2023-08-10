@@ -19,16 +19,5 @@
   const currentWaybill = usePage().props.waybill;
   const executingCompanies = usePage().props.executingCompanies;
 
-  const selected = ref(currentWaybill.executing_company?.name);
-  const options = [
-    {
-      title: "L'agence du déménagement"
-    },
-    {
-      title: "La super agence du déménagement"
-    },
-    {
-      title: "L'incroyable agence de déménagement"
-    }
-  ];
+  const selected = ref(currentWaybill.executing_company ? currentWaybill.executing_company.name:"");
   </script>

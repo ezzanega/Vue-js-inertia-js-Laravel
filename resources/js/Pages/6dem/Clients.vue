@@ -33,7 +33,7 @@
           </div>
         </Drawer>
         <ClientList class="mt-2"  @openMailModal="openMailModal"/>
-        <ClientMailModal :isMailopen="isMailopen" @closeMailModal="closeMailModal" />
+        <ClientMailModal :isMailOpen="isMailOpen" :client="currentClient" @closeMailModal="closeMailModal" />
 
       </div>
     </div>
@@ -45,17 +45,16 @@
 import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head, usePage } from "@inertiajs/vue3";
 import IconButton from "@/Components/Atoms/IconButton.vue";
-import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import ClientList from "@/Components/Molecules/ClientList.vue";
 import Drawer from "@/Components/Organisms/Drawer.vue";
 import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 import ClientMailModal from "@/Components/Molecules/ClientMailModal.vue";
-import ClientActionsPopperContent from "@/Components/Molecules/ClientActionsPopperContent.vue";
 import DrawerContent from "@/Components/Molecules/DrawerContent.vue";
 import { ref } from "vue";
 
 
 let isDrawerOpen = ref(false);
+const currentClient = ref(null);
 
 const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value;
@@ -65,14 +64,14 @@ const closeDrawer = () => {
   isDrawerOpen.value = false;
 };
 
-const isMailopen = ref(false);
+const isMailOpen = ref(false);
 
 
-const openMailModal = () => {
-  console.log("Opening mail modal");
-  isMailopen.value = true; // Open the modal
+const openMailModal = (client) => {
+  currentClient.value = client;
+  isMailOpen.value = true;
 };
 const closeMailModal = () => {
-    isMailopen.value = false;
+    isMailOpen.value = false;
 };
 </script>

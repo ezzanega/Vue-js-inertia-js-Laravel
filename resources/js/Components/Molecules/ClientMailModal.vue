@@ -1,5 +1,5 @@
 <template>
-    <Modal :show="isMailopen" @close="closeMailModal">
+    <Modal :show="isMailOpen" @close="closeMailModal">
       <div class="flex min-h-0 flex-1 flex-col py-6 overflow-y-scroll">
         <div class="px-4 sm:px-6">
           <div class="flex items-start justify-between">
@@ -9,7 +9,7 @@
                 data-headlessui-state="open"
                 class="text-lg font-medium"
               >
-                Envoyer un modèle de mail
+                Envoyer un mail
               </h2>
             </div>
             <div class="ml-3 flex h-7 items-center">
@@ -43,7 +43,7 @@
             <div class="my-1 space-y-2">
                 <DefaultSelectInput
                     name="mails"
-                    label="Liste des Emails"
+                    label="Selectionnez le mail à envoyer"
                     v-model="form.mail"
                     :options="mailsOptions"
                     :error="form.errors.mails"
@@ -62,19 +62,17 @@
                 />
             </div>
 
-            <div class="py-3">
-              <div>
-                <p class="text-gray-500">
-                  Vous avez maintenant la possibilité d'ajouter des variables
-                  personnalisées à vos modèles de mail pour rendre vos messages
-                  plus personnels et adaptés à chaque destinataire.
-                </p>
-              </div>
-            </div>
-
-            <div class="mt-6 flex justify-end space-x-4">
-              <SecondaryButton @click="closeMailModal"> Annuler </SecondaryButton>
-              <DefaultButton type="submit" class="w-32" buttontext="Modifier" />
+            <div class="mt-6 flex justify-between space-x-4">
+              <button @click="sendMailWithGmail" type="button" class="w-full max-w-2xl font-bold shadow-sm rounded-lg py-2.5 bg-secondary text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
+              >
+                <Gmail />
+                <span class="ml-2">Evoyer avec Gmail </span>
+              </button>
+                <button @click="sendMailWithOutlook" type="button" class="w-full max-w-2xl font-bold shadow-sm rounded-lg py-2.5 bg-secondary text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
+              >
+                <Outlook />
+                <span class="ml-2">Evoyer avec Outlook </span>
+              </button>
             </div>
           </div>
         </form>
@@ -84,46 +82,81 @@
 
 <script setup>
   import Modal from "@/Components/Modal.vue";
-  import SecondaryButton from "@/Components/SecondaryButton.vue";
   import { useForm,usePage } from "@inertiajs/vue3";
-  import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
   import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
   import TextArea from "@/Components/Atoms/TextArea.vue";
-  import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
+  import Gmail from "@/Components/Svg/Gmail.vue";
+  import Outlook from "@/Components/Svg/Outlook.vue";
   import { ref,onMounted,watch} from "vue";
 
 
   const props = defineProps({
-    mails:Array,
-    isMailopen: Boolean,
-    });
+    client: Object,
+    isMailOpen: Boolean,
+  });
 
-  const page=usePage();
+  const page = usePage();
   const mailsOptions = ref([]);
+  const selectedMail = ref(null);
 
   const emit = defineEmits(["closeMailModal"]);
   onMounted(() => {
     page.props.mails.forEach((mail) => {
-    mailsOptions.value.push({
-      name: mail.subject,
-      value: mail.name,
+      mailsOptions.value.push({
+        name: mail.subject,
+        value: mail.name,
+      });
     });
   });
-});
 
   const form = useForm({
     mail: "",
     body: "",
   });
+
   watch(form, (newValue) => {
-        const selectedMail = page.props.mails.find(mail => mail.name === newValue.mail);
-        if (selectedMail) {
-            form.body = selectedMail.body;
-        }
-    });
+    selectedMail.value = page.props.mails.find(mail => mail.name === newValue.mail);
+    if (selectedMail) {
+      form.body = selectedMail.value ? replaceMailVariablesToValue(selectedMail.value?.body) : '';
+    }
+  });
+
   const closeMailModal = () => {
     form.reset();
     emit("closeMailModal");
   };
 
-  </script>
+  const sendMailWithGmail = () => {
+    const url = "https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&to=" + props.client.email + "&su="+ encodeURI(selectedMail.value.subject) +"&body=" + encodeURI(form.body);
+    window.open(
+      url,
+      "_blank"
+    );
+  }
+
+  const sendMailWithOutlook = () => {
+    const url = "https://outlook.live.com/owa/?path=/mail/action/compose&to=" + encodeURIComponent(props.client.email) + "&subject=" + encodeURIComponent(selectedMail.value.subject) + "&body=" + encodeURIComponent(form.body);
+    window.open(
+      url,
+      "_blank"
+    );
+  };
+
+
+  const replaceMailVariablesToValue = (content) => {
+    let newContent = content;
+    const replacements = {
+      "[PrenomClient]": props.client.first_name,
+      "[NomDuClient]": props.client.last_name,
+      "[EmailClient]": props.client.email,
+      "[AdresseClient]": props.client.address?.address,
+    };
+
+    for (let key in replacements) {
+      content = content.replaceAll(key, replacements[key]);
+    }
+    return content;
+}
+
+
+</script>

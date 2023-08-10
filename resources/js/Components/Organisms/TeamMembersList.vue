@@ -119,7 +119,7 @@
                         <!-- Items User actif -->
                         <div class="space-y-0.5"
                          v-if="member.first_name">
-                            <PopperItem item="Modifier le Role User" @click="openUpRoleModal(member)">
+                            <PopperItem item="Modifier le Role" @click="openUpRoleModal(member)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -135,7 +135,7 @@
                                 />
                               </svg>
                             </PopperItem>
-                            <PopperItem item="Supprimer User" @click.prevent="deleteUserdMembre(member,'user')">
+                            <PopperItem item="Supprimer" @click.prevent="deleteUserdMembre(member,'user')">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -155,7 +155,7 @@
                         <!-- Items Invited User -->
                         <div class="space-y-0.5"
                          v-else>
-                            <PopperItem item="Modifier le Role Invited" @click="openUpRoleModal(member)">
+                            <PopperItem item="Modifier le Role" @click="openUpRoleModal(member)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -171,7 +171,7 @@
                                 />
                               </svg>
                             </PopperItem>
-                            <PopperItem item="Supprimer Invited" @click.prevent="deleteInvitedMembre(member.id,'invited')">
+                            <PopperItem item="Supprimer" @click.prevent="deleteInvitedMembre(member.id,'invited')">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
