@@ -70,7 +70,7 @@
             />
           </svg>
           <template #popper>
-            <ClientActionsPopperContent @openMailModal="openMailModal"/>
+            <ClientActionsPopperContent @openMailModal="openMailModal" :client="client"/>
           </template>
         </Dropdown>
       </div>
@@ -92,9 +92,7 @@ defineProps({
 const emit = defineEmits(["openMailModal"]);
 
 const openMailModal = () => {
-  //isMailopen.value = true;
   emit("openMailModal");
-  console.log('Client List : ' +isMailopen);
 };
 
 </script>

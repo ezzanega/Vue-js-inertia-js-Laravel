@@ -89,7 +89,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
         ->name('6dem.quotation.update');
 
-        
+
     Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
         ->name('6dem.documents.quotation.preview');
 

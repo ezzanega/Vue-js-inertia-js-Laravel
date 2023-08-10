@@ -19,7 +19,7 @@
       v-for="(client, index) in $page.props.clients"
       :key="index"
       :client="client"
-      @openMailModal="openMailModal"
+      @openMailModal="openMailModal(client)"
     />
     <div
       v-if="!$page.props.clients.length"
@@ -35,9 +35,7 @@ import ClientListItem from "@/Components/Molecules/ClientListItem.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 import { ref } from 'vue';
 const emit = defineEmits(["openMailModal"]);
-const openMailModal = () => {
-  //isMailopen.value = true;
-  emit("openMailModal");
-  console.log('Client List : ' +isMailopen);
+const openMailModal = (client) => {
+  emit("openMailModal", client);
 };
 </script>

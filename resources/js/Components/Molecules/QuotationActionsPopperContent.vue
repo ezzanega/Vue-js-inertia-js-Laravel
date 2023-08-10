@@ -40,7 +40,7 @@
       </PopperItem>
       <PopperItem
         item="Créer une facture pour ce devis"
-        @clicked="PopperItemClicked"
+        @clicked="createInvoice"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -116,6 +116,13 @@ const previewQuotation = () => {
 const updateQuotation = () => {
   router.visit(route("6dem.documents.quotation", [props.moving_job_id, props.client_id, props.id]), {
     method: "get",
+  });
+};
+
+const createInvoice = () => {
+  router.visit(
+    route("6dem.documents.invoice.init", props.id),{
+      method: "post",
   });
 };
 </script>
