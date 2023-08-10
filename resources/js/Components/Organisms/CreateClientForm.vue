@@ -96,12 +96,12 @@
           label="Email"
         />
 
-        <DefaultInput
-          :required="false"
-          v-model="form.source"
-          :error="form.errors.source"
+       <DefaultSelectInput
           name="source"
           label="Source"
+          v-model="form.source"
+          :options="sourceOptions"
+          :error="form.errors.source"
         />
       </div>
 
@@ -198,12 +198,12 @@
           label="Email"
         />
 
-        <DefaultInput
-          :required="false"
-          v-model="form.source"
-          :error="form.errors.source"
+        <DefaultSelectInput
           name="source"
           label="Source"
+          v-model="form.source"
+          :options="sourceOptions"
+          :error="form.errors.source"
         />
       </div>
       <div class="shrink-0 py-4">
@@ -219,6 +219,7 @@ import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import LocationAutocomplete from "@/Components/Atoms/LocationAutocomplete.vue";
+import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 
@@ -276,6 +277,34 @@ const clientTypeChange = (value) => {
   form.googleMapUrl = "";
   form.clearErrors();
 };
+
+const sourceOptions = [
+  {
+    name: 'Bouche à oreille & Recommandation',
+    value: 'Bouche à oreille & Recommandation',
+  },
+  {
+    name: 'Appel entant',
+    value: 'Appel entant',
+  },
+  {
+    name: 'Publicité en Ligne(google adwords…)',
+    value: 'Publicité en Ligne(google adwords…)',
+  },
+  {
+    name: 'Publicité traditionnelle',
+    value: 'Publicité traditionnelle',
+  },
+  {
+    name: "Campagnes d'Emailing",
+    value: "Campagnes d'Emailing",
+  },
+
+  {
+    name: "Site Web et SEO",
+    value: "Site Web et SEO",
+  }
+];
 
 const createClient = () => {
   form.post(route("6dem.create.clients"), {

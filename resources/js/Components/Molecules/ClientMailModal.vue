@@ -86,7 +86,6 @@
   import Modal from "@/Components/Modal.vue";
   import SecondaryButton from "@/Components/SecondaryButton.vue";
   import { useForm,usePage } from "@inertiajs/vue3";
-  import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
   import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
   import TextArea from "@/Components/Atoms/TextArea.vue";
   import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
