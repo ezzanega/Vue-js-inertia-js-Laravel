@@ -6,19 +6,20 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Client;
 use App\Models\Option;
-use App\Models\Waybill;
 use App\Models\Invoice;
+use App\Models\Waybill;
 use App\Models\Settings;
 use App\Models\Insurance;
 use App\Models\MovingJob;
 use App\Models\Quotation;
-use App\Models\ExecutingCompany;
 use Illuminate\Http\Request;
 use App\Models\AdditionalField;
 use App\Models\Enums\OptionType;
-use App\Models\Enums\QuotationStatus;
-use App\Models\Enums\WaybillStatus;
+use App\Models\ExecutingCompany;
+use App\Models\MovingJobFormula;
 use App\Models\Enums\InvoiceStatus;
+use App\Models\Enums\WaybillStatus;
+use App\Models\Enums\QuotationStatus;
 use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
@@ -119,16 +120,18 @@ class MovingJobController extends Controller
     public function quotation(Request $request, $movingjobId, $clientId, $quotationId): Response
     {
         $organization = $request->user()->organization->with('billingAddress')->first();
-        $client = Client::where('id', $clientId)->with(['address','clientOrganization'])->first();
+        $client = Client::where('id', $clientId)->with(['address', 'clientOrganization'])->first();
         $movingjob = MovingJob::find($movingjobId);
         $quotation = Quotation::find($quotationId);
         $options = Option::where('moving_job_id', $movingjobId)->get();
         $insurances = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->get();
 
         return Inertia::render('6dem/Devis', [
             'organization' => $organization,
             'additionalFields' => [],
+            'movingJobFormulas' => $movingJobFormulas,
             'quotation' => $quotation->only(
                 'id',
                 'number',
@@ -176,7 +179,7 @@ class MovingJobController extends Controller
     public function waybill(Request $request, $movingjobId, $clientId, $waybillId): Response
     {
         $organization = $request->user()->organization->with('billingAddress')->first();
-        $client = Client::where('id', $clientId)->with(['address','clientOrganization'])->first();
+        $client = Client::where('id', $clientId)->with(['address', 'clientOrganization'])->first();
         $movingjob = MovingJob::find($movingjobId);
         $additionalFields = AdditionalField::where('moving_job_id', $movingjobId)->get();
         $options = Option::where('moving_job_id', $movingjobId)->get();
@@ -232,7 +235,7 @@ class MovingJobController extends Controller
     public function invoice(Request $request, $movingjobId, $clientId, $invoiceId): Response
     {
         $organization = $request->user()->organization->with('billingAddress')->first();
-        $client = Client::where('id', $clientId)->with(['address','clientOrganization'])->first();
+        $client = Client::where('id', $clientId)->with(['address', 'clientOrganization'])->first();
         $movingjob = MovingJob::find($movingjobId);
         $additionalFields = AdditionalField::where('moving_job_id', $movingjobId)->get();
         $options = Option::where('moving_job_id', $movingjobId)->get();
@@ -323,7 +326,7 @@ class MovingJobController extends Controller
             $waybill->update([
                 $field => $request->$field,
             ]);
-        } else if ($field == "executing_company_id"){
+        } else if ($field == "executing_company_id") {
             $executingCompany = ExecutingCompany::where(['id' => $request->$field])->first();
             $waybill->executingCompany()->associate($executingCompany);
             $waybill->save();
@@ -347,11 +350,11 @@ class MovingJobController extends Controller
             $invoice->update([
                 $field => $request->$field,
             ]);
-        }else if ($field == "amount_ht"){
+        } else if ($field == "amount_ht") {
             $invoice->update([
                 $field => $request->$field,
             ]);
-        }else if ($field == "executing_company"){
+        } else if ($field == "executing_company") {
             $invoice->update([
                 $field => $request->$field,
             ]);

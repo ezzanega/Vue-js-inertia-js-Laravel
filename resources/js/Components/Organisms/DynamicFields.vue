@@ -1,25 +1,25 @@
 <template>
     <div v-for="item, index in options" :key="item">
         <div class="flex space-x-2">
-            <span class="w-1/4 p-1 flex-none">
+            <span class="w-1/5 p-1 flex-none">
                 <DocumentFieldFrame>
                     <DocumentFieldInput v-model="item.description" placeholder="Description" :fontBold="true" @savingValue="saveField('designation', item.id, item.description)"/>
                 </DocumentFieldFrame>
             </span>
-            <span class="w-1/4 p-1 flex flex-row items-center">
-                <div class="w-7/12 items-center">
-                    <DocumentFieldFrame>
-                        <DocumentFieldInput v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
-                    </DocumentFieldFrame>
-                </div>
-                <SelectMeasurement :selected="item.selectedMeasurement" class="p-1" @savingMeasurement="(measurement) => saveField('unit', item.id, measurement)"/>
-            </span>
-            <span class="w-1/4 p-1">
+            <span class="w-1/5 p-1">
                 <DocumentFieldFrame>
-                    <DocumentFieldInput v-model="item.priceHT" placeholder="Tarif HT" :fontBold="true" @savingValue="saveField('price_ht', item.id, item.priceHT)"/>
+                    <DocumentFieldInput v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
                 </DocumentFieldFrame>
             </span>
-            <span class="w-1/4 p-1">
+            <span class="w-1/5 p-1">
+                <DocumentSelectInput v-model="item.selectedMeasurement" :value="item.selectedMeasurement" @change="() => saveField('unit', item.id, item.selectedMeasurement)" :options="measurementOptions" default-text="Unité"/>
+            </span>
+            <span class="w-1/5 p-1">
+                <DocumentFieldFrame>
+                    <DocumentFieldInput class="w-full" v-model="item.priceHT" placeholder="Tarif HT" :fontBold="true" @savingValue="saveField('price_ht', item.id, item.priceHT)"/>
+                </DocumentFieldFrame>
+            </span>
+            <span class="w-1/5 p-1">
                 <DocumentFieldFrame>
                     <DocumentFieldInput placeholder="Tarif TTC" :fontBold="true" />
                 </DocumentFieldFrame>
@@ -46,10 +46,23 @@ import SettingsAddButtonPopperContent from "@/Components/Atoms/SettingsAddButton
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 import AddOptionButton from "@/Components/Atoms/AddOptionButton.vue";
 import RemoveButton from "@/Components/Atoms/RemoveButton.vue";
-import SelectMeasurement from "@/Components/Atoms/SelectMeasurement.vue";
+import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import { Dropdown } from "floating-vue";
 
 const currentOptions = usePage().props.options;
+
+const measurementOptions = [
+    { name: 'Unité', value: 0 },
+    { name: 'Forfaitaire', value: 1 },
+    { name: 'm³', value: 2 },
+    { name: 'tonne', value: 3 },
+    { name: 'kg', value: 4 },
+    { name: 'g', value: 5 },
+    { name: 'm', value: 6 },
+    { name: 'jour(s)', value: 7 },
+    { name: 'heure(s)', value: 8 },
+    { name: 'bonhomme(s)', value: 9 },
+];
 
 const props = defineProps({
     movingjob: Number

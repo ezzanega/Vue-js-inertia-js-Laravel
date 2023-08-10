@@ -24,7 +24,7 @@ class OrganizationObserver
         $organization->settings()->create([
             "quotation_validity_duratation" => "",
             "ducuments_general_conditions" => "",
-            "ducuments_primary_color" => "",
+            "ducuments_primary_color" => "rgb(240, 240, 240)",
             "ducuments_secondary_color" => "",
             "legal_notice" => "",
         ]);

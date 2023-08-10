@@ -32,22 +32,28 @@
             </DrawerContent>
           </div>
         </Drawer>
-        <ClientList class="mt-2" />
+        <ClientList class="mt-2"  @openMailModal="openMailModal"/>
+        <ClientMailModal :isMailopen="isMailopen" @closeMailModal="closeMailModal" />
+
       </div>
     </div>
   </DemLayout>
 </template>
 
 <script setup>
+
 import DemLayout from "@/Layouts/DemLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import IconButton from "@/Components/Atoms/IconButton.vue";
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import ClientList from "@/Components/Molecules/ClientList.vue";
 import Drawer from "@/Components/Organisms/Drawer.vue";
 import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
+import ClientMailModal from "@/Components/Molecules/ClientMailModal.vue";
+import ClientActionsPopperContent from "@/Components/Molecules/ClientActionsPopperContent.vue";
 import DrawerContent from "@/Components/Molecules/DrawerContent.vue";
 import { ref } from "vue";
+
 
 let isDrawerOpen = ref(false);
 
@@ -57,5 +63,16 @@ const toggleDrawer = () => {
 
 const closeDrawer = () => {
   isDrawerOpen.value = false;
+};
+
+const isMailopen = ref(false);
+
+
+const openMailModal = () => {
+  console.log("Opening mail modal");
+  isMailopen.value = true; // Open the modal
+};
+const closeMailModal = () => {
+    isMailopen.value = false;
 };
 </script>
