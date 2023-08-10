@@ -6,10 +6,12 @@
                     <DocumentFieldInput v-model="item.description" placeholder="Description" :fontBold="true" @savingValue="saveField('designation', item.id, item.description)"/>
                 </DocumentFieldFrame>
             </span>
-            <span class="w-1/4 p-1 grid grid-cols-2 items-center">
-                <DocumentFieldFrame>
-                    <DocumentFieldInput v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
-                </DocumentFieldFrame>
+            <span class="w-1/4 p-1 flex flex-row items-center">
+                <div class="w-7/12 items-center">
+                    <DocumentFieldFrame>
+                        <DocumentFieldInput v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
+                    </DocumentFieldFrame>
+                </div>
                 <SelectMeasurement :selected="item.selectedMeasurement" class="p-1" @savingMeasurement="(measurement) => saveField('unit', item.id, measurement)"/>
             </span>
             <span class="w-1/4 p-1">

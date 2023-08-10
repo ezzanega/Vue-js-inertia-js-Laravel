@@ -66,16 +66,14 @@
         </div>
       </div>
       <div v-if="currentClient.type == 'professional'">
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise"
-              :modelValue="currentClient.client_organization.name" />
-          </DocumentFieldFrame>
-        </div>
+        <DocumentFieldFrame>
+          <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise"
+            :modelValue="currentClient.client_organization.name" />
+        </DocumentFieldFrame>
       </div>
       <div>
         <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Adresse de la société" :modelValue="currentClient.address.full_address" />
+          <DocumentFieldInput placeholder="Adresse du client" :modelValue="currentClient.address.full_address" />
         </DocumentFieldFrame>
       </div>
     </div>

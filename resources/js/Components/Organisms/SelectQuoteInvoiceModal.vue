@@ -26,7 +26,7 @@
                     <div>
                         <Dropdown :triggers="[]" :shown="searchingQuotation" :autoHide="false" placement="bottom">
                             <SearchBar :required="true" name="waybill" v-model="searchQuotationQuery" class="shrink mt-1"
-                                placeholder="Recherchez un numéro de devis" />
+                                placeholder="Recherchez un numéro de devis/nom de client" />
                             <template #popper>
                                 <div class="w-full" style="width: 624px">
                                     <div class="bg-white rounded-md w-full">

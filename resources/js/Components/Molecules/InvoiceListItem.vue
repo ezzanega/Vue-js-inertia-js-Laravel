@@ -16,11 +16,16 @@
           />
         </svg>
       </div>
-      <div class="text-left w-3/12 my-auto">{{ document.number }}</div>
-      <div class="text-left w-3/12 my-auto">{{ document.moving_job.loading_date }}</div>
-      <div class="text-left w-2/12 my-auto">{{ document.status }}</div>
-      <div class="text-left w-2/12 my-auto">{{ document.amount_ht }}</div>
-      <div class="text-left w-2/12 my-auto"></div>
+      <div class="text-left w-3/12 flex justify-center my-auto">{{ document.number }}</div>
+      <div class="text-left w-3/12 flex justify-center my-auto">{{ document.moving_job.loading_date }}</div>
+      <div class="text-left w-2/12 flex justify-center my-auto">{{ document.type }}</div>
+      <div v-if="document.status == 'A payer'" class="text-left w-2/12 flex justify-center my-auto"><p class="text-left rounded-full bg-yellow-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Retard'" class="text-left w-2/12 flex justify-center my-auto"><p class="text-left rounded-full bg-fuchsia-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Partiellement payé'" class="text-left flex justify-center w-2/12 my-auto"><p class="text-left rounded-full bg-yellow-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Payé'" class="text-left w-2/12 flex justify-center my-auto"><p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Annulé'" class="text-left w-2/12 flex justify-center my-auto"><p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+      <div class="text-left w-2/12 flex justify-center my-auto">{{ document.amount_ht }}</div>
+      <div class="text-left w-2/12 flex justify-center my-auto"></div>
       <div class="w-1/12 my-auto">
         <div class="flex justify-end gap-4">
           <Dropdown placement="bottom-end">

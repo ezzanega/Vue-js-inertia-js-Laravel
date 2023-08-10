@@ -11,7 +11,7 @@
       <div>
         <DocumentFieldFrame>
           <DocumentFieldInput :modelValue="'Facture N° ' + currentInvoice.number" placeholder="N° de la lettre de voiture"
-            :font-bold="true" disabled/>
+            :font-bold="true" disabled />
         </DocumentFieldFrame>
       </div>
       <div class="grid grid-cols-3 gap-6 justify-between">
@@ -67,14 +67,15 @@
           </DocumentFieldFrame>
         </div>
       </div>
-      <div>
+      <div v-if="currentClient.type == 'professional'">
         <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise" />
+          <DocumentFieldInput placeholder="Nom complet de l'entreprise"
+            :modelValue="currentClient.client_organization.name" />
         </DocumentFieldFrame>
       </div>
       <div class="pb-8">
         <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Adresse de la société" :modelValue="currentClient.address.full_address" />
+          <DocumentFieldInput placeholder="Adresse du client" :modelValue="currentClient.address.full_address" />
         </DocumentFieldFrame>
       </div>
       <DocumentLabel name="Chargement et Livraison" color="#438A7A" />
@@ -189,9 +190,6 @@
         <h1>Informations à remplir</h1>
       </div>
       <DocumentLabel name="Facture" color="#438A7A" />
-      <DocumentFieldFrame>
-        <SelectOperative />
-      </DocumentFieldFrame>
       <div class="grid grid-cols-3 gap-6 pb-5 justify-between">
         <div>
           <DocumentFieldFrame>
@@ -200,7 +198,8 @@
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentMovingJob.capacity" placeholder="Volume(en m³)" v-model="movingjob.capacity" :fontBold="true" @savingValue="saveField('capacity')"/>
+            <DocumentFieldInput :modelValue="currentMovingJob.capacity" placeholder="Volume(en m³)"
+              v-model="movingjob.capacity" :fontBold="true" @savingValue="saveField('capacity')" />
           </DocumentFieldFrame>
         </div>
         <div>
@@ -213,7 +212,8 @@
       <div class="grid grid-cols-2 gap-6 pb-5 justify-between">
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput v-model="currentInvoice.amount_ht" :modelValue="currentInvoice.amount_ht" placeholder="Montant HT" :fontBold="true" />
+            <DocumentFieldInput v-model="currentInvoice.amount_ht" :modelValue="currentInvoice.amount_ht"
+              placeholder="Montant HT" :fontBold="true" />
           </DocumentFieldFrame>
         </div>
         <div>

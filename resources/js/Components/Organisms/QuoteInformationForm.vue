@@ -66,16 +66,14 @@
         </div>
       </div>
       <div v-if="currentClient.type == 'professional'">
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Nom complet de l'entreprise"
-              :modelValue="currentClient.client_organization.name" />
-          </DocumentFieldFrame>
-        </div>
+        <DocumentFieldFrame>
+          <DocumentFieldInput placeholder="Nom complet de l'entreprise"
+            :modelValue="currentClient.client_organization.name" />
+        </DocumentFieldFrame>
       </div>
       <div>
         <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Adresse de la société" :modelValue="currentClient.address.full_address" />
+          <DocumentFieldInput placeholder="Adresse du client" :modelValue="currentClient.address.full_address" />
         </DocumentFieldFrame>
       </div>
     </div>
@@ -126,7 +124,8 @@
           <DocumentLabel name="Chargement" color="#438A7A" />
 
           <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" @change="setLoadingAddress" class="sr-only peer" />
+            <input type="checkbox" @change="setLoadingAddress" class="sr-only peer"
+              checked="currentClient.address.full_address == movingjob.loading_address" />
             <div
               class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
             </div>
@@ -135,8 +134,8 @@
             </p>
           </label>
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress :required="true" name="loading_address" placeholder="Adresse de chargement"
-              @place_changed="setLoadingAddressData" />
+            <DocumentFieldInputAddress :required="true" name="loading_address" :value="movingjob.loading_address"
+              placeholder="Adresse de chargement" @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -175,8 +174,8 @@
           <DocumentLabel name="Livraison" color="#438A7A" />
           <div class="pt-6"></div>
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress :required="true" name="shipping_address" placeholder="Adresse de livraison"
-              @place_changed="setShippingAddressData" />
+            <DocumentFieldInputAddress :required="true" name="shipping_address" :value="movingjob.shipping_address"
+              placeholder="Adresse de livraison" @place_changed="setShippingAddressData" />
           </DocumentFieldFrame>
 
           <DocumentFieldFrame>
@@ -338,6 +337,9 @@
       <DefaultButton @click="previewQuotation" buttontext="Générer le document" />
     </div>
   </div>
+  <pre>
+    {{ currentMovingJob }}
+  </pre>
 </template>
 
 <script setup>
@@ -427,10 +429,13 @@ const form = reactive({
 });
 
 const setLoadingAddress = () => {
-  if (movingjob.loading_address === currentClient.address.full_address) {
+  if (movingjob.loading_address != "") {
     movingjob.loading_address = "";
+    console.log(movingjob.loading_address);
   } else {
     movingjob.loading_address = currentClient.address.full_address;
+    //saveField('loading_address');
+    console.log(movingjob.loading_address);
   }
 };
 

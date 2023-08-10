@@ -41,13 +41,13 @@ class MovingJobController extends Controller
         $movingjob = MovingJob::create([]);
         $quotation = Quotation::create([
             'organization_id' => $organization->id,
-            'status' => QuotationStatus::NOTSENT
+            'status' => QuotationStatus::NOTSIGNED
         ]);
         $option = Option::create([
             'type' => OptionType::OTHER,
-            'designation' => '',
-            'quantity' => '',
-            'unit' => 0,
+            'designation' => 'Forfait unique',
+            'quantity' => '1',
+            'unit' => 1,
             'price_ht' => ''
         ]);
 

@@ -16,10 +16,10 @@
         />
       </svg>
     </div>
-    <div class="text-left w-3/12 my-auto">{{ document.number }}</div>
-    <div class="flex gap-3 text-left w-3/12 my-auto">
+    <div class="text-left w-2/12 flex justify-center my-auto">{{ document.number }}</div>
+    <div class="flex gap-3 text-left w-2/12 justify-center my-auto">
       <div class="text-sm">
-        <div class="font-medium text-gray-700">
+        <div class="font-medium text-gray-700 text-center">
           {{
             document.moving_job.client.type == "professional"
               ? document.moving_job.client.client_organization.name +
@@ -34,10 +34,16 @@
         <div class="text-gray-400">{{ document.moving_job.client.email }}</div>
       </div>
     </div>
-    <div class="text-left w-2/12 my-auto">{{ document.status }}</div>
-    <div class="text-left w-2/12 my-auto">
-      {{ document.moving_job.discount_amount_ht }}
-    </div>
+    <div v-if="document.status == 'Envoyé'" class="text-left w-1/12 flex justify-center my-auto"><p class="text-left rounded-full bg-yellow-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Accepté'" class="text-left w-1/12 flex justify-center my-auto"><p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Expiré'" class="text-left w-1/12 flex justify-center my-auto"><p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Refusé'" class="text-left w-1/12 flex justify-center my-auto"><p class="text-left rounded-full bg-fuchsia-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Signé'" class="text-left w-1/12 flex justify-center my-auto"><p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div v-if="document.status == 'Non signé'" class="text-left w-1/12 flex justify-center my-auto"><p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p></div>
+    <div class="text-left w-1/12 flex justify-center my-auto">{{ document.moving_job.loading_date }}</div>
+    <div class="text-left w-2/12 flex justify-center my-auto"><p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier"}}</p></div>
+    <div class="text-left w-1/12 flex justify-center my-auto">{{ document.moving_job.discount_amount_ht }}</div>
+    <div class="text-left w-1/12 flex justify-center my-auto"></div>
     <div class="w-1/12 my-auto">
       <div class="flex justify-end gap-4">
         <Dropdown placement="bottom-end">
