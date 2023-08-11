@@ -39,7 +39,6 @@
   import Modal from "@/Components/Modal.vue";
   const props = defineProps({
     isModaldelOpen: Boolean,
-
     });
 
 const emit = defineEmits(["closedelModal"]);

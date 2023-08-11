@@ -19,7 +19,9 @@
               : client.first_name + " " + client.last_name
           }}
         </div>
-        <div class="text-gray-400">{{ client.email }}</div>
+        <div class="text-gray-400">{{ client.email }}
+            <input type="hidden" :value="client.id">
+        </div>
       </div>
     </div>
     <div class="text-left w-3/12 my-auto">{{ client.phone_number }}</div>
@@ -70,7 +72,7 @@
             />
           </svg>
           <template #popper>
-            <ClientActionsPopperContent @openMailModal="openMailModal" :client="client"/>
+            <ClientActionsPopperContent @openMailModal="openMailModal" :deleteClient="deleteClient" :client="client" :opendelModal="opendelModal"/>
           </template>
         </Dropdown>
       </div>
@@ -80,19 +82,23 @@
 
 <script setup>
 import { Dropdown } from "floating-vue";
+import { router } from '@inertiajs/vue3'
 import ClientActionsPopperContent from "@/Components/Molecules/ClientActionsPopperContent.vue";
-defineProps({
+const props= defineProps({
   client: {
     type: Object,
     required: true,
   },
   openMailModal:Function,
+  deleteClient:Function,
+  opendelModal:Function,
 });
 
-const emit = defineEmits(["openMailModal"]);
+const emit = defineEmits(["openMailModal","deleteClient"]);
 
 const openMailModal = () => {
   emit("openMailModal");
 };
+
 
 </script>

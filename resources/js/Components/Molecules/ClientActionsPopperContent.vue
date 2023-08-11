@@ -53,7 +53,7 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Supprimer le client" @clicked="PopperItemClicked">
+      <PopperItem item="Supprimer le client" @clicked="opendelModal(client.id) ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -84,13 +84,15 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  deleteClient:Function,
+  opendelModal:Function,
 });
 
-const emit = defineEmits(["openMailModal"]);
-
+const emit = defineEmits(["openMailModal","deleteClient"]);
 const openMailModal = () => {
   emit('openMailModal');
 };
+
 
 const initQuatation = () => {
   router.visit(
