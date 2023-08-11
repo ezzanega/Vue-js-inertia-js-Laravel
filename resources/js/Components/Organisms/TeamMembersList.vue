@@ -119,7 +119,7 @@
                         <!-- Items User actif -->
                         <div class="space-y-0.5"
                          v-if="member.first_name">
-                            <PopperItem item="Modifier le Role user" @click="openUpRoleModal(member)">
+                            <PopperItem item="Modifier le Role" @click="openUpRoleModal(member)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -155,7 +155,7 @@
                         <!-- Items Invited User -->
                         <div class="space-y-0.5"
                          v-else>
-                            <PopperItem item="Modifier le Role Invite" @click="openUpRoleModal(member)">
+                            <PopperItem item="Modifier le Role " @click="openUpRoleModal(member)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -275,7 +275,7 @@
     //fin Open  et Close de Pop up
 
 
-    
+
     //Traitement de modification du collaborateur
     const RoleModal = ref(false);
     //const selectedMember = ref(null);
