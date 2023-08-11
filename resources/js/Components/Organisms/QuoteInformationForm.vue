@@ -322,9 +322,6 @@
       <DefaultButton @click="previewQuotation" buttontext="Générer le document" />
     </div>
   </div>
-  <pre>
-    {{ currentMovingJob }}
-  </pre>
 </template>
 
 <script setup>
