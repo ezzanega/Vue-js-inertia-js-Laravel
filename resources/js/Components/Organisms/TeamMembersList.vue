@@ -135,7 +135,7 @@
                                 />
                               </svg>
                             </PopperItem>
-                            <PopperItem item="Supprimer" @click.prevent="openUserdelModal(member.id,'user')">
+                            <PopperItem item="Supprimer" @click.prevent="opendelModal(member.id,'user')">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -172,7 +172,7 @@
                               </svg>
                             </PopperItem>
                             <PopperItem item="Supprimer"
-                            @click.prevent="openInvdelModal(member.id,'invited')">
+                            @click.prevent="opendelModal(member.id,'invited')">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -203,16 +203,6 @@
     :openModal="RoleModal"
     @closeUpRoleModal="closeUpRoleModal"
     :MemberData="selectedMember" />
-
-
-    <!-- For Invite il faux faire un v-if ajoute la  -->
-    <!-- <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-        @closedelModal="closedelModal()" @deleteFunction="deleteInvitedMembre(selectedMember,RoleMember)"
-    /> -->
-    <!-- For use il faux faire un v-if ajoute la -->
-    <!-- <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-        @closedelModal="closedelModal()" @deleteFunction="deleteUserdMembre(selectedMember,RoleMember)"
-    /> -->
 
     <DeleteFormModal
       :isModaldelOpen="isModaldelOpen"
@@ -255,7 +245,7 @@
     function deleteInvitedMembre(memberId,membeRole) {
         const url =`/6dem/manage/collaborateur/delete/${memberId}/${membeRole}`;
         router.delete(url, {
-            onBefore: () => openInvdelModal(),
+            onBefore: () => opendelModal(),
             onSuccess:() => closedelModal()
         });
     }
@@ -263,7 +253,7 @@
     function deleteUserdMembre(memberId,membeRole) {
         const url =`/6dem/manage/collaborateur/delete/${memberId}/${membeRole}`;
         router.delete(url,{
-            onBefore: () => openUserdelModal(),
+            onBefore: () => opendelModal(),
             onSuccess:() => closedelModal()
         });
     }
@@ -272,13 +262,7 @@
     const RoleMember = ref(null);
 
     const isModaldelOpen=ref(false);
-    const openInvdelModal = (member,Role) => {
-        isModaldelOpen.value = true;
-        selectedMember.value = member;
-        RoleMember.value = Role;
-        console.log(selectedMember.value+'   '+RoleMember.value);
-    };
-    const openUserdelModal = (member,Role) => {
+    const opendelModal = (member,Role) => {
         isModaldelOpen.value = true;
         selectedMember.value = member;
         RoleMember.value = Role;
@@ -288,13 +272,10 @@
     const closedelModal = () => {
         isModaldelOpen.value = false;
     };
-
-
-    // const deleteFunction = RoleMember.value === 'invite' ? deleteInvitedMembre(selectedMember,RoleMember) : deleteUserdMembre(selectedMember,RoleMember);
     //fin Open  et Close de Pop up
 
 
-
+    
     //Traitement de modification du collaborateur
     const RoleModal = ref(false);
     //const selectedMember = ref(null);
