@@ -128,7 +128,7 @@
                           />
                         </svg>
                         <template #popper>
-                          <OptionsPopperContent :openUpModal="openUpModal" :OptionData="option.id"/>
+                          <OptionsPopperContent  :openUpModal="openUpModal"  :OptionData="option"/>
                         </template>
                       </Dropdown>
                     </div>
