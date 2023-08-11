@@ -68,12 +68,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/documents', [DocumentController::class, 'index'])
         ->name('6dem.documents');
+        
     Route::get('/6dem/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
         ->name('6dem.waybill.pdf');
 
     Route::get('/6dem/invoice/pdf/{id}', [PdfGeneratorController::class, 'invoice'])
         ->name('6dem.invoice.pdf');
-
 
     # Organization
     Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
@@ -95,6 +95,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/quotation/search', [QuotationController::class, 'search'])
         ->name('6dem.search.quotation');
+
+    Route::get('/6dem/quotation/sort', [QuotationController::class, 'sort'])
+        ->name('6dem.sort.quotation');
 
     # Waybill
     Route::post('/6dem/waybill/init/{quotationId}', [MovingJobController::class, 'initWaybill'])
