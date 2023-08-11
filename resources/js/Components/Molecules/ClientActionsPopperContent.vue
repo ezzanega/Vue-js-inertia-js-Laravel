@@ -18,27 +18,8 @@
         </svg>
       </PopperItem>
       <PopperItem
-        item="Créer une facture pour ce client"
-        @clicked="PopperItemClicked"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"
-          />
-        </svg>
-      </PopperItem>
-      <PopperItem
         item="Créer un devis pour ce client"
-        @clicked="PopperItemClicked"
+        @clicked="initQuatation"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +37,6 @@
         </svg>
       </PopperItem>
       <PopperItem item="Envoyer un mail" @clicked="openMailModal">
-      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -73,7 +53,7 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Supprimer le client" @clicked="PopperItemClicked">
+      <PopperItem item="Supprimer le client" @clicked="opendelModal(client.id) ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -95,13 +75,32 @@
 
   <script setup>
 import PopperItem from "@/Components/Atoms/PopperItem.vue";
+import { router } from "@inertiajs/vue3";
 
 import { defineEmits } from 'vue';
 
-const emit = defineEmits(["openMailModal"]);
+const props = defineProps({
+  client: {
+    type: Object,
+    required: true,
+  },
+  deleteClient:Function,
+  opendelModal:Function,
+});
 
+const emit = defineEmits(["openMailModal","deleteClient"]);
 const openMailModal = () => {
   emit('openMailModal');
+};
+
+
+const initQuatation = () => {
+  router.visit(
+    route("6dem.documents.quotation.init", props.client.id),
+    {
+      method: "post",
+    }
+  );
 };
 
 const PopperItemClicked = () => {};

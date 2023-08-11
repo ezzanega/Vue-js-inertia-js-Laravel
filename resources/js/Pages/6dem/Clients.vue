@@ -32,8 +32,12 @@
             </DrawerContent>
           </div>
         </Drawer>
-        <ClientList class="mt-2"  @openMailModal="openMailModal"/>
-        <ClientMailModal :isMailopen="isMailopen" @closeMailModal="closeMailModal" />
+        <ClientList class="mt-2"  @openMailModal="openMailModal" :deleteClient="deleteClient" :opendelModal="opendelModal"/>
+
+        <ClientMailModal :isMailOpen="isMailOpen" :client="currentClient" @closeMailModal="closeMailModal" />
+
+        <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+        @closedelModal="closedelModal()" @deleteFunction="deleteClient(selectedClient)"/>
 
       </div>
     </div>
@@ -45,17 +49,19 @@
 import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head, usePage } from "@inertiajs/vue3";
 import IconButton from "@/Components/Atoms/IconButton.vue";
-import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import ClientList from "@/Components/Molecules/ClientList.vue";
 import Drawer from "@/Components/Organisms/Drawer.vue";
 import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 import ClientMailModal from "@/Components/Molecules/ClientMailModal.vue";
-import ClientActionsPopperContent from "@/Components/Molecules/ClientActionsPopperContent.vue";
+import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
 import DrawerContent from "@/Components/Molecules/DrawerContent.vue";
 import { ref } from "vue";
+import { router } from '@inertiajs/vue3'
+
 
 
 let isDrawerOpen = ref(false);
+const currentClient = ref(null);
 
 const toggleDrawer = () => {
   isDrawerOpen.value = !isDrawerOpen.value;
@@ -65,14 +71,37 @@ const closeDrawer = () => {
   isDrawerOpen.value = false;
 };
 
-const isMailopen = ref(false);
+const isMailOpen = ref(false);
 
-
-const openMailModal = () => {
-  console.log("Opening mail modal");
-  isMailopen.value = true; // Open the modal
+const openMailModal = (client) => {
+  currentClient.value = client;
+  isMailOpen.value = true;
 };
 const closeMailModal = () => {
-    isMailopen.value = false;
+    isMailOpen.value = false;
 };
+
+//début Open  et Close de formulaire de suppression Client
+
+function deleteClient(id) {
+    router.delete(`/6dem/delete/${id}`, {
+        onBefore: () => opendelModal(),
+        onSuccess:() => closedelModal()
+    });
+}
+//début Open et Close Pop-up
+const isModaldelOpen=ref(false);
+const selectedClient=ref(null);
+
+const opendelModal = (id) => {
+    isModaldelOpen.value = true;
+    selectedClient.value = id;
+};
+
+const closedelModal = () => {
+    isModaldelOpen.value = false;
+};
+//fin Open et Close Pop-up
+
+//fin Open et Close de formulaire de suppression Client
 </script>

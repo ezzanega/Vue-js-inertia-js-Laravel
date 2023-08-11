@@ -89,7 +89,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
         ->name('6dem.quotation.update');
 
-        
+
     Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
         ->name('6dem.documents.quotation.preview');
 
@@ -239,9 +239,13 @@ Route::middleware('auth')->group(function () {
     # Create Client
     Route::post('/6dem/clients/create', [ClientController::class, 'store'])
         ->name('6dem.create.clients');
-
+    # Search Client
     Route::get('/6dem/clients/search', [ClientController::class, 'search'])
         ->name('6dem.search.clients');
+    # Delete Client
+    Route::delete('/6dem/delete/{id}', [ClientController::class, 'deleteClient'])
+        ->name('6dem.delete.clients');
+
 
     Route::get('/6dem/tasks', function () {
         return inertia('6dem/Tasks');

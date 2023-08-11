@@ -160,7 +160,7 @@ class AclController extends Controller
         }
         $collaborateur->delete();
         return Redirect::route('6dem.manage');
-        //return  'envoyé';
+        //return  'this is the collaborateur '.$collaborateur ;
     }
     public function UpdateRoleUser(Request $request,$id)
     {
