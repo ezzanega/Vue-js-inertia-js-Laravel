@@ -120,7 +120,7 @@ const form = useForm({
     //role: props.MembreData.roles ? props.MembreData.roles[0].name : props.MemberData.role,
     role : getInitialRole(),
 });
-let membreUpType = ''; // Declare the variable here
+let membreUpType = '';
 
 function getInitialRole() {
   if (props.MemberData.roles && props.MemberData.roles.length > 0) {
@@ -150,6 +150,7 @@ const updateRole = (id) => {
 // const updateRole = (id) => {
 //         alert('update function');
 //     };
+
 const closeUpRoleModal = () => {
   form.reset();
   emit("closeUpRoleModal");

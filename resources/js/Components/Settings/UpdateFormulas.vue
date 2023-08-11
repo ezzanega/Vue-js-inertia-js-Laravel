@@ -48,7 +48,9 @@
                       />
                     </svg>
 
-                    <span class="flex-1 ml-3">{{ option.text }}</span>
+                    <span class="flex-1 ml-3">{{ option.text }}
+                        <input type="hidden" :value="option.id">
+                    </span>
                     <div class="flex justify-end gap-4">
                       <Dropdown placement="bottom-end">
                         <svg
@@ -66,7 +68,7 @@
                           />
                         </svg>
                         <template #popper>
-                          <OptionsPopperContent />
+                          <OptionsPopperContent :openUpModal="openUpModal"  :OptionData="option"/>
                         </template>
                       </Dropdown>
                     </div>
@@ -106,7 +108,9 @@
                       />
                     </svg>
 
-                    <span class="flex-1 ml-3">{{ option.text }}</span>
+                    <span class="flex-1 ml-3">{{ option.text }}
+                        <input type="hidden" :value="option.id">
+                    </span>
                     <div class="flex justify-end gap-4">
                       <Dropdown placement="bottom-end">
                         <svg
@@ -124,7 +128,7 @@
                           />
                         </svg>
                         <template #popper>
-                          <OptionsPopperContent />
+                          <OptionsPopperContent :openUpModal="openUpModal" :OptionData="option.id"/>
                         </template>
                       </Dropdown>
                     </div>
@@ -144,6 +148,16 @@ import { Dropdown } from "floating-vue";
 import OptionsPopperContent from "@/Components/Settings/OptionsPopperContent.vue";
 import { usePage } from "@inertiajs/vue3";
 
+const props = defineProps({
+    openUpModal:Function,
+    OptionData: Object,
+});
+const emit = defineEmits(["closeUpModal"]);
+console.log('from update Formulas : '+props.openUpModal);
+console.log('option data from Formulas : '+props.OptionData);
+
+
+
 const formulas = usePage().props.formulas;
 
 const getOptionByType = (options, type) => {
@@ -151,4 +165,8 @@ const getOptionByType = (options, type) => {
     return obj.type === type;
   });
 };
+const closeUpModal = () => {
+    form.reset();
+    emit("closeUpModal");
+  };
 </script>
