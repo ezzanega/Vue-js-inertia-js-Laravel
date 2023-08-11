@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/documents', [DocumentController::class, 'index'])
         ->name('6dem.documents');
-        
+
     Route::get('/6dem/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
         ->name('6dem.waybill.pdf');
 
@@ -186,6 +186,8 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/settings', [SettingsController::class, 'update'])
         ->name('6dem.settings.update');
+    Route::put('/6dem/formula/option/update/{id}',[SettingsController::class, 'update_Formulas_option'])->name('6dem.formula.option.update');
+
 
     #Executing Companies
     Route::post('/6dem/executing-comapnies/create', [ExecutingCompanyController::class, 'store'])

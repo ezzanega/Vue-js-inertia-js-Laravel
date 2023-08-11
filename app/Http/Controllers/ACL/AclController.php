@@ -171,8 +171,6 @@ class AclController extends Controller
         $active_collaborateur = User::where(['id' => $id])->first();
         $active_collaborateur->syncRoles([]);
         $active_collaborateur->assignRole($request->role);
-
-
         return back();
     }
     public function UpdateRoleInvite(Request $request,$id)

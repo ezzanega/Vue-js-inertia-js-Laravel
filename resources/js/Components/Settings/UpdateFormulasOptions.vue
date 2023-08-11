@@ -43,7 +43,7 @@
             </div>
           </div>
         </div>
-            <form  @submit.prevent="updateMailOption">
+            <form>
                 <div class="px-4 sm:px-6">
                     <div class="w-full py-3 flex flex-col space-y-2">
                         <div class="my-6 space-y-5">
@@ -68,7 +68,7 @@
 
                         <div class="mt-6 flex justify-end space-x-4">
                         <SecondaryButton @click="closeUpModal"> Annuler </SecondaryButton>
-                        <DefaultButton type="submit" class="w-32" buttontext="Modifier" />
+                        <DefaultButton @click="updateFormulasOption(OptionData.id)" class="w-32" buttontext="Modifier" />
                         </div>
                     </div>
                 </div>
@@ -88,8 +88,8 @@
 
 const props = defineProps({
   isUpModalopen: Boolean,
-  OptionData: Object,
   openUpModal:Function,
+  OptionData: Object,
 });
 
 const FormulasOption = [
@@ -97,24 +97,25 @@ const FormulasOption = [
     { name: "À la charge du client", value: "client-side" }
   ];
 
-const emit = defineEmits(["closeUpModal","OptionData"]);
+const emit = defineEmits(["closeUpModal"]);
 
-const form = useForm({
-  type:props.OptionData.type,
-  text: props.OptionData.text,
+    const form = useForm({
+        type:props.OptionData.type,
+        text: props.OptionData.text,
+    });
+    const updateFormulasOption = (id) => {
 
-});
-console.log('from update Formulas option  : '+props.openUpModal);
-console.log('from update Formulas  option : '+props.OptionData);
+        form.put(route("6dem.formula.option.update", {id: id}),
+        {
+            preserveScroll: true,
+            onSuccess: () => closeUpModal(),
+        });
+    };
 
-const updateMailOption = () => {
-    console.log('option updated')
-};
-
-const closeUpModal = () => {
-    form.reset();
-    emit("closeUpModal");
-  };
+    const closeUpModal = () => {
+        form.reset();
+        emit("closeUpModal");
+    };
 
 
 

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Settings;
-use Illuminate\Http\Request;
 use App\Models\Insurance;
-use App\Models\MovingJobFormula;
+use Illuminate\Http\Request;
 use App\Models\ExecutingCompany;
+use App\Models\MovingJobFormula;
+use App\Models\MovingJobFormulaOption;
+use Illuminate\Support\Facades\Redirect;
 
 class SettingsController extends Controller
 {
@@ -45,5 +47,26 @@ class SettingsController extends Controller
         });
         $organization->settings()->update($filledSettingsData);
         return back()->with('status', 'settings-updated');
+    }
+
+
+    public function update_Formulas_option(Request $request,$id)
+    {
+
+        $request->validate([
+            'text' => 'required|string|min:2',
+            'type' => 'required|string|min:3',
+        ]);
+        
+        $option=MovingJobFormulaOption::where(['id' => $id])->first();
+
+        $option->update([
+            'type' => $request->type,
+            'text'=> $request->text,
+        ]);
+
+        return Redirect::route('6dem.settings');
+        //return back();
+
     }
 }

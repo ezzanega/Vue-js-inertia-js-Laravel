@@ -129,6 +129,8 @@ function getInitialRole() {
     return props.MemberData.role;
   }
 }
+
+
 const updateRole = (id) => {
     if (props.MemberData.roles && props.MemberData.roles.length > 0) {
         // Update in the user table logic

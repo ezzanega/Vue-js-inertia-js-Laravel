@@ -68,7 +68,7 @@
                           />
                         </svg>
                         <template #popper>
-                          <OptionsPopperContent :openUpModal="openUpModal"  :OptionData="option"/>
+                          <OptionsPopperContent :openUpModal="openUpModal"  :OptionData="option" />
                         </template>
                       </Dropdown>
                     </div>
@@ -153,6 +153,7 @@ const props = defineProps({
     OptionData: Object,
 });
 const emit = defineEmits(["closeUpModal"]);
+
 console.log('from update Formulas : '+props.openUpModal);
 console.log('option data from Formulas : '+props.OptionData);
 

@@ -1,7 +1,7 @@
-<template>
+<template >
   <Head title="Réglages" />
   <DemLayout>
-    <main class="relative flex-1 focus:outline-none overflow-y-auto" id="main">
+    <main class="relative flex-1 focus:outline-none overflow-y-auto" id="main" >
       <div class="py-6">
         <div class="mx-auto px-4 sm:px-6 lg:px-8">
           <div class="sm:py-4">
@@ -15,7 +15,7 @@
                   </div>
                 </div>
 
-                <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
+                <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal" />
 
                 <div class="hidden sm:block" aria-hidden="true">
                   <div class="py-5">
@@ -42,6 +42,7 @@
             </div>
           </div>
         </div>
+        
         <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
       </div>
     </main>
