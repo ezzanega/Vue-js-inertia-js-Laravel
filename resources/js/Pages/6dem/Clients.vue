@@ -82,7 +82,6 @@ const closeMailModal = () => {
 };
 
 //début Open  et Close de formulaire de suppression Client
-
 function deleteClient(id) {
     router.delete(`/6dem/delete/${id}`, {
         onBefore: () => opendelModal(),
@@ -93,7 +92,7 @@ function deleteClient(id) {
 const isModaldelOpen=ref(false);
 const selectedClient=ref(null);
 
-const opendelModal = (id) => {
+const opendelModal = (id,type) => {
     isModaldelOpen.value = true;
     selectedClient.value = id;
 };

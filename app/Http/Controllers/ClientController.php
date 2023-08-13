@@ -135,28 +135,27 @@ class ClientController extends Controller
 
 
     public function deleteClient($id)
-    {
+    { 
         try {
             $client = Client::find($id);
 
             if (!$client) {
                 return response()->json(['message' => 'Ce client n\'existe pas'], 404);
             }
+            if($client->type=="professional")
+            {
+                $client_organisation = ClientOrganizations::where('client_id', $client->id)->first();
 
-            $client_organisation_id = $client->organization_id;
+                if (!$client_organisation) {
+                    return response()->json(['message' => 'L\'organisation de ce client n\'existe pas'], 404);
+                }
 
-            $client_organisation = ClientOrganizations::where('client_id', $client->id)->first();
-            // return 'client '.$client.'organisation id : '.$client_organisation_id. '      organisation :'.$client_organisation;
-            if (!$client_organisation) {
-                return response()->json(['message' => 'L\'organisation de ce client n\'existe pas'], 404);
+                $client_organisation->delete();
             }
-
             $client->delete();
-            $client_organisation->delete();
-
             return Redirect::route('6dem.clients');
         } catch (\Exception $e) {
-            
+
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
         }
     }
