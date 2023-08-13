@@ -49,14 +49,15 @@
               />
             </svg>
             <template #popper>
-              <InvoiceActionsPopperContent :moving_job_id="document.moving_job.id" :client_id="document.moving_job.client.id"  :id="document.id" />
+              <InvoiceActionsPopperContent :moving_job_id="document.moving_job.id" :client_id="document.moving_job.client.id"  :id="document.id"
+              :deleteFacture="deleteFacture" :document="document" :opendelModal="opendelModal" />
             </template>
           </Dropdown>
         </div>
       </div>
     </div>
   </template>
-    
+
     <script setup>
   import { Dropdown } from "floating-vue";
   import InvoiceActionsPopperContent from "@/Components/Molecules/InvoiceActionsPopperContent.vue";
@@ -64,6 +65,7 @@
     document: {
       required: true,
     },
+    deleteFacture:Function,
+    opendelModal:Function,
   });
   </script>
-    

@@ -18,16 +18,23 @@
       <InvoiceListItem v-for="(document, index) in searchInvoiceResults" :key="index" :document="document" />
     </div>
     <div v-else class="space-y-2">
-      <InvoiceListItem v-for="(document, index) in $page.props.invoices" :key="index" :document="document" />
+      <InvoiceListItem v-for="(document, index) in $page.props.invoices" :key="index" :document="document"
+      :deleteFacture="deleteFacture" :opendelModal="opendelModal"/>
     </div>
   </div>
 </template>
-    
+
 <script setup>
 import InvoiceListItem from "@/Components/Molecules/InvoiceListItem.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 import { ref, watch } from "vue";
 import debounce from "lodash/debounce";
+
+const props=defineProps({
+  opendelModal:Function,
+  deleteFacture:Function,
+
+});
 
 const searchInvoiceQuery = ref("");
 const searchInvoiceResults = ref([]);
@@ -51,4 +58,3 @@ const searchInvoice = async () => {
 
 const debouncedFetchInvoiceResults = debounce(searchInvoice, 300);
 </script>
-    

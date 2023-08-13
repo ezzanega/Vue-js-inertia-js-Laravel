@@ -138,6 +138,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/invoice/search', [InvoiceController::class, 'search'])
         ->name('6dem.search.invoice');
+    # Delete Quotation
+    Route::delete('/6dem/invoice/delete/{id}', [InvoiceController::class, 'deleteInvoice'])
+    ->name('6dem.delete.invoice');
 
     # Option
     Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])

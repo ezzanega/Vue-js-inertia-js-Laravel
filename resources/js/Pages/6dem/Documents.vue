@@ -40,7 +40,9 @@
         <div v-if="$page.props.invoices.length">
           <SelectQuoteInvoiceModal/>
           <div class="mt-2">
-            <InvoiceList />
+            <InvoiceList :deleteFacture="deleteFacture" :opendelModal="opendelModal"/>
+            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()" @deleteFunction="deleteFacture(selectedvalue)"/>
           </div>
         </div>
         <ListEmptyMessage
@@ -89,6 +91,14 @@ function deleteLv(id) {
         onSuccess:() => closedelModal()
     });
     //alert('hello from lv function');
+}
+function deleteFacture(id) {
+
+router.delete(`/6dem/invoice/delete/${id}`, {
+    onBefore: () => opendelModal(),
+    onSuccess:() => closedelModal()
+});
+    //alert('hello from Facture  function');
 }
 
 //début Open  et Close de formulaire de suppression quotation

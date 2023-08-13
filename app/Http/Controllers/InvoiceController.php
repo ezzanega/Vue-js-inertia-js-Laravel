@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Invoice;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 
 class InvoiceController extends Controller
@@ -37,5 +38,22 @@ class InvoiceController extends Controller
             ->get();
 
         return $invoice;
+    }
+
+    public function deleteInvoice($id)
+    {
+        try {
+            $invoice = Invoice::find($id);
+
+            if (!$invoice) {
+                return response()->json(['message' => 'Cette Facture n\'existe pas'], 404);
+            }
+            $invoice->delete();
+            return Redirect::route('6dem.documents');
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+        }
     }
 }
