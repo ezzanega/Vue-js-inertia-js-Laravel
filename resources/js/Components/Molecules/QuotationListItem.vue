@@ -67,14 +67,14 @@
             />
           </svg>
           <template #popper>
-            <QuotationActionsPopperContent :moving_job_id="document.moving_job.id" :client_id="document.moving_job.client.id" :id="document.id" />
+            <QuotationActionsPopperContent :moving_job_id="document.moving_job.id" :client_id="document.moving_job.client.id" :id="document.id" :deletequotation="deletequotation" :document="document" :opendelModal="opendelModal"/>
           </template>
         </Dropdown>
       </div>
     </div>
   </div>
 </template>
-  
+
   <script setup>
 import { Dropdown } from "floating-vue";
 import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
@@ -82,6 +82,7 @@ defineProps({
   document: {
     required: true,
   },
+  deletequotation:Function,
+  opendelModal:Function,
 });
 </script>
-  

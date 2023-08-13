@@ -6,7 +6,9 @@
         <div v-if="$page.props.quotations.length">
           <SelectClientModal />
           <div class="mt-2">
-            <QuotationList />
+            <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal" />
+            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()" @deleteFunction="deletequotation(selectedquotation)"/>
           </div>
         </div>
         <ListEmptyMessage
@@ -50,7 +52,7 @@
     </Tabs>
   </DemLayout>
 </template>
-  
+
 <script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
 import SelectClientModal from "@/Components/Organisms/SelectClientModal.vue";
@@ -58,7 +60,8 @@ import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
 import SelectQuoteInvoiceModal from "@/Components/Organisms/SelectQuoteInvoiceModal.vue";
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import QuotationList from "@/Components/Molecules/QuotationList.vue";
-import { Head } from "@inertiajs/vue3";
+import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
+import { Head,router } from "@inertiajs/vue3";
 import { ref } from "vue";
 import Tabs from "@/Components/Molecules/Tabs.vue";
 import Tab from "@/Components/Atoms/Tab.vue";
@@ -75,4 +78,33 @@ const toggleDrawer = () => {
 const closeDrawer = () => {
   isDrawerOpen.value = false;
 };
+
+
+
+
+
+//début Open  et Close de formulaire de suppression quotation
+
+function deletequotation(id) {
+
+    router.delete(`/6dem/quotation/delete/${id}`, {
+        onBefore: () => opendelModal(),
+        onSuccess:() => closedelModal()
+    });
+}
+//début Open et Close Pop-up
+const isModaldelOpen=ref(false);
+const selectedquotation=ref(null);
+
+const opendelModal = (id) => {
+    isModaldelOpen.value = true;
+    selectedquotation.value = id;
+};
+
+const closedelModal = () => {
+    isModaldelOpen.value = false;
+};
+//fin Open et Close Pop-up
+
+//fin Open et Close de formulaire de suppression Client
 </script>

@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        
+
         <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
       </div>
     </main>
@@ -78,6 +78,7 @@ const openUpModal = (option) => {
 
 const closeUpModal = () => {
     isUpModalopen.value = false;
+    
 };
 //fin Open  et Close de formulaire d'update Mail
 </script>

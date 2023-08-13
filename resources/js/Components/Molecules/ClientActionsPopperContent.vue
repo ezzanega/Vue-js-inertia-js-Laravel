@@ -89,6 +89,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["openMailModal","deleteClient"]);
+
 const openMailModal = () => {
   emit('openMailModal');
 };

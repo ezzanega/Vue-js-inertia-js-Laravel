@@ -83,7 +83,7 @@
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
               class="w-3 h-3 text-gray-400 hover:text-gray-900"
-              :class="[filters.date == 'asc' ? 'text-gray-900 hover:opacity-80' : '']" 
+              :class="[filters.date == 'asc' ? 'text-gray-900 hover:opacity-80' : '']"
               @click="sortField('date', 'asc')">
               <path fill-rule="evenodd"
                 d="M11.47 7.72a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z"
@@ -184,11 +184,12 @@
       <QuotationListItem v-for="(document, index) in searchQuotationResults" :key="index" :document="document" />
     </div>
     <div v-else class="space-y-2">
-      <QuotationListItem v-for="(document, index) in currentQuotations" :key="index" :document="document" />
+      <QuotationListItem v-for="(document, index) in currentQuotations" :key="index" :document="document"
+      :deletequotation="deletequotation" :opendelModal="opendelModal" />
     </div>
   </div>
 </template>
-  
+
 <script setup>
 import QuotationListItem from "@/Components/Molecules/QuotationListItem.vue";
 import { usePage } from "@inertiajs/vue3";
@@ -212,6 +213,12 @@ const filters = reactive({
   amountHT: "",
   amountTTC: ""
 })
+
+const props=defineProps({
+  opendelModal:Function,
+  deletequotation:Function,
+
+});
 
 watch(searchQuotationQuery, (newQuery) => {
   debouncedFetchQuotationResults(newQuery);

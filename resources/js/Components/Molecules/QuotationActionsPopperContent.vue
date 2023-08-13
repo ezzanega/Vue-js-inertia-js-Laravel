@@ -73,7 +73,7 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Supprimer le devis" @clicked="PopperItemClicked">
+      <PopperItem item="Supprimer le devis"  @clicked="opendelModal(document.id)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -92,8 +92,8 @@
     </div>
   </div>
 </template>
-    
-    <script setup>
+
+<script setup>
 import PopperItem from "@/Components/Atoms/PopperItem.vue";
 import { router } from "@inertiajs/vue3";
 const props = defineProps({
@@ -106,7 +106,19 @@ const props = defineProps({
   client_id: {
     required: true,
   },
+  client: {
+    type: Object,
+    required: true,
+  },
+  //Props pour la suppression de document
+  document: {
+    type: Object,
+    required: true,
+  },
+  deletequotation:Function,
+  opendelModal:Function,
 });
+
 const PopperItemClicked = () => {};
 const previewQuotation = () => {
   router.visit(route("6dem.documents.quotation.preview", props.id), {
@@ -125,4 +137,6 @@ const createInvoice = () => {
       method: "post",
   });
 };
+
+
 </script>

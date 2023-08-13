@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents', [DocumentController::class, 'index'])
         ->name('6dem.documents');
 
+
     Route::get('/6dem/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
         ->name('6dem.waybill.pdf');
 
@@ -98,6 +99,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/quotation/sort', [QuotationController::class, 'sort'])
         ->name('6dem.sort.quotation');
+    # Delete Quotation
+    Route::delete('/6dem/quotation/delete/{id}', [QuotationController::class, 'deleteQuotation'])
+    ->name('6dem.delete.quotation');
+
 
     # Waybill
     Route::post('/6dem/waybill/init/{quotationId}', [MovingJobController::class, 'initWaybill'])

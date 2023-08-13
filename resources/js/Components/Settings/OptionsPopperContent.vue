@@ -47,7 +47,6 @@ const props = defineProps({
 
 
 console.log('from update Formulas Popper content : '+props.openUpModal);
-console.log('option data popper : ' +props.OptionData);
 
 const PopperItemClicked = () => {};
 </script>
