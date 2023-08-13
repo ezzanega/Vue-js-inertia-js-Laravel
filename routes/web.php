@@ -119,6 +119,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/waybill/search', [WaybillController::class, 'search'])
         ->name('6dem.search.waybill');
+    # Delete Quotation
+    Route::delete('/6dem/waybill/delete/{id}', [WaybillController::class, 'deleteWaybill'])
+    ->name('6dem.delete.waybill');
 
     # Invoice
     Route::post('/6dem/invoice/init/{quotationId}', [MovingJobController::class, 'initInvoice'])

@@ -8,7 +8,7 @@
           <div class="mt-2">
             <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal" />
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-            @closedelModal="closedelModal()" @deleteFunction="deletequotation(selectedquotation)"/>
+            @closedelModal="closedelModal()" @deleteFunction="deletequotation(selectedvalue)"/>
           </div>
         </div>
         <ListEmptyMessage
@@ -23,7 +23,9 @@
         <div v-if="$page.props.waybills.length">
           <SelectQuoteModal/>
           <div class="mt-2">
-            <WaybillList />
+            <WaybillList :deleteLv="deleteLv" :opendelModal="opendelModal" />
+            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()" @deleteFunction="deleteLv(selectedvalue)"/>
           </div>
         </div>
         <ListEmptyMessage
@@ -80,11 +82,16 @@ const closeDrawer = () => {
 };
 
 
+function deleteLv(id) {
 
-
+    router.delete(`/6dem/waybill/delete/${id}`, {
+        onBefore: () => opendelModal(),
+        onSuccess:() => closedelModal()
+    });
+    //alert('hello from lv function');
+}
 
 //début Open  et Close de formulaire de suppression quotation
-
 function deletequotation(id) {
 
     router.delete(`/6dem/quotation/delete/${id}`, {
@@ -94,15 +101,16 @@ function deletequotation(id) {
 }
 //début Open et Close Pop-up
 const isModaldelOpen=ref(false);
-const selectedquotation=ref(null);
+const selectedvalue=ref(null);
 
 const opendelModal = (id) => {
     isModaldelOpen.value = true;
-    selectedquotation.value = id;
+    selectedvalue.value = id;
 };
 
 const closedelModal = () => {
     isModaldelOpen.value = false;
+    selectedvalue.value=null;
 };
 //fin Open et Close Pop-up
 

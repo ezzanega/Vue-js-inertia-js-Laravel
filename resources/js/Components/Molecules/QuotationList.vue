@@ -217,7 +217,6 @@ const filters = reactive({
 const props=defineProps({
   opendelModal:Function,
   deletequotation:Function,
-
 });
 
 watch(searchQuotationQuery, (newQuery) => {

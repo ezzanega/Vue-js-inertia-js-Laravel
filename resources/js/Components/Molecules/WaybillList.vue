@@ -17,16 +17,23 @@
       <WaybillListItem v-for="(document, index) in searchWaybillResults" :key="index" :document="document" />
     </div>
     <div v-else class="space-y-2">
-      <WaybillListItem v-for="(document, index) in $page.props.waybills" :key="index" :document="document" />
+      <WaybillListItem v-for="(document, index) in $page.props.waybills" :key="index" :document="document"
+      :deleteLv="deleteLv" :opendelModal="opendelModal" />
     </div>
   </div>
 </template>
-    
+
 <script setup>
 import WaybillListItem from "@/Components/Molecules/WaybillListItem.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 import { ref, watch } from "vue";
 import debounce from "lodash/debounce";
+
+const props=defineProps({
+  opendelModal:Function,
+  deleteLv:Function,
+
+});
 
 const searchWaybillQuery = ref("");
 const searchWaybillResults = ref([]);
@@ -50,4 +57,3 @@ const searchWaybill = async () => {
 
 const debouncedFetchWaybillResults = debounce(searchWaybill, 300);
 </script>
-    

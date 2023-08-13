@@ -52,14 +52,15 @@
           </svg>
           <template #popper>
             <WaybillActionsPopperContent :moving_job_id="document.moving_job.id"
-              :client_id="document.moving_job.client.id" :id="document.id" />
+              :client_id="document.moving_job.client.id" :id="document.id"
+              :deleteLv="deleteLv" :document="document" :opendelModal="opendelModal"/>
           </template>
         </Dropdown>
       </div>
     </div>
   </div>
 </template>
-    
+
 <script setup>
 import { Dropdown } from "floating-vue";
 import WaybillActionsPopperContent from "@/Components/Molecules/WaybillActionsPopperContent.vue";
@@ -67,6 +68,7 @@ defineProps({
   document: {
     required: true,
   },
+  deleteLv:Function,
+  opendelModal:Function,
 });
 </script>
-    

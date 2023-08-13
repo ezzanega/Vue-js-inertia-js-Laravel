@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Waybill;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class WaybillController extends Controller
 {
@@ -36,5 +37,22 @@ class WaybillController extends Controller
             ->get();
 
         return $waybill;
+    }
+
+    public function deleteWaybill($id)
+    {
+        try {
+            $Waybill = Waybill::find($id);
+
+            if (!$Waybill) {
+                return response()->json(['message' => 'Cette lettre de voiture n\'existe pas'], 404);
+            }
+            $Waybill->delete();
+            return Redirect::route('6dem.documents');
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+        }
     }
 }
