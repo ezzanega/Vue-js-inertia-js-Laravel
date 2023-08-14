@@ -348,7 +348,7 @@
                             <div class="block border-b border-gray-200"></div>
                             <dl class="px-4 grid grid-cols-2 gap-x-2">
                                 <dt class="font-semibold text-gray-800">Volume: 20m"</dt>
-                                <dd class="font-semibold text-gray-800">Distence: 20km</dd>
+                                <dd class="font-semibold text-gray-800">Distance: 20km</dd>
                             </dl>
                         </div>
                     </div>

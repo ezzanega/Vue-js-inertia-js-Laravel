@@ -82,7 +82,7 @@
                         <tr>
                             <td colspan="2" style="font-size: 0.65em; color: #333; padding: 8px;">Volume:
                                 {{ $quotation->movingJob->volume }}</td>
-                            <td colspan="2" style="font-size: 0.65em; color: #333; padding: 8px;">Distence:
+                            <td colspan="2" style="font-size: 0.65em; color: #333; padding: 8px;">Distance:
                                 {{ $quotation->movingJob->distance }}</td>
                         </tr>
                     </table>
