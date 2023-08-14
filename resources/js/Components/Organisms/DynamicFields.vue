@@ -21,7 +21,7 @@
             </span>
             <span class="w-1/5 p-1">
                 <DocumentFieldFrame>
-                    <DocumentFieldInput placeholder="Tarif TTC" :fontBold="true" />
+                    <DocumentFieldInput placeholder="Tarif TTC" v-model="item.priceTTC" :fontBold="true" />
                 </DocumentFieldFrame>
             </span>
             <span class="flex items-center">
@@ -38,9 +38,8 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
 import { useForm, usePage } from "@inertiajs/vue3";
-import { ref } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import SettingsAddButtonPopperContent from "@/Components/Atoms/SettingsAddButtonPopperContent.vue";
 import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
@@ -68,7 +67,6 @@ const props = defineProps({
     movingjob: Number
 });
 
-const id = ref(null);
 const option = useForm({
   type: "other-option",
   designation: "",
@@ -78,9 +76,17 @@ const option = useForm({
 });
 
 const options = reactive(currentOptions.map(function(option){
-    return { id: option.id, description: option.designation, qty: option.quantity, priceHT: option.price_ht, priceTTC: option.price_ht, selectedMeasurement: option.unit }
+    return { id: option.id, description: option.designation, qty: option.quantity, priceHT: option.price_ht, priceTTC: option.price_ht*2, selectedMeasurement: option.unit }
     })
 )
+
+watch(options, (newOptions) => {
+    newOptions.forEach((item) => {
+        console.log(newOptions);
+        item.priceTTC = item.priceHT * 2;
+    });
+}, { deep: true });
+
 
 const addRow = () => {
     axios.post(route("6dem.option.create", props.movingjob), option)
