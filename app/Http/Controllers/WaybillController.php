@@ -37,4 +37,42 @@ class WaybillController extends Controller
 
         return $waybill;
     }
+
+    /**
+     * Handle an incoming filter request.
+     */
+    public function sort(Request $request)
+    {
+        $number = $request->input('number') ?? "";
+        $client = $request->input('client') ?? "";
+        $date = $request->input('date') ?? "";
+        $status = $request->input('status') ?? "";
+        $clientType = $request->input('clientType') ?? "";
+
+        $query = Waybill::with(['movingJob' => function ($movingJobQuery) use ($date, $client, $clientType) {
+            if ($date) {
+                $movingJobQuery->orderBy('loading_date', $date);
+            }
+            $movingJobQuery->with(['client' => function ($clientQuery) use ($client, $clientType) {
+                    if ($client) {
+                        $clientQuery->orderBy('last_name', $client);
+                    }
+                    if ($clientType) {
+                        $clientQuery->orderBy('type', $clientType);
+                    }
+                }]);
+        }])
+        ->where('organization_id', auth()->user()->organization->id);
+
+        if ($number) {
+            $query->orderBy('number', $number);
+        }
+        if ($status) {
+            $query->orderBy('status', $status);
+        }
+
+        $waybill = $query->get();
+
+        return $waybill;
+    }
 }

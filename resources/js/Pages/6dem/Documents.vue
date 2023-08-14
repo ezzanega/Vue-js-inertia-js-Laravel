@@ -4,7 +4,6 @@
     <Tabs>
       <Tab title="Devis">
         <div v-if="$page.props.quotations.length">
-          <SelectClientModal />
           <div class="mt-2">
             <QuotationList />
           </div>
@@ -19,7 +18,6 @@
       </Tab>
       <Tab title="Lettres de voiture">
         <div v-if="$page.props.waybills.length">
-          <SelectQuoteModal/>
           <div class="mt-2">
             <WaybillList />
           </div>
@@ -34,7 +32,6 @@
       </Tab>
       <Tab title="Facture">
         <div v-if="$page.props.invoices.length">
-          <SelectQuoteInvoiceModal/>
           <div class="mt-2">
             <InvoiceList />
           </div>
@@ -66,13 +63,4 @@ import WaybillList from "@/Components/Molecules/WaybillList.vue";
 import InvoiceList from "@/Components/Molecules/InvoiceList.vue";
 
 let isDrawerOpen = ref(false);
-let innerWidth = ref(window.innerWidth / 4 + "px");
-
-const toggleDrawer = () => {
-  isDrawerOpen.value = !isDrawerOpen.value;
-};
-
-const closeDrawer = () => {
-  isDrawerOpen.value = false;
-};
 </script>

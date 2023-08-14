@@ -30,6 +30,7 @@
         "@headlessui/vue": "^1.7.14",
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.2",
+        "exceljs": "^4.3.0",
         "floating-vue": "^2.0.0-beta.20",
         "html2canvas": "^1.4.1",
         "html2pdf.js": "^0.10.1",

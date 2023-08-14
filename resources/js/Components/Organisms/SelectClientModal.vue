@@ -3,7 +3,7 @@
     <IconButton
       @click="confirmDevisCreation"
       class="mt-6"
-      text="Ajouter un devis"
+      text="Créer un devis"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

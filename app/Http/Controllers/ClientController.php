@@ -161,4 +161,37 @@ class ClientController extends Controller
         }
     }
 
+    /**
+     * Handle an incoming filter request.
+     */
+    public function sort(Request $request)
+    {
+        $last_name = $request->input('last_name') ?? "";
+        $email = $request->input('email') ?? "";
+        $type = $request->input('type') ?? "";
+        $phone_number = $request->input('phone_number') ?? "";
+        $source = $request->input('source') ?? "";
+
+        $query = Client::where('organization_id', auth()->user()->organization->id);
+
+        if ($last_name) {
+            $query->orderBy('last_name', $last_name);
+        }
+        if ($email) {
+            $query->orderBy('email', $email);
+        }
+        if ($phone_number) {
+            $query->orderBy('phone_number', $phone_number);
+        }
+        if ($type) {
+            $query->orderBy('type', $type);
+        }
+        if ($source) {
+            $query->orderBy('source', $source);
+        }
+        $clients = $query->get();
+
+        return $clients;
+    }
+
 }

@@ -1,13 +1,15 @@
 <template>
   <div class="flex px-6 py-4 rounded-xl border border-gray-300 bg-white">
-    <div class="w-1/12 my-auto">
+    <div class="lg:w-1/12 min-w-1/12 my-auto">
       <input
         name=""
         type="checkbox"
         class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0"
+        :checked="props.selectedAll"
+        @change="handleCheckboxChange"
       />
     </div>
-    <div class="flex gap-3 text-left w-3/12 my-auto">
+    <div class="flex gap-3 text-left justify-center w-2/12 my-auto">
       <div class="text-sm">
         <div class="font-medium text-gray-700">
           {{
@@ -19,14 +21,10 @@
               : client.first_name + " " + client.last_name
           }}
         </div>
-        <div class="text-gray-400">{{ client.email }}
-            <input type="hidden" :value="client.id">
-        </div>
       </div>
     </div>
-    <div class="text-left w-3/12 my-auto">{{ client.phone_number }}</div>
-    <div class="text-left w-3/12 my-auto">
-      <div class="flex gap-2">
+    <div class="flex text-left w-2/12 justify-center my-auto">
+      <div class="flex gap-2 justify-center">
         <span
           v-if="client.type == 'professional'"
           class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
@@ -41,7 +39,9 @@
         </span>
       </div>
     </div>
-    <div class="text-left w-1/12 my-auto">
+    <div class="flex text-left w-2/12 justify-center my-auto">{{ client.email }}</div>
+    <div class="flex text-left w-2/12 justify-center my-auto">{{ client.phone_number }}</div>
+    <div class="flex text-left w-2/12 justify-center my-auto">
       <span
         class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
       >
@@ -85,6 +85,7 @@ import { Dropdown } from "floating-vue";
 import { router } from '@inertiajs/vue3'
 import ClientActionsPopperContent from "@/Components/Molecules/ClientActionsPopperContent.vue";
 const props= defineProps({
+  selectedAll: Boolean,
   client: {
     type: Object,
     required: true,
@@ -92,13 +93,17 @@ const props= defineProps({
   openMailModal:Function,
   deleteClient:Function,
   opendelModal:Function,
+  toggleClientSelection: Function
 });
 
-const emit = defineEmits(["openMailModal","deleteClient"]);
+const emit = defineEmits(["openMailModal","deleteClient","toggle-selected-all"]);
 
 const openMailModal = () => {
   emit("openMailModal");
 };
 
-
+const handleCheckboxChange = () => {
+  props.toggleClientSelection(props.client);
+  emit("toggle-selected-all");
+};
 </script>

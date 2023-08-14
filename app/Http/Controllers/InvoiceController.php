@@ -38,4 +38,41 @@ class InvoiceController extends Controller
 
         return $invoice;
     }
+
+    /**
+     * Handle an incoming filter request.
+     */
+    public function sort(Request $request)
+    {
+        $number = $request->input('number') ?? "";
+        $type = $request->input('type') ?? "";
+        $date = $request->input('date') ?? "";
+        $status = $request->input('status') ?? "";
+        $amountHT = $request->input('amountHT') ?? "";
+
+        $query = Invoice::with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date) {
+            if ($amountHT) {
+                $movingJobQuery->orderBy('discount_amount_ht', $amountHT);
+            }
+            if ($date) {
+                $movingJobQuery->orderBy('loading_date', $date);
+            }
+            $movingJobQuery->with('client');
+        }])
+        ->where('organization_id', auth()->user()->organization->id);
+        if ($type) {
+            $query->orderBy('type', $type);
+        }
+
+        if ($number) {
+            $query->orderBy('number', $number);
+        }
+        if ($status) {
+            $query->orderBy('status', $status);
+        }
+
+        $invoice = $query->get();
+
+        return $invoice;
+    }
 }
