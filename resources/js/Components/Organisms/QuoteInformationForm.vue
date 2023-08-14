@@ -122,7 +122,11 @@
             <DocumentFieldInputAddress :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
               @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
-
+          <div v-if="movingjobLocationUrl.loading_google_map_url">
+            <a :href="movingjobLocationUrl.loading_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs">
+              Voir l'adresse sur Google street map
+            </a>
+          </div>
           <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Date de chargement" v-model="movingjob.loading_date"
               @savingValue="saveField('loading_date')" />
@@ -162,6 +166,11 @@
             <DocumentFieldInputAddress :value="movingjob.shipping_address" name="shipping_address" placeholder="Adresse de livraison"
               @place_changed="setShippingAddressData" />
           </DocumentFieldFrame>
+          <div v-if="movingjobLocationUrl.shipping_google_map_url">
+            <a :href="movingjobLocationUrl.shipping_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs">
+              Voir l'adresse sur Google street map
+            </a>
+          </div>
 
           <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Date de livraison" v-model="movingjob.shipping_date"
@@ -347,7 +356,6 @@ import { reactive, ref, computed } from "vue";
 import { watch } from "vue";
 import { reformatLocation } from "@/utils";
 
-const user = usePage().props.auth.user;
 const currentSettingss = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
 const currentQuotation = usePage().props.quotation;
@@ -410,7 +418,10 @@ const movingjob = useForm({
 });
 
 const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
-// const movingJobDistance = ref(currentMovingJob.distance ? currentMovingJob.distance : "")
+const movingjobLocationUrl = ref( {
+  loading_google_map_url: currentMovingJob.loading_location ? currentMovingJob.loading_location.google_map_url : "",
+  shipping_google_map_url: currentMovingJob.shipping_location ? currentMovingJob.shipping_location.google_map_url : "",
+});
 
 const discountAmountTtc = computed(() => {
   return currentMovingJob.discount_amount_ht * 20;
@@ -540,6 +551,8 @@ const setShippingAddressData = (location) => {
 };
 
 const updateDistance = (response) => {
+  movingjobLocationUrl.value.loading_google_map_url = response.props.movingJob.loading_location.google_map_url;
+  movingjobLocationUrl.value.shipping_google_map_url = response.props.movingJob.shipping_location.google_map_url; 
   movingjob.distance = response.props.movingJob.distance;
 };
 
