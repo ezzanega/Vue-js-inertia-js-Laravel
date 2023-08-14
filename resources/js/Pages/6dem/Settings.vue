@@ -15,7 +15,20 @@
                   </div>
                 </div>
 
-                <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal" />
+                <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal"
+                :deleteOption="deleteOption" :opendelModal="opendelModal" />
+
+              <!-- DeleteFormModal Modal -->
+              <DeleteFormModal
+                :isModaldelOpen="isModaldelOpen"
+                @closedelModal="closedelModal"
+                @deleteFunction="deleteOption(selectedOption)"
+              />
+                <!-- Pour la modification -->
+                <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
+                <!-- Pour la suppression -->
+                <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+                @closedelModal="closedelModal()" @deleteFunction="deleteOption(selectedOption)"/>
 
                 <div class="hidden sm:block" aria-hidden="true">
                   <div class="py-5">
@@ -42,14 +55,13 @@
             </div>
           </div>
         </div>
-
-        <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
       </div>
     </main>
   </DemLayout>
 </template>
 
 <script setup>
+import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
 import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head, usePage, router } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -62,13 +74,14 @@ import UpdateExecutingCompanies from "@/Components/Settings/UpdateExecutingCompa
 
  const props=defineProps({
     formulas: Object,
+ 
  })
-console.log(props.formulas)
 
 
-//début Open  et Close de formulaire d'update Mail
+//début Open  et Close
 const isUpModalopen = ref(false);
 const selectedOption = ref(null);
+
 
 const openUpModal = (option) => {
   isUpModalopen.value = true;
@@ -78,7 +91,25 @@ const openUpModal = (option) => {
 
 const closeUpModal = () => {
     isUpModalopen.value = false;
-    
 };
-//fin Open  et Close de formulaire d'update Mail
+//fin Open  et Close
+
+//début Open  et Close de formulaire de suppression Option
+function deleteOption(id) {
+    router.delete(`/6dem/formula/option/delete/${id}`, {
+        onBefore: () => opendelModal(),
+        onSuccess:() => closedelModal()
+    });
+}
+//début Open et Close Pop-up
+const isModaldelOpen=ref(false);
+const opendelModal = (id,type) => {
+    isModaldelOpen.value = true;
+    selectedOption.value = id;
+};
+
+const closedelModal = () => {
+    isModaldelOpen.value = false;
+};
+//fin Open et Close Pop-up
 </script>

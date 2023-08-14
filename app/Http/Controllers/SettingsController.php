@@ -57,7 +57,7 @@ class SettingsController extends Controller
             'text' => 'required|string|min:2',
             'type' => 'required|string|min:3',
         ]);
-        
+
         $option=MovingJobFormulaOption::where(['id' => $id])->first();
 
         $option->update([
@@ -68,5 +68,16 @@ class SettingsController extends Controller
         return Redirect::route('6dem.settings');
         //return back();
 
+    }
+    public function delete_Formulas_option($id)
+    {
+        try{
+            $option=MovingJobFormulaOption::find($id);
+            $option->delete();
+            return Redirect::route('6dem.settings');
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+        }
     }
 }

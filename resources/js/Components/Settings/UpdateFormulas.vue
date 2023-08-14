@@ -68,7 +68,8 @@
                           />
                         </svg>
                         <template #popper>
-                          <OptionsPopperContent :openUpModal="openUpModal"  :OptionData="option" />
+                          <OptionsPopperContent :openUpModal="openUpModal"  :OptionData="option"
+                          :deleteOption="deleteOption" :opendelModal="opendelModal" />
                         </template>
                       </Dropdown>
                     </div>
@@ -128,7 +129,9 @@
                           />
                         </svg>
                         <template #popper>
-                          <OptionsPopperContent  :openUpModal="openUpModal"  :OptionData="option"/>
+                          <OptionsPopperContent
+                          :openUpModal="openUpModal" :OptionData="option"
+                          :deleteOption="deleteOption" :opendelModal="opendelModal"/>
                         </template>
                       </Dropdown>
                     </div>
@@ -151,13 +154,10 @@ import { usePage } from "@inertiajs/vue3";
 const props = defineProps({
     openUpModal:Function,
     OptionData: Object,
+    deleteOption:Function,
+    opendelModal:Function,
 });
-const emit = defineEmits(["closeUpModal"]);
-
-console.log('from update Formulas : '+props.openUpModal);
-console.log('option data from Formulas : '+props.OptionData);
-
-
+ const emit = defineEmits(["deleteOption"]);
 
 const formulas = usePage().props.formulas;
 
@@ -166,8 +166,7 @@ const getOptionByType = (options, type) => {
     return obj.type === type;
   });
 };
-const closeUpModal = () => {
-    form.reset();
-    emit("closeUpModal");
+const deleteOption = () => {
+    emit("deleteOption");
   };
 </script>
