@@ -1,6 +1,6 @@
 <template>
   <div class="mt-6 flex flex-1 flex-col overflow-y-auto">
-    <nav class="flex-1 px-2">
+    <nav class="flex-1 space-y-2 px-2">
       <SideBarItem
         :quickcreate="false"
         itemroute="6dem.dashboard"

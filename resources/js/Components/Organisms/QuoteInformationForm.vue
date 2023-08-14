@@ -119,7 +119,7 @@
           <DocumentLabel name="Chargement" color="#438A7A" />
           <ToggleButton v-model:checked="sameAddressAsClient" label="Adresse de chargement identique à l'adresse du client ?" />
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress  :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
+            <DocumentFieldInputAddress :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
               @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
 
@@ -337,9 +337,7 @@ import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import "vue-select/dist/vue-select.css";
-import { reactive, ref, computed } from "vue";
-
-import { watch } from "vue";
+import { reactive, ref, computed, watch } from "vue";
 
 const user = usePage().props.auth.user;
 const currentSettingss = usePage().props.settings;
@@ -443,8 +441,7 @@ const saveField = (field) => {
   });
 };
 
-const saveFormula = (formula) => {
-  console.log(movingjob.formula);
+const saveFormula = () => {
   movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: 'formula' }), {
     preserveScroll: true,
     preserveState: true,

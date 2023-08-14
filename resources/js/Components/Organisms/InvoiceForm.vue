@@ -109,9 +109,7 @@
       </div>
       <DocumentLabel name="Désignation" color="#438A7A" />
       <div v-if="currentClient.type == 'individual'">
-        <DocumentFieldFrame>
-          <SelectFormulas @savingFormula="saveFormula" />
-        </DocumentFieldFrame>
+        <DocumentSelectInput v-model="movingjob.formula" :value="movingjob.formula" @change="saveFormula" :options="formulaOptions" default-text="Formule de déménagament"/>
       </div>
       <div class="flex flex-col space-y-2 pb-8">
         <DynamicFields />
@@ -192,9 +190,7 @@
       <DocumentLabel name="Facture" color="#438A7A" />
       <div class="grid grid-cols-3 gap-6 pb-5 justify-between">
         <div>
-          <DocumentFieldFrame>
-            <SelectInvoiceType @savingInvoiceType="saveInvoiceType" />
-          </DocumentFieldFrame>
+          <DocumentSelectInput v-model="invoice.type" :value="invoice.type" @change="saveInvoiceType" :options="invoiceTypeOptions" default-text="Type de facture"/>
         </div>
         <div>
           <DocumentFieldFrame>
@@ -238,9 +234,8 @@ import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
-import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
+import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import SelectInvoiceType from "@/Components/Atoms/SelectInvoiceType.vue";
-import SelectOperative from "@/Components/Atoms/SelectOperative.vue";
 import 'vue-select/dist/vue-select.css';
 import { reactive, ref, onMounted, computed } from "vue";
 
@@ -252,6 +247,23 @@ const currentMovingJob = usePage().props.movingJob;
 const currentClient = usePage().props.client;
 const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
 const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
+const movingJobFormulas = usePage().props.movingJobFormulas;
+
+const formulaOptions = movingJobFormulas.map(item => ({
+  name: item.name,
+  value: item.slug
+}));
+
+const invoiceTypeOptions = [
+    {
+      name :"Acompte",
+      value : "acompte"
+    },
+    {
+      name : "Solde",
+      value : "solde"
+    }
+  ];
 
 const vat = ref(2);
 const amount_ht = ref(2);
@@ -295,7 +307,7 @@ const movingjob = useForm({
 });
 
 const invoice = useForm({
-  type: currentInvoice.type,
+  type: currentInvoice.type ? currentInvoice.type : "",
   executing_company: currentInvoice.executing_company,
   amount_ht: currentInvoice.amount_ht
 });
@@ -309,9 +321,7 @@ const saveField = (field) => {
   });
 };
 
-const saveInvoiceType = (type) => {
-  invoice.type = type;
-  console.log(invoice.type);
+const saveInvoiceType = () => {
   invoice.put(route("6dem.invoice.update", { id: currentInvoice.id, field: 'type' }), {
     preserveScroll: true,
     preserveState: true,
@@ -320,9 +330,7 @@ const saveInvoiceType = (type) => {
   });
 };
 
-const saveFormula = (formula) => {
-  movingjob.formula = formula.title;
-  console.log(movingjob.formula);
+const saveFormula = () => {
   movingjob.put(route("6dem.invoice.update", { id: currentInvoice.id, field: 'formula' }), {
     preserveScroll: true,
     preserveState: true,
