@@ -17,7 +17,7 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Supprimer" @clicked="PopperItemClicked">
+      <PopperItem item="Supprimer" @clicked="opendelModal(OptionData.id)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -43,6 +43,8 @@
 const props = defineProps({
     openUpModal:Function,
     OptionData:Object,
+    deleteOption:Function,
+    opendelModal:Function,
 });
 
 
