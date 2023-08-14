@@ -3,12 +3,12 @@
         <div class="flex space-x-2">
             <span class="w-1/5 p-1 flex-none">
                 <DocumentFieldFrame>
-                    <DocumentFieldInput v-model="item.description" placeholder="Description" :fontBold="true" @savingValue="saveField('designation', item.id, item.description)"/>
+                    <DocumentFieldInput :value="item.description" v-model="item.description" placeholder="Description" :fontBold="true" @savingValue="saveField('designation', item.id, item.description)"/>
                 </DocumentFieldFrame>
             </span>
             <span class="w-1/5 p-1">
                 <DocumentFieldFrame>
-                    <DocumentFieldInput v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
+                    <DocumentFieldInput :value="item.qty" v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
                 </DocumentFieldFrame>
             </span>
             <span class="w-1/5 p-1">
@@ -16,12 +16,12 @@
             </span>
             <span class="w-1/5 p-1">
                 <DocumentFieldFrame>
-                    <DocumentFieldInput class="w-full" v-model="item.priceHT" placeholder="Tarif HT" :fontBold="true" @savingValue="saveField('price_ht', item.id, item.priceHT)"/>
+                    <DocumentFieldInput :value="item.priceHT" class="w-full" v-model="item.priceHT" placeholder="Tarif HT" :fontBold="true" @savingValue="saveField('price_ht', item.id, item.priceHT)"/>
                 </DocumentFieldFrame>
             </span>
             <span class="w-1/5 p-1">
                 <DocumentFieldFrame>
-                    <DocumentFieldInput placeholder="Tarif TTC" v-model="item.priceTTC" :fontBold="true" />
+                    <DocumentFieldInput :value="item.priceTTC" placeholder="Tarif TTC" :fontBold="true" />
                 </DocumentFieldFrame>
             </span>
             <span class="flex items-center">
