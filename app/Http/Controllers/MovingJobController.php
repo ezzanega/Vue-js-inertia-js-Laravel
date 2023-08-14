@@ -19,6 +19,7 @@ use App\Models\ExecutingCompany;
 use App\Models\MovingJobFormula;
 use App\Models\Enums\InvoiceStatus;
 use App\Models\Enums\WaybillStatus;
+use Illuminate\Support\Facades\Http;
 use App\Models\Enums\QuotationStatus;
 use Illuminate\Support\Facades\Redirect;
 
@@ -121,7 +122,7 @@ class MovingJobController extends Controller
     {
         $organization = $request->user()->organization->with('billingAddress')->first();
         $client = Client::where('id', $clientId)->with(['address', 'clientOrganization'])->first();
-        $movingjob = MovingJob::find($movingjobId);
+        $movingjob = MovingJob::where('id', $movingjobId)->with(['loadingLocation', 'shippingLocation'])->first();
         $quotation = Quotation::find($quotationId);
         $options = Option::where('moving_job_id', $movingjobId)->get();
         $insurances = Insurance::where(['organization_id' => $organization->id])->get();
@@ -139,27 +140,7 @@ class MovingJobController extends Controller
             ),
             'insurances' => $insurances,
             'settings' => $settings,
-            'movingJob' => $movingjob->only(
-                'id',
-                'capacity',
-                'formula',
-                'loading_address',
-                'loading_date',
-                'loading_floor',
-                'loading_elevator',
-                'loading_portaging',
-                'loading_details',
-                'shipping_address',
-                'shipping_date',
-                'shipping_floor',
-                'shipping_elevator',
-                'shipping_portaging',
-                'shipping_details',
-                'discount_percentage',
-                'discount_amount_ht',
-                'advance',
-                'balance',
-            ),
+            'movingJob' => $movingjob,
             'options' => $options,
             'client' => $client->only(
                 'id',
@@ -217,6 +198,7 @@ class MovingJobController extends Controller
                 'discount_percentage',
                 'discount_amount_ht',
                 'advance',
+                'distance',
                 'balance',
             ),
             'client' => $client->only(
@@ -280,6 +262,7 @@ class MovingJobController extends Controller
                 'discount_percentage',
                 'discount_amount_ht',
                 'advance',
+                'distance',
                 'balance',
             ),
             'client' => $client->only(
@@ -315,6 +298,57 @@ class MovingJobController extends Controller
                 $field => $request->$field,
             ]);
         }
+    }
+
+    public function createUpdateLocation(Request $request, $id, $from)
+    {
+        if ($from == 'quotation') {
+            $quotation = Quotation::where(['id' => $id])->first();
+            $movingjob = MovingJob::where(['id' => $quotation->moving_job_id])->first();
+        } else {
+            $waybill = Waybill::where(['id' => $id])->first();
+            $movingjob = MovingJob::where(['id' => $waybill->moving_job_id])->first();
+        }
+
+        if ($request->type == 'loading') {
+            $movingjob->update(['loading_address' => $request->fullAddress]);
+            $movingjob->loadingLocation()->updateOrCreate([], [
+                'address' => $request->address,
+                'city' => $request->city,
+                'postal_code' => $request->postalCode,
+                'country' => $request->country,
+                'full_address' => $request->fullAddress,
+                'lat' => $request->lat,
+                'lng' => $request->lng,
+                'google_map_url' => $request->googleMapUrl,
+            ]);
+        } else {
+            $movingjob->update(['shipping_address' => $request->fullAddress]);
+            $movingjob->shippingLocation()->updateOrCreate([], [
+                'address' => $request->address,
+                'city' => $request->city,
+                'postal_code' => $request->postalCode,
+                'country' => $request->country,
+                'full_address' => $request->fullAddress,
+                'lat' => $request->lat,
+                'lng' => $request->lng,
+                'google_map_url' => $request->googleMapUrl,
+            ]);
+        }
+
+        $movingjob->refresh();
+
+        if ($movingjob->loadingLocation && $movingjob->shippingLocation) {
+            $distance = $this->calculateDistance(
+                $movingjob->loadingLocation->lat,
+                $movingjob->loadingLocation->lng,
+                $movingjob->shippingLocation->lat,
+                $movingjob->shippingLocation->lng
+            );
+            $movingjob->update(['distance' => $distance]);
+            return back()->with('distance', $distance);
+        }
+        return back();
     }
 
     public function updateWaybill(Request $request, $id, $field)
@@ -367,5 +401,20 @@ class MovingJobController extends Controller
                 $field => $request->$field,
             ]);
         }
+    }
+
+
+    private function calculateDistance($lat1, $lng1, $lat2, $lng2)
+    {
+        $Google_Maps_API_Key = 'AIzaSyC7TOs-73yQEUsNqVchkrvTr6I5gxYF5kE';
+
+        $response = Http::get("https://maps.googleapis.com/maps/api/distancematrix/json?origins=$lat1,$lng1&destinations=$lat2,$lng2&key=$Google_Maps_API_Key");
+
+        if ($response->successful()) {
+            $data = $response->json();
+            $distance = $data['rows'][0]['elements'][0]['distance']['text'];
+            return $distance;
+        }
+        return null;
     }
 }

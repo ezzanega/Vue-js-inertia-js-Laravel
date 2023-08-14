@@ -6,9 +6,23 @@ export const parseLocation = (result) => {
         postalCode: getComponent(result, "postal_code"),
         country: getComponent(result, "country"),
         fullAddress: result.formatted_address,
-        lat: result.geometry.location.lat,
-        lng: result.geometry.location.lng,
+        lat: result.geometry.location.lat(),
+        lng: result.geometry.location.lng(),
         googleMapUrl: result.url,
+    };
+};
+
+
+export const reformatLocation = (loaction) => {
+    return {
+        address: loaction.address,
+        city: loaction.city,
+        postalCode: loaction.postal_code,
+        country: loaction.country,
+        fullAddress: loaction.full_address,
+        lat: loaction.lat,
+        lng: loaction.lng,
+        googleMapUrl: loaction.google_map_url,
     };
 };
 
