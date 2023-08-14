@@ -1,10 +1,25 @@
 <template>
   <div class="overflow-hidden space-y-2">
-    <SearchBar name="document" v-model="searchQuotationQuery" class="shrink mt-1 mx-1 w-1/3"
+    <div class="flex flex-row justify-between items-center mt-5">
+      <SearchBar name="document" v-model="searchQuotationQuery" class="shrink mt-1 mx-1 w-1/3"
       placeholder="Recherchez un numéro de devis/nom de client" />
+      <div class="flex flex-row space-x-2 items-center">
+        <SelectClientModal />
+        <IconButton class="mt-6" :customClass="'text-primary bg-white'" text="Exporter" @click="handleExportClick">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="pointer-events-none shrink-0 w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25" />
+          </svg>
+
+        </IconButton>
+      </div>
+    </div>
     <div
       class="w-full rounded-xl bg-white text-left text-sm px-6 py-4 font-medium text-gray-900 flex justify-between border-b border-gray-200">
-      <div class="w-1/12 text-center"></div>
+      <div class="w-1/12"><input name="" type="checkbox"
+            class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0" :checked="selectedAll"
+        @change="toggleSelectedAll"/></div>
       <div class="w-2/12 text-center flex flex-row justify-center items-center">N° du devis
         <div class="flex flex-col items-center ml-2">
           <button>
