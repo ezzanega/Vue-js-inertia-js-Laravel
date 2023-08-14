@@ -22,7 +22,7 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
     import { onMounted, watch, ref } from 'vue';
 
@@ -50,6 +50,7 @@
             required: false,
             default: "#fafafa",
         },
+        selectedClient:Object,
 
     });
 
@@ -57,8 +58,8 @@
     let isTransitioning = ref(false)
 
     onMounted(() => isVisible.value  = props.isOpen);
+    const emit = defineEmits(['close','selectedClient']);
 
-    const emit = defineEmits(['close']);
 
     watch(
         () => props.isOpen,
@@ -67,11 +68,12 @@
             if (val) {
             toggleBackgroundScrolling(true);
             isVisible.value = true;
+            console.log("Drawer ",props.selectedClient)
             } else {
             toggleBackgroundScrolling(false);
             setTimeout(() => (isVisible.value = false), props.speed);
             }
-    
+
             setTimeout(() => (isTransitioning.value = false), props.speed);
         },
     );
@@ -89,7 +91,7 @@
         body.style.overflow = enable ? "hidden" : null;
     };
 </script>
-  
+
 <style scoped>
 .drawer {
     visibility: hidden;
@@ -131,5 +133,5 @@
     transform: translateX(100%);
     box-shadow: 0 2px 6px #777;
 }
- 
+
 </style>
