@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Invoice;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 
 class InvoiceController extends Controller
@@ -37,5 +38,59 @@ class InvoiceController extends Controller
             ->get();
 
         return $invoice;
+    }
+
+    /**
+     * Handle an incoming filter request.
+     */
+    public function sort(Request $request)
+    {
+        $number = $request->input('number') ?? "";
+        $type = $request->input('type') ?? "";
+        $date = $request->input('date') ?? "";
+        $status = $request->input('status') ?? "";
+        $amountHT = $request->input('amountHT') ?? "";
+
+        $query = Invoice::with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date) {
+            if ($amountHT) {
+                $movingJobQuery->orderBy('discount_amount_ht', $amountHT);
+            }
+            if ($date) {
+                $movingJobQuery->orderBy('loading_date', $date);
+            }
+            $movingJobQuery->with('client');
+        }])
+        ->where('organization_id', auth()->user()->organization->id);
+        if ($type) {
+            $query->orderBy('type', $type);
+        }
+
+        if ($number) {
+            $query->orderBy('number', $number);
+        }
+        if ($status) {
+            $query->orderBy('status', $status);
+        }
+
+        $invoice = $query->get();
+
+        return $invoice;
+    }
+
+    public function deleteInvoice($id)
+    {
+        try {
+            $invoice = Invoice::find($id);
+
+            if (!$invoice) {
+                return response()->json(['message' => 'Cette Facture n\'existe pas'], 404);
+            }
+            $invoice->delete();
+            return Redirect::route('6dem.documents');
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+        }
     }
 }

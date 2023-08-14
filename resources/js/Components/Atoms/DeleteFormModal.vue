@@ -21,7 +21,7 @@
         <div class="p-3 mt-2 text-center space-x-4 md:block">
             <button
             @click="deleteFunction"
-            class="mb-2 md:mb-0 bg-red-500 text-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-white rounded-md hover:shadow-lg hover:bg-red-600 hover:text-white"
+            class="mb-2 md:mb-0 bg-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-white rounded-md hover:shadow-lg hover:bg-red-600 hover:text-white"
             >
                 Supprimer
             </button>
@@ -39,7 +39,6 @@
   import Modal from "@/Components/Modal.vue";
   const props = defineProps({
     isModaldelOpen: Boolean,
-
     });
 
 const emit = defineEmits(["closedelModal"]);

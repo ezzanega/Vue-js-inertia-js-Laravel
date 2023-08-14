@@ -4,9 +4,10 @@
     <Tabs>
       <Tab title="Devis">
         <div v-if="$page.props.quotations.length">
-          <SelectClientModal />
           <div class="mt-2">
-            <QuotationList />
+            <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal" />
+            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()" @deleteFunction="deletequotation(selectedvalue)"/>
           </div>
         </div>
         <ListEmptyMessage
@@ -19,9 +20,10 @@
       </Tab>
       <Tab title="Lettres de voiture">
         <div v-if="$page.props.waybills.length">
-          <SelectQuoteModal/>
           <div class="mt-2">
-            <WaybillList />
+            <WaybillList :deleteLv="deleteLv" :opendelModal="opendelModal" />
+            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()" @deleteFunction="deleteLv(selectedvalue)"/>
           </div>
         </div>
         <ListEmptyMessage
@@ -34,9 +36,10 @@
       </Tab>
       <Tab title="Facture">
         <div v-if="$page.props.invoices.length">
-          <SelectQuoteInvoiceModal/>
           <div class="mt-2">
-            <InvoiceList />
+            <InvoiceList :deleteFacture="deleteFacture" :opendelModal="opendelModal"/>
+            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()" @deleteFunction="deleteFacture(selectedvalue)"/>
           </div>
         </div>
         <ListEmptyMessage
@@ -50,7 +53,7 @@
     </Tabs>
   </DemLayout>
 </template>
-  
+
 <script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
 import SelectClientModal from "@/Components/Organisms/SelectClientModal.vue";
@@ -58,7 +61,8 @@ import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
 import SelectQuoteInvoiceModal from "@/Components/Organisms/SelectQuoteInvoiceModal.vue";
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import QuotationList from "@/Components/Molecules/QuotationList.vue";
-import { Head } from "@inertiajs/vue3";
+import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
+import { Head,router } from "@inertiajs/vue3";
 import { ref } from "vue";
 import Tabs from "@/Components/Molecules/Tabs.vue";
 import Tab from "@/Components/Atoms/Tab.vue";
@@ -75,4 +79,45 @@ const toggleDrawer = () => {
 const closeDrawer = () => {
   isDrawerOpen.value = false;
 };
+function deleteLv(id) {
+
+router.delete(`/6dem/documents/waybill/delete/${id}`, {
+    onBefore: () => opendelModal(),
+    onSuccess:() => closedelModal()
+});
+//alert('hello from lv function');
+}
+function deleteFacture(id) {
+
+router.delete(`/6dem/documents/invoice/delete/${id}`, {
+onBefore: () => opendelModal(),
+onSuccess:() => closedelModal()
+});
+//alert('hello from Facture  function');
+}
+
+//début Open  et Close de formulaire de suppression quotation
+function deletequotation(id) {
+
+router.delete(`/6dem/documents/quotation/delete/${id}`, {
+    onBefore: () => opendelModal(),
+    onSuccess:() => closedelModal()
+});
+}
+//début Open et Close Pop-up
+const isModaldelOpen=ref(false);
+const selectedvalue=ref(null);
+
+const opendelModal = (id) => {
+isModaldelOpen.value = true;
+selectedvalue.value = id;
+};
+
+const closedelModal = () => {
+isModaldelOpen.value = false;
+selectedvalue.value=null;
+};
+//fin Open et Close Pop-up
+
+//fin Open et Close de formulaire de suppression Client
 </script>

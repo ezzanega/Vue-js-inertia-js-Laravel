@@ -160,7 +160,7 @@ class AclController extends Controller
         }
         $collaborateur->delete();
         return Redirect::route('6dem.manage');
-        //return  'envoyé';
+        //return  'this is the collaborateur '.$collaborateur ;
     }
     public function UpdateRoleUser(Request $request,$id)
     {
@@ -171,8 +171,6 @@ class AclController extends Controller
         $active_collaborateur = User::where(['id' => $id])->first();
         $active_collaborateur->syncRoles([]);
         $active_collaborateur->assignRole($request->role);
-
-
         return back();
     }
     public function UpdateRoleInvite(Request $request,$id)

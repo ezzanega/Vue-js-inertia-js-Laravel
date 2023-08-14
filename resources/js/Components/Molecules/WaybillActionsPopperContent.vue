@@ -30,7 +30,8 @@
             d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
         </svg>
       </PopperItem>
-      <PopperItem item="Supprimer la lettre de voiture" @clicked="PopperItemClicked">
+      <PopperItem item="Supprimer la lettre de voiture"
+      @clicked="opendelModal(document.id)">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -40,7 +41,7 @@
     </div>
   </div>
 </template>
-      
+
 <script setup>
 import PopperItem from "@/Components/Atoms/PopperItem.vue";
 import { router } from "@inertiajs/vue3";
@@ -54,6 +55,13 @@ const props = defineProps({
   client_id: {
     required: true,
   },
+  //Props pour la suppression de lettre de voiture
+  document: {
+    type: Object,
+    required: true,
+  },
+  deleteLv:Function,
+  opendelModal:Function,
 });
 const PopperItemClicked = () => { };
 const previewWaybill = () => {

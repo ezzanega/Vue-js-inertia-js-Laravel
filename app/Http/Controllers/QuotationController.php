@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Quotation;
 use App\Models\Client;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class QuotationController extends Controller
 {
@@ -40,11 +42,70 @@ class QuotationController extends Controller
         return $quotation;
     }
 
+    /**
+     * Handle an incoming filter request.
+     */
+    public function sort(Request $request)
+    {
+        $number = $request->input('number') ?? "";
+        $client = $request->input('client') ?? "";
+        $date = $request->input('date') ?? "";
+        $status = $request->input('status') ?? "";
+        $amountHT = $request->input('amountHT') ?? "";
+        $clientType = $request->input('clientType') ?? "";
+
+        $query = Quotation::with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date, $client, $clientType) {
+            if ($amountHT) {
+                $movingJobQuery->orderBy('discount_amount_ht', $amountHT);
+            }
+            if ($date) {
+                $movingJobQuery->orderBy('loading_date', $date);
+            }
+            $movingJobQuery->with(['client' => function ($clientQuery) use ($client, $clientType) {
+                    if ($client) {
+                        $clientQuery->orderBy('last_name', $client);
+                    }
+                    if ($clientType) {
+                        $clientQuery->orderBy('type', $clientType);
+                    }
+                }]);
+        }])
+        ->where('organization_id', auth()->user()->organization->id);
+
+        if ($number) {
+            $query->orderBy('number', $number);
+        }
+        if ($status) {
+            $query->orderBy('status', $status);
+        }
+
+        $quotation = $query->get();
+
+        return $quotation;
+    }
+
     public function preview(Request $request, $id): Response
     {
         $quotation = Quotation::where('id', $id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
         return Inertia::render('6dem/PrewiewQuotation', [
             'quotation' => $quotation,
         ]);
+    }
+
+    public function deleteQuotation($id)
+    {
+        try {
+            $quotation = Quotation::find($id);
+
+            if (!$quotation) {
+                return response()->json(['message' => 'Ce devis n\'existe pas'], 404);
+            }
+            $quotation->delete();
+            return Redirect::route('6dem.documents');
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+        }
     }
 }

@@ -135,7 +135,7 @@
                                 />
                               </svg>
                             </PopperItem>
-                            <PopperItem item="Supprimer" @click.prevent="deleteUserdMembre(member,'user')">
+                            <PopperItem item="Supprimer" @click.prevent="opendelModal(member.id,'user')">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -155,7 +155,7 @@
                         <!-- Items Invited User -->
                         <div class="space-y-0.5"
                          v-else>
-                            <PopperItem item="Modifier le Role" @click="openUpRoleModal(member)">
+                            <PopperItem item="Modifier le Role " @click="openUpRoleModal(member)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -171,7 +171,8 @@
                                 />
                               </svg>
                             </PopperItem>
-                            <PopperItem item="Supprimer" @click.prevent="deleteInvitedMembre(member.id,'invited')">
+                            <PopperItem item="Supprimer"
+                            @click.prevent="opendelModal(member.id,'invited')">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -202,6 +203,12 @@
     :openModal="RoleModal"
     @closeUpRoleModal="closeUpRoleModal"
     :MemberData="selectedMember" />
+
+    <DeleteFormModal
+      :isModaldelOpen="isModaldelOpen"
+      @closedelModal="closedelModal()"
+      @deleteFunction="RoleMember.value === 'invite' ? deleteInvitedMembre(selectedMember, RoleMember) : deleteUserdMembre(selectedMember, RoleMember)"
+    />
   </div>
 </template>
 
@@ -211,6 +218,7 @@
     import IconButton from "@/Components/Atoms/IconButton.vue";
     import InviteUserForm from "@/Components/Organisms/InviteUserForm.vue";
     import UpdateCollaborateurForm from "@/Components/Organisms/UpdateCollaborateurForm.vue";
+    import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
     import { usePage } from "@inertiajs/vue3";
     import { ref } from "vue";
     import { getRoleLabel } from "@/utils/index";
@@ -237,20 +245,40 @@
     function deleteInvitedMembre(memberId,membeRole) {
         const url =`/6dem/manage/collaborateur/delete/${memberId}/${membeRole}`;
         router.delete(url, {
-            onBefore: () => confirm('etes-vous sur de vouloire supprimer ce collaborateur ?'),
-            })
+            onBefore: () => opendelModal(),
+            onSuccess:() => closedelModal()
+        });
     }
 
     function deleteUserdMembre(memberId,membeRole) {
         const url =`/6dem/manage/collaborateur/delete/${memberId}/${membeRole}`;
-        router.delete(url, {
-            onBefore: () => confirm('etes-vous sur de vouloire supprimer ce collaborateur ?'),
-            })
+        router.delete(url,{
+            onBefore: () => opendelModal(),
+            onSuccess:() => closedelModal()
+        });
     }
+    //début Open  et Close  Pop up
+    const selectedMember = ref(null); //we will use it also in update
+    const RoleMember = ref(null);
+
+    const isModaldelOpen=ref(false);
+    const opendelModal = (member,Role) => {
+        isModaldelOpen.value = true;
+        selectedMember.value = member;
+        RoleMember.value = Role;
+        console.log(selectedMember.value+'   '+RoleMember.value);
+    };
+
+    const closedelModal = () => {
+        isModaldelOpen.value = false;
+    };
+    //fin Open  et Close de Pop up
+
+
 
     //Traitement de modification du collaborateur
     const RoleModal = ref(false);
-    const selectedMember = ref(null);
+    //const selectedMember = ref(null);
     const openUpRoleModal = (MemberData) => {
         RoleModal.value = true;
         selectedMember.value = MemberData;

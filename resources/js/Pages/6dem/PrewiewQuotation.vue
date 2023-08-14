@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <iframe :src="`/6dem/quotation/pdf/${quotation.id}`" width="100%" height="600px"></iframe>
+      <iframe :src="`/6dem/documents/quotation/pdf/${quotation.id}`" width="100%" height="600px"></iframe>
     </div>
   </DemLayout>
 </template>

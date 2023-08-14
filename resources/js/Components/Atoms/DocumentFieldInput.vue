@@ -10,7 +10,7 @@
         @focusout="$emit('savingValue')"
         ref="editableSpan"
       >
-        {{ inputValue }}
+        {{ value }}
       </span>
     </div>
   </div>
@@ -20,7 +20,7 @@
 import { ref, nextTick, onMounted, watch } from "vue";
 const emit = defineEmits(["update:modelValue","savingValue"]);
 const props = defineProps({
-  modelValue: {
+  value: {
     type: String,
     required: true,
   },
@@ -66,15 +66,15 @@ const props = defineProps({
 });
 
 const classText = ref(props.className);
-const inputValue = ref(props.modelValue);
+// const inputValue = ref(props.modelValue);
 const editableSpan = ref(null);
 
-watch(inputValue, (newValue) => {
-  emit("update:modelValue", newValue);
-});
+// watch(inputValue, (newValue) => {
+//   emit("update:modelValue", newValue);
+// });
 
 const handleInput = () => {
-  inputValue.value = editableSpan.value.innerText;
+  emit("update:modelValue", editableSpan.value.innerText);
 };
 </script>
   

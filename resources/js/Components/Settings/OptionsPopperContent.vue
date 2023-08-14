@@ -1,7 +1,7 @@
 <template>
   <div class="w-auto">
     <div class="space-y-0.5">
-      <PopperItem item="Modifier" @clicked="PopperItemClicked">
+      <PopperItem item="Modifier" @clicked="openUpModal(OptionData)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -17,7 +17,7 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Supprimer" @clicked="PopperItemClicked">
+      <PopperItem item="Supprimer" @clicked="opendelModal(OptionData.id)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -36,9 +36,19 @@
     </div>
   </div>
 </template>
-    
-    <script setup>
-import PopperItem from "@/Components/Atoms/PopperItem.vue";
+
+<script setup>
+    import PopperItem from "@/Components/Atoms/PopperItem.vue";
+
+const props = defineProps({
+    openUpModal:Function,
+    OptionData:Object,
+    deleteOption:Function,
+    opendelModal:Function,
+});
+
+
+console.log('from update Formulas Popper content : '+props.openUpModal);
 
 const PopperItemClicked = () => {};
 </script>

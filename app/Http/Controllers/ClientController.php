@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplates;
+use App\Models\ClientOrganizations;
 use App\Models\Enums\ClientType;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -131,4 +132,65 @@ class ClientController extends Controller
             ->get();
         return $clients;
     }
+
+
+    public function deleteClient($id)
+    { 
+        try {
+            $client = Client::find($id);
+
+            if (!$client) {
+                return response()->json(['message' => 'Ce client n\'existe pas'], 404);
+            }
+            if($client->type=="professional")
+            {
+                $client_organisation = ClientOrganizations::where('client_id', $client->id)->first();
+
+                if (!$client_organisation) {
+                    return response()->json(['message' => 'L\'organisation de ce client n\'existe pas'], 404);
+                }
+
+                $client_organisation->delete();
+            }
+            $client->delete();
+            return Redirect::route('6dem.clients');
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+        }
+    }
+
+    /**
+     * Handle an incoming filter request.
+     */
+    public function sort(Request $request)
+    {
+        $last_name = $request->input('last_name') ?? "";
+        $email = $request->input('email') ?? "";
+        $type = $request->input('type') ?? "";
+        $phone_number = $request->input('phone_number') ?? "";
+        $source = $request->input('source') ?? "";
+
+        $query = Client::where('organization_id', auth()->user()->organization->id);
+
+        if ($last_name) {
+            $query->orderBy('last_name', $last_name);
+        }
+        if ($email) {
+            $query->orderBy('email', $email);
+        }
+        if ($phone_number) {
+            $query->orderBy('phone_number', $phone_number);
+        }
+        if ($type) {
+            $query->orderBy('type', $type);
+        }
+        if ($source) {
+            $query->orderBy('source', $source);
+        }
+        $clients = $query->get();
+
+        return $clients;
+    }
+
 }

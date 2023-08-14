@@ -10,58 +10,58 @@
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="'DEVIS N° ' + currentQuotation.number" placeholder="N° du devis"
+            <DocumentFieldInput :value="'DEVIS N° ' + currentQuotation.number" placeholder="N° du devis"
               :font-bold="true" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.phone_number" placeholder="Téléphone" />
+            <DocumentFieldInput :value="currentOrganisation.phone_number" placeholder="Téléphone" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse mail" :modelValue="currentOrganisation.email" />
+            <DocumentFieldInput placeholder="Adresse mail" :value="currentOrganisation.email" />
           </DocumentFieldFrame>
         </div>
       </div>
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.siren" placeholder="SIREN" />
+            <DocumentFieldInput :value="currentOrganisation.siren" placeholder="SIREN" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.code_ape" placeholder="Code APE" />
+            <DocumentFieldInput :value="currentOrganisation.code_ape" placeholder="Code APE" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput :modelValue="currentOrganisation.licence" placeholder="Licence N°" />
+            <DocumentFieldInput :value="currentOrganisation.licence" placeholder="Licence N°" />
           </DocumentFieldFrame>
         </div>
       </div>
       <div>
         <DocumentFieldFrame>
           <DocumentFieldInput placeholder="Adresse de la société"
-            :modelValue="currentOrganisation.billing_address.full_address" />
+            :value="currentOrganisation.billing_address.full_address" />
         </DocumentFieldFrame>
       </div>
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Prénom" :modelValue="currentClient.first_name" />
+            <DocumentFieldInput placeholder="Prénom" :value="currentClient.first_name" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Nom" :modelValue="currentClient.last_name" />
+            <DocumentFieldInput placeholder="Nom" :value="currentClient.last_name" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Téléphone" :modelValue="currentClient.phone_number" />
+            <DocumentFieldInput placeholder="Téléphone" :value="currentClient.phone_number" />
           </DocumentFieldFrame>
         </div>
       </div>
@@ -69,7 +69,7 @@
         <div>
           <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Nom complet de l'entreprise"
-              :modelValue="currentClient.client_organization.name" />
+              :value="currentClient.client_organization.name" />
           </DocumentFieldFrame>
         </div>
       </div>
@@ -119,7 +119,7 @@
           <DocumentLabel name="Chargement" color="#438A7A" />
           <ToggleButton v-model:checked="sameAddressAsClient" label="Adresse de chargement identique à l'adresse du client ?" />
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress  :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
+            <DocumentFieldInputAddress :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
               @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
 
@@ -195,7 +195,13 @@
           <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'shipping'" />
         </div>
       </div>
+      <div class="text-center text-2xl font-bold pb-5 flex justify-center">
+          <h1>Distance: </h1>
+          <DocumentFieldInput placeholder="Distance" :value="movingjob.distance" v-model="movingjob.distance"
+                @savingValue="saveField('distance')" />
+        </div>
     </div>
+
     <div class="flex flex-col space-y-5 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-5">
         <DocumentLabel name="Options" color="#438A7A" />
@@ -210,27 +216,27 @@
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Assurance contractuelle'" />
+              <DocumentFieldInput :value="'Assurance contractuelle'" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceContractual.max_value"
-                :modelValue="'Valeur max par objet: ' + currentInsuranceContractual.max_value"
+                :value="'Valeur max par objet: ' + currentInsuranceContractual.max_value"
                 @savingValue="saveInsurance(currentInsuranceContractual.id, 'max_value', 'contractual')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Franchise" v-model="insuranceContractual.franchise"
-                :modelValue="'Franchise: ' + currentInsuranceContractual.franchise"
+                :value="'Franchise: ' + currentInsuranceContractual.franchise"
                 @savingValue="saveInsurance(currentInsuranceContractual.id, 'franchise', 'contractual')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Montant HT" v-model="insuranceContractual.amount_ht"
-                :modelValue="'Montant HT: ' + currentInsuranceContractual.amount_ht"
+                :value="'Montant HT: ' + currentInsuranceContractual.amount_ht"
                 @savingValue="saveInsurance(currentInsuranceContractual.id, 'amount_ht', 'contractual')" />
             </DocumentFieldFrame>
           </span>
@@ -244,34 +250,34 @@
         <div class="flex space-x-2">
           <span class="w-2/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Assurance ad valorem'" />
+              <DocumentFieldInput :value="'Assurance ad valorem'" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceAdValorem.max_value"
-                :modelValue="'Valeur max par objet : ' + currentInsuranceAdValorem.max_value"
+                :value="'Valeur max par objet : ' + currentInsuranceAdValorem.max_value"
                 @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'max_value', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Franchise" v-model="insuranceAdValorem.franchise"
-                :modelValue="'Franchise : ' + currentInsuranceAdValorem.franchise"
+                :value="'Franchise : ' + currentInsuranceAdValorem.franchise"
                 @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'franchise', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Montant HT" v-model="insuranceAdValorem.amount_ht"
-                :modelValue="'Montant HT : ' + currentInsuranceAdValorem.amount_ht"
+                :value="'Montant HT : ' + currentInsuranceAdValorem.amount_ht"
                 @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'amount_ht', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Montant TTC"
-                :modelValue="'Montant TTC: ' + currentInsuranceAdValorem.amount_ht * vat" />
+                :value="'Montant TTC: ' + currentInsuranceAdValorem.amount_ht * vat" />
             </DocumentFieldFrame>
           </span>
         </div>
@@ -283,10 +289,10 @@
         <div class="grid grid-cols-4 gap-6 justify-between">
           <div class="space-y-5">
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Tarification'" />
+              <DocumentFieldInput :value="'Tarification'" />
             </DocumentFieldFrame>
             <DocumentFieldFrame>
-              <DocumentFieldInput :modelValue="'Modalités de règlement'" />
+              <DocumentFieldInput :value="'Modalités de règlement'" />
             </DocumentFieldFrame>
           </div>
           <div>
@@ -312,7 +318,7 @@
             </DocumentFieldFrame>
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Montant TTC"
-                :modelValue="'Montant TTC: ' + movingjob.discount_amount_ht * vat" />
+                :value="'Montant TTC: ' + movingjob.discount_amount_ht * vat" />
             </DocumentFieldFrame>
           </div>
         </div>
@@ -322,9 +328,6 @@
       <DefaultButton @click="previewQuotation" buttontext="Générer le document" />
     </div>
   </div>
-  <pre>
-    {{ currentMovingJob }}
-  </pre>
 </template>
 
 <script setup>
@@ -341,8 +344,8 @@ import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import "vue-select/dist/vue-select.css";
 import { reactive, ref, computed } from "vue";
-
 import { watch } from "vue";
+import { reformatLocation } from "@/utils";
 
 const user = usePage().props.auth.user;
 const currentSettingss = usePage().props.settings;
@@ -402,10 +405,12 @@ const movingjob = useForm({
   discount_percentage: currentMovingJob.discount_percentage ? currentMovingJob.discount_percentage : "",
   discount_amount_ht: currentMovingJob.discount_amount_ht ? currentMovingJob.discount_amount_ht : "",
   advance: currentMovingJob.advance ? currentMovingJob.advance : "",
-  balance: currentMovingJob.balance ? currentMovingJob.balance : ""
+  balance: currentMovingJob.balance ? currentMovingJob.balance : "",
+  distance: currentMovingJob.distance ? currentMovingJob.distance : ""
 });
 
 const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
+// const movingJobDistance = ref(currentMovingJob.distance ? currentMovingJob.distance : "")
 
 const discountAmountTtc = computed(() => {
   return currentMovingJob.discount_amount_ht * 20;
@@ -428,10 +433,35 @@ const form = reactive({
   siren: "",
 });
 
+const shippingLocation = useForm({
+  type: '',
+  address: '',
+  city: '',
+  postalCode: '',
+  country: '',
+  fullAddress: '',
+  lat: '',
+  lng: '',
+  googleMapUrl: ''
+});
+
+
+const loadingLocation = useForm({
+  type: '',
+  address: '',
+  city: '',
+  postalCode: '',
+  country: '',
+  fullAddress: '',
+  lat: '',
+  lng: '',
+  googleMapUrl: ''
+});
+
+
 watch(sameAddressAsClient, (value) => {
   if (value) {
-    movingjob.loading_address = currentClient.address.full_address;
-    saveField('loading_address');
+    setLoadingAddressData(reformatLocation(currentClient.address))
   } else {
     movingjob.loading_address = "";
   }
@@ -441,13 +471,12 @@ const saveField = (field) => {
   movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: field }), {
     preserveScroll: true,
     preserveState: true,
-    onSuccess: () => console.log("saved"),
+    onSuccess: () => console.log("quotation.update"),
     onError: (errors) => console.log(errors)
   });
 };
 
-const saveFormula = (formula) => {
-  console.log(movingjob.formula);
+const saveFormula = () => {
   movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: 'formula' }), {
     preserveScroll: true,
     preserveState: true,
@@ -475,12 +504,43 @@ const saveInsurance = (id, field, type) => {
 
 const setLoadingAddressData = (location) => {
   movingjob.loading_address = location.fullAddress;
-  saveField('loading_address');
+  loadingLocation.type = "loading";
+  loadingLocation.address = location.address;
+  loadingLocation.city = location.city;
+  loadingLocation.postalCode = location.postalCode;
+  loadingLocation.country = location.country;
+  loadingLocation.fullAddress = location.fullAddress;
+  loadingLocation.lat = location.lat;
+  loadingLocation.lng = location.lng;
+  loadingLocation.googleMapUrl = location.googleMapUrl;
+
+  loadingLocation.put(route("6dem.quotation.location", { id: currentQuotation.id, from: 'quotation' }), {
+    preserveScroll: true,
+    onSuccess: updateDistance,
+    onError: (errors) => console.log(errors)
+  });
 };
 
 const setShippingAddressData = (location) => {
   movingjob.shipping_address = location.fullAddress;
-  saveField('shipping_address');
+  shippingLocation.type = "shipping";
+  shippingLocation.address = location.address;
+  shippingLocation.city = location.city;
+  shippingLocation.postalCode = location.postalCode;
+  shippingLocation.country = location.country;
+  shippingLocation.fullAddress = location.fullAddress;
+  shippingLocation.lat = location.lat;
+  shippingLocation.lng = location.lng;
+  shippingLocation.googleMapUrl = location.googleMapUrl;
+  shippingLocation.put(route("6dem.quotation.location", { id: currentQuotation.id, from: 'quotation' }), {
+    preserveScroll: true,
+    onSuccess: updateDistance,
+    onError: (errors) => console.log(errors)
+  });
+};
+
+const updateDistance = (response) => {
+  movingjob.distance = response.props.movingJob.distance;
 };
 
 const previewQuotation = () => {
