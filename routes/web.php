@@ -63,17 +63,17 @@ Route::middleware('auth')->group(function () {
         ->name('6dem.dashboard');
 
     # Documents
-    Route::get('/6dem/quotation/pdf/{id}', [PdfGeneratorController::class, 'quotation'])
+    Route::get('/6dem/documents/quotation/pdf/{id}', [PdfGeneratorController::class, 'quotation'])
         ->name('6dem.quotation.pdf');
 
     Route::get('/6dem/documents', [DocumentController::class, 'index'])
         ->name('6dem.documents');
 
 
-    Route::get('/6dem/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
+    Route::get('/6dem/documents/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
         ->name('6dem.waybill.pdf');
 
-    Route::get('/6dem/invoice/pdf/{id}', [PdfGeneratorController::class, 'invoice'])
+    Route::get('/6dem/documents/invoice/pdf/{id}', [PdfGeneratorController::class, 'invoice'])
         ->name('6dem.invoice.pdf');
 
     # Organization
@@ -81,71 +81,71 @@ Route::middleware('auth')->group(function () {
         ->name('6dem.organization.update');
 
     # Quotation
-    Route::post('/6dem/quotation/init/{clientId}', [MovingJobController::class, 'initQuotation'])
+    Route::post('/6dem/documents/quotation/init/{clientId}', [MovingJobController::class, 'initQuotation'])
         ->name('6dem.documents.quotation.init');
 
     Route::get('/6dem/documents/quotation/{movingjobId}/{clientId}/{quotationId}', [MovingJobController::class, 'quotation'])
         ->name('6dem.documents.quotation');
 
-    Route::put('/6dem/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
+    Route::put('/6dem/documents/quotation/update/{id}/{field}', [MovingJobController::class, 'updateQuotation'])
         ->name('6dem.quotation.update');
 
 
-    Route::get('/6dem/quotation/preview/{id}', [QuotationController::class, 'preview'])
+    Route::get('/6dem/documents/quotation/preview/{id}', [QuotationController::class, 'preview'])
         ->name('6dem.documents.quotation.preview');
 
-    Route::get('/6dem/quotation/search', [QuotationController::class, 'search'])
+    Route::get('/6dem/documents/quotation/search', [QuotationController::class, 'search'])
         ->name('6dem.search.quotation');
 
-    Route::get('/6dem/quotation/sort', [QuotationController::class, 'sort'])
+    Route::get('/6dem/documents/quotation/sort', [QuotationController::class, 'sort'])
         ->name('6dem.sort.quotation');
     # Delete Quotation
-    Route::delete('/6dem/quotation/delete/{id}', [QuotationController::class, 'deleteQuotation'])
+    Route::delete('/6dem/documents/quotation/delete/{id}', [QuotationController::class, 'deleteQuotation'])
     ->name('6dem.delete.quotation');
 
 
     # Waybill
-    Route::post('/6dem/waybill/init/{quotationId}', [MovingJobController::class, 'initWaybill'])
+    Route::post('/6dem/documents/waybill/init/{quotationId}', [MovingJobController::class, 'initWaybill'])
         ->name('6dem.documents.waybill.init');
 
     Route::get('/6dem/documents/waybill/{movingjobId}/{clientId}/{waybillId}', [MovingJobController::class, 'waybill'])
         ->name('6dem.documents.waybill');
 
-    Route::put('/6dem/waybill/update/{id}/{field}', [MovingJobController::class, 'updateWaybill'])
+    Route::put('/6dem/documents/waybill/update/{id}/{field}', [MovingJobController::class, 'updateWaybill'])
         ->name('6dem.waybill.update');
 
-    Route::get('/6dem/waybill/preview/{id}', [WaybillController::class, 'preview'])
+    Route::get('/6dem/documents/waybill/preview/{id}', [WaybillController::class, 'preview'])
         ->name('6dem.documents.waybill.preview');
 
-    Route::get('/6dem/waybill/search', [WaybillController::class, 'search'])
+    Route::get('/6dem/documents/waybill/search', [WaybillController::class, 'search'])
         ->name('6dem.search.waybill');
-    # Delete Quotation
-    Route::delete('/6dem/waybill/delete/{id}', [WaybillController::class, 'deleteWaybill'])
+    # Delete Waybill
+    Route::delete('/6dem/documents/waybill/delete/{id}', [WaybillController::class, 'deleteWaybill'])
     ->name('6dem.delete.waybill');
 
-    Route::get('/6dem/waybill/sort', [WaybillController::class, 'sort'])
+    Route::get('/6dem/documents/waybill/sort', [WaybillController::class, 'sort'])
         ->name('6dem.sort.waybill');
 
     # Invoice
-    Route::post('/6dem/invoice/init/{quotationId}', [MovingJobController::class, 'initInvoice'])
+    Route::post('/6dem/documents/invoice/init/{quotationId}', [MovingJobController::class, 'initInvoice'])
         ->name('6dem.documents.invoice.init');
 
-    Route::get('/6dem/documents/invoice/{movingjobId}/{clientId}/{invoiceId}', [MovingJobController::class, 'invoice'])
+    Route::get('/6dem/documents/documents/invoice/{movingjobId}/{clientId}/{invoiceId}', [MovingJobController::class, 'invoice'])
         ->name('6dem.documents.invoice');
 
-    Route::put('/6dem/invoice/update/{id}/{field}', [MovingJobController::class, 'updateInvoice'])
+    Route::put('/6dem/documents/invoice/update/{id}/{field}', [MovingJobController::class, 'updateInvoice'])
         ->name('6dem.invoice.update');
 
-    Route::get('/6dem/invoice/preview/{id}', [InvoiceController::class, 'preview'])
+    Route::get('/6dem/documents/invoice/preview/{id}', [InvoiceController::class, 'preview'])
         ->name('6dem.documents.invoice.preview');
 
-    Route::get('/6dem/invoice/search', [InvoiceController::class, 'search'])
+    Route::get('/6dem/documents/invoice/search', [InvoiceController::class, 'search'])
         ->name('6dem.search.invoice');
-    # Delete Quotation
-    Route::delete('/6dem/invoice/delete/{id}', [InvoiceController::class, 'deleteInvoice'])
+    # Delete Invoice
+    Route::delete('/6dem/documents/invoice/delete/{id}', [InvoiceController::class, 'deleteInvoice'])
     ->name('6dem.delete.invoice');
 
-    Route::get('/6dem/invoice/sort', [InvoiceController::class, 'sort'])
+    Route::get('/6dem/documents/invoice/sort', [InvoiceController::class, 'sort'])
         ->name('6dem.sort.invoice');
 
     # Option
@@ -246,7 +246,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/templates/create', [MailTemplatesController::class, 'store'])
         ->name('6dem.mail.templates.create');
 
-    Route::delete('/maildel/{mail}', [MailTemplatesController::class, 'delete'])->name('maildel');
+    Route::delete('/6dem/templates/maildel/{mail}', [MailTemplatesController::class, 'delete'])->name('maildel');
     Route::delete('/6dem/templates/delete/{id}', [MailTemplatesController::class, 'delete'])->name('6dem.mail.templates.delete');
 
     Route::put('/6dem/templates/{mail}', [MailTemplatesController::class, 'update'])
@@ -262,10 +262,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/clients/search', [ClientController::class, 'search'])
         ->name('6dem.search.clients');
     # Delete Client
-    Route::delete('/6dem/delete/{id}', [ClientController::class, 'deleteClient'])
+    Route::delete('/6dem/clients/delete/{id}', [ClientController::class, 'deleteClient'])
         ->name('6dem.delete.clients');
 
-    Route::get('/6dem/client/sort', [ClientController::class, 'sort'])
+    Route::get('/6dem/clients/sort', [ClientController::class, 'sort'])
         ->name('6dem.sort.client');
 
 

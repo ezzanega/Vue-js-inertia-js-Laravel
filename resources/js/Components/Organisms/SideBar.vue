@@ -6,15 +6,6 @@
           <span class="font-bold text-white text-xl">Sysdem</span></a
         >
       </div>
-      <!--       <Dropdown placement="bottom-center">
-        <ProfileMenu
-          :full-name="user.first_name + ' ' + user.last_name"
-          :email="user.email"
-        />
-        <template #popper>
-          <ProfileMenuPopperContent />
-        </template>
-      </Dropdown> -->
       <SideBarMenu />
       <div class="group mt-8 px-2">
         <div

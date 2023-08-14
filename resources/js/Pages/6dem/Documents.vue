@@ -81,7 +81,7 @@ const closeDrawer = () => {
 };
 function deleteLv(id) {
 
-router.delete(`/6dem/waybill/delete/${id}`, {
+router.delete(`/6dem/documents/waybill/delete/${id}`, {
     onBefore: () => opendelModal(),
     onSuccess:() => closedelModal()
 });
@@ -89,7 +89,7 @@ router.delete(`/6dem/waybill/delete/${id}`, {
 }
 function deleteFacture(id) {
 
-router.delete(`/6dem/invoice/delete/${id}`, {
+router.delete(`/6dem/documents/invoice/delete/${id}`, {
 onBefore: () => opendelModal(),
 onSuccess:() => closedelModal()
 });
@@ -99,7 +99,7 @@ onSuccess:() => closedelModal()
 //début Open  et Close de formulaire de suppression quotation
 function deletequotation(id) {
 
-router.delete(`/6dem/quotation/delete/${id}`, {
+router.delete(`/6dem/documents/quotation/delete/${id}`, {
     onBefore: () => opendelModal(),
     onSuccess:() => closedelModal()
 });

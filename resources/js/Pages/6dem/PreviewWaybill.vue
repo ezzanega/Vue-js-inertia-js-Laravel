@@ -58,7 +58,7 @@
             </div>
           </div>
         </div>
-        <iframe :src="`/6dem/waybill/pdf/${waybill.id}`" width="100%" height="600px"></iframe>
+        <iframe :src="`/6dem/documents/waybill/pdf/${waybill.id}`" width="100%" height="600px"></iframe>
       </div>
     </DemLayout>
   </template>

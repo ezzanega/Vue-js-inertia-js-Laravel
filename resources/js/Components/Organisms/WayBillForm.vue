@@ -82,9 +82,7 @@
         <h1>Informations à remplir</h1>
       </div>
       <DocumentLabel name="Lettre de voiture" color="#438A7A" />
-      <DocumentFieldFrame>
-        <SelectOperative @savingExecutingCompany="saveExecutingCompany" />
-      </DocumentFieldFrame>
+      <DocumentSelectExecutingInput v-model="newWaybill.executing_company_id" :value="newWaybill.executing_company_id" @change="saveExecutingCompany" :options="executingCompanies" default-text="Société exécutante"/>
       <div v-if="currentClient.type == 'individual'">
         <div class="grid grid-cols-3 gap-6 pb-5 justify-between">
           <div>
@@ -98,9 +96,7 @@
             </DocumentFieldFrame>
           </div>
           <div>
-            <DocumentFieldFrame>
-              <SelectFormulas @savingFormula="saveFormula" />
-            </DocumentFieldFrame>
+            <DocumentSelectInput v-model="movingjob.formula" :value="movingjob.formula" @change="saveFormula" :options="formulaOptions" default-text="Formule de déménagament"/>
           </div>
         </div>
       </div>
@@ -121,18 +117,9 @@
       <div class="grid grid-cols-2 gap-20 justify-between">
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="Chargement" color="#438A7A" />
-
-          <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" @change="setLoadingAddress" class="sr-only peer" />
-            <div
-              class="w-11 h-6 bg-secondary peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-none after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-            </div>
-            <p class="text-sm ml-5 font-semibold leading-6 text-gray-900">
-              Adresse de chargement identique à l'adresse du client ?
-            </p>
-          </label>
+          <ToggleButton v-model:checked="sameAddressAsClient" label="Adresse de chargement identique à l'adresse du client ?" />
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress :required="true" name="loading_address" :value="currentMovingJob.loading_address"
+            <DocumentFieldInputAddress name="loading_address" :value="movingjob.loading_address"
               placeholder="Adresse de chargement" @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
 
@@ -353,10 +340,11 @@ import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddr
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
-import SelectFormulas from "@/Components/Atoms/SelectFormulas.vue";
-import SelectOperative from "@/Components/Atoms/SelectOperative.vue";
+import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
+import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
+import DocumentSelectExecutingInput from "@/Components/Atoms/DocumentSelectExecutingInput.vue";
 import 'vue-select/dist/vue-select.css';
-import { reactive, ref, onMounted, computed } from "vue";
+import { reactive, ref, watch, computed } from "vue";
 
 
 const user = usePage().props.auth.user;
@@ -366,6 +354,13 @@ const currentMovingJob = usePage().props.movingJob;
 const currentClient = usePage().props.client;
 const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
 const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
+const movingJobFormulas = usePage().props.movingJobFormulas;
+const executingCompanies = usePage().props.executingCompanies;
+
+const formulaOptions = movingJobFormulas.map(item => ({
+  name: item.name,
+  value: item.slug
+}));
 
 const vat = ref(2);
 const amount_ht = ref(2);
@@ -420,8 +415,10 @@ const movingjob = useForm({
 });
 
 const newWaybill = useForm({
-  executing_company_id: ""
+  executing_company_id: currentWaybill.executing_company ? currentWaybill.executing_company.id : ""
 });
+
+const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
 
 const form = reactive({
   clientType: "individual",
@@ -446,9 +443,7 @@ const saveField = (field) => {
   });
 };
 
-const saveFormula = (formula) => {
-  movingjob.formula = formula.title;
-  console.log(movingjob.formula);
+const saveFormula = () => {
   movingjob.put(route("6dem.waybill.update", { id: currentWaybill.id, field: 'formula' }), {
     preserveScroll: true,
     preserveState: true,
@@ -457,8 +452,7 @@ const saveFormula = (formula) => {
   });
 };
 
-const saveExecutingCompany = (executinCompany) => {
-  newWaybill.executing_company_id = executinCompany.id;
+const saveExecutingCompany = () => {
   console.log(newWaybill.executing_company_id);
   newWaybill.put(route("6dem.waybill.update", { id: currentWaybill.id, field: 'executing_company_id' }), {
     preserveScroll: true,
@@ -505,6 +499,16 @@ const previewWaybill = () => {
     method: "get",
   });
 };
+
+watch(sameAddressAsClient, (value) => {
+  if (value) {
+    movingjob.loading_address = currentClient.address.full_address;
+    saveField('loading_address');
+  } else {
+    movingjob.loading_address = "";
+    saveField('loading_address');
+  }
+});
 
 /*onMounted(() => {
   calculateDistance();

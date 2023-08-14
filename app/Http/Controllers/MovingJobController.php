@@ -187,12 +187,14 @@ class MovingJobController extends Controller
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->get();
 
         return Inertia::render('6dem/Lettre de voiture', [
             'executingCompanies' => $executingCompanies,
             'organization' => $organization,
             'waybill' => $waybill,
             'additionalFields' => $additionalFields,
+            'movingJobFormulas' => $movingJobFormulas,
             'insurances' => $insurance,
             'settings' => $settings,
             'options' => $options,
@@ -243,6 +245,7 @@ class MovingJobController extends Controller
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->get();
 
         return Inertia::render('6dem/Invoice', [
             'executingCompanies' => $executingCompanies,
@@ -254,6 +257,7 @@ class MovingJobController extends Controller
                 'executing_company'
             ),
             'additionalFields' => $additionalFields,
+            'movingJobFormulas' => $movingJobFormulas,
             'insurances' => $insurance,
             'settings' => $settings,
             'options' => $options,
