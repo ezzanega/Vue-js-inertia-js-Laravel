@@ -64,12 +64,6 @@ class MailTemplatesController extends Controller
         return back();
     }
 
-    // public function delete(EmailTemplates $id)
-    // {
-    //     $emailTemplate = EmailTemplates::where(['id' => $id])->first();
-    //     $emailTemplate->delete();
-    //     return back();
-    // }
     public function delete($id)
     {
         $emailTemplate = EmailTemplates::find($id);

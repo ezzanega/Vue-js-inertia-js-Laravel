@@ -11,7 +11,7 @@
       >
         <DocumentFieldInput
           :placeholder="designation.placeholder"
-          :modelValue="designation.value"
+          :value="designation.value"
         />
         <DynamicHeaderFields class="flex mx-auto justify-center text-sm" />
       </div>
@@ -22,7 +22,7 @@
     >
       <DocumentFieldInput
         class="flex justify-end"
-        :modelValue="fieldsValues.quantity"
+        :value="fieldsValues.quantity"
       />
     </td>
     <td
@@ -31,7 +31,7 @@
     >
       <DocumentFieldInput
         class="flex justify-end"
-        :modelValue="fieldsValues.unitPrice"
+        :value="fieldsValues.unitPrice"
       />
     </td>
     <td
@@ -40,7 +40,7 @@
     >
       <DocumentFieldInput
         class="flex justify-end"
-        :modelValue="fieldsValues.totalPrice"
+        :value="fieldsValues.totalPrice"
       />
     </td>
   </tr>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Client;
+use App\Models\Location;
 use App\Models\Quotation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -51,5 +52,15 @@ class MovingJob extends Model
     public function latestQuotation(): HasOne
     {
         return $this->hasOne(Quotation::class)->latestOfMany();
+    }
+
+    public function loadingAddress(): HasOne
+    {
+        return $this->hasOne(Location::class, 'loading_moving_job_id');
+    }
+
+    public function shippingAddress(): HasOne
+    {
+        return $this->hasOne(Location::class, 'shipping_moving_job_id');
     }
 }

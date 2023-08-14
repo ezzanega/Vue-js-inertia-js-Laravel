@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('discount_amount_ht')->nullable();
             $table->string('advance')->nullable();
             $table->string('balance')->nullable();
+            $table->string('distance')->nullable();
             $table->foreignId('organization_id')->nullable();
             $table->foreignId('client_id')->nullable();
             $table->timestamps();

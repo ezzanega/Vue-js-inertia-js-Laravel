@@ -7,12 +7,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
       </svg>
     </IconButton>
-
-    <!-- <Message
-    status="success"
-    message="Mail a bien été mis à jour"
-    /> -->
-    <CreateMailTemplateModal :openModal="inviteUserModal" @closeModal="closeModal" />
+    <CreateMailTemplateModal :openModal="createMailModal" @closeModal="closeModal" />
     <DeleteFormModal :isModaldelOpen="isModaldelOpen"
     @closedelModal="closedelModal()" @deleteFunction="deleteMail(selectedMail)"/>
     <table
@@ -104,7 +99,6 @@
         </tr>
       </tbody>
     </table>
-    <!-- le formulaire d'update -->
     <UpdateMailTemplateModal v-if="isModalUpOpen && selectedMail" :openUpModal="isModalUpOpen"
     @closeUpModal="closeUpModal" :mailData="selectedMail" />
   </div>
@@ -128,14 +122,14 @@ defineProps({
   templates: Object,
 });
 
-const inviteUserModal = ref(false);
+const createMailModal = ref(false);
 
 const openCreateMailTemplateModal = () => {
-inviteUserModal.value = true;
+createMailModal.value = true;
 };
 
 const closeModal = () => {
-  inviteUserModal.value = false;
+  createMailModal.value = false;
 };
 //début Open  et Close de formulaire d'update Mail
 const isModalUpOpen = ref(false);

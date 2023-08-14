@@ -5,7 +5,7 @@
                 <div class="relative w-full flex items-center">
                     <div class="bg-gray-100 mb-2">
                         <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description"
-                            :modelValue="item.description" :fontBold="true"
+                            :value="item.description" :fontBold="true"
                             @savingValue="saveField('description', item.id, item.description)" />
                     </div>
                     <div class="relative flex items-center justify-center">
@@ -27,7 +27,7 @@
     <div v-for="item, index in options" :key="item">
         <div class="relative w-full flex items-center">
             <div class="bg-gray-100 mb-2">
-                <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description" :modelValue="item.description"
+                <DocumentFieldInput placeholder="Nouveau Champ" v-model="item.description" :value="item.description"
                     :fontBold="true" @savingValue="saveField('description', item.id, item.description)" />
             </div>
             <div class="relative flex items-center justify-center">
