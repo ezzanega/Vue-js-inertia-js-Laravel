@@ -19,7 +19,7 @@ class ClientController extends Controller
     public function index(Request $request): Response
     {
         $organization = $request->user()->organization;
-        $clients = Client::where('organization_id', $organization->id)->with('clientOrganization')->get();
+        $clients = Client::where('organization_id', $organization->id)->with('clientOrganization','address')->get();
         $mails = EmailTemplates::where('organization_id', $organization->id)->get();
         return Inertia::render('6dem/Clients', ['clients' => $clients,'mails'=>$mails]);
     }
@@ -111,6 +111,101 @@ class ClientController extends Controller
 
         return Redirect::route('6dem.clients');
     }
+    public function updateClient(Request $request, $id)
+    {
+            // Find the client using the provided ID
+            $client = Client::find($id);
+
+            if (!$client) {
+                // Handle the case where the client is not found
+                return Redirect::back()->with('error', 'Client not found.');
+            }
+            $organization = $request->user()->organization;
+
+            // Common validation rules
+            $commonValidationRules = [
+                'clientType' => 'required|string|max:255',
+                'phoneNumber' => 'required|string|max:255',
+                'email' => 'required|string|max:255',
+                'address' => 'required|string',
+                'city' => 'required|string',
+                'country' => 'required|string',
+                'source' => 'required|string|max:255',
+            ];
+
+            $request->validate($commonValidationRules);
+
+            if ($client->type == "professional") {
+                // Additional validation rules for professional clients
+                $professionalValidationRules = [
+                    'clientOrganizationName' => 'required|string|max:255',
+                ];
+
+                $request->validate($professionalValidationRules);
+
+                // Update client information
+                $client->update([
+                    'first_name' => $request->firstName,
+                    'last_name' => $request->lastName,
+                    'type' => $request->clientType,
+                    'phone_number' => $request->phoneNumber,
+                    'email' => $request->email,
+                    'source' => $request->source,
+                ]);
+
+                // Update client's location information
+                $client->address()->update([
+                    'address' => $request->address,
+                    'city' => $request->city,
+                    'postal_code' => $request->postalCode,
+                    'country' => $request->country,
+                    'full_address' => $request->fullAddress,
+                    'lat' => $request->lat,
+                    'lng' => $request->lng,
+                    'google_map_url' => $request->googleMapUrl,
+                ]);
+
+                // Update client organization information
+                $client->clientOrganization()->update([
+                    'name' => $request->clientOrganizationName,
+                    'siret' => $request->siret,
+                    'siren' => $request->siren,
+                ]);
+            } else {
+                // Update individual client information
+                $client->update([
+                    'first_name' => $request->firstName,
+                    'last_name' => $request->lastName,
+                    'type' => $request->clientType,
+                    'phone_number' => $request->phoneNumber,
+                    'email' => $request->email,
+                    'source' => $request->source,
+                ]);
+
+                // Update client's location information
+                $client->address()->update([
+                    'address' => $request->address,
+                    'city' => $request->city,
+                    'postal_code' => $request->postalCode,
+                    'country' => $request->country,
+                    'full_address' => $request->fullAddress,
+                    'lat' => $request->lat,
+                    'lng' => $request->lng,
+                    'google_map_url' => $request->googleMapUrl,
+                ]);
+            }
+
+            // Associate the client with the organization
+            $client->organization()->associate($organization);
+            $client->save();
+
+            return Redirect::route('6dem.clients')->with('success', 'Client updated successfully.');
+    }
+
+
+
+
+
 
     /**
      * Handle an incoming search request.
@@ -135,7 +230,7 @@ class ClientController extends Controller
 
 
     public function deleteClient($id)
-    { 
+    {
         try {
             $client = Client::find($id);
 
