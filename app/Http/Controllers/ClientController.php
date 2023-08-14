@@ -171,7 +171,7 @@ class ClientController extends Controller
                     'siret' => $request->siret,
                     'siren' => $request->siren,
                 ]);
-            } else {
+            } else if($client->type == "individual") {
                 // Update individual client information
                 $client->update([
                     'first_name' => $request->firstName,
