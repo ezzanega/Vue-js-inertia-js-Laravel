@@ -4,7 +4,6 @@
     <Tabs>
       <Tab title="Devis">
         <div v-if="$page.props.quotations.length">
-          <SelectClientModal />
           <div class="mt-2">
             <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal" />
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
@@ -21,7 +20,6 @@
       </Tab>
       <Tab title="Lettres de voiture">
         <div v-if="$page.props.waybills.length">
-          <SelectQuoteModal/>
           <div class="mt-2">
             <WaybillList :deleteLv="deleteLv" :opendelModal="opendelModal" />
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
@@ -38,7 +36,6 @@
       </Tab>
       <Tab title="Facture">
         <div v-if="$page.props.invoices.length">
-          <SelectQuoteInvoiceModal/>
           <div class="mt-2">
             <InvoiceList :deleteFacture="deleteFacture" :opendelModal="opendelModal"/>
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
@@ -82,45 +79,43 @@ const toggleDrawer = () => {
 const closeDrawer = () => {
   isDrawerOpen.value = false;
 };
-
-
 function deleteLv(id) {
 
-    router.delete(`/6dem/waybill/delete/${id}`, {
-        onBefore: () => opendelModal(),
-        onSuccess:() => closedelModal()
-    });
-    //alert('hello from lv function');
+router.delete(`/6dem/waybill/delete/${id}`, {
+    onBefore: () => opendelModal(),
+    onSuccess:() => closedelModal()
+});
+//alert('hello from lv function');
 }
 function deleteFacture(id) {
 
 router.delete(`/6dem/invoice/delete/${id}`, {
-    onBefore: () => opendelModal(),
-    onSuccess:() => closedelModal()
+onBefore: () => opendelModal(),
+onSuccess:() => closedelModal()
 });
-    //alert('hello from Facture  function');
+//alert('hello from Facture  function');
 }
 
 //début Open  et Close de formulaire de suppression quotation
 function deletequotation(id) {
 
-    router.delete(`/6dem/quotation/delete/${id}`, {
-        onBefore: () => opendelModal(),
-        onSuccess:() => closedelModal()
-    });
+router.delete(`/6dem/quotation/delete/${id}`, {
+    onBefore: () => opendelModal(),
+    onSuccess:() => closedelModal()
+});
 }
 //début Open et Close Pop-up
 const isModaldelOpen=ref(false);
 const selectedvalue=ref(null);
 
 const opendelModal = (id) => {
-    isModaldelOpen.value = true;
-    selectedvalue.value = id;
+isModaldelOpen.value = true;
+selectedvalue.value = id;
 };
 
 const closedelModal = () => {
-    isModaldelOpen.value = false;
-    selectedvalue.value=null;
+isModaldelOpen.value = false;
+selectedvalue.value=null;
 };
 //fin Open et Close Pop-up
 

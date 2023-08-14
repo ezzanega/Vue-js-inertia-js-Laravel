@@ -123,6 +123,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/6dem/waybill/delete/{id}', [WaybillController::class, 'deleteWaybill'])
     ->name('6dem.delete.waybill');
 
+    Route::get('/6dem/waybill/sort', [WaybillController::class, 'sort'])
+        ->name('6dem.sort.waybill');
+
     # Invoice
     Route::post('/6dem/invoice/init/{quotationId}', [MovingJobController::class, 'initInvoice'])
         ->name('6dem.documents.invoice.init');
@@ -141,6 +144,9 @@ Route::middleware('auth')->group(function () {
     # Delete Quotation
     Route::delete('/6dem/invoice/delete/{id}', [InvoiceController::class, 'deleteInvoice'])
     ->name('6dem.delete.invoice');
+
+    Route::get('/6dem/invoice/sort', [InvoiceController::class, 'sort'])
+        ->name('6dem.sort.invoice');
 
     # Option
     Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])
@@ -261,6 +267,9 @@ Route::middleware('auth')->group(function () {
     # Delete Client
     Route::delete('/6dem/delete/{id}', [ClientController::class, 'deleteClient'])
         ->name('6dem.delete.clients');
+
+    Route::get('/6dem/client/sort', [ClientController::class, 'sort'])
+        ->name('6dem.sort.client');
 
 
     Route::get('/6dem/tasks', function () {

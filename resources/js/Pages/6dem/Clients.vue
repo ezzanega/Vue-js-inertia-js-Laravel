@@ -3,35 +3,6 @@
   <DemLayout>
     <div class="mb-4 text-sm text-gray-600">
       <div class="">
-        <IconButton @click="toggleDrawer" class="mt-6" text="Créer un client">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2.2"
-            stroke="currentColor"
-            aria-hidden="true"
-            class="pointer-events-none shrink-0 w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
-        </IconButton>
-        <Drawer
-          :is-open="isDrawerOpen"
-          :speed="500"
-          max-width="680px"
-          @close="closeDrawer"
-        >
-          <div>
-            <DrawerContent title="Create client" @closeDrawer="closeDrawer()">
-              <CreateClientForm @close="closeDrawer()" />
-            </DrawerContent>
-          </div>
-        </Drawer>
         <ClientList class="mt-2"  @openMailModal="openMailModal" :deleteClient="deleteClient" :opendelModal="opendelModal"/>
 
         <ClientMailModal :isMailOpen="isMailOpen" :client="currentClient" @closeMailModal="closeMailModal" />

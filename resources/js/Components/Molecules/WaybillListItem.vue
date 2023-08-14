@@ -1,41 +1,43 @@
 <template>
   <div class="flex px-6 py-4 rounded-xl border border-gray-300 bg-white">
-    <div class="w-1/12 my-auto">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-        class="w-6 h-6 cursor-pointer">
-        <path stroke-linecap="round" stroke-linejoin="round"
-          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-      </svg>
+    <div class="lg:w-1/12 min-w-1/12 my-auto">
+      <input
+        name=""
+        type="checkbox"
+        class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0"
+        :checked="props.selectedAll"
+        @change="handleCheckboxChange"
+      />
     </div>
-    <div class="text-left w-3/12 flex justify-center my-auto">{{ document.number }}</div>
+    <div class="text-left w-3/12 flex justify-center my-auto">{{ props.document.number }}</div>
     <div class="flex gap-3 text-left w-3/12 justify-center my-auto">
       <div class="text-sm">
         <div class="font-medium text-gray-700 text-center">
           {{
-            document.moving_job.client.type == "professional"
-            ? document.moving_job.client.client_organization.name +
+            props.document.moving_job.client.type == "professional"
+            ? props.document.moving_job.client.client_organization.name +
             " (" +
-            document.moving_job.client.client_organization.siren +
+            props.document.moving_job.client.client_organization.siren +
             ")"
-            : document.moving_job.client.first_name +
+            : props.document.moving_job.client.first_name +
             " " +
-            document.moving_job.client.last_name
+            props.document.moving_job.client.last_name
           }}
         </div>
-        <div class="text-gray-400">{{ document.moving_job.client.email }}</div>
+        <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div>
       </div>
     </div>
-    <div v-if="document.status == 'Signé'" class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p>
+    <div v-if="props.document.status == 'Signé'" class="text-left w-2/12 flex justify-center my-auto">
+      <p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
-    <div v-if="document.status == 'Non signé'" class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ document.status }}</p>
+    <div v-if="props.document.status == 'Non signé'" class="text-left w-2/12 flex justify-center my-auto">
+      <p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ document.moving_job.client.type ==
+      <p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ props.document.moving_job.client.type ==
         "professional" ? "Professionnel" : "Particulier" }}</p>
     </div>
-    <div class="text-left w-2/12 flex justify-center my-auto">{{ document.moving_job.loading_date }}</div>
+    <div class="text-left w-2/12 flex justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
     <div class="w-1/12 my-auto">
       <div class="flex justify-end gap-4">
         <Dropdown placement="bottom-end">
@@ -51,8 +53,8 @@
               fill="currentColor" />
           </svg>
           <template #popper>
-            <WaybillActionsPopperContent :moving_job_id="document.moving_job.id"
-              :client_id="document.moving_job.client.id" :id="document.id"
+            <WaybillActionsPopperContent :moving_job_id="props.document.moving_job.id"
+              :client_id="props.document.moving_job.client.id" :id="props.document.id"
               :deleteLv="deleteLv" :document="document" :opendelModal="opendelModal"/>
           </template>
         </Dropdown>
@@ -64,11 +66,20 @@
 <script setup>
 import { Dropdown } from "floating-vue";
 import WaybillActionsPopperContent from "@/Components/Molecules/WaybillActionsPopperContent.vue";
-defineProps({
+
+const emit = defineEmits(["toggle-selected-all"]);
+const props = defineProps({
+  selectedAll: Boolean,
   document: {
     required: true,
   },
+  toggleDocumentSelection: Function,
   deleteLv:Function,
   opendelModal:Function,
 });
+
+const handleCheckboxChange = () => {
+  props.toggleDocumentSelection(props.document);
+  emit("toggle-selected-all");
+};
 </script>

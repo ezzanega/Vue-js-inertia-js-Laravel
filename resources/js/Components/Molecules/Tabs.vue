@@ -2,8 +2,8 @@
   <div>
     <ul class="flex flex-wrap">
       <li v-for="title in tabTitles" :key="title" @click="selectedTitle = title"
-        class="text-primary hover:font-bold w-2/12 items-center cursor-pointer mr-2">
-        <div class="flex space-x-5 py-2 px-4 justify-center hover:bg-opacity-80 shadow-md rounded-md" :class="[
+        class="text-primary hover:font-bold lg:w-2/12 md:min-w-3/12 items-center cursor-pointer shadow-md mr-2 overflow-auto">
+        <div class="flex space-x-5 py-2 px-4 justify-center hover:bg-primary hover:text-white rounded-md" :class="[
           selectedTitle == title
             ? 'bg-primary text-white'
             : 'font-medium bg-white',
