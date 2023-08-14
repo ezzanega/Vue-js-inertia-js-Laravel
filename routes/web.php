@@ -68,7 +68,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/documents', [DocumentController::class, 'index'])
         ->name('6dem.documents');
-        
+
+
     Route::get('/6dem/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
         ->name('6dem.waybill.pdf');
 
@@ -98,6 +99,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/quotation/sort', [QuotationController::class, 'sort'])
         ->name('6dem.sort.quotation');
+    # Delete Quotation
+    Route::delete('/6dem/quotation/delete/{id}', [QuotationController::class, 'deleteQuotation'])
+    ->name('6dem.delete.quotation');
+
 
     # Waybill
     Route::post('/6dem/waybill/init/{quotationId}', [MovingJobController::class, 'initWaybill'])
@@ -114,6 +119,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/waybill/search', [WaybillController::class, 'search'])
         ->name('6dem.search.waybill');
+    # Delete Quotation
+    Route::delete('/6dem/waybill/delete/{id}', [WaybillController::class, 'deleteWaybill'])
+    ->name('6dem.delete.waybill');
 
     Route::get('/6dem/waybill/sort', [WaybillController::class, 'sort'])
         ->name('6dem.sort.waybill');
@@ -133,6 +141,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/invoice/search', [InvoiceController::class, 'search'])
         ->name('6dem.search.invoice');
+    # Delete Quotation
+    Route::delete('/6dem/invoice/delete/{id}', [InvoiceController::class, 'deleteInvoice'])
+    ->name('6dem.delete.invoice');
 
     Route::get('/6dem/invoice/sort', [InvoiceController::class, 'sort'])
         ->name('6dem.sort.invoice');
@@ -192,6 +203,8 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/settings', [SettingsController::class, 'update'])
         ->name('6dem.settings.update');
+    Route::put('/6dem/formula/option/update/{id}',[SettingsController::class, 'update_Formulas_option'])->name('6dem.formula.option.update');
+
 
     #Executing Companies
     Route::post('/6dem/executing-comapnies/create', [ExecutingCompanyController::class, 'store'])

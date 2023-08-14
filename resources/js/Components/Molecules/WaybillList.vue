@@ -144,19 +144,20 @@
 
     <div v-if="searchWaybillResults.length" class="space-y-2">
       <WaybillListItem v-for="(document, index) in searchWaybillResults" :key="index" :document="document"
-        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" />
+        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deleteLv="deleteLv" :opendelModal="opendelModal" />
     </div>
     <div v-else-if="filteredWaybillsResults.length > 0" class="space-y-2 overflow-auto">
       <WaybillListItem v-for="(document, index) in filteredWaybillsResults" :key="index" :document="document"
-        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" />
+        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deleteLv="deleteLv" :opendelModal="opendelModal"/>
     </div>
     <div v-else class="space-y-2">
       <WaybillListItem v-for="(document, index) in $page.props.waybills" :key="index" :document="document"
-        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" />
+        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"
+      :deleteLv="deleteLv" :opendelModal="opendelModal" />
     </div>
   </div>
 </template>
-    
+
 <script setup>
 import ExcelJS from "exceljs";
 import WaybillListItem from "@/Components/Molecules/WaybillListItem.vue";
@@ -167,6 +168,12 @@ import { usePage } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import debounce from "lodash/debounce";
 import { reactive } from "vue";
+
+const props=defineProps({
+  opendelModal:Function,
+  deleteLv:Function,
+
+});
 
 const filteredWaybillsResults = ref([]);
 const searchWaybillQuery = ref("");
@@ -289,4 +296,3 @@ const handleExportClick = () => {
   exportSelectedDocuments(selectedDocuments.value);
 };
 </script>
-    

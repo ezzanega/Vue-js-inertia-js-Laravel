@@ -40,14 +40,15 @@
           </svg>
           <template #popper>
             <InvoiceActionsPopperContent :moving_job_id="props.document.moving_job.id"
-              :client_id="props.document.moving_job.client.id" :id="props.document.id" />
+              :client_id="props.document.moving_job.client.id" :id="props.document.id"
+              :deleteFacture="deleteFacture" :document="document" :opendelModal="opendelModal" />
           </template>
         </Dropdown>
       </div>
     </div>
   </div>
 </template>
-    
+
 <script setup>
 import { Dropdown } from "floating-vue";
 import InvoiceActionsPopperContent from "@/Components/Molecules/InvoiceActionsPopperContent.vue";
@@ -58,7 +59,9 @@ const props = defineProps({
   document: {
     required: true,
   },
-  toggleDocumentSelection: Function
+  toggleDocumentSelection: Function,
+    deleteFacture:Function,
+    opendelModal:Function,
 });
 
 const handleCheckboxChange = () => {
@@ -66,4 +69,3 @@ const handleCheckboxChange = () => {
   emit("toggle-selected-all");
 };
 </script>
-    

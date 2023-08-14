@@ -174,11 +174,12 @@
         <InvoiceListItem v-for="(document, index) in filteredInvoicesResults" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
       </div>
     <div v-else class="space-y-2">
-      <InvoiceListItem v-for="(document, index) in $page.props.invoices" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
+      <InvoiceListItem v-for="(document, index) in $page.props.invoices" :key="index" :document="document"
+      :deleteFacture="deleteFacture" :opendelModal="opendelModal":selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
     </div>
   </div>
 </template>
-    
+
 <script setup>
 import ExcelJS from "exceljs";
 import InvoiceListItem from "@/Components/Molecules/InvoiceListItem.vue";
@@ -189,6 +190,12 @@ import { usePage } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import debounce from "lodash/debounce";
 import { reactive } from "vue";
+
+const props=defineProps({
+  opendelModal:Function,
+  deleteFacture:Function,
+
+});
 
 const filteredInvoicesResults = ref([]);
 const searchInvoiceQuery = ref("");
@@ -311,4 +318,3 @@ const handleExportClick = () => {
   exportSelectedDocuments(selectedDocuments.value);
 };
 </script>
-    

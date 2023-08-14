@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Quotation;
 use App\Models\Client;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class QuotationController extends Controller
 {
@@ -89,5 +90,22 @@ class QuotationController extends Controller
         return Inertia::render('6dem/PrewiewQuotation', [
             'quotation' => $quotation,
         ]);
+    }
+
+    public function deleteQuotation($id)
+    {
+        try {
+            $quotation = Quotation::find($id);
+
+            if (!$quotation) {
+                return response()->json(['message' => 'Ce devis n\'existe pas'], 404);
+            }
+            $quotation->delete();
+            return Redirect::route('6dem.documents');
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+        }
     }
 }
