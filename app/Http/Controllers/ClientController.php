@@ -202,11 +202,6 @@ class ClientController extends Controller
             return Redirect::route('6dem.clients')->with('success', 'Client updated successfully.');
     }
 
-
-
-
-
-
     /**
      * Handle an incoming search request.
      */
@@ -227,7 +222,6 @@ class ClientController extends Controller
             ->get();
         return $clients;
     }
-
 
     public function deleteClient($id)
     {
