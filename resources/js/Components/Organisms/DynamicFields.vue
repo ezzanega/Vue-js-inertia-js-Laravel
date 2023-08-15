@@ -12,7 +12,7 @@
                 </DocumentFieldFrame>
             </span>
             <span class="w-1/5 p-1">
-                <DocumentSelectInput v-model="item.selectedMeasurement" :value="item.selectedMeasurement" @change="() => saveField('unit', item.id, item.selectedMeasurement)" :options="measurementOptions" default-text="Unité"/>
+                <DocumentSelectInput v-model="item.selectedMeasurement" :value="item.selectedMeasurement" @change="() => saveField('unit', item.id, item.selectedMeasurement)" :options="measurementOptions" default-text="Choisir une unité"/>
             </span>
             <span class="w-1/5 p-1">
                 <DocumentFieldFrame>
@@ -71,7 +71,7 @@ const option = useForm({
   type: "other-option",
   designation: "",
   quantity: "",
-  unit: 0,
+  unit: null,
   price_ht: ""
 });
 
@@ -82,7 +82,6 @@ const options = reactive(currentOptions.map(function(option){
 
 watch(options, (newOptions) => {
     newOptions.forEach((item) => {
-        console.log(newOptions);
         item.priceTTC = item.priceHT * 2;
     });
 }, { deep: true });
@@ -94,7 +93,6 @@ const addRow = () => {
             options.push({ id: response.data, description: '', qty: '', priceHT: '', priceTTC: '', selectedMeasurement:0 })
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );
@@ -108,7 +106,6 @@ const addRowWarehouse = () => {
             options.push({ id: response.data, description: 'Stockage en garde meuble', qty: '', priceHT: '', priceTTC: '', selectedMeasurement:7 })
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );  
@@ -122,7 +119,6 @@ const addRowElevator = () => {
             options.push({ id: response.data, description: 'Monte meuble', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:8 })
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );
@@ -136,7 +132,6 @@ const addRowPiano = () => {
             options.push({ id: response.data, description: 'Transport de piano', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:4 })
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );
@@ -151,7 +146,6 @@ const removeRow = (index, id) => {
             }
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );

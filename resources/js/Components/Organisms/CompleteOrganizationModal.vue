@@ -129,6 +129,7 @@ const form = useForm({
   organizationName: "",
   siret: "",
   siren: "",
+  codeApe: "",
   address: "",
   city: "",
   postalCode: "",
@@ -170,7 +171,7 @@ const setOrganizationData = (organization) => {
   form.organizationName = organization.organizationName;
   form.siren = organization.siren;
   form.siret = organization.siret;
-  form.codeNaf = organization.codeNaf;
+  form.codeApe = organization.codeApe;
   form.address = organization.address;
   form.city = organization.city;
   form.postalCode = organization.postalCode;

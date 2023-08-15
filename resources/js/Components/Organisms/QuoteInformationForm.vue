@@ -69,7 +69,7 @@
         <div>
           <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Nom complet de l'entreprise"
-              :value="currentClient.client_organization.name" />
+              :value="currentClient.client_organization?.name" />
           </DocumentFieldFrame>
         </div>
       </div>
@@ -213,7 +213,7 @@
 
     <div class="flex flex-col space-y-5 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-5">
-        <DocumentLabel name="Options" color="#438A7A" />
+        <DocumentLabel name="Prestations" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
         <DynamicFields :movingjob="currentMovingJob.id" />

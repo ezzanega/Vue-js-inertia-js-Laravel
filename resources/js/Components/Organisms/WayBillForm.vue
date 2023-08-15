@@ -68,7 +68,7 @@
       <div v-if="currentClient.type == 'professional'">
         <DocumentFieldFrame>
           <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise"
-            :value="currentClient.client_organization.name" />
+            :value="currentClient.client_organization?.name" />
         </DocumentFieldFrame>
       </div>
       <div>

@@ -77,6 +77,7 @@ const form = useForm({
     email: "",
     siret: "",
     siren: "",
+    codeApe: "",
     address: "",
     field: "",
     city: "",
@@ -122,6 +123,7 @@ const setExecutingCompanyData = (executingCompany) => {
     form.city = executingCompany.city;
     form.postalCode = executingCompany.postalCode;
     form.country = executingCompany.country;
+    form.codeApe = executingCompany.codeApe;
     form.fullAddress = executingCompany.fullAddress;
 };
 
