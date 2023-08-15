@@ -152,12 +152,13 @@ import OptionsPopperContent from "@/Components/Settings/OptionsPopperContent.vue
 import { usePage } from "@inertiajs/vue3";
 
 const props = defineProps({
-    openUpModal:Function,
-    OptionData: Object,
-    deleteOption:Function,
-    opendelModal:Function,
+  openUpModal:Function,
+  OptionData: Object,
+  deleteOption:Function,
+  opendelModal:Function,
 });
- const emit = defineEmits(["deleteOption"]);
+
+const emit = defineEmits(["deleteOption"]);
 
 const formulas = usePage().props.formulas;
 
@@ -167,6 +168,6 @@ const getOptionByType = (options, type) => {
   });
 };
 const deleteOption = () => {
-    emit("deleteOption");
-  };
+  emit("deleteOption");
+};
 </script>

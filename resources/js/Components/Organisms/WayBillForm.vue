@@ -1,9 +1,9 @@
 <template>
-  <div class="px-28">
+  <div class="2xl:px-28">
     <div class="pt-14 grid justify-items-center">
       <UploadFile class="w-1/6" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
     </div>
-    <div class="flex flex-col space-y-5 px-10 mt-24">
+    <div class="flex flex-col space-y-5 px-8 mt-24">
       <div class="text-center text-4xl font-bold pb-5">
         <h1>Informations pré-remplies</h1>
       </div>
@@ -77,7 +77,7 @@
         </DocumentFieldFrame>
       </div>
     </div>
-    <div class="flex flex-col space-y-5 px-10 mt-16">
+    <div class="flex flex-col space-y-5 px-8 mt-16">
       <div class="text-center text-4xl font-bold pb-5">
         <h1>Informations à remplir</h1>
       </div>
@@ -203,7 +203,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col space-y-5 px-10 mt-8">
+    <div class="flex flex-col space-y-5 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-5">
         <DocumentLabel name="Options" color="#438A7A" />
       </div>
@@ -211,7 +211,7 @@
         <DynamicFields />
       </div>
     </div>
-    <div class="flex flex-col space-y-5 px-10 mt-8">
+    <div class="flex flex-col space-y-5 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-5">
         <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
         <div class="flex space-x-2">
@@ -283,7 +283,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col px-10 pb-10 mt-10">
+    <div class="flex flex-col px-8 pb-10 mt-10">
       <div class="flex flex-col space-y-5 px-16">
         <DocumentLabel name="Finalisation du devis" color="#438A7A" />
         <div class="grid grid-cols-4 gap-6 justify-between">
@@ -350,7 +350,7 @@ import { reactive, ref, watch, computed } from "vue";
 const user = usePage().props.auth.user;
 const currentOrganisation = usePage().props.organization;
 const currentWaybill = usePage().props.waybill;
-const currentMovingJob = usePage().props.movingJob;
+const currentMovingJob = usePage().props.movingjob;
 const currentClient = usePage().props.client;
 const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
 const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");

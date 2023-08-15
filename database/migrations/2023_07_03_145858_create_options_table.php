@@ -14,11 +14,12 @@ return new class extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', OptionType::values());
+            $table->string('type');
             $table->string('designation')->nullable();
             $table->string('quantity')->nullable();
             $table->integer('unit')->nullable();
-            $table->string('price_ht')->nullable();
+            $table->string('unit_price_ht')->nullable();
+            $table->string('total_price_ht')->nullable();
             $table->foreignId('moving_job_id')->nullable();
             $table->timestamps();
         });

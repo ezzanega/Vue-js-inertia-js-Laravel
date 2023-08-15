@@ -16,7 +16,7 @@
       </div>
     </div>
     <div
-      class="w-full rounded-xl bg-white text-left text-sm px-6 py-4 font-medium text-gray-900 flex justify-between border-b border-gray-200">
+      class="w-full rounded-xl bg-white text-left text-xs px-6 py-4 font-medium text-gray-900 flex justify-between border-b border-gray-200">
       <div class="w-1/12"><input name="" type="checkbox"
             class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0" :checked="selectedAll"
         @change="toggleSelectedAll"/></div>

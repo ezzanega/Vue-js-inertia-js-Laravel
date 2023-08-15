@@ -48,9 +48,10 @@ class MovingJobController extends Controller
         $option = Option::create([
             'type' => OptionType::OTHER,
             'designation' => '',
-            'quantity' => '1',
+            'quantity' => 1,
             'unit' => 1,
-            'price_ht' => ''
+            'unit_price_ht' => 0,
+            'total_price_ht' => 0
         ]);
 
         $option->movingJob()->associate($movingjob);
@@ -127,8 +128,7 @@ class MovingJobController extends Controller
         $options = Option::where('moving_job_id', $movingjobId)->get();
         $insurances = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
-        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->get();
-
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
         return Inertia::render('6dem/Devis', [
             'organization' => $organization,
             'additionalFields' => [],
@@ -164,6 +164,7 @@ class MovingJobController extends Controller
             'executingCompanies' => $executingCompanies,
             'organization' => $organization,
             'waybill' => $waybill,
+            'movingjob' => $movingjob,
             'additionalFields' => $additionalFields,
             'movingJobFormulas' => $movingJobFormulas,
             'insurances' => $insurance,
@@ -216,7 +217,7 @@ class MovingJobController extends Controller
             $field =>  'required|string|max:125',
         ]);
 
-        if ($field === "validity_duration") {
+        if ($field === "validity_duratation") {
             $quotation->update([
                 $field => $request->$field,
             ]);
@@ -225,6 +226,7 @@ class MovingJobController extends Controller
                 $field => $request->$field,
             ]);
         }
+        return back();
     }
 
     public function createUpdateLocation(Request $request, $id, $from)
