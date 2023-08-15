@@ -39,15 +39,15 @@
           max-width="680px"
           @close="closeDrawer"
           :selectedClient="selectedClient"
+          :updateSearch="updateSearch"
         >
           <div>
-            <DrawerContent title="Update client" :selectedClient="selectedClient" @closeDrawer="closeDrawer()">
-              <UpdateClientForm :selectedClient="selectedClient"
+            <DrawerContent title="Update client" :selectedClient="selectedClient" @closeDrawer="closeDrawer()" :updateSearch="updateSearch">
+              <UpdateClientForm :selectedClient="selectedClient" :updateSearch="updateSearch"
               @close="closeDrawer()"/>
             </DrawerContent>
           </div>
             </Drawer>
-
 
 
 
@@ -188,11 +188,18 @@
         <div class="w-1/12"></div>
       </div>
       <div v-if="filteredClientsResults.length > 0" class="space-y-2 overflow-auto">
-          <ClientListItem v-for="(client, index) in filteredClientsResults" :key="index" :client="client" @openMailModal="openMailModal(client)" :deleteClient="deleteClient" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-client-selection="toggleClientSelection"/>
+          <ClientListItem v-for="(client, index) in filteredClientsResults" :key="index" :client="client"
+          @openMailModal="openMailModal(client)" :deleteClient="deleteClient" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-client-selection="toggleClientSelection"
+          :isDrawerUpOpen="isDrawerUpOpen"
+          @openUpdateClient="toggleUpdateDrawer(client)"
+          :selectedClient="selectedClient" />
         </div>
       <div v-else-if="searchResults.length > 0" class="space-y-2 overflow-auto">
-        <ClientListItem v-for="(client, index) in searchResults" :key="index" :client="client"
-          @openMailModal="openMailModal(client)" :deleteClient="deleteClient" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-client-selection="toggleClientSelection"/>
+        <ClientListItem v-for="(client, index) in searchResults" :key="index"       :client="client"
+          @openMailModal="openMailModal(client)" :deleteClient="deleteClient" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-client-selection="toggleClientSelection"
+          :isDrawerUpOpen="isDrawerUpOpen"
+          @openUpdateClient="toggleUpdateDrawer(client)"
+          :selectedClient="selectedClient" :updateSearch="updateSearch" />
       </div>
       <div v-else class="w-auto space-y-2">
         <ClientListItem v-for="(client, index) in $page.props.clients" :key="index" :client="client"
@@ -301,10 +308,30 @@
         route("6dem.search.clients") + "?search_text=" + searchQuery.value
       );
       searchResults.value = result.data;
+      console.log('searchResults   : ',searchResults);
     } catch (e) {
       console.log(e);
     }
   };
+  const updateSearch = async () => {
+  searching.value = true;
+  try {
+    // Update the client
+    const update_result = await axios.put(
+      route("6dem.update.clients", { id: selectedClient.value.id })
+    );
+
+    // Fetch updated search results
+    const result = await axios.get(
+      route("6dem.search.clients") + "?search_text=" + searchQuery.value
+    );
+
+    searchResults.value = result.data;
+    console.log('searchResults   : ', searchResults);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
   const debouncedFetchResults = debounce(search, 300);
 
@@ -376,3 +403,5 @@
     exportSelectedClients(selectedClients.value);
   };
   </script>
+
+
