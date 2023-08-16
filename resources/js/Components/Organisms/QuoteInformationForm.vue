@@ -99,7 +99,7 @@
       <div class="grid grid-cols-2 gap-20 justify-between">
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="Chargement" color="#438A7A" />
-          <ToggleButton v-model:checked="sameAddressAsClient" label="Adresse de chargement identique à l'adresse du client ?" />
+          <ToggleButton v-model:checked="sameAddressAsClient" name="same-address" label="Adresse de chargement identique à l'adresse du client ?" />
           <DocumentFieldFrame>
             <DocumentFieldInputAddress :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
               @place_changed="setLoadingAddressData" />
@@ -279,111 +279,75 @@
       </div>
     </div>
 
-    <div class="flex flex-col space-y-2 px-8 mt-8">
-      <div class="flex flex-col mt-4 space-y-2">
-        <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
-        <div class="flex space-x-2">
-          <span class="w-2/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :value="'Assurance contractuelle'" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceContractual.max_value"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'max_value', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Franchise" v-model="insuranceContractual.franchise"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'franchise', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="insuranceContractual.amount_ht" :value="insuranceContractual.amount_ht"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'amount_ht', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :value="insuranceContractual.amount_ttc"/>
-            </DocumentFieldFrame>
-          </span>
-        </div>
-        <div class="flex space-x-2">
-          <span class="w-2/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :value="'Assurance ad valorem'" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceAdValorem.max_value"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'max_value', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Franchise" v-model="insuranceAdValorem.franchise"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'franchise', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="insuranceAdValorem.amount_ht"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'amount_ht', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :value="insuranceAdValorem.amount_ttc"/>
-            </DocumentFieldFrame>
-          </span>
-        </div>
-      </div>
-    </div>
     <div class="flex flex-col space-y-2 px-8 pb-10 mt-10">
-      <DocumentLabel name="Finalisation du devis" color="#438A7A" />
-      <div class="grid grid-cols-4 gap-6 justify-between">
-        <div class="space-y-2">
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="'Tarification'" />
-          </DocumentFieldFrame>
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="'Modalités de règlement'" />
-          </DocumentFieldFrame>
-        </div>
-        <div>
-          <DocumentFieldFrame :className="'h-full'">
-            <DocumentFieldInput :className="'h-full'" placeholder="Remise en %" v-model="movingjob.discount_percentage"
-              @savingValue="saveField('discount_percentage')" />
-          </DocumentFieldFrame>
-        </div>
-        <div class="space-y-2">
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Acompte en %" v-model="movingjob.advance"
-              @savingValue="saveField('advance')" />
-          </DocumentFieldFrame>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.discount_amount_ht"
-              @savingValue="saveField('discount_amount_ht')" />
-          </DocumentFieldFrame>
-        </div>
-        <div class="space-y-2">
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Solde en %" v-model="movingjob.balance"
-              @savingValue="saveField('balance')" />
-          </DocumentFieldFrame>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Montant TTC"
-              :value="'Montant TTC: ' + movingjob.discount_amount_ht * vat" />
-          </DocumentFieldFrame>
-        </div>
+      <DocumentLabel name="Tarification" color="#438A7A" />
+      <div class="flex flex-col space-y-2 ">
+        <ToggleButton class="my-auto  w-1/2" v-model:checked="applyDiscount" name="apply-discount" label="Appliquer une remise" />
+        <DefaultInput v-if="applyDiscount" class="my-auto w-1/2" type="number" @savingValue="saveField('discount')" v-model="movingjob.discount" name="discount" placeholder="Remise (en %)" label="Remise (en %)"/>
+      </div>
+      <div class="grid grid-cols-3 gap-4 justify-between">
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Total HT {{ applyDiscount ? '(-'+movingjob.discount+'%)' : '' }} :
+            </span>
+            <span class="w-1/2">
+              {{ '14650 €' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              TVA (20%) :
+            </span>
+            <span class="w-1/2">
+              {{ '2350 €' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="font-bold p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Total TTC : 
+            </span>
+            <span class="w-1/2">
+              {{ '16980 €' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+      </div>
+
+
+      <div class="grid grid-cols-3 gap-4 justify-between">
+        <DocumentSelectInput v-model="movingjob.payment_process" :value="movingjob.payment_process" @change="saveField('payment_process')" :options="processPaymentOptions" default-text="Modalités de règlement"/>
+        
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Accompte (30%) :
+            </span>
+            <span class="w-1/2">
+              {{ '2350 €' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Slode (70%) :
+            </span>
+            <span class="w-1/2">
+              {{ '2350 €' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
       </div>
     </div>
-    <div class="flex flex-row w-1/6 pb-10 mt-10 mx-auto">
+    <div class="flex flex-row w-1/3 pb-10 mt-10 mx-auto">
       <DefaultButton @click="previewQuotation" buttontext="Générer le document" />
     </div>
   </div>
@@ -401,10 +365,12 @@ import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
+import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import "vue-select/dist/vue-select.css";
 import { reactive, ref, computed } from "vue";
 import { watch } from "vue";
-import { reformatLocation } from "@/utils";
+import { reformatLocation, paymentProcessOptions } from "@/utils";
+
 
 const currentSettings = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
@@ -450,14 +416,17 @@ const movingjob = useForm({
   shipping_elevator: currentMovingJob.shipping_elevator ? currentMovingJob.shipping_elevator : "",
   shipping_portaging: currentMovingJob.shipping_portaging ? currentMovingJob.shipping_portaging : "",
   shipping_details: currentMovingJob.shipping_details ? currentMovingJob.shipping_details : "",
-  discount_percentage: currentMovingJob.discount_percentage ? currentMovingJob.discount_percentage : "",
-  discount_amount_ht: currentMovingJob.discount_amount_ht ? currentMovingJob.discount_amount_ht : 0,
+  discount: currentMovingJob.discount ? currentMovingJob.discount : "",
+  amount_ht: currentMovingJob.amount_ht ? currentMovingJob.amount_ht : 0,
   advance: currentMovingJob.advance ? currentMovingJob.advance : "",
   balance: currentMovingJob.balance ? currentMovingJob.balance : "",
-  distance: currentMovingJob.distance ? currentMovingJob.distance : ""
+  distance: currentMovingJob.distance ? currentMovingJob.distance : "",
+  payment_process: currentMovingJob.payment_process ? currentMovingJob.payment_process : ""
 });
 
 const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
+const applyDiscount = ref(currentMovingJob.discount ? true : false);
+const processPaymentOptions = paymentProcessOptions();
 const movingjobLocationUrl = ref( {
   loading_google_map_url: currentMovingJob.loading_location ? currentMovingJob.loading_location?.google_map_url : "",
   shipping_google_map_url: currentMovingJob.shipping_location ? currentMovingJob.shipping_location?.google_map_url : "",
@@ -466,11 +435,7 @@ const currentFormula = ref(movingJobFormulas.find((obj) => {
   return obj.slug === currentMovingJob.formula;
 }));
 
-const discountAmountTtc = computed(() => {
-  return currentMovingJob.discount_amount_ht * 20;
-});
-
-const form = reactive({
+const client = reactive({
   clientType: "individual",
   firstName: "",
   lastName: "",
@@ -494,7 +459,6 @@ const shippingLocation = useForm({
   lng: '',
   googleMapUrl: ''
 });
-
 
 const loadingLocation = useForm({
   type: '',

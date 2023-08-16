@@ -301,7 +301,7 @@ const movingjob = useForm({
   shipping_portaging: currentMovingJob.shipping_portaging,
   shipping_details: currentMovingJob.shipping_details,
   discount_percentage: currentMovingJob.discount_percentage,
-  discount_amount_ht: currentMovingJob.discount_amount_ht,
+  amount_ht: currentMovingJob.amount_ht,
   advance: currentMovingJob.advance,
   balance: currentMovingJob.balance
 });

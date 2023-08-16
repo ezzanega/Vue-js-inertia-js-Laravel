@@ -31,11 +31,13 @@ class MovingJob extends Model
         'shipping_elevator',
         'shipping_portaging',
         'shipping_details',
-        'discount_percentage',
-        'discount_amount_ht',
+        'discount',
+        'amount_ht',
+        'amount_ttc',
         'advance',
         'balance',
         'distance',
+        'payment_process',
     ];
 
 

@@ -308,8 +308,8 @@
                 :value="currentMovingJob.advance" :fontBold="true" @savingValue="saveField('advance')" />
             </DocumentFieldFrame>
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.discount_amount_ht"
-                @savingValue="saveField('discount_amount_ht')" />
+              <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.amount_ht"
+                @savingValue="saveField('amount_ht')" />
             </DocumentFieldFrame>
           </div>
           <div class="space-y-5">
@@ -409,7 +409,7 @@ const movingjob = useForm({
   shipping_portaging: currentMovingJob.shipping_portaging,
   shipping_details: currentMovingJob.shipping_details,
   discount_percentage: currentMovingJob.discount_percentage,
-  discount_amount_ht: currentMovingJob.discount_amount_ht,
+  amount_ht: currentMovingJob.amount_ht,
   advance: currentMovingJob.advance,
   balance: currentMovingJob.balance
 });

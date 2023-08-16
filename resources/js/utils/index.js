@@ -74,3 +74,46 @@ export const getRoleLabel = (role) => {
     const roleObject = roles.find(r => r.name === role);
     return roleObject ? roleObject.label : 'Role not found';
 };
+
+
+export const paymentProcessOptions = () => {
+    return [
+        {
+            name: "20% - Accompte / 80% - Solde",
+            value: '20-80'
+        },
+
+        {
+            name: "30% - Accompte / 70% - Solde",
+            value: '30-70'
+        },
+        {
+            name: "40% - Accompte / 60% - Solde",
+            value: '40-60'
+        },
+        {
+            name: "50% - Accompte / 50% - Solde",
+            value: '50-50'
+        },
+        {
+            name: "60% - Accompte / 40% - Solde",
+            value: '60-40'
+        },
+        {
+            name: "70% - Accompte / 30% - Solde",
+            value: '70-30'
+        },
+        {
+            name: "80% - Accompte / 20% - Solde",
+            value: '80-20'
+        },
+        {
+            name: "Règlement en 1 fois",
+            value: '100'
+        },
+        {
+            name: "Autres",
+            value: 'Others'
+        }
+    ];
+}
