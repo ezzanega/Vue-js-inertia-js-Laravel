@@ -1,13 +1,13 @@
 <template>
     <div v-if="showInput" class="relative">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-            <button type="submit" @click="addOption">
-                <svg class="h-5 w-5 text-green-500"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button type="submit"  @click="addOption">
+                <svg class="h-5 w-5 text-teal-700 hover:text-green-500 "  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </button>
         </div>
-        <input type="text"  name="text" class="block w-full p-4 pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Entrez une option" required v-model="form.text">
+        <input type="text"  name="text" class="block w-full p-4 pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-700 block w-full p-2.5" placeholder="Entrez une option" required v-model="form.text">
     </div>
 
     <div class="flex flex-row space-x-2 justify-center mt-3">
