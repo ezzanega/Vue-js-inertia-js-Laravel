@@ -16,7 +16,21 @@
             class="p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6"
           >
             <div v-if="show_input_formulas === index">
-                <input type="text"  name="text" class="block  bg-gray-40 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-700 focus:border-green-700 block  p-2 mb-3" required v-model="formula.name" @blur="toggleInputFormulasField(null)">
+                <div>
+                    <input
+                      type="text"
+                      name="title_formula"
+                      autofocus
+                      class="block bg-gray-40 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-700 focus:border-green-700 block p-2 "
+                      required
+                      @blur="onInputBlur(index),updateFormulas(formula.id)"
+                      v-model="formFormulas.title_formula"
+                      @input="generateSlug"
+                    />
+                    <p class=" ml-2 mb-3  text-sm text-gray-500 dark:text-gray-400">Slug :
+                        <input type="label" class="mt-1 text-sm text-gray-500 dark:text-gray-400" name="slug_formula" v-model="formFormulas.slug_formula" readonly />
+                    </p>
+                </div>
             </div>
             <h5 v-else class=" flex mb-3 text-base font-semibold text-gray-900 md:text-xl">
               {{ formula.name }}
@@ -160,11 +174,12 @@
   </template>
   <script setup>
   import { Dropdown } from "floating-vue";
+  import slugify from 'slugify';
   import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
   import OptionsPopperContent from "@/Components/Settings/OptionsPopperContent.vue";
   import DynamicOptionFields from "@/Components/Organisms/DynamicOptionFields.vue";
-  import { usePage } from "@inertiajs/vue3";
-  import { ref } from 'vue';
+  import { usePage,useForm } from "@inertiajs/vue3";
+  import { ref, watch } from 'vue';
 
 
   const props = defineProps({
@@ -187,9 +202,46 @@
     };
 
 
-const show_input_formulas = ref(false);
+const show_input_formulas = ref(null);
+
+const formFormulas = useForm({
+    title_formula:ref(''),
+    slug_formula: ref(''),
+    });
+// const title_formula = ref('');
+// const slug_formula = ref('');
 
 const toggleInputFormulasField = (index) => {
-  show_input_formulas.value = index;
+  show_input_formulas.value=index;
+  if (index !== null) {
+    formFormulas.title_formula = usePage().props.formulas[index].name;
+    formFormulas.slug_formula = usePage().props.formulas[index].slug;
+    generateSlug();
+  }
 };
+
+const onInputBlur = (id) => {
+  show_input_formulas.value=null;
+};
+
+const updateFormulas = (id) => {
+        console.log('the id    : ',id);
+        console.log("title_formula   : ",formFormulas.title_formula.value);
+        console.log("slug_formula   : ",formFormulas.slug_formula.value);
+        formFormulas.put(route("6dem.formula.update", {id: id}),
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                console.log('Formulas updated succefully');
+                formFormulas.title_formula.value = '';
+                formFormulas.slug_formula.value = '';
+            },
+        });
+};
+
+const generateSlug = () => {
+    formFormulas.slug_formula = slugify(formFormulas.title_formula, { lower: true });
+};
+
+watch(formFormulas.title_formula, generateSlug);
   </script>

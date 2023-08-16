@@ -108,4 +108,21 @@ class SettingsController extends Controller
             return back()->withError('An error occurred while adding the option.');
         }
     }
+    public function update_Formulas(Request $request,$id)
+    {
+        //return $request->all();
+        $request->validate([
+            'title_formula' => 'required|string|min:2',
+            'slug_formula' => 'required|string',
+        ]);
+
+        $formula=MovingJobFormula::where(['id' => $id])->first();
+
+        $formula->update([
+            'name' => $request->title_formula,
+            'slug'=> $request->slug_formula,
+        ]);
+
+        return Redirect::route('6dem.settings');
+    }
 }

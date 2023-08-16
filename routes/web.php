@@ -205,11 +205,13 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/settings', [SettingsController::class, 'update'])
         ->name('6dem.settings.update');
+    #update Formulas name ans slug
+    Route::put('/6dem/formula/update/{id}', [SettingsController::class, 'update_Formulas'])->name('6dem.formula.update');
 
     Route::put('/6dem/formula/option/update/{id}', [SettingsController::class, 'update_Formulas_option'])->name('6dem.formula.option.update');
     #delete Formulas options
     Route::delete('/6dem/formula/option/delete/{id}', [SettingsController::class, 'delete_Formulas_option'])->name('6dem.formula.option.delete');
-    
+
      #Add Option to formulas
      Route::post('/6dem/formula/option/create/', [SettingsController::class, 'addOptionToFormula'])
      ->name('6dem.settings.create');
