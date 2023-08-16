@@ -18,11 +18,10 @@
             <h5 class=" flex mb-3 text-base font-semibold text-gray-900 md:text-xl">
               {{ formula.name }}
               <button>
-                    <svg class="h-5 w-5 ml-1 text-gray-300 hover:text-black transition-colors duration-200"
+                    <svg class="h-4 w-5 ml-1 text-gray-300 hover:text-green-700 transition-colors duration-200"
                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                     </svg>
-
               </button>
 
             </h5>
