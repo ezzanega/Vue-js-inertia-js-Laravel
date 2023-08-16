@@ -15,9 +15,12 @@
             :key="index"
             class="p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6"
           >
-            <h5 class=" flex mb-3 text-base font-semibold text-gray-900 md:text-xl">
+            <div v-if="show_input_formulas === index">
+                <input type="text"  name="text" class="block  bg-gray-40 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-700 focus:border-green-700 block  p-2 mb-3" required v-model="formula.name" @blur="toggleInputFormulasField(null)">
+            </div>
+            <h5 v-else class=" flex mb-3 text-base font-semibold text-gray-900 md:text-xl">
               {{ formula.name }}
-              <button>
+              <button @click="toggleInputFormulasField(index)">
                     <svg class="h-4 w-5 ml-1 text-gray-300 hover:text-green-700 transition-colors duration-200"
                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
@@ -161,6 +164,8 @@
   import OptionsPopperContent from "@/Components/Settings/OptionsPopperContent.vue";
   import DynamicOptionFields from "@/Components/Organisms/DynamicOptionFields.vue";
   import { usePage } from "@inertiajs/vue3";
+  import { ref } from 'vue';
+
 
   const props = defineProps({
       openUpModal:Function,
@@ -180,4 +185,11 @@
   const deleteOption = () => {
       emit("deleteOption");
     };
+
+
+const show_input_formulas = ref(false);
+
+const toggleInputFormulasField = (index) => {
+  show_input_formulas.value = index;
+};
   </script>
