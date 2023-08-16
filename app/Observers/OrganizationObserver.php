@@ -27,6 +27,7 @@ class OrganizationObserver
             "ducuments_primary_color" => "rgb(240, 240, 240)",
             "ducuments_secondary_color" => "",
             "legal_notice" => "",
+            "vat" => "20"
         ]);
 
         foreach (MovingJobFormula::all() as $key => $formula) {

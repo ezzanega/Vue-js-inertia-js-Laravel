@@ -60,7 +60,8 @@ const measurementOptions = [
     { name: 'm', value: 6 },
     { name: 'jour(s)', value: 7 },
     { name: 'heure(s)', value: 8 },
-    { name: 'bonhomme(s)', value: 9 },
+    { name: 'mois', value: 9 },
+    { name: 'bonhomme(s)', value: 10 },
 ];
 
 const props = defineProps({
@@ -102,7 +103,7 @@ const addRow = () => {
 
 const addRowWarehouse = () => {
     option.type = "warehouse-option";
-    option.unit = 7;
+    option.unit = 9;
     axios.post(route("6dem.option.create", props.movingjob), option)
         .then(response => {
             options.push({ id: response.data, description: 'Stockage en garde meuble', qty: '', priceHT: '', priceTTC: '', selectedMeasurement:7 })

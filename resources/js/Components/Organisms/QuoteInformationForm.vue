@@ -222,28 +222,24 @@
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceContractual.max_value"
-                :value="'Valeur max par objet: ' + currentInsuranceContractual.max_value"
                 @savingValue="saveInsurance(currentInsuranceContractual.id, 'max_value', 'contractual')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Franchise" v-model="insuranceContractual.franchise"
-                :value="'Franchise: ' + currentInsuranceContractual.franchise"
                 @savingValue="saveInsurance(currentInsuranceContractual.id, 'franchise', 'contractual')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="insuranceContractual.amount_ht"
-                :value="'Montant HT: ' + currentInsuranceContractual.amount_ht"
+              <DocumentFieldInput placeholder="Montant HT" v-model="insuranceContractual.amount_ht" :value="insuranceContractual.amount_ht"
                 @savingValue="saveInsurance(currentInsuranceContractual.id, 'amount_ht', 'contractual')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC"
-                :model-value="'Montant TTC: ' + currentInsuranceContractual.amount_ht * vat" />
+              <DocumentFieldInput placeholder="Montant TTC" :value="insuranceContractual.amount_ttc"/>
             </DocumentFieldFrame>
           </span>
         </div>
@@ -256,28 +252,24 @@
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceAdValorem.max_value"
-                :value="'Valeur max par objet : ' + currentInsuranceAdValorem.max_value"
                 @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'max_value', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Franchise" v-model="insuranceAdValorem.franchise"
-                :value="'Franchise : ' + currentInsuranceAdValorem.franchise"
                 @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'franchise', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Montant HT" v-model="insuranceAdValorem.amount_ht"
-                :value="'Montant HT : ' + currentInsuranceAdValorem.amount_ht"
                 @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'amount_ht', 'adValorem')" />
             </DocumentFieldFrame>
           </span>
           <span class="w-1/6 p-1">
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC"
-                :value="'Montant TTC: ' + currentInsuranceAdValorem.amount_ht * vat" />
+              <DocumentFieldInput placeholder="Montant TTC" :value="insuranceAdValorem.amount_ttc"/>
             </DocumentFieldFrame>
           </span>
         </div>
@@ -317,8 +309,7 @@
                 @savingValue="saveField('balance')" />
             </DocumentFieldFrame>
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC"
-                :value="'Montant TTC: ' + movingjob.discount_amount_ht * vat" />
+              <DocumentFieldInput placeholder="Montant TTC"/>
             </DocumentFieldFrame>
           </div>
         </div>
@@ -347,8 +338,7 @@ import { reactive, ref, computed } from "vue";
 import { watch } from "vue";
 import { reformatLocation } from "@/utils";
 
-const user = usePage().props.auth.user;
-const currentSettingss = usePage().props.settings;
+const currentSettings = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
 const currentQuotation = usePage().props.quotation;
 const currentMovingJob = usePage().props.movingJob;
@@ -362,32 +352,22 @@ const formulaOptaions = movingJobFormulas.map(item => ({
   value: item.slug
 }));
 
-const vat = 20;
-const organization = reactive({
-  name: "",
-  siret: "",
-  siren: "",
-  ape_code: "",
-  address: "",
-  billing_address: "",
-  phone_number: "",
-  email: "",
-});
-
 const insuranceContractual = useForm({
-  max_value: "",
-  franchise: "",
-  amount_ht: ""
+  max_value: currentInsuranceContractual ? currentInsuranceContractual.max_value : "",
+  franchise: currentInsuranceContractual ? currentInsuranceContractual.franchise : "",
+  amount_ht: currentInsuranceContractual ? currentInsuranceContractual.amount_ht : 0,
+  amount_ttc: currentInsuranceContractual ? currentInsuranceContractual.amount_ht + (currentInsuranceContractual.amount_ht*currentSettings.vat)/100 : ""
 });
 
 const insuranceAdValorem = useForm({
-  max_value: "",
-  franchise: "",
-  amount_ht: ""
+  max_value: currentInsuranceAdValorem ? currentInsuranceAdValorem.max_value : "",
+  franchise: currentInsuranceAdValorem ? currentInsuranceAdValorem.franchise : "",
+  amount_ht: currentInsuranceAdValorem ? currentInsuranceAdValorem.amount_ht : 0,
+  amount_ttc: currentInsuranceContractual ? currentInsuranceAdValorem.amount_ht + (currentInsuranceAdValorem.amount_ht*currentSettings.vat)/100 : ""
 });
 
 const movingjob = useForm({
-  validity_duration: currentMovingJob.validity_duration ? currentMovingJob.validity_duration : currentSettingss.quotation_validity_duratation,
+  validity_duration: currentMovingJob.validity_duration ? currentMovingJob.validity_duration : currentSettings.quotation_validity_duratation,
   capacity: currentMovingJob.capacity ? currentMovingJob.capacity : "",
   formula: currentMovingJob.formula ? currentMovingJob.formula : "",
   loading_address: currentMovingJob.loading_address ? currentMovingJob.loading_address : "",
@@ -403,7 +383,7 @@ const movingjob = useForm({
   shipping_portaging: currentMovingJob.shipping_portaging ? currentMovingJob.shipping_portaging : "",
   shipping_details: currentMovingJob.shipping_details ? currentMovingJob.shipping_details : "",
   discount_percentage: currentMovingJob.discount_percentage ? currentMovingJob.discount_percentage : "",
-  discount_amount_ht: currentMovingJob.discount_amount_ht ? currentMovingJob.discount_amount_ht : "",
+  discount_amount_ht: currentMovingJob.discount_amount_ht ? currentMovingJob.discount_amount_ht : 0,
   advance: currentMovingJob.advance ? currentMovingJob.advance : "",
   balance: currentMovingJob.balance ? currentMovingJob.balance : "",
   distance: currentMovingJob.distance ? currentMovingJob.distance : ""
@@ -411,10 +391,6 @@ const movingjob = useForm({
 
 const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
 // const movingJobDistance = ref(currentMovingJob.distance ? currentMovingJob.distance : "")
-
-const discountAmountTtc = computed(() => {
-  return currentMovingJob.discount_amount_ht * 20;
-});
 
 const newQuotation = reactive({
   validity_duratation: ""
@@ -466,6 +442,13 @@ watch(sameAddressAsClient, (value) => {
     movingjob.loading_address = "";
   }
 });
+
+watch(
+  () => insuranceContractual.amount_ht,
+  (newValue) => {
+    insuranceContractual.amount_ttc = (newValue * currentSettings.vat)/100
+  }
+);
 
 const saveField = (field) => {
   movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: field }), {
