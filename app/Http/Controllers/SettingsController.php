@@ -90,8 +90,6 @@ class SettingsController extends Controller
 
         try {
             DB::beginTransaction(); // Start a database transaction
-
-
             DB::table('moving_job_formula_options')->insert([
                 'type' => $request->type,
                 'text' => $request->text,
@@ -125,4 +123,22 @@ class SettingsController extends Controller
 
         return Redirect::route('6dem.settings');
     }
+    public function delete_Formulas($id)
+    {
+        try {
+            $formula = MovingJobFormula::where('id', $id)->with('options')->first();
+            if ($formula) {
+                // Delete the formula
+                $formula->delete();
+                if ($formula->options->count() > 0) {
+                    $formula->options()->delete();
+                }
+            }
+            return Redirect::route('6dem.settings');
+            //return $formula . ' ' . $formula_options;
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression de ce moving job formulas'], 500);
+        }
+    }
+
 }

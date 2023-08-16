@@ -46,7 +46,7 @@
                     </svg>
                   </button>
                 </div>
-                <button>
+                <button @click="opendelModal(formula.id,'formula')">
                   <svg class="h-6 w-6 text-black hover:text-red-700"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                   </svg>
@@ -198,8 +198,9 @@
       OptionData: Object,
       deleteOption:Function,
       opendelModal:Function,
+      deleteFormula:Function,
   });
-   const emit = defineEmits(["deleteOption"]);
+   const emit = defineEmits(["deleteOption","deleteFormula"]);
 
   const formulas = usePage().props.formulas;
 
@@ -208,10 +209,6 @@
       return obj.type === type;
     });
   };
-  const deleteOption = () => {
-      emit("deleteOption");
-    };
-
 
 const show_input_formulas = ref(null);
 
@@ -219,8 +216,6 @@ const formFormulas = useForm({
     title_formula:ref(''),
     slug_formula: ref(''),
     });
-// const title_formula = ref('');
-// const slug_formula = ref('');
 
 const toggleInputFormulasField = (index) => {
   show_input_formulas.value=index;
@@ -236,9 +231,9 @@ const onInputBlur = (id) => {
 };
 
 const updateFormulas = (id) => {
-        console.log('the id    : ',id);
-        console.log("title_formula   : ",formFormulas.title_formula.value);
-        console.log("slug_formula   : ",formFormulas.slug_formula.value);
+        // console.log('the id    : ',id);
+        // console.log("title_formula   : ",formFormulas.title_formula.value);
+        // console.log("slug_formula   : ",formFormulas.slug_formula.value);
         formFormulas.put(route("6dem.formula.update", {id: id}),
         {
             preserveScroll: true,
