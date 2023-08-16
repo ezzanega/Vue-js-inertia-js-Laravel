@@ -1,5 +1,5 @@
 <template>
-  <div class="flex px-6 py-4 rounded-xl border border-gray-300 bg-white">
+  <div class="flex px-6 py-4 rounded-xl border border-gray-300 bg-white text-xs">
     <div class="lg:w-1/12 min-w-1/12 my-auto">
       <input name="" type="checkbox" class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0"
         :checked="props.selectedAll" @change="handleCheckboxChange" />
@@ -8,19 +8,19 @@
     <div class="text-left w-3/12 flex justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
     <div class="text-left w-2/12 flex justify-center my-auto">{{ props.document.type }}</div>
     <div v-if="props.document.status == 'A payer'" class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-yellow-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
+      <p class="text-left rounded-full bg-yellow-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div v-if="props.document.status == 'Retard'" class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-fuchsia-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
+      <p class="text-left rounded-full bg-fuchsia-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div v-if="props.document.status == 'Partiellement payé'" class="text-left flex justify-center w-2/12 my-auto">
-      <p class="text-left rounded-full bg-yellow-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
+      <p class="text-left rounded-full bg-yellow-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div v-if="props.document.status == 'Payé'" class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
+      <p class="text-left rounded-full bg-primary text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div v-if="props.document.status == 'Annulé'" class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
+      <p class="text-left rounded-full bg-red-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div class="text-left w-2/12 flex justify-center my-auto">{{ props.document.amount_ht }}</div>
     <div class="text-left w-2/12 flex justify-center my-auto"></div>

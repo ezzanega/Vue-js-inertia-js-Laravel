@@ -2,7 +2,7 @@
   <div>
     <ul class="flex flex-wrap">
       <li v-for="title in tabTitles" :key="title" @click="selectedTitle = title"
-        class="text-primary hover:font-bold lg:w-2/12 md:min-w-3/12 items-center cursor-pointer shadow-md mr-2 overflow-auto">
+        class="text-primary lg:w-1/4 2xl:w-2/12 md:w-auto items-center cursor-pointer shadow-md mr-2 overflow-auto">
         <div class="flex space-x-5 py-2 px-4 justify-center hover:bg-primary hover:text-white rounded-md" :class="[
           selectedTitle == title
             ? 'bg-primary text-white'
@@ -26,7 +26,7 @@
               d="M13,16H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2ZM9,10h2a1,1,0,0,0,0-2H9a1,1,0,0,0,0,2Zm12,2H18V3a1,1,0,0,0-.5-.87,1,1,0,0,0-1,0l-3,1.72-3-1.72a1,1,0,0,0-1,0l-3,1.72-3-1.72a1,1,0,0,0-1,0A1,1,0,0,0,2,3V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V13A1,1,0,0,0,21,12ZM5,20a1,1,0,0,1-1-1V4.73L6,5.87a1.08,1.08,0,0,0,1,0l3-1.72,3,1.72a1.08,1.08,0,0,0,1,0l2-1.14V19a3,3,0,0,0,.18,1Zm15-1a1,1,0,0,1-2,0V14h2Zm-7-7H7a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Z">
             </path>
           </svg>
-          <a href="#" aria-current="page" class="text-md">{{ title }}</a>
+          <a href="#" aria-current="page" class="text-sm md:text-md">{{ title }}</a>
         </div>
       </li>
     </ul>

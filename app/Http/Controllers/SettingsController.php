@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\ExecutingCompany;
 use App\Models\MovingJobFormula;
 use App\Models\MovingJobFormulaOption;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class SettingsController extends Controller
@@ -78,6 +79,33 @@ class SettingsController extends Controller
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+        }
+    }
+
+    public function addOptionToFormula(Request $request)
+    {
+        $request->validate([
+            'text' => 'required|string|min:2|max:300',
+        ]);
+
+        try {
+            DB::beginTransaction(); // Start a database transaction
+
+
+            DB::table('moving_job_formula_options')->insert([
+                'type' => $request->type,
+                'text' => $request->text,
+                'moving_job_formula_id' => $request->id_formulas,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::commit(); // Commit the transaction
+
+            return Redirect::route('6dem.settings');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->withError('An error occurred while adding the option.');
         }
     }
 }

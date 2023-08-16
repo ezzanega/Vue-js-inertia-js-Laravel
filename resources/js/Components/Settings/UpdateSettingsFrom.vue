@@ -33,16 +33,16 @@
                 <TextArea name="legal_notice" label="Mentions légales" v-model="form.legal_notice"
                   :error="form.errors.legal_notice" />
 
-                <DefaultInput name="quotation_validity_duratation" label="TVA (en %)"
+                <DefaultInput name="quotation_validity_duratation" type="number" label="TVA (en %)"
                   v-model="form.vat" :error="form.errors.vat" />
 
-                <DefaultSelectInput
+                <!-- <DefaultSelectInput
                   name="paiement-process"
                   label="Modalités de règlement"
                   v-model="form.role"
                   :options="paiementProcessOPtions"
                   :error="form.errors.paiementProcess"
-                />
+                /> -->
               </div>
             </div>
             <div class="bg-neutral-50 px-4 py-4 sm:px-6">

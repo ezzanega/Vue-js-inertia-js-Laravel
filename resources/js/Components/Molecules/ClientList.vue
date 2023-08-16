@@ -33,7 +33,26 @@
             </div>
           </Drawer>
 
-          <Drawer v-if="isDrawerUpOpen && selectedClient"
+
+          <!-- <IconButton @click="toggleUpdateDrawer(client)" class="mt-6" text="Modifier un client">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.2"
+                stroke="currentColor"
+                aria-hidden="true"
+                class="w-6 h-6 pointer-events-none shrink-0"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+          </IconButton> -->
+
+            <Drawer v-if="isDrawerUpOpen && selectedClient"
           :is-open="isDrawerUpOpen"
           :speed="500"
           max-width="680px"
@@ -41,9 +60,11 @@
           :selectedClient="selectedClient"
         >
           <div>
-            <DrawerContent title="Update client" :selectedClient="selectedClient" @closeDrawer="closeDrawer()">
-              <UpdateClientForm :selectedClient="selectedClient"
-              @close="closeDrawer()"/>
+            <!-- <DrawerContent v-if="isDrawerUpOpen && selectedClient" :selectedClient="selectedClient" title="Update client" @closeDrawer="closeDrawer()">
+              <UpdateClientForm :selectedClient="selectedClient" @close="closeDrawer()" />
+            </DrawerContent> -->
+            <DrawerContent title="Update client" @closeDrawer="closeDrawer()">
+              <UpdateClientForm :selectedClient="selectedClient" @close="closeDrawer()" />
             </DrawerContent>
           </div>
             </Drawer>
@@ -192,6 +213,9 @@
         </div>
       <div v-else-if="searchResults.length > 0" class="space-y-2 overflow-auto">
         <ClientListItem v-for="(client, index) in searchResults" :key="index" :client="client"
+        :isDrawerUpOpen="isDrawerUpOpen"
+          @openUpdateClient="toggleUpdateDrawer(client)"
+          :selectedClient="selectedClient"
           @openMailModal="openMailModal(client)" :deleteClient="deleteClient" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-client-selection="toggleClientSelection"/>
       </div>
       <div v-else class="w-auto space-y-2">
@@ -258,6 +282,7 @@
           isDrawerOpen.value = false;
       }
   };
+
 
   const filters = reactive({
     last_name: "",

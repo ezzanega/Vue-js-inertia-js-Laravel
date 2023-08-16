@@ -269,6 +269,9 @@ Route::middleware('auth')->group(function () {
     # Delete Client
     Route::delete('/6dem/clients/delete/{id}', [ClientController::class, 'deleteClient'])
         ->name('6dem.delete.clients');
+    # update Client
+    Route::put('/6dem/clients/update/{id}', [ClientController::class, 'updateClient'])
+        ->name('6dem.update.clients');
 
     Route::get('/6dem/clients/sort', [ClientController::class, 'sort'])
         ->name('6dem.sort.client');

@@ -3,7 +3,7 @@
     <div
       class="flex items-center justify-between border-b border-neutral-200 px-4 py-3 text-sm"
     >
-      <p class="font-medium text-neutral-600">Ajouter une option</p>
+      <p class="font-medium text-neutral-600">Ajouter une prestation</p>
     </div>
     <div class="space-y-0.5">
       <PopperItem item="Monte meuble" @clicked="settingsElevatorItemClicked">
@@ -57,7 +57,7 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Personnalisée" @clicked="settingsNewItemClicked">
+      <PopperItem item="Prestation personnalisée" @clicked="settingsNewItemClicked">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
