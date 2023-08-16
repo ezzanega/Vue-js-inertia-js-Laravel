@@ -4,6 +4,9 @@
         <div class="md:col-span-1">
           <h3 class="text-lg font-medium leading-6 text-neutral-900">
             Formules de déménagement
+            <button class="bg-primary hover:bg-green-700 text-white text-sm py-1 px-3 rounded shadow">
+                New
+            </button>
           </h3>
           <p class="mt-1 text-sm text-neutral-600">
             Paramètrage des formules de déménagement pour les particuliers.
