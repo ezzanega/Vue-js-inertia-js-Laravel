@@ -22,7 +22,8 @@ class OptionController extends Controller
             'designation' => $request->designation,
             'quantity' => $request->quantity,
             'unit' => $request->unit,
-            'price_ht' => $request->price_ht,
+            'unit_price_ht' => $request->unit_price_ht,
+            'total_price_ht' => $request->total_price_ht,
             'moving_job_id' => $id,
         ]);
 

@@ -16,7 +16,8 @@ class Option extends Model
         'designation',
         'quantity',
         'unit',
-        'price_ht',
+        'unit_price_ht',
+        'total_price_ht',
         'moving_job_id'
     ];
 

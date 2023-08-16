@@ -1,39 +1,51 @@
 <template>
-    <div v-for="item, index in options" :key="item">
-        <div class="flex space-x-2">
-            <span class="w-1/5 p-1 flex-none">
-                <DocumentFieldFrame>
-                    <DocumentFieldInput :value="item.description" v-model="item.description" placeholder="Description" :fontBold="true" @savingValue="saveField('designation', item.id, item.description)"/>
-                </DocumentFieldFrame>
-            </span>
-            <span class="w-1/5 p-1">
-                <DocumentFieldFrame>
-                    <DocumentFieldInput :value="item.qty" v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
-                </DocumentFieldFrame>
-            </span>
-            <span class="w-1/5 p-1">
-                <DocumentSelectInput v-model="item.selectedMeasurement" :value="item.selectedMeasurement" @change="() => saveField('unit', item.id, item.selectedMeasurement)" :options="measurementOptions" default-text="Unité"/>
-            </span>
-            <span class="w-1/5 p-1">
-                <DocumentFieldFrame>
-                    <DocumentFieldInput :value="item.priceHT" class="w-full" v-model="item.priceHT" placeholder="Tarif HT" :fontBold="true" @savingValue="saveField('price_ht', item.id, item.priceHT)"/>
-                </DocumentFieldFrame>
-            </span>
-            <span class="w-1/5 p-1">
-                <DocumentFieldFrame>
-                    <DocumentFieldInput :value="item.priceTTC" placeholder="Tarif TTC" :fontBold="true" />
-                </DocumentFieldFrame>
-            </span>
-            <span class="flex items-center">
-                <Dropdown placement="bottom-end">
-                    <AddOptionButton />
-                    <template #popper>
-                        <SettingsAddButtonPopperContent @addingElevator="addRowElevator" @addingPiano="addRowPiano" @addingWarehouse="addRowWarehouse" @addingNew="addRow" />
-                    </template>
-                </Dropdown>
-                <RemoveButton @click="removeRow(index, item.id)" />
-            </span>
+    <div class="flex flex-col space-y-2">
+        <div class="flex space-x-2  p-1 border border-gray-200 rounded-md bg-gray-100 flex-grow">
+            <span class="w-full text-left p-1">Désignation</span>
+            <span class="w-full text-left p-1">Quantité</span>
+            <span class="w-full text-left p-1">Unité</span>
+            <span class="w-full text-left p-1">Prix unitaire HT</span>
+            <span class="w-full text-left p-1">Prix total HT</span>
         </div>
+        <div v-for="item, index in options" :key="item">
+            <div class="flex space-x-2">
+                <span class="w-1/5 flex-none">
+                    <DocumentFieldFrame>
+                        <DocumentFieldInput :value="item.description" v-model="item.description" placeholder="Description" :fontBold="true" @savingValue="saveField('designation', item.id, item.description)"/>
+                    </DocumentFieldFrame>
+                </span>
+                <span class="w-1/5">
+                    <DocumentFieldFrame>
+                        <DocumentFieldInput :value="item.qty" v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
+                    </DocumentFieldFrame>
+                </span>
+                <span class="w-1/5">
+                    <DocumentSelectInput v-model="item.selectedMeasurement" :value="item.selectedMeasurement" @change="() => saveField('unit', item.id, item.selectedMeasurement)" :options="measurementOptions" default-text="Choisir une unité"/>
+                </span>
+                <span class="w-1/5">
+                    <DocumentFieldFrame>
+                        <DocumentFieldInput :value="item.priceHT" class="w-full" v-model="item.priceHT" placeholder="Prix unitaire HT" :fontBold="true" @savingValue="saveField('unit_price_ht', item.id, item.priceHT)"/>
+                    </DocumentFieldFrame>
+                </span>
+                <span class="w-1/5">
+                    <DocumentFieldFrame>
+                        <!-- <DocumentFieldInput :value="item.totalPriceHT" placeholder="Prix total TTC" :fontBold="true" /> -->
+                        <div class="font-bold p-0.5">{{ item.totalPriceHT + ' €' }}</div>
+                    </DocumentFieldFrame>
+                </span>
+                <span class="flex items-center">
+                    <RemoveButton @click="removeRow(index, item.id)" />
+                </span>
+            </div>
+        </div>
+        <span class="flex items-center mx-auto">
+            <Menu placement="bottom">
+                <AddOptionButton />
+                <template #popper>
+                    <SettingsAddButtonPopperContent @addingElevator="addRowElevator" @addingPiano="addRowPiano" @addingWarehouse="addRowWarehouse" @addingNew="addRow" />
+                </template>
+            </Menu>
+        </span>
     </div>
 </template>
 
@@ -46,7 +58,7 @@ import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 import AddOptionButton from "@/Components/Atoms/AddOptionButton.vue";
 import RemoveButton from "@/Components/Atoms/RemoveButton.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
-import { Dropdown } from "floating-vue";
+import { Menu } from "floating-vue";
 
 const currentOptions = usePage().props.options;
 
@@ -71,20 +83,28 @@ const props = defineProps({
 const option = useForm({
   type: "other-option",
   designation: "",
-  quantity: "",
-  unit: 0,
-  price_ht: ""
+  quantity: 0,
+  unit: null,
+  unit_price_ht: 0,
+  total_price_ht: 0,
 });
 
-const options = reactive(currentOptions.map(function(option){
-    return { id: option.id, description: option.designation, qty: option.quantity, priceHT: option.price_ht, priceTTC: option.price_ht*2, selectedMeasurement: option.unit }
+const options = reactive(
+    currentOptions.map(function(option){
+        return { 
+            id: option.id, 
+            description: option.designation, 
+            qty: option.quantity,
+            priceHT: option.unit_price_ht, 
+            totalPriceHT: option.unit_price_ht ? parseFloat(option.unit_price_ht*option.quantity).toFixed(2) : 0.00,
+            selectedMeasurement: option.unit 
+        }
     })
 )
 
 watch(options, (newOptions) => {
     newOptions.forEach((item) => {
-        console.log(newOptions);
-        item.priceTTC = item.priceHT * 2;
+        item.totalPriceHT = parseFloat(item.priceHT * item.qty).toFixed(2); 
     });
 }, { deep: true });
 
@@ -92,10 +112,9 @@ watch(options, (newOptions) => {
 const addRow = () => {
     axios.post(route("6dem.option.create", props.movingjob), option)
         .then(response => {
-            options.push({ id: response.data, description: '', qty: '', priceHT: '', priceTTC: '', selectedMeasurement:0 })
+            options.push({ id: response.data, description: '', qty: '', priceHT: '', totalPriceHT: '', selectedMeasurement:0 })
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );
@@ -103,13 +122,13 @@ const addRow = () => {
 
 const addRowWarehouse = () => {
     option.type = "warehouse-option";
-    option.unit = 9;
+    option.unit = 7;
+    option.designation = 'Stockage en garde meuble';
     axios.post(route("6dem.option.create", props.movingjob), option)
         .then(response => {
-            options.push({ id: response.data, description: 'Stockage en garde meuble', qty: '', priceHT: '', priceTTC: '', selectedMeasurement:7 })
+            options.push({ id: response.data, description: 'Stockage en garde meuble', qty: '', priceHT: '', totalPriceHT: '', selectedMeasurement:7 })
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );  
@@ -118,12 +137,12 @@ const addRowWarehouse = () => {
 const addRowElevator = () => {
     option.type = "elevator-option";
     option.unit = 8;
+    option.designation = 'Monte meuble';
     axios.post(route("6dem.option.create", props.movingjob), option)
         .then(response => {
-            options.push({ id: response.data, description: 'Monte meuble', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:8 })
+            options.push({ id: response.data, description: 'Monte meuble', qty: 0, priceHT: 0, totalPriceHT: 0.00, selectedMeasurement:8 })
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );
@@ -132,12 +151,12 @@ const addRowElevator = () => {
 const addRowPiano = () => {
     option.type = "piano-option";
     option.unit = 4;
+    option.designation = 'Transport de piano';
     axios.post(route("6dem.option.create", props.movingjob), option)
         .then(response => {
-            options.push({ id: response.data, description: 'Transport de piano', qty: 0, priceHT: 0, priceTTC: 0, selectedMeasurement:4 })
+            options.push({ id: response.data, description: 'Transport de piano', qty: 0, priceHT: 0, totalPriceHT: 0.00, selectedMeasurement:4 })
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );
@@ -152,7 +171,6 @@ const removeRow = (index, id) => {
             }
         })
         .catch(error => {
-            // Handle the error
             console.error(error);
         }
     );

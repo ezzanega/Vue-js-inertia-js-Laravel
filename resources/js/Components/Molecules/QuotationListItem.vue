@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-grow flex-nowrap px-6 py-4 rounded-xl border border-gray-300 bg-white md:text-xs lg:text-sm">
+  <div class="flex flex-grow flex-nowrap px-6 py-4 rounded-xl border border-gray-300 bg-white text-sm md:text-xs">
     <div class="lg:w-1/12 min-w-1/12 my-auto">
       <input
         name=""
@@ -11,7 +11,7 @@
     </div>
     <div class="text-left lg:w-2/12 min-w-2/12 flex justify-center my-auto">{{ props.document.number }}</div>
     <div class="flex flex-nowrap gap-3 text-left lg:w-2/12 min-w-2/12 justify-center my-auto">
-      <div class="md:text-xs lg:text-sm">
+      <div class="">
         <div class="font-medium text-gray-700 text-center">
           {{
             props.document.moving_job.client.type == "professional"
@@ -27,14 +27,14 @@
         <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div>
       </div>
     </div>
-    <div v-if="props.document.status == 'Envoyé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><p class="text-left rounded-full bg-yellow-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p></div>
-    <div v-if="props.document.status == 'Accepté'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p></div>
-    <div v-if="props.document.status == 'Expiré'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p></div>
-    <div v-if="props.document.status == 'Refusé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><p class="text-left rounded-full bg-fuchsia-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p></div>
-    <div v-if="props.document.status == 'Signé'" class="text-leftlg: w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p></div>
-    <div v-if="props.document.status == 'Non signé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p></div>
+    <div v-if="props.document.status == 'Envoyé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-yellow-400 text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
+    <div v-if="props.document.status == 'Accepté'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-red-400 text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
+    <div v-if="props.document.status == 'Expiré'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-primary text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
+    <div v-if="props.document.status == 'Refusé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-fuchsia-400 text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
+    <div v-if="props.document.status == 'Signé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-primary text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
+    <div v-if="props.document.status == 'Non signé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-red-400 text-white w-fit p-1 my-auto">{{ props.document.status }}</span></div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
-    <div class="text-left lg:w-2/12 min-w-2/12 flex flex-nowrap justify-center my-auto"><p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{props.document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier"}}</p></div>
+    <div class="text-left lg:w-2/12 min-w-2/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-primary text-white w-fit px-2.5 py-1 my-auto">{{props.document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier"}}</span></div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.discount_amount_ht }}</div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"></div>
     <div class="lg:w-1/12 min-w-1/12 my-auto">

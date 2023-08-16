@@ -32,10 +32,10 @@ export const parseCompanyInformations = (result) => {
         organizationName: result.nom_entreprise,
         siren: result.siren_formate,
         siret: result.siege.siret_formate,
-        codeNaf: result.code_naf,
+        codeApe: result.code_naf,
         address: result.siege.adresse_ligne_1 + ' ' + (result.siege.adresse_ligne_2 ? result.siege.adresse_ligne_2 : ''),
         city: result.siege.ville,
-        postalCode: result.siege.adresse_ligne_2 ? result.siege.adresse_ligne_2 : '',
+        postalCode: result.siege.code_postal,
         country: result.siege.pays,
         fullAddress: result.siege.adresse_ligne_1 + ' ' + (result.siege.adresse_ligne_2 ? result.siege.adresse_ligne_2 : '') + ' ' + (result.siege.code_postal ? result.siege.code_postal : '') + ' ' + result.siege.ville + ' ' + result.siege.pays,
     };

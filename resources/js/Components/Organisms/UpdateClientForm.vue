@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col h-auto py-10 pt-3">
       <form
-        @submit.prevent="createClient"
+        @submit.prevent="updateClient"
         class="flex flex-col w-full pt-3 space-y-2"
       >
         <div class="flex w-full pt-3 space-x-2">
@@ -49,10 +49,12 @@
             name="address"
             label="Adresse"
             placeholder="Adresse du client"
+            :value="form.address"
             @place_changed="setAddressData"
           />
 
           <div class="flex w-full space-x-2">
+
             <DefaultInput
               class="w-1/3"
               :required="true"
@@ -159,8 +161,9 @@
             name="address"
             label="Adresse de Facturation"
             placeholder="Adresse du client"
+            :value="form.address"
             @place_changed="setAddressData"
-          />
+            />
 
           <div class="flex w-full space-x-2">
             <DefaultInput
@@ -230,6 +233,16 @@
   const emit = defineEmits(["close","selectedClient"]);
   console.log('Received Selected Client: ', props.selectedClient)
 
+  const setAddressData = (location) => {
+  form.address = location.address;
+  form.city = location.city;
+  form.postalCode = location.postalCode;
+  form.country = location.country;
+  form.fullAddress = location.fullAddress;
+  form.lat = location.lat;
+  form.lng = location.lng;
+  form.googleMapUrl = location.googleMapUrl;
+    };
 
   const form = useForm({
     clientType: props.selectedClient.type,
@@ -248,16 +261,17 @@
     ? props.selectedClient.client_organization.siren
     : "",
     //Adresse
-    address: props.selectedClient.address,
-    city: "",
-    postalCode: "",
-    country: "",
-    fullAddress: "",
-    lat: "",
-    lng: "",
-    googleMapUrl: "",
+    address: props.selectedClient.address.address,
+    city: props.selectedClient.address.city,
+    postalCode: props.selectedClient.address.postal_code,
+    country:  props.selectedClient.address.country,
+    fullAddress: props.selectedClient.address.full_address,
+    lat:  props.selectedClient.address.lat,
+    lng:props.selectedClient.address.lng,
+    googleMapUrl: props.selectedClient.address.google_map_url,
   });
 
+  console.log('Adress : ', form.address)
 
 
 
@@ -310,12 +324,13 @@
       value: "Site Web et SEO",
     }
   ];
+
   const updateClient = () => {
-    // form.post(route("6dem.create.clients"), {
-    //   preserveScroll: true,
-    //   onSuccess: () => emit("close"),
-    // });
-    alert('hello from update Client')
+    form.put(route("6dem.update.clients", {id: props.selectedClient.id}), {
+        preserveScroll: true,
+        onSuccess: () => emit("close"),
+        });
+        //alert('hello from update Client')
   };
   </script>
 

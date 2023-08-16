@@ -54,12 +54,12 @@ class MovingJob extends Model
         return $this->hasOne(Quotation::class)->latestOfMany();
     }
 
-    public function loadingAddress(): HasOne
+    public function loadingLocation(): HasOne
     {
         return $this->hasOne(Location::class, 'loading_moving_job_id');
     }
 
-    public function shippingAddress(): HasOne
+    public function shippingLocation(): HasOne
     {
         return $this->hasOne(Location::class, 'shipping_moving_job_id');
     }

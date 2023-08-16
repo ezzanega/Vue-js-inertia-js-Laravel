@@ -1,5 +1,5 @@
 <template>
-  <div class="flex px-6 py-4 rounded-xl border border-gray-300 bg-white">
+  <div class="flex px-6 py-4 rounded-xl border border-gray-300 bg-white text-xs">
     <div class="lg:w-1/12 min-w-1/12 my-auto">
       <input
         name=""
@@ -11,7 +11,7 @@
     </div>
     <div class="text-left w-3/12 flex justify-center my-auto">{{ props.document.number }}</div>
     <div class="flex gap-3 text-left w-3/12 justify-center my-auto">
-      <div class="text-sm">
+      <div class="">
         <div class="font-medium text-gray-700 text-center">
           {{
             props.document.moving_job.client.type == "professional"
@@ -28,13 +28,13 @@
       </div>
     </div>
     <div v-if="props.document.status == 'Signé'" class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
+      <p class="text-left rounded-full bg-primary text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div v-if="props.document.status == 'Non signé'" class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-red-400 text-white w-fit px-5 py-1 my-auto">{{ props.document.status }}</p>
+      <p class="text-left rounded-full bg-red-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-primary text-white w-fit px-5 py-1 my-auto">{{ props.document.moving_job.client.type ==
+      <p class="text-left rounded-full bg-primary text-white w-fit px-1.5 py-1 my-auto">{{ props.document.moving_job.client.type ==
         "professional" ? "Professionnel" : "Particulier" }}</p>
     </div>
     <div class="text-left w-2/12 flex justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>

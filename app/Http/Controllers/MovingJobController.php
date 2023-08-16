@@ -47,10 +47,11 @@ class MovingJobController extends Controller
         ]);
         $option = Option::create([
             'type' => OptionType::OTHER,
-            'designation' => 'Forfait unique',
-            'quantity' => '1',
+            'designation' => '',
+            'quantity' => 1,
             'unit' => 1,
-            'price_ht' => ''
+            'unit_price_ht' => 0,
+            'total_price_ht' => 0
         ]);
 
         $option->movingJob()->associate($movingjob);
@@ -122,13 +123,12 @@ class MovingJobController extends Controller
     {
         $organization = $request->user()->organization->with('billingAddress')->first();
         $client = Client::where('id', $clientId)->with(['address', 'clientOrganization'])->first();
-        $movingjob = MovingJob::find($movingjobId);
+        $movingjob = MovingJob::where('id', $movingjobId)->with(['loadingLocation', 'shippingLocation'])->first();
         $quotation = Quotation::find($quotationId);
         $options = Option::where('moving_job_id', $movingjobId)->get();
         $insurances = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
-        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->get();
-
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
         return Inertia::render('6dem/Devis', [
             'organization' => $organization,
             'additionalFields' => [],
@@ -140,40 +140,9 @@ class MovingJobController extends Controller
             ),
             'insurances' => $insurances,
             'settings' => $settings,
-            'movingJob' => $movingjob->only(
-                'id',
-                'capacity',
-                'formula',
-                'loading_address',
-                'loading_date',
-                'loading_floor',
-                'loading_elevator',
-                'loading_portaging',
-                'loading_details',
-                'shipping_address',
-                'shipping_date',
-                'shipping_floor',
-                'shipping_elevator',
-                'shipping_portaging',
-                'shipping_details',
-                'discount_percentage',
-                'discount_amount_ht',
-                'advance',
-                'distance',
-                'balance',
-            ),
+            'movingJob' => $movingjob,
             'options' => $options,
-            'client' => $client->only(
-                'id',
-                'type',
-                'last_name',
-                'first_name',
-                'phone_number',
-                'email',
-                'address',
-                'source',
-                'client_organization'
-            ),
+            'client' => $client,
             'status' => session('status'),
         ]);
     }
@@ -195,44 +164,13 @@ class MovingJobController extends Controller
             'executingCompanies' => $executingCompanies,
             'organization' => $organization,
             'waybill' => $waybill,
+            'movingjob' => $movingjob,
             'additionalFields' => $additionalFields,
             'movingJobFormulas' => $movingJobFormulas,
             'insurances' => $insurance,
             'settings' => $settings,
             'options' => $options,
-            'movingJob' => $movingjob->only(
-                'id',
-                'capacity',
-                'formula',
-                'loading_address',
-                'loading_date',
-                'loading_floor',
-                'loading_elevator',
-                'loading_portaging',
-                'loading_details',
-                'shipping_address',
-                'shipping_date',
-                'shipping_floor',
-                'shipping_elevator',
-                'shipping_portaging',
-                'shipping_details',
-                'discount_percentage',
-                'discount_amount_ht',
-                'advance',
-                'distance',
-                'balance',
-            ),
-            'client' => $client->only(
-                'id',
-                'type',
-                'last_name',
-                'first_name',
-                'phone_number',
-                'email',
-                'address',
-                'source',
-                'client_organization'
-            ),
+            'client' => $client,
             'status' => session('status'),
         ]);
     }
@@ -264,39 +202,8 @@ class MovingJobController extends Controller
             'insurances' => $insurance,
             'settings' => $settings,
             'options' => $options,
-            'movingJob' => $movingjob->only(
-                'id',
-                'capacity',
-                'formula',
-                'loading_address',
-                'loading_date',
-                'loading_floor',
-                'loading_elevator',
-                'loading_portaging',
-                'loading_details',
-                'shipping_address',
-                'shipping_date',
-                'shipping_floor',
-                'shipping_elevator',
-                'shipping_portaging',
-                'shipping_details',
-                'discount_percentage',
-                'discount_amount_ht',
-                'advance',
-                'distance',
-                'balance',
-            ),
-            'client' => $client->only(
-                'id',
-                'type',
-                'last_name',
-                'first_name',
-                'phone_number',
-                'email',
-                'address',
-                'source',
-                'client_organization'
-            ),
+            'movingJob' => $movingjob,
+            'client' => $client,
             'status' => session('status'),
         ]);
     }
@@ -310,7 +217,7 @@ class MovingJobController extends Controller
             $field =>  'required|string|max:125',
         ]);
 
-        if ($field === "validity_duration") {
+        if ($field === "validity_duratation") {
             $quotation->update([
                 $field => $request->$field,
             ]);
@@ -319,6 +226,7 @@ class MovingJobController extends Controller
                 $field => $request->$field,
             ]);
         }
+        return back();
     }
 
     public function createUpdateLocation(Request $request, $id, $from)
@@ -333,7 +241,7 @@ class MovingJobController extends Controller
 
         if ($request->type == 'loading') {
             $movingjob->update(['loading_address' => $request->fullAddress]);
-            $movingjob->loadingAddress()->updateOrCreate([], [
+            $movingjob->loadingLocation()->updateOrCreate([], [
                 'address' => $request->address,
                 'city' => $request->city,
                 'postal_code' => $request->postalCode,
@@ -345,7 +253,7 @@ class MovingJobController extends Controller
             ]);
         } else {
             $movingjob->update(['shipping_address' => $request->fullAddress]);
-            $movingjob->shippingAddress()->updateOrCreate([], [
+            $movingjob->shippingLocation()->updateOrCreate([], [
                 'address' => $request->address,
                 'city' => $request->city,
                 'postal_code' => $request->postalCode,
@@ -359,12 +267,12 @@ class MovingJobController extends Controller
 
         $movingjob->refresh();
 
-        if ($movingjob->loadingAddress && $movingjob->shippingAddress) {
+        if ($movingjob->loadingLocation && $movingjob->shippingLocation) {
             $distance = $this->calculateDistance(
-                $movingjob->loadingAddress->lat,
-                $movingjob->loadingAddress->lng,
-                $movingjob->shippingAddress->lat,
-                $movingjob->shippingAddress->lng
+                $movingjob->loadingLocation->lat,
+                $movingjob->loadingLocation->lng,
+                $movingjob->shippingLocation->lat,
+                $movingjob->shippingLocation->lng
             );
             $movingjob->update(['distance' => $distance]);
             return back()->with('distance', $distance);

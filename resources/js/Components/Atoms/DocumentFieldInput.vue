@@ -3,7 +3,7 @@
     <div class="flex" :class="classText">
       <span
         contenteditable="true"
-        class="editable"
+        class="editable prevent-line-break"
         :class="[fontBold ? 'font-bold' : '']"
         :placeholder="placeholder"
         @input="handleInput"
@@ -88,12 +88,13 @@ const handleInput = () => {
   outline: none;
   cursor: text;
   background-color: #edf3f1;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 [contenteditable="true"]:empty:before {
   content: attr(placeholder);
+}
+.editable.prevent-line-break br {
+    display: none
 }
 </style>
   
