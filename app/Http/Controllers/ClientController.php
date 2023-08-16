@@ -217,7 +217,7 @@ class ClientController extends Controller
                         $query->where('name', 'LIKE', "%{$search_text}%");
                     });
             })
-            ->with('clientOrganization')
+            ->with('clientOrganization','address')
             ->take(20)
             ->get();
         return $clients;
