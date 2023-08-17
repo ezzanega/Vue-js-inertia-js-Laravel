@@ -116,9 +116,9 @@ export const paymentProcessOptions = () => {
 export function getAdvanceOrBalance(value, type) {
     const [advance, balance] = value.split('-').map(Number);
     if (type === 'advance') {
-        return advance;
+        return advance ? advance : 0;
     } else if (type === 'balance') {
-        return balance;
+        return balance ? balance : 0;
     } else {
         return null;
     }
