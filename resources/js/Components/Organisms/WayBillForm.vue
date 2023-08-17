@@ -48,11 +48,6 @@
             :value="currentOrganisation.billing_address.full_address" />
         </DocumentFieldFrame>
       </div>
-
-      <div class="text-center text-3xl font-bold py-5">
-        <h1>Informations clients</h1>
-      </div>
-
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
@@ -72,11 +67,11 @@
       </div>
       <div v-if="currentClient.type == 'professional'">
         <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Nom complet de l'entreprise"
+          <DocumentFieldInput placeholder="Nom complet du client/de l'entreprise"
             :value="currentClient.client_organization?.name" />
         </DocumentFieldFrame>
       </div>
-      <div class="pb-8">
+      <div>
         <DocumentFieldFrame>
           <DocumentFieldInput placeholder="Adresse du client" :value="currentClient.address.full_address" />
         </DocumentFieldFrame>
@@ -97,7 +92,7 @@
           </div>
           <div>
             <DocumentFieldFrame>
-              <DocumentFieldInput :value="currentMovingJob.capacity" v-model="movingjob.capacity" @savingValue="saveField('capacity')" placeholder="Volume(en m³)" :fontBold="true" />
+              <DocumentFieldInput :value="currentMovingJob.capacity" placeholder="Volume(en m³)" :fontBold="true" />
             </DocumentFieldFrame>
           </div>
           <div>
@@ -312,19 +307,22 @@ import { reformatLocation, paymentProcessOptions, calculateTotalHT, calculatePer
 
 
 const user = usePage().props.auth.user;
-const currentSettings = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
 const currentWaybill = usePage().props.waybill;
 const currentMovingJob = usePage().props.movingjob;
 const currentClient = usePage().props.client;
+const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
+const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
 const movingJobFormulas = usePage().props.movingJobFormulas;
 const executingCompanies = usePage().props.executingCompanies;
-const vat = (currentSettings.vat/100) + 1
 
 const formulaOptions = movingJobFormulas.map(item => ({
   name: item.name,
   value: item.slug
 }));
+
+const vat = ref(2);
+const amount_ht = ref(2);
 
 const organization = reactive({
   name: "",
@@ -335,6 +333,23 @@ const organization = reactive({
   billing_address: "",
   phone_number: "",
   email: "",
+});
+
+const insuranceContractual = useForm({
+  max_value: currentInsuranceContractual.max_value,
+  franchise: currentInsuranceContractual.franchise,
+  amount_ht: currentInsuranceContractual.amount_ht,
+  amount_ttc: currentInsuranceContractual.amount_ht * vat.value,
+});
+
+const contractualTTC = computed(() => {
+  return amount_ht;
+});
+
+const insuranceAdValorem = useForm({
+  max_value: currentInsuranceAdValorem.max_value,
+  franchise: currentInsuranceAdValorem.franchise,
+  amount_ht: currentInsuranceAdValorem.amount_ht
 });
 
 const movingjob = useForm({
@@ -463,8 +478,6 @@ const setShippingAddressData = (location) => {
   });
 };
 
-
-
 const previewWaybill = () => {
   router.visit(route("6dem.documents.waybill.preview", currentWaybill.id), {
     method: "get",
@@ -479,5 +492,5 @@ watch(sameAddressAsClient, (value) => {
     movingjob.loading_address = "";
     saveField('loading_address');
   }
-})
+});
 </script>

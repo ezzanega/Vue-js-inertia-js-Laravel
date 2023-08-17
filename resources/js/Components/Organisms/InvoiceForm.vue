@@ -238,6 +238,7 @@ import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import SelectInvoiceType from "@/Components/Atoms/SelectInvoiceType.vue";
 import 'vue-select/dist/vue-select.css';
 import { reactive, ref, onMounted, computed } from "vue";
+import { reactive, ref, onMounted, computed } from "vue";
 
 
 const user = usePage().props.auth.user;
@@ -264,26 +265,6 @@ const invoiceTypeOptions = [
       value : "solde"
     }
   ];
-
-const vat = ref(2);
-const amount_ht = ref(2);
-
-const insuranceContractual = useForm({
-  max_value: currentInsuranceContractual.max_value,
-  franchise: currentInsuranceContractual.franchise,
-  amount_ht: currentInsuranceContractual.amount_ht,
-  amount_ttc: currentInsuranceContractual.amount_ht * vat.value,
-});
-
-const contractualTTC = computed(() => {
-  return amount_ht;
-});
-
-const insuranceAdValorem = useForm({
-  max_value: currentInsuranceAdValorem.max_value,
-  franchise: currentInsuranceAdValorem.franchise,
-  amount_ht: currentInsuranceAdValorem.amount_ht
-});
 
 const movingjob = useForm({
   capacity: currentMovingJob.capacity,
@@ -325,22 +306,22 @@ const updateInvoice = () => {
 };
 
 
-const saveInsurance = (id, field, type) => {
-  if (type === 'contractual') {
-    insuranceContractual.put(route("6dem.insurance.update", { id: id, field: field }), {
-      preserveScroll: true,
-      preserveState: true,
-      onSuccess: () => console.log("saved"),
-      onError: (errors) => console.log(errors)
-    });
-  } else {
-    insuranceAdValorem.put(route("6dem.insurance.update", { id: id, field: field }), {
-      preserveScroll: true,
-      preserveState: true,
-      onSuccess: () => console.log("saved"),
-      onError: (errors) => console.log(errors)
-    });
-  }
+const saveInvoiceType = () => {
+  invoice.put(route("6dem.invoice.update", { id: currentInvoice.id, field: 'type' }), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("saved"),
+    onError: (errors) => console.log(errors)
+  });
+};
+
+const saveFormula = () => {
+  movingjob.put(route("6dem.invoice.update", { id: currentInvoice.id, field: 'formula' }), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("saved"),
+    onError: (errors) => console.log(errors)
+  });
 };
 
 const setLoadingAddressData = (location) => {
@@ -351,10 +332,6 @@ const setLoadingAddressData = (location) => {
 const setShippingAddressData = (location) => {
   movingjob.shipping_address = location.fullAddress;
   saveField('shipping_address');
-};
-
-const updateTTC = () => {
-  insuranceContractual.amount_ttc = insuranceContractual.amount_ht * vat.value;
 };
 
 const previewInvoice = () => {
