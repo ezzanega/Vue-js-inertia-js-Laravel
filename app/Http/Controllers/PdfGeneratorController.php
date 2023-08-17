@@ -62,10 +62,8 @@ class PdfGeneratorController extends Controller
     {
         $organization = $request->user()->organization;
         $invoice = Invoice::where('id', $id)->with(['movingJob.client', 'movingJob.client.address', 'movingJob.client.clientOrganization'])->first();
-        $options = Option::where('moving_job_id', $invoice->movingJob->id)->get();
         $pdf = PDF::loadView('documents.invoice-v1', [
             'invoice' => $invoice,
-            'options' => $options,
             'settings' => $organization->settings,
             'organization' => $organization
         ]);

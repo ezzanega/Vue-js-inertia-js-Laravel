@@ -13,9 +13,8 @@ class Invoice extends Model
     protected $fillable = [
         'type',
         'number',
+        'executing_company_id',
         'amount_ht',
-        'amount_ttc',
-        'amount_tva',
         'status',
         'organization_id',
     ];
@@ -28,17 +27,5 @@ class Invoice extends Model
     public function executingCompany(): BelongsTo
     {
         return $this->belongsTo(ExecutingCompany::class, 'executing_company_id', 'id');
-    }
-
-
-    public function getTypeName(): string
-    {
-        if ($this->type === 'advance') {
-            return 'Acompte';
-        } elseif ($this->type === 'balance') {
-            return 'Solde';
-        } else {
-            return '';
-        }
     }
 }

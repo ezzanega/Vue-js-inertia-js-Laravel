@@ -124,16 +124,6 @@ export function getAdvanceOrBalance(value, type) {
     }
 }
 
-export function getAdvanceOrBalanceNameFromKey(key) {
-    if (key === 'advance') {
-        return 'Acompte';
-    } else if (key === 'balance') {
-        return 'Solde';
-    } else {
-        return '';
-    }
-}
-
 
 export const calculateTotalHT = (options, discount = 0) => {
     const total = options.reduce((total, option) => total + parseFloat(option.totalPriceHT), 0);

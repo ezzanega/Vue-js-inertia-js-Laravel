@@ -1,11 +1,11 @@
 <template>
-  <div class="2xl:px-28">
+  <div class="px-28">
     <div class="pt-14 grid justify-items-center">
       <UploadFile class="w-1/6" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
     </div>
     <div class="flex flex-col space-y-5 px-10 pb-5 mt-24">
       <div class="text-center text-4xl font-bold pb-2">
-        <h1>Facture pour le devis N°{{ currentQuotation.number + ' formule: ' + currentMovingJob.formula }}</h1>
+        <h1>Informations pré-remplies</h1>
       </div>
       <DocumentLabel name="Informations de la société de déménagement" color="#438A7A" />
       <div>
@@ -82,14 +82,14 @@
       <div class="grid grid-cols-2 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date de chargement"
-              :value="currentMovingJob.loading_date" :fontBold="true" />
+            <DocumentFieldInput v-model="movingjob.loading_date" placeholder="Date de chargement"
+              :value="currentMovingJob.loading_date" :fontBold="true" @savingValue="saveField('loading_date')" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date de livraison"
-              :value="currentMovingJob.shipping_date" :fontBold="true" />
+            <DocumentFieldInput placeholder="Date de livraison" v-model="movingjob.shipping_date"
+              :value="currentMovingJob.shipping_date" :fontBold="true" @savingValue="saveField('shipping_date')" />
           </DocumentFieldFrame>
         </div>
       </div>
@@ -107,79 +107,120 @@
           </DocumentFieldFrame>
         </div>
       </div>
+      <DocumentLabel name="Désignation" color="#438A7A" />
+      <div v-if="currentClient.type == 'individual'">
+        <DocumentSelectInput v-model="movingjob.formula" :value="movingjob.formula" @change="saveFormula" :options="formulaOptions" default-text="Formule de déménagament"/>
+      </div>
+      <div class="flex flex-col space-y-2 pb-8">
+        <HandleOptionsFields />
+      </div>
+      <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
+      <div class="flex space-x-2">
+        <span class="w-2/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput :value="'Assurance contractuelle'" />
+          </DocumentFieldFrame>
+        </span>
+        <span class="w-1/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceContractual.max_value"
+              :value="currentInsuranceContractual.max_value" :fontBold="true"
+              @savingValue="saveInsurance(currentInsuranceContractual.id, 'max_value', 'contractual')" />
+          </DocumentFieldFrame>
+        </span>
+        <span class="w-1/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Franchise" v-model="insuranceContractual.franchise"
+              :value="currentInsuranceContractual.franchise" :fontBold="true"
+              @savingValue="saveInsurance(currentInsuranceContractual.id, 'franchise', 'contractual')" />
+          </DocumentFieldFrame>
+        </span>
+        <span class="w-1/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Montant HT" v-model="amount_ht" @updated:value="updateTTC"
+              :value="currentInsuranceContractual.amount_ht" :fontBold="true"
+              @savingValue="saveInsurance(currentInsuranceContractual.id, 'amount_ht', 'contractual')" />
+          </DocumentFieldFrame>
+        </span>
+        <span class="w-1/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Montant TTC" :value="contractualTTC" :fontBold="true" />
+          </DocumentFieldFrame>
+        </span>
+      </div>
+      <div class="flex space-x-2">
+        <span class="w-2/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput :value="'Assurance ad valorem'" />
+          </DocumentFieldFrame>
+        </span>
+        <span class="w-1/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceAdValorem.max_value"
+              :value="currentInsuranceAdValorem.max_value" :fontBold="true"
+              @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'max_value', 'adValorem')" />
+          </DocumentFieldFrame>
+        </span>
+        <span class="w-1/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Franchise" v-model="insuranceAdValorem.franchise"
+              :value="currentInsuranceAdValorem.franchise" :fontBold="true"
+              @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'franchise', 'adValorem')" />
+          </DocumentFieldFrame>
+        </span>
+        <span class="w-1/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Montant HT" v-model="insuranceAdValorem.amount_ht"
+              :value="currentInsuranceAdValorem.amount_ht" :fontBold="true"
+              @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'amount_ht', 'adValorem')" />
+          </DocumentFieldFrame>
+        </span>
+        <span class="w-1/6 p-1">
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Montant TTC" :value="insuranceAdValorem.amount_ht * vat"
+              :fontBold="true" />
+          </DocumentFieldFrame>
+        </span>
+      </div>
     </div>
-    <div class="flex flex-col space-y-4 px-10 pb-8">
+    <div class="flex flex-col space-y-5 px-10 pb-8 mt-16">
+      <div class="text-center text-4xl font-bold pb-5">
+        <h1>Informations à remplir</h1>
+      </div>
       <DocumentLabel name="Facture" color="#438A7A" />
-      <div class="grid grid-cols-3 gap-6 justify-between">
-        <DocumentFieldFrame>
-          <div class="p-0.5">
-            <span class="w-full">
-              Déménagement de <span class="font-bold">{{ currentMovingJob.capacity }}</span>
-            </span>
-          </div>
-        </DocumentFieldFrame>
-
-        <DocumentFieldFrame>
-          <div class="p-0.5">
-              Distance de <span class="font-bold">{{ currentMovingJob.distance }}</span> 
-          </div>
-        </DocumentFieldFrame>
-
-        <DocumentFieldFrame>
-          <div class="font-bold p-0.5 flex justify-start">
-            <span class="w-1/2">
-              Total TTC : 
-            </span>
-            <span class="w-1/2">
-              {{  currentMovingJob.amount_ttc ? currentMovingJob.amount_ttc + ' €' : '' }}
-            </span>
-          </div>
-        </DocumentFieldFrame>
-      </div>
-
-      <div class="flex flex-col">
-        <span class="text-xs text-gray-500">Type de facture</span>
-        <DocumentSelectInput v-model="invoice.type" :value="invoice.type" @change="updateInvoice" :options="invoiceTypeOptions" default-text="Type de facture"/>
-      </div>
-
       <div class="grid grid-cols-3 gap-6 pb-5 justify-between">
-        <DocumentFieldFrame>
-          <div class="p-0.5 flex justify-start">
-            <span class="w-1/2">
-              Montant HT ({{ getAdvanceOrBalanceNameFromKey(invoice.type) }}) :
-            </span>
-            <span class="w-1/2 font-bold">
-              {{  invoice.amount_ht ? invoice.amount_ht + ' €' : '' }}
-            </span>
-          </div>
-        </DocumentFieldFrame>
-
-        <DocumentFieldFrame>
-          <div class="p-0.5 flex justify-start">
-            <span class="w-1/2">
-              TVA ({{ currentSettings.vat }}%) :
-            </span>
-            <span class="w-1/2 font-bold">
-              {{  invoice.amount_tva ? invoice.amount_tva + ' €' : '' }}
-            </span>
-          </div>
-        </DocumentFieldFrame>
-
-        <DocumentFieldFrame>
-          <div class="p-0.5 flex justify-start">
-            <span class="w-1/2">
-              TTC ({{ getAdvanceOrBalanceNameFromKey(invoice.type) }}) :
-            </span>
-            <span class="w-1/2 font-bold">
-              {{  invoice.amount_ttc ? invoice.amount_ttc + ' €' : '' }}
-            </span>
-          </div>
-        </DocumentFieldFrame>
+        <div>
+          <DocumentSelectInput v-model="invoice.type" :value="invoice.type" @change="saveInvoiceType" :options="invoiceTypeOptions" default-text="Type de facture"/>
+        </div>
+        <div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput :value="currentMovingJob.capacity" placeholder="Volume(en m³)"
+              v-model="movingjob.capacity" :fontBold="true" @savingValue="saveField('capacity')" />
+          </DocumentFieldFrame>
+        </div>
+        <div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Distance" />
+          </DocumentFieldFrame>
+        </div>
       </div>
-
+      <DocumentLabel name="Prix total" color="#438A7A" />
+      <div class="grid grid-cols-2 gap-6 pb-5 justify-between">
+        <div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput v-model="currentInvoice.amount_ht" :value="currentInvoice.amount_ht"
+              placeholder="Montant HT" :fontBold="true" />
+          </DocumentFieldFrame>
+        </div>
+        <div>
+          <DocumentFieldFrame>
+            <DocumentFieldInput placeholder="Montant TTC" />
+          </DocumentFieldFrame>
+        </div>
+      </div>
     </div>
-    <div class="flex flex-row w-1/3 pb-10 mt-10 mx-auto">
-      <DefaultButton @click="previewInvoice" buttontext="Générer la facture" />
+    <div class="flex flex-row w-1/6 pb-10 mt-10 mx-auto">
+      <DefaultButton @click="previewInvoice" buttontext="Générer le document" />
     </div>
   </div>
 </template>
@@ -192,51 +233,84 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
+import HandleOptionsFields from "@/Components/Organisms/HandleOptionsFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
-import { calculatePercentage, calculateTTC, getAdvanceOrBalance, getAdvanceOrBalanceNameFromKey } from "@/utils";
+import SelectInvoiceType from "@/Components/Atoms/SelectInvoiceType.vue";
+import 'vue-select/dist/vue-select.css';
+import { reactive, ref, onMounted, computed } from "vue";
 
 
 const user = usePage().props.auth.user;
-const currentSettings = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
-const currentQuotation = usePage().props.quotation;
 const currentInvoice = usePage().props.invoice;
 const currentMovingJob = usePage().props.movingJob;
 const currentClient = usePage().props.client;
+const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
+const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
+const movingJobFormulas = usePage().props.movingJobFormulas;
 
+const formulaOptions = movingJobFormulas.map(item => ({
+  name: item.name,
+  value: item.slug
+}));
 
 const invoiceTypeOptions = [
-  {
-    name :"Acompte",
-    value : "advance"
-  },
-  {
-    name : "Solde",
-    value : "balance"
-  }
-];
+    {
+      name :"Acompte",
+      value : "acompte"
+    },
+    {
+      name : "Solde",
+      value : "solde"
+    }
+  ];
 
-const invoice = useForm({
-  type: currentInvoice.type,
-  executing_company: currentInvoice.executing_company,
-  amount_ht: currentInvoice.amount_ht,
-  amount_ttc: currentInvoice.amount_ttc,
-  amount_tva: currentInvoice.amount_tva,
+const vat = ref(2);
+const amount_ht = ref(2);
+
+const insuranceContractual = useForm({
+  max_value: currentInsuranceContractual.max_value,
+  franchise: currentInsuranceContractual.franchise,
+  amount_ht: currentInsuranceContractual.amount_ht,
+  amount_ttc: currentInsuranceContractual.amount_ht * vat.value,
 });
 
-const total_ttc = invoice.amount_ht ? ref(parseFloat(invoice.amount_ht * vat).toFixed(2)) : ref(0.00);
+const contractualTTC = computed(() => {
+  return amount_ht;
+});
 
-const watchOptions = watch(
-  () => usePage().props.options,
-  (newOptions) => {
-    invoice.amount_ht = newOptions.reduce((sum, item) => sum + parseFloat(item.unit_price_ht) * parseFloat(item.quantity), 0.00).toFixed(2);
-    movingjob.discount_amount_ht = invoice.amount_ht;
-    total_ttc.value = parseFloat(invoice.amount_ht * vat).toFixed(2);
-    console.log(movingjob.discount_amount_ht);
-    saveAmount();
-  },
-  { deep: true }
-);
+const insuranceAdValorem = useForm({
+  max_value: currentInsuranceAdValorem.max_value,
+  franchise: currentInsuranceAdValorem.franchise,
+  amount_ht: currentInsuranceAdValorem.amount_ht
+});
+
+const movingjob = useForm({
+  capacity: currentMovingJob.capacity,
+  formula: currentMovingJob.formula,
+  loading_address: currentMovingJob.loading_address,
+  loading_date: currentMovingJob.loading_date,
+  loading_floor: currentMovingJob.loading_floor,
+  loading_elevator: currentMovingJob.loading_elevator,
+  loading_portaging: currentMovingJob.loading_portaging,
+  loading_details: currentMovingJob.loading_details,
+  shipping_address: currentMovingJob.shipping_address,
+  shipping_date: currentMovingJob.shipping_date,
+  shipping_floor: currentMovingJob.shipping_floor,
+  shipping_elevator: currentMovingJob.shipping_elevator,
+  shipping_portaging: currentMovingJob.shipping_portaging,
+  shipping_details: currentMovingJob.shipping_details,
+  discount_percentage: currentMovingJob.discount_percentage,
+  amount_ht: currentMovingJob.amount_ht,
+  advance: currentMovingJob.advance,
+  balance: currentMovingJob.balance
+});
+
+const invoice = useForm({
+  type: currentInvoice.type ? currentInvoice.type : "",
+  executing_company: currentInvoice.executing_company,
+  amount_ht: currentInvoice.amount_ht
+});
 
 const updateInvoice = () => {
   invoice.amount_ht = calculatePercentage(currentMovingJob.amount_ht, getAdvanceOrBalance(currentMovingJob.payment_process, invoice.type));
@@ -245,9 +319,42 @@ const updateInvoice = () => {
   invoice.put(route("6dem.invoice.update", { id: currentInvoice.id }), {
     preserveScroll: true,
     preserveState: true,
-    onSuccess: () => console.log("invoice.update"),
+    onSuccess: () => console.log("saved"),
     onError: (errors) => console.log(errors)
   });
+};
+
+
+const saveInsurance = (id, field, type) => {
+  if (type === 'contractual') {
+    insuranceContractual.put(route("6dem.insurance.update", { id: id, field: field }), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => console.log("saved"),
+      onError: (errors) => console.log(errors)
+    });
+  } else {
+    insuranceAdValorem.put(route("6dem.insurance.update", { id: id, field: field }), {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => console.log("saved"),
+      onError: (errors) => console.log(errors)
+    });
+  }
+};
+
+const setLoadingAddressData = (location) => {
+  movingjob.loading_address = location.fullAddress;
+  saveField('loading_address');
+};
+
+const setShippingAddressData = (location) => {
+  movingjob.shipping_address = location.fullAddress;
+  saveField('shipping_address');
+};
+
+const updateTTC = () => {
+  insuranceContractual.amount_ttc = insuranceContractual.amount_ht * vat.value;
 };
 
 const previewInvoice = () => {

@@ -6,6 +6,6 @@ class InvoiceType
 {
     use HasEnums;
 
-    const SOLDE = 'balance';
-    const ACOMPTE = 'advance';
+    const SOLDE = 'solde';
+    const ACOMPTE = 'acompte';
 }

@@ -19,8 +19,6 @@ return new class extends Migration
             $table->enum('type', InvoiceType::values());
             $table->string('number')->nullable();
             $table->string('amount_ht')->nullable();
-            $table->string('amount_ttc')->nullable();
-            $table->string('amount_tva')->nullable();
             $table->enum('status', InvoiceStatus::values());
             $table->foreignId('executing_company_id')->nullable();
             $table->foreignId('organization_id')->nullable();
