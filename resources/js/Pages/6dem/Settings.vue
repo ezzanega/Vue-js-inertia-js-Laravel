@@ -16,7 +16,12 @@
                 </div>
 
                 <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal"
-                :deleteOption="deleteOption" :deleteFormula="deleteFormula" :opendelModal="opendelModal" />
+                :deleteOption="deleteOption" :deleteFormula="deleteFormula" :opendelModal="opendelModal"
+                :openFormulaModal="openFormulaModal"
+                />
+
+                <!-- Pour la creation de formula -->
+                <CreateFormulas v-if="is_add_formula_Modalopen" :is_add_formula_Modalopen="is_add_formula_Modalopen"  :closeFormulaModal="closeFormulaModal"/>
 
                 <!-- Pour la modification -->
                 <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
@@ -73,6 +78,8 @@ import { Head, usePage, router } from "@inertiajs/vue3";
 import { ref } from "vue";
 import UpdateSettingsFrom from "@/Components/Settings/UpdateSettingsFrom.vue";
 import UpdateFormulas from "@/Components/Settings/UpdateFormulas.vue";
+import CreateFormulas from "@/Components/Settings/CreateFormulas.vue";
+CreateFormulas
 import UpdateInsurances from "@/Components/Settings/UpdateInsurances.vue";
 import UpdateFormulasOptions from "@/Components/Settings/UpdateFormulasOptions.vue";
 import UpdateExecutingCompanies from "@/Components/Settings/UpdateExecutingCompanies.vue";
@@ -96,6 +103,19 @@ const openUpModal = (option) => {
 
 const closeUpModal = () => {
     isUpModalopen.value = false;
+};
+//fin Open  et Close
+
+//début Open  et Close
+const is_add_formula_Modalopen = ref(false);
+
+const openFormulaModal = (option) => {
+  is_add_formula_Modalopen.value = true;
+
+};
+
+const closeFormulaModal = () => {
+    is_add_formula_Modalopen.value = false;
 };
 //fin Open  et Close
 

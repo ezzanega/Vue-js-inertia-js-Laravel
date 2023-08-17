@@ -4,7 +4,7 @@
         <div class="md:col-span-1">
           <h3 class="text-lg font-medium leading-6 text-neutral-900">
             Formules de déménagement
-            <button class="bg-primary hover:bg-green-700 text-white text-sm py-1 px-3 rounded shadow">
+            <button class="bg-primary hover:bg-green-700 text-white text-sm py-1 px-3 rounded shadow" @click="openFormulaModal">
                 New
             </button>
           </h3>
@@ -199,6 +199,7 @@
       deleteOption:Function,
       opendelModal:Function,
       deleteFormula:Function,
+      openFormulaModal:Function,
   });
    const emit = defineEmits(["deleteOption","deleteFormula"]);
 
