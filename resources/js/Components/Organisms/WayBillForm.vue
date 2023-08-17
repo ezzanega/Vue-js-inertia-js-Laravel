@@ -208,7 +208,7 @@
         <DocumentLabel name="Options" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
-        <DynamicFields />
+        <HandleOptionsFields />
       </div>
     </div>
     <div class="flex flex-col space-y-5 px-8 mt-8">
@@ -308,8 +308,8 @@
                 :value="currentMovingJob.advance" :fontBold="true" @savingValue="saveField('advance')" />
             </DocumentFieldFrame>
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.discount_amount_ht"
-                @savingValue="saveField('discount_amount_ht')" />
+              <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.amount_ht"
+                @savingValue="saveField('amount_ht')" />
             </DocumentFieldFrame>
           </div>
           <div class="space-y-5">
@@ -338,7 +338,7 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
-import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
+import HandleOptionsFields from "@/Components/Organisms/HandleOptionsFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
@@ -409,7 +409,7 @@ const movingjob = useForm({
   shipping_portaging: currentMovingJob.shipping_portaging,
   shipping_details: currentMovingJob.shipping_details,
   discount_percentage: currentMovingJob.discount_percentage,
-  discount_amount_ht: currentMovingJob.discount_amount_ht,
+  amount_ht: currentMovingJob.amount_ht,
   advance: currentMovingJob.advance,
   balance: currentMovingJob.balance
 });

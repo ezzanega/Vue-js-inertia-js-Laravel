@@ -4,7 +4,7 @@
             type="checkbox" 
             v-model="proxyChecked"
             :value="value" 
-            id="hs-basic-usage" 
+            :id="'hs-basic-usage-' + name" 
             class="relative w-[3.25rem] h-7 bg-gray-100 checked:bg-none checked:bg-primary 
             rounded-full cursor-pointer transition-colors ease-in-out duration-200 
             border border-transparent ring-1 ring-transparent focus:border-primary focus:ring-0
@@ -12,7 +12,7 @@
             before:inline-block before:w-6 before:h-6 before:bg-white 
             checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:shadow 
             before:rounded-full before:transform before:ring-0 before:transition before:ease-in-out before:duration-200">
-        <label for="hs-basic-usage" class="ml-2 text-xs">{{ label }}</label>
+        <label :for="'hs-basic-usage-' + name" class="ml-2 text-xs">{{ label }}</label>
     </div>
 </template>
 
@@ -31,6 +31,9 @@ const props = defineProps({
         required: true,
     },
     value: {
+        default: null,
+    },
+    name: {
         default: null,
     },
 });

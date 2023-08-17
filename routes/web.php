@@ -80,6 +80,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
         ->name('6dem.organization.update');
 
+    # MovingJob
+    Route::put('/6dem/documents/movingjob/update/{id}', [MovingJobController::class, 'updateMovingJob'])
+        ->name('6dem.movingJob.update');
+
     # Quotation
     Route::post('/6dem/documents/quotation/init/{clientId}', [MovingJobController::class, 'initQuotation'])
         ->name('6dem.documents.quotation.init');
@@ -154,7 +158,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])
         ->name('6dem.option.create');
 
-    Route::put('/6dem/option/update/{id}/{field}', [OptionController::class, 'update'])
+    Route::put('/6dem/option/update/{id}', [OptionController::class, 'update'])
         ->name('6dem.option.update');
 
     Route::delete('/6dem/option/delete/{id}', [OptionController::class, 'delete'])

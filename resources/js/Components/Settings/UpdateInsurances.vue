@@ -6,7 +6,7 @@
                     Assurances
                 </h3>
                 <p class="mt-1 text-sm text-neutral-600">
-                    Configurez la valeur maximale par objet, la franchise et le montant de vos assurances.
+                    Configurez la valeur maximale par objet, la franchise et le montant de votre assurance contractuelle.
                 </p>
             </div>
             <div class="mt-5 md:col-span-2 space-y-3 md:mt-0">
@@ -19,48 +19,18 @@
                                 Assurance Contractuelle
                             </h5>
                             <div class="w-full pt-3 flex flex-col space-y-2">
-                                <DefaultInput name="quotation_validity_duratation" label="Valeur max par objet"
+                                <DefaultInput type="number" name="max_value" label="Valeur max par objet (en €)"
                                     placeholder="Valeur max par objet" v-model="contractual.max_value"
                                     :error="contractual.errors.max_value" />
                             </div>
                             <div class="w-full pt-3 flex flex-col space-y-2">
-                                <DefaultInput name="quotation_validity_duratation" label="Franchise" placeholder="Franchise"
+                                <DefaultInput type="number" name="franchise" label="Montant de la franchise (en €)" placeholder="Montant HT"
                                     v-model="contractual.franchise" :error="contractual.errors.franchise" />
                             </div>
                             <div class="w-full pt-3 flex flex-col space-y-2">
-                                <DefaultInput name="quotation_validity_duratation" label="Montant HT"
+                                <DefaultInput type="number" name="amount_ht" label="Montant HT de l'assurence (en €)"
                                     placeholder="Montant HT" v-model="contractual.amount_ht"
                                     :error="contractual.errors.amount_ht" />
-                            </div>
-                        </div>
-                        <div class="bg-neutral-50 px-4 py-4 sm:px-6">
-                            <div class="flex justify-end">
-                                <DefaultButton type="submit" buttontext="Enregistrer" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <form @submit.prevent="updateAdValorem">
-                    <div class="card bg-white ring-1 ring-neutral-600 ring-opacity-5 rounded-lg shadow overflow-hidden">
-                        <div class="px-4 py-5 sm:p-6">
-                            <Message v-show="$page.props.status === 'insurance-adValorem-updated'" status="success"
-                                message="Vos paramètres ont été mis à jour" />
-                            <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl">
-                                Assurance Ad Valorem
-                            </h5>
-                            <div class="w-full pt-3 flex flex-col space-y-2">
-                                <DefaultInput name="quotation_validity_duratation" label="Valeur max par objet"
-                                    placeholder="Valeur max par objet" v-model="adValorem.max_value"
-                                    :error="adValorem.errors.max_value" />
-                            </div>
-                            <div class="w-full pt-3 flex flex-col space-y-2">
-                                <DefaultInput name="quotation_validity_duratation" label="Franchise" placeholder="Franchise"
-                                    v-model="adValorem.franchise" :error="adValorem.errors.franchise" />
-                            </div>
-                            <div class="w-full pt-3 flex flex-col space-y-2">
-                                <DefaultInput name="quotation_validity_duratation" label="Montant HT"
-                                    placeholder="Montant HT" v-model="adValorem.amount_ht"
-                                    :error="adValorem.errors.amount_ht" />
                             </div>
                         </div>
                         <div class="bg-neutral-50 px-4 py-4 sm:px-6">

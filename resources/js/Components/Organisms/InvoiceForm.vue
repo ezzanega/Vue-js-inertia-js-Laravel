@@ -112,7 +112,7 @@
         <DocumentSelectInput v-model="movingjob.formula" :value="movingjob.formula" @change="saveFormula" :options="formulaOptions" default-text="Formule de déménagament"/>
       </div>
       <div class="flex flex-col space-y-2 pb-8">
-        <DynamicFields />
+        <HandleOptionsFields />
       </div>
       <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
       <div class="flex space-x-2">
@@ -233,7 +233,7 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
-import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
+import HandleOptionsFields from "@/Components/Organisms/HandleOptionsFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import SelectInvoiceType from "@/Components/Atoms/SelectInvoiceType.vue";
 import 'vue-select/dist/vue-select.css';
@@ -301,7 +301,7 @@ const movingjob = useForm({
   shipping_portaging: currentMovingJob.shipping_portaging,
   shipping_details: currentMovingJob.shipping_details,
   discount_percentage: currentMovingJob.discount_percentage,
-  discount_amount_ht: currentMovingJob.discount_amount_ht,
+  amount_ht: currentMovingJob.amount_ht,
   advance: currentMovingJob.advance,
   balance: currentMovingJob.balance
 });

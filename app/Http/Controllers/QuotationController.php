@@ -33,7 +33,7 @@ class QuotationController extends Controller
             })
             ->orWhereHas('movingJob.client', function ($query) use ($search_text) {
                 $query->where('first_name', 'LIKE', "%{$search_text}%")
-                ->orWhere('last_name', 'LIKE', "%{$search_text}%");
+                    ->orWhere('last_name', 'LIKE', "%{$search_text}%");
             })
             ->with('movingJob.client')
             ->take(20)
@@ -56,21 +56,21 @@ class QuotationController extends Controller
 
         $query = Quotation::with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date, $client, $clientType) {
             if ($amountHT) {
-                $movingJobQuery->orderBy('discount_amount_ht', $amountHT);
+                $movingJobQuery->orderBy('amount_ht', $amountHT);
             }
             if ($date) {
                 $movingJobQuery->orderBy('loading_date', $date);
             }
             $movingJobQuery->with(['client' => function ($clientQuery) use ($client, $clientType) {
-                    if ($client) {
-                        $clientQuery->orderBy('last_name', $client);
-                    }
-                    if ($clientType) {
-                        $clientQuery->orderBy('type', $clientType);
-                    }
-                }]);
+                if ($client) {
+                    $clientQuery->orderBy('last_name', $client);
+                }
+                if ($clientType) {
+                    $clientQuery->orderBy('type', $clientType);
+                }
+            }]);
         }])
-        ->where('organization_id', auth()->user()->organization->id);
+            ->where('organization_id', auth()->user()->organization->id);
 
         if ($number) {
             $query->orderBy('number', $number);
@@ -102,7 +102,6 @@ class QuotationController extends Controller
             }
             $quotation->delete();
             return Redirect::route('6dem.documents');
-
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
