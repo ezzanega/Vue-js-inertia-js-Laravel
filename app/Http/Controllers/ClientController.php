@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\Waybill;
 use App\Models\Location;
 use App\Models\Quotation;
@@ -51,12 +52,20 @@ class ClientController extends Controller
             ->latest()
             ->get();
 
+        $payments = Payment::with(['movingJob.client', 'movingJob.client.clientOrganization'])
+            ->whereHas('movingJob.client', function ($query) use ($id) {
+                $query->where('id', $id);
+            })
+            ->latest()
+            ->get();
+
+
         return Inertia::render('6dem/ClientDetails', [
             'client' => $client,
             'quotations' => $quotations,
             'waybills' => $waybills,
             'invoices' => $invoices,
-            'payments' => [],
+            'payments' => $payments,
         ]);
     }
 

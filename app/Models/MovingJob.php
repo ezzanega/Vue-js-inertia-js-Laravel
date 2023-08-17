@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Client;
+use App\Models\Payment;
 use App\Models\Location;
 use App\Models\Quotation;
 use Illuminate\Database\Eloquent\Model;
@@ -50,6 +51,11 @@ class MovingJob extends Model
     public function quotations(): HasMany
     {
         return $this->hasMany(Quotation::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function latestQuotation(): HasOne

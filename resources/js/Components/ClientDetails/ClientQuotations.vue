@@ -2,7 +2,7 @@
     <div class="overflow-hidden space-y-2">
       <div class="flex flex-row justify-between items-center mt-5">
         <div class="flex flex-row space-x-2 items-center">
-            <IconButton @click="" class="mt-6" text="Ajoouter un devis" >
+            <IconButton @click="initQuatation" class="mt-6" text="Ajoouter un devis" >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor" aria-hidden="true" class="pointer-events-none shrink-0 w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
@@ -31,7 +31,7 @@
         <div class="w-1/12 text-center"></div>
       </div>
         <div class="space-y-2 overflow-auto">
-          <QuotationListItem v-for="(document, index) in currentQuotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
+          <QuotationListItem v-for="(document, index) in currentQuotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
         </div>
       </div>
   </template>
@@ -41,16 +41,12 @@
   import SelectClientModal from "@/Components/Organisms/SelectClientModal.vue";
   import IconButton from "@/Components/Atoms/IconButton.vue";
   import QuotationListItem from "@/Components/Molecules/QuotationListItem.vue";
-  import { usePage } from "@inertiajs/vue3";
+  import { usePage, router } from "@inertiajs/vue3";
   import { ref } from "vue";
-  
-  
-  const props=defineProps({
-    opendelModal:Function,
-    deletequotation:Function,
-  });
+
   
   const currentQuotations = ref(usePage().props.quotations)
+  const currentClient = usePage().props.client
   
   const selectedAll = ref(false);
   
@@ -117,6 +113,15 @@
   
   const handleExportClick = () => {
     exportSelectedDocuments(selectedDocuments.value);
+  };
+
+  const initQuatation = () => {
+    router.visit(
+      route("6dem.documents.quotation.init", currentClient.id),
+      {
+        method: "post",
+      }
+    );
   };
   </script>
   

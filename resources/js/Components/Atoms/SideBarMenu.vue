@@ -158,6 +158,6 @@
   </div>
 </template>
   
-  <script setup>
-import SideBarItem from "@/Components/Atoms/SideBarItem.vue";
+<script setup>
+  import SideBarItem from "@/Components/Atoms/SideBarItem.vue";
 </script>
