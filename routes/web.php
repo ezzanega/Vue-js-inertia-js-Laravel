@@ -139,7 +139,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents/documents/invoice/{movingjobId}/{clientId}/{invoiceId}', [MovingJobController::class, 'invoice'])
         ->name('6dem.documents.invoice');
 
-    Route::put('/6dem/documents/invoice/update/{id}/{field}', [MovingJobController::class, 'updateInvoice'])
+    Route::put('/6dem/documents/invoice/update/{id}', [MovingJobController::class, 'updateInvoice'])
         ->name('6dem.invoice.update');
 
     Route::get('/6dem/documents/invoice/preview/{id}', [InvoiceController::class, 'preview'])
@@ -218,9 +218,9 @@ Route::middleware('auth')->group(function () {
     #delete Formulas options
     Route::delete('/6dem/formula/option/delete/{id}', [SettingsController::class, 'delete_Formulas_option'])->name('6dem.formula.option.delete');
 
-     #Add Option to formulas
-     Route::post('/6dem/formula/option/create/', [SettingsController::class, 'addOptionToFormula'])
-     ->name('6dem.settings.create');
+    #Add Option to formulas
+    Route::post('/6dem/formula/option/create/', [SettingsController::class, 'addOptionToFormula'])
+        ->name('6dem.settings.create');
 
 
     #Executing Companies

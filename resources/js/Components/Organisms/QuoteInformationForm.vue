@@ -377,7 +377,7 @@ import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import "vue-select/dist/vue-select.css";
-import { reactive, ref, computed } from "vue";
+import { reactive, ref } from "vue";
 import { watch } from "vue";
 import { reformatLocation, paymentProcessOptions, calculateTotalHT, calculatePercentage, calculateTTC, getAdvanceOrBalance } from "@/utils";
 
