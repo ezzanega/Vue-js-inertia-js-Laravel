@@ -104,7 +104,6 @@ const emit = defineEmits(["closeUpModal"]);
         text: props.OptionData.text,
     });
     const updateFormulasOption = (id) => {
-
         form.put(route("6dem.formula.option.update", {id: id}),
         {
             preserveScroll: true,
