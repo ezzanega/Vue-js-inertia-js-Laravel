@@ -60,7 +60,7 @@
             />
           </svg>
           <template #popper>
-            <QuotationActionsPopperContent :moving_job_id="props.document.moving_job.id" :client_id="props.document.moving_job.client.id" :id="props.document.id" :deletequotation="deletequotation" :document="document" :opendelModal="opendelModal"/>
+            <QuotationActionsPopperContent :movingjob="props.document.moving_job" :client="props.document.moving_job.client" :quotation="document" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
           </template>
         </Dropdown>
       </div>
