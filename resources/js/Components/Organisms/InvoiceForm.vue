@@ -1,11 +1,11 @@
 <template>
-  <div class="px-28">
+  <div class="2xl:px-28">
     <div class="pt-14 grid justify-items-center">
       <UploadFile class="w-1/6" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
     </div>
     <div class="flex flex-col space-y-5 px-10 pb-5 mt-24">
       <div class="text-center text-4xl font-bold pb-2">
-        <h1>Informations pré-remplies</h1>
+        <h1>Facture pour le devis N°{{ currentQuotation.number + ' formule: ' + currentMovingJob.formula }}</h1>
       </div>
       <DocumentLabel name="Informations de la société de déménagement" color="#438A7A" />
       <div>
@@ -82,14 +82,14 @@
       <div class="grid grid-cols-2 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput v-model="movingjob.loading_date" placeholder="Date de chargement"
-              :value="currentMovingJob.loading_date" :fontBold="true" @savingValue="saveField('loading_date')" />
+            <DocumentFieldInput placeholder="Date de chargement"
+              :value="currentMovingJob.loading_date" :fontBold="true" />
           </DocumentFieldFrame>
         </div>
         <div>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date de livraison" v-model="movingjob.shipping_date"
-              :value="currentMovingJob.shipping_date" :fontBold="true" @savingValue="saveField('shipping_date')" />
+            <DocumentFieldInput placeholder="Date de livraison"
+              :value="currentMovingJob.shipping_date" :fontBold="true" />
           </DocumentFieldFrame>
         </div>
       </div>
@@ -107,52 +107,79 @@
           </DocumentFieldFrame>
         </div>
       </div>
-      <DocumentLabel name="Désignation" color="#438A7A" />
-      <div v-if="currentClient.type == 'individual'">
-        <DocumentSelectInput v-model="movingjob.formula" :value="movingjob.formula" @change="saveFormula" :options="formulaOptions" default-text="Formule de déménagament"/>
-      </div>
-      <div class="flex flex-col space-y-2 pb-8">
-        <DynamicFields :movingjob="currentMovingJob.id" />
-      </div>
     </div>
-    <div class="flex flex-col space-y-5 px-10 pb-8 mt-16">
-      <div class="text-center text-4xl font-bold pb-5">
-        <h1>Informations à remplir</h1>
-      </div>
+    <div class="flex flex-col space-y-4 px-10 pb-8">
       <DocumentLabel name="Facture" color="#438A7A" />
+      <div class="grid grid-cols-3 gap-6 justify-between">
+        <DocumentFieldFrame>
+          <div class="p-0.5">
+            <span class="w-full">
+              Déménagement de <span class="font-bold">{{ currentMovingJob.capacity }}</span>
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5">
+              Distance de <span class="font-bold">{{ currentMovingJob.distance }}</span> 
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="font-bold p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Total TTC : 
+            </span>
+            <span class="w-1/2">
+              {{  currentMovingJob.amount_ttc ? currentMovingJob.amount_ttc + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+      </div>
+
+      <div class="flex flex-col">
+        <span class="text-xs text-gray-500">Type de facture</span>
+        <DocumentSelectInput v-model="invoice.type" :value="invoice.type" @change="updateInvoice" :options="invoiceTypeOptions" default-text="Type de facture"/>
+      </div>
+
       <div class="grid grid-cols-3 gap-6 pb-5 justify-between">
-        <div>
-          <DocumentSelectInput v-model="invoice.type" :value="invoice.type" @change="saveInvoiceType" :options="invoiceTypeOptions" default-text="Type de facture"/>
-        </div>
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="currentMovingJob.capacity + ' m³'" placeholder="Volume(en m³)"
-              v-model="movingjob.capacity" :fontBold="true" @savingValue="saveField('capacity')" />
-          </DocumentFieldFrame>
-        </div>
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Distance" />
-          </DocumentFieldFrame>
-        </div>
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Montant HT ({{ getAdvanceOrBalanceNameFromKey(invoice.type) }}) :
+            </span>
+            <span class="w-1/2 font-bold">
+              {{  invoice.amount_ht ? invoice.amount_ht + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              TVA ({{ currentSettings.vat }}%) :
+            </span>
+            <span class="w-1/2 font-bold">
+              {{  invoice.amount_tva ? invoice.amount_tva + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              TTC ({{ getAdvanceOrBalanceNameFromKey(invoice.type) }}) :
+            </span>
+            <span class="w-1/2 font-bold">
+              {{  invoice.amount_ttc ? invoice.amount_ttc + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
       </div>
-      <DocumentLabel name="Prix total" color="#438A7A" />
-      <div class="grid grid-cols-2 gap-6 pb-5 justify-between">
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput v-model="invoice.amount_ht" :value="invoice.amount_ht + ' €'"
-              placeholder="Montant HT" :fontBold="true" />
-          </DocumentFieldFrame>
-        </div>
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Montant TTC" :value="total_ttc + ' €'" :fontBold="true"/>
-          </DocumentFieldFrame>
-        </div>
-      </div>
+
     </div>
-    <div class="flex flex-row w-1/6 pb-10 mt-10 mx-auto">
-      <DefaultButton @click="previewInvoice" buttontext="Générer le document" />
+    <div class="flex flex-row w-1/3 pb-10 mt-10 mx-auto">
+      <DefaultButton @click="previewInvoice" buttontext="Générer la facture" />
     </div>
   </div>
 </template>
@@ -165,62 +192,36 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
-import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
-import SelectInvoiceType from "@/Components/Atoms/SelectInvoiceType.vue";
-import 'vue-select/dist/vue-select.css';
-import { reactive, ref, onMounted, computed, watch } from "vue";
+import { calculatePercentage, calculateTTC, getAdvanceOrBalance, getAdvanceOrBalanceNameFromKey } from "@/utils";
 
 
 const user = usePage().props.auth.user;
 const currentSettings = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
+const currentQuotation = usePage().props.quotation;
 const currentInvoice = usePage().props.invoice;
 const currentMovingJob = usePage().props.movingJob;
 const currentClient = usePage().props.client;
-const movingJobFormulas = usePage().props.movingJobFormulas;
-const vat = (currentSettings.vat/100) + 1
 
-const formulaOptions = movingJobFormulas.map(item => ({
-  name: item.name,
-  value: item.slug
-}));
 
 const invoiceTypeOptions = [
-    {
-      name :"Acompte",
-      value : "acompte"
-    },
-    {
-      name : "Solde",
-      value : "solde"
-    }
-  ];
-
-const movingjob = useForm({
-  capacity: currentMovingJob.capacity,
-  formula: currentMovingJob.formula,
-  loading_address: currentMovingJob.loading_address,
-  loading_date: currentMovingJob.loading_date,
-  loading_floor: currentMovingJob.loading_floor,
-  loading_elevator: currentMovingJob.loading_elevator,
-  loading_portaging: currentMovingJob.loading_portaging,
-  loading_details: currentMovingJob.loading_details,
-  shipping_address: currentMovingJob.shipping_address,
-  shipping_date: currentMovingJob.shipping_date,
-  shipping_floor: currentMovingJob.shipping_floor,
-  shipping_elevator: currentMovingJob.shipping_elevator,
-  shipping_portaging: currentMovingJob.shipping_portaging,
-  shipping_details: currentMovingJob.shipping_details,
-  discount_percentage: currentMovingJob.discount_percentage,
-  discount_amount_ht: currentMovingJob.discount_amount_ht,
-  advance: currentMovingJob.advance,
-  balance: currentMovingJob.balance
-});
+  {
+    name :"Acompte",
+    value : "advance"
+  },
+  {
+    name : "Solde",
+    value : "balance"
+  }
+];
 
 const invoice = useForm({
-  type: currentInvoice.type ? currentInvoice.type : "",
-  amount_ht: currentInvoice.amount_ht ? parseFloat( currentInvoice.amount_ht).toFixed(2) : 0.00
+  type: currentInvoice.type,
+  executing_company: currentInvoice.executing_company,
+  amount_ht: currentInvoice.amount_ht,
+  amount_ttc: currentInvoice.amount_ttc,
+  amount_tva: currentInvoice.amount_tva,
 });
 
 const total_ttc = invoice.amount_ht ? ref(parseFloat(invoice.amount_ht * vat).toFixed(2)) : ref(0.00);
@@ -237,51 +238,16 @@ const watchOptions = watch(
   { deep: true }
 );
 
-const saveField = (field) => {
-  movingjob.put(route("6dem.invoice.update", { id: currentInvoice.id, field: field }), {
+const updateInvoice = () => {
+  invoice.amount_ht = calculatePercentage(currentMovingJob.amount_ht, getAdvanceOrBalance(currentMovingJob.payment_process, invoice.type));
+  invoice.amount_tva = calculatePercentage(invoice.amount_ht, currentSettings.vat);
+  invoice.amount_ttc = calculateTTC(invoice.amount_ht, invoice.amount_tva);
+  invoice.put(route("6dem.invoice.update", { id: currentInvoice.id }), {
     preserveScroll: true,
     preserveState: true,
-    onSuccess: () => console.log("saved"),
+    onSuccess: () => console.log("invoice.update"),
     onError: (errors) => console.log(errors)
   });
-  watchOptions();
-};
-
-const saveAmount = () => {
-  invoice.put(route("6dem.invoice.update", { id: currentInvoice.id, field: 'amount_ht' }), {
-    preserveScroll: true,
-    preserveState: true,
-    onError: (errors) => console.log(errors)
-  });
-  saveField('discount_amount_ht');
-};
-
-const saveInvoiceType = () => {
-  invoice.put(route("6dem.invoice.update", { id: currentInvoice.id, field: 'type' }), {
-    preserveScroll: true,
-    preserveState: true,
-    onSuccess: () => console.log("saved"),
-    onError: (errors) => console.log(errors)
-  });
-};
-
-const saveFormula = () => {
-  movingjob.put(route("6dem.invoice.update", { id: currentInvoice.id, field: 'formula' }), {
-    preserveScroll: true,
-    preserveState: true,
-    onSuccess: () => console.log("saved"),
-    onError: (errors) => console.log(errors)
-  });
-};
-
-const setLoadingAddressData = (location) => {
-  movingjob.loading_address = location.fullAddress;
-  saveField('loading_address');
-};
-
-const setShippingAddressData = (location) => {
-  movingjob.shipping_address = location.fullAddress;
-  saveField('shipping_address');
 };
 
 const previewInvoice = () => {

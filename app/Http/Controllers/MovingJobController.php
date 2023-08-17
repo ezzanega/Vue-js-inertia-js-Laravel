@@ -14,9 +14,11 @@ use App\Models\MovingJob;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 use App\Models\AdditionalField;
+use App\Models\Enums\ClientType;
 use App\Models\Enums\OptionType;
 use App\Models\ExecutingCompany;
 use App\Models\MovingJobFormula;
+use App\Models\Enums\InsuranceType;
 use App\Models\Enums\InvoiceStatus;
 use App\Models\Enums\WaybillStatus;
 use Illuminate\Support\Facades\Http;
@@ -45,17 +47,31 @@ class MovingJobController extends Controller
             'organization_id' => $organization->id,
             'status' => QuotationStatus::NOTSIGNED
         ]);
+        $insurance = Insurance::where(['organization_id' => $organization->id, 'type' => InsuranceType::CONTRACTUAL])->first();
+
         $option = Option::create([
-            'type' => OptionType::INSURANCE,
-            'designation' => 'Déménagement',
+            'type' => OptionType::MOVING,
+            'designation' => 'Déménagement ' . ($client->type == ClientType::INDIVIDUAL ? 'particulier' : 'professionnel'),
             'quantity' => 1,
             'unit' => 1,
             'unit_price_ht' => 0,
             'total_price_ht' => 0
         ]);
 
+        $insuranceOption = Option::create([
+            'type' => OptionType::OTHER,
+            'designation' => "Assurance Contractuelle, Valeur maximale par objet: $insurance->max_value €, Montant de la franchise: $insurance->franchise €",
+            'quantity' => 1,
+            'unit' => 1,
+            'unit_price_ht' => $insurance->amount_ht ? $insurance->amount_ht : 0,
+            'total_price_ht' => $insurance->amount_ht ? $insurance->amount_ht : 0,
+        ]);
+
         $option->movingJob()->associate($movingjob);
         $option->save();
+
+        $insuranceOption->movingJob()->associate($movingjob);
+        $insuranceOption->save();
 
         $quotation->movingJob()->associate($movingjob);
         $quotation->save();
@@ -199,10 +215,12 @@ class MovingJobController extends Controller
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
         $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->get();
+        $quotation = Quotation::where('moving_job_id', $movingjobId)->first();
 
         return Inertia::render('6dem/Invoice', [
             'executingCompanies' => $executingCompanies,
             'organization' => $organization,
+            'quotation' => $quotation,
             'invoice' => $invoice,
             'additionalFields' => $additionalFields,
             'movingJobFormulas' => $movingJobFormulas,
@@ -217,8 +235,8 @@ class MovingJobController extends Controller
 
     public function updateQuotation(Request $request, $id, $field)
     {
-        $quotation = Quotation::where(['id' => $id])->first();
-        $movingjob = MovingJob::where(['id' => $quotation->moving_job_id])->first();
+        $quotation = Quotation::find($id);
+        $movingjob = MovingJob::find($quotation->moving_job_id);
 
         $request->validate([
             $field =>  'required|string|max:125',
@@ -233,6 +251,43 @@ class MovingJobController extends Controller
                 $field => $request->$field,
             ]);
         }
+        return back();
+    }
+
+
+    public function updateMovingJob(Request $request, $id)
+    {
+        $movingjob = MovingJob::find($id);
+        $movingJobData = [
+            'capacity'  => $request->capacity,
+            'formula'  => $request->formula,
+            'loading_address'  => $request->loading_address,
+            'loading_date'  => $request->loading_date,
+            'loading_floor'  => $request->loading_floor,
+            'loading_elevator'  => $request->loading_elevator,
+            'loading_portaging'  => $request->loading_portaging,
+            'loading_details'  => $request->loading_details,
+            'shipping_address'  => $request->shipping_address,
+            'shipping_date'  => $request->shipping_date,
+            'shipping_floor'  => $request->shipping_floor,
+            'shipping_elevator'  => $request->shipping_elevator,
+            'shipping_portaging'  => $request->shipping_portaging,
+            'shipping_details'  => $request->shipping_details,
+            'discount'  => $request->discount,
+            'amount_ht'  => $request->amount_ht,
+            'amount_ttc'  => $request->amount_ttc,
+            'amount_tva'  => $request->amount_tva,
+            'advance'  => $request->advance,
+            'balance'  => $request->balance,
+            'distance'  => $request->distance,
+            'payment_process'  => $request->payment_process,
+        ];
+
+        $filledMovingJobData = array_filter($movingJobData, function ($value) {
+            return $value !== null;
+        });
+
+        $movingjob->update($filledMovingJobData);
         return back();
     }
 
@@ -312,32 +367,21 @@ class MovingJobController extends Controller
         return back();
     }
 
-    public function updateInvoice(Request $request, $id, $field)
+    public function updateInvoice(Request $request, $id)
     {
-        $invoice = Invoice::where(['id' => $id])->first();
-        $movingjob = MovingJob::where(['id' => $invoice->moving_job_id])->first();
+        $invoice = Invoice::find($id);
+        $invoiceData = [
+            'type' => $request->type,
+            'amount_ht' => $request->amount_ht,
+            'amount_ttc' => $request->amount_ttc,
+            'amount_tva' => $request->amount_tva,
+            'status' => $request->status,
+        ];
+        $filledInvoiceData = array_filter($invoiceData, function ($value) {
+            return $value !== null;
+        });
 
-        $request->validate([
-            $field =>  'required|string|max:125',
-        ]);
-
-        if ($field == "type") {
-            $invoice->update([
-                $field => $request->$field,
-            ]);
-        } else if ($field == "amount_ht") {
-            $invoice->update([
-                $field => $request->$field,
-            ]);
-        } else if ($field == "executing_company") {
-            $invoice->update([
-                $field => $request->$field,
-            ]);
-        } else {
-            $movingjob->update([
-                $field => $request->$field,
-            ]);
-        }
+        $invoice->update($filledInvoiceData);
         return back();
     }
 

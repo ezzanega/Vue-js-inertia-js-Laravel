@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('number')->nullable();
+            $table->string('executing_company')->nullable();
             $table->enum('status', WaybillStatus::values());
             $table->foreignId('executing_company_id')->nullable();
             $table->foreignId('organization_id')->nullable();

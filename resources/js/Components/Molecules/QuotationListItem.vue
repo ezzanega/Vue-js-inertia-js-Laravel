@@ -35,7 +35,7 @@
     <div v-if="props.document.status == 'Non signé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-red-400 text-white w-fit p-1 my-auto">{{ props.document.status }}</span></div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
     <div class="text-left lg:w-2/12 min-w-2/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-primary text-white w-fit px-2.5 py-1 my-auto">{{props.document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier"}}</span></div>
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.discount_amount_ht }}</div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.amount_ht }}</div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"></div>
     <div class="lg:w-1/12 min-w-1/12 my-auto">
       <div class="flex flex-nowrap justify-end gap-4">

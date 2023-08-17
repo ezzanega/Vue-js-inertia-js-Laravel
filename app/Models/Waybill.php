@@ -12,7 +12,7 @@ class Waybill extends Model
 
     protected $fillable = [
         'number',
-        'executing_company_id',
+        'executing_company',
         'status',
         'organization_id'
     ];

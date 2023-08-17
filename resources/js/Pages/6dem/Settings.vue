@@ -15,27 +15,6 @@
                   </div>
                 </div>
 
-                <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal"
-                :deleteOption="deleteOption" :opendelModal="opendelModal" />
-
-              <!-- DeleteFormModal Modal -->
-              <DeleteFormModal
-                :isModaldelOpen="isModaldelOpen"
-                @closedelModal="closedelModal"
-                @deleteFunction="deleteOption(selectedOption)"
-              />
-                <!-- Pour la modification -->
-                <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
-                <!-- Pour la suppression -->
-                <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-                @closedelModal="closedelModal()" @deleteFunction="deleteOption(selectedOption)"/>
-
-                <div class="hidden sm:block" aria-hidden="true">
-                  <div class="py-5">
-                    <div class="border-t border-neutral-200"></div>
-                  </div>
-                </div>
-
                 <UpdateInsurances />
 
                 <div class="hidden sm:block" aria-hidden="true">
@@ -51,6 +30,36 @@
                     <div class="border-t border-neutral-200"></div>
                   </div>
                 </div>
+
+
+                <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal"
+                :deleteOption="deleteOption" :deleteFormula="deleteFormula" :opendelModal="opendelModal" />
+
+                <!-- Pour la modification -->
+                <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
+
+                <!-- Pour la suppression -->
+                <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+                @closedelModal="closedelModal()"
+                @deleteFunction="Deletedtype === 'option' ?
+                deleteOption(selectedOption) : deleteFormula(selectedOption)"
+                />
+                <!-- <DeleteFormModal  v-if="Deletedtype === 'formula'" :isModaldelOpen="isModaldelOpen"
+                @closedelModal="closedelModal()"
+                @deleteFunction="deleteFormula(selectedOption)"
+                />
+                <DeleteFormModal v-if="Deletedtype === 'option'" :isModaldelOpen="isModaldelOpen"
+                @closedelModal="closedelModal()"
+                @deleteFunction="deleteOption(selectedOption)"
+                /> -->
+
+                <div class="hidden sm:block" aria-hidden="true">
+                  <div class="py-5">
+                    <div class="border-t border-neutral-200"></div>
+                  </div>
+                </div>
+
+
               </div>
             </div>
           </div>
@@ -74,7 +83,7 @@ import UpdateExecutingCompanies from "@/Components/Settings/UpdateExecutingCompa
 
  const props=defineProps({
     formulas: Object,
- 
+
  })
 
 
@@ -82,11 +91,10 @@ import UpdateExecutingCompanies from "@/Components/Settings/UpdateExecutingCompa
 const isUpModalopen = ref(false);
 const selectedOption = ref(null);
 
-
 const openUpModal = (option) => {
   isUpModalopen.value = true;
   selectedOption.value = option;
-  console.log(selectedOption.value);
+
 };
 
 const closeUpModal = () => {
@@ -94,6 +102,16 @@ const closeUpModal = () => {
 };
 //fin Open  et Close
 
+
+
+
+//delete formula
+function deleteFormula(id) {
+    router.delete(`/6dem/formula/delete/${id}`, {
+        onBefore: () => opendelModal(),
+        onSuccess:() => closedelModal()
+    });
+}
 //début Open  et Close de formulaire de suppression Option
 function deleteOption(id) {
     router.delete(`/6dem/formula/option/delete/${id}`, {
@@ -103,9 +121,12 @@ function deleteOption(id) {
 }
 //début Open et Close Pop-up
 const isModaldelOpen=ref(false);
-const opendelModal = (id,type) => {
+const Deletedtype = ref(null);
+
+const opendelModal = (id,deleted) => {
     isModaldelOpen.value = true;
     selectedOption.value = id;
+    Deletedtype.value = deleted;
 };
 
 const closedelModal = () => {

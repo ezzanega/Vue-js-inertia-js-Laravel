@@ -328,7 +328,7 @@ const exportSelectedDocuments = (selectedDocuments) => {
       document.status,
       document.moving_job.loading_date,
       document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier",
-      document.moving_job.discount_amount_ht,
+      document.moving_job.amount_ht,
     ];
     worksheet.addRow(rowData);
   });

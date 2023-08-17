@@ -30,17 +30,19 @@ class OptionController extends Controller
         return $option->id;
     }
 
-    public function update(Request $request, $id, $field)
+    public function update(Request $request, $id)
     {
         $option = Option::where(['id' => $id])->first();
 
-        $request->validate([
-            $field =>  'required|max:255',
+        $validated = $request->validate([
+            'designation' => 'required',
+            'quantity' => 'required',
+            'unit' => 'required',
+            'unit_price_ht' => 'required',
+            'total_price_ht' => 'required',
         ]);
 
-        $option->update([
-            $field => $request->$field,
-        ]);
+        $option->update($validated);
     }
 
     public function delete($id)

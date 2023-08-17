@@ -31,7 +31,7 @@ class InvoiceController extends Controller
             })
             ->orWhereHas('movingJob.client', function ($query) use ($search_text) {
                 $query->where('first_name', 'LIKE', "%{$search_text}%")
-                ->orWhere('last_name', 'LIKE', "%{$search_text}%");
+                    ->orWhere('last_name', 'LIKE', "%{$search_text}%");
             })
             ->with('movingJob.client')
             ->take(20)
@@ -53,14 +53,14 @@ class InvoiceController extends Controller
 
         $query = Invoice::with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date) {
             if ($amountHT) {
-                $movingJobQuery->orderBy('discount_amount_ht', $amountHT);
+                $movingJobQuery->orderBy('amount_ht', $amountHT);
             }
             if ($date) {
                 $movingJobQuery->orderBy('loading_date', $date);
             }
             $movingJobQuery->with('client');
         }])
-        ->where('organization_id', auth()->user()->organization->id);
+            ->where('organization_id', auth()->user()->organization->id);
         if ($type) {
             $query->orderBy('type', $type);
         }
@@ -87,7 +87,6 @@ class InvoiceController extends Controller
             }
             $invoice->delete();
             return Redirect::route('6dem.documents');
-
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);

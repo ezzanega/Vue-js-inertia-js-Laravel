@@ -80,6 +80,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
         ->name('6dem.organization.update');
 
+    # MovingJob
+    Route::put('/6dem/documents/movingjob/update/{id}', [MovingJobController::class, 'updateMovingJob'])
+        ->name('6dem.movingJob.update');
+
     # Quotation
     Route::post('/6dem/documents/quotation/init/{clientId}', [MovingJobController::class, 'initQuotation'])
         ->name('6dem.documents.quotation.init');
@@ -135,7 +139,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents/documents/invoice/{movingjobId}/{clientId}/{invoiceId}', [MovingJobController::class, 'invoice'])
         ->name('6dem.documents.invoice');
 
-    Route::put('/6dem/documents/invoice/update/{id}/{field}', [MovingJobController::class, 'updateInvoice'])
+    Route::put('/6dem/documents/invoice/update/{id}', [MovingJobController::class, 'updateInvoice'])
         ->name('6dem.invoice.update');
 
     Route::get('/6dem/documents/invoice/preview/{id}', [InvoiceController::class, 'preview'])
@@ -154,7 +158,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/6dem/option/create/{id}/', [OptionController::class, 'store'])
         ->name('6dem.option.create');
 
-    Route::put('/6dem/option/update/{id}/{field}', [OptionController::class, 'update'])
+    Route::put('/6dem/option/update/{id}', [OptionController::class, 'update'])
         ->name('6dem.option.update');
 
     Route::delete('/6dem/option/delete/{id}', [OptionController::class, 'delete'])
@@ -205,10 +209,18 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/6dem/settings', [SettingsController::class, 'update'])
         ->name('6dem.settings.update');
+    #update Formulas name ans slug
+    Route::put('/6dem/formula/update/{id}', [SettingsController::class, 'update_Formulas'])->name('6dem.formula.update');
+    #delete Formulas
+    Route::delete('/6dem/formula/delete/{id}', [SettingsController::class, 'delete_Formulas'])->name('6dem.formula.delete');
 
     Route::put('/6dem/formula/option/update/{id}', [SettingsController::class, 'update_Formulas_option'])->name('6dem.formula.option.update');
     #delete Formulas options
     Route::delete('/6dem/formula/option/delete/{id}', [SettingsController::class, 'delete_Formulas_option'])->name('6dem.formula.option.delete');
+
+    #Add Option to formulas
+    Route::post('/6dem/formula/option/create/', [SettingsController::class, 'addOptionToFormula'])
+        ->name('6dem.settings.create');
 
 
     #Executing Companies

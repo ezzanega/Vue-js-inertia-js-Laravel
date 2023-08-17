@@ -28,8 +28,11 @@ return new class extends Migration
             $table->string('shipping_elevator')->nullable();
             $table->string('shipping_portaging')->nullable();
             $table->text('shipping_details')->nullable();
-            $table->string('discount_percentage')->nullable();
-            $table->string('discount_amount_ht')->nullable();
+            $table->string('payment_process')->nullable();
+            $table->string('discount')->nullable();
+            $table->string('amount_ht')->nullable();
+            $table->string('amount_ttc')->nullable();
+            $table->string('amount_tva')->nullable();
             $table->string('advance')->nullable();
             $table->string('balance')->nullable();
             $table->string('distance')->nullable();

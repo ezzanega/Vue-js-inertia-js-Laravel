@@ -4,8 +4,8 @@
       <UploadFile class="w-1/6" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
     </div>
     <div class="flex flex-col space-y-5 px-8 mt-24">
-      <div class="text-center text-4xl font-bold pb-5">
-        <h1>Informations pré-remplies</h1>
+      <div class="text-center text-3xl font-bold pb-5">
+        <h1>Informations de la société de déménagement</h1>
       </div>
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
@@ -48,7 +48,11 @@
             :value="currentOrganisation.billing_address.full_address" />
         </DocumentFieldFrame>
       </div>
-      <DocumentLabel name="Informations du client" color="#438A7A" />
+
+      <div class="text-center text-3xl font-bold py-5">
+        <h1>Informations clients</h1>
+      </div>
+
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
@@ -79,8 +83,8 @@
       </div>
     </div>
     <div class="flex flex-col space-y-5 px-8 mt-16">
-      <div class="text-center text-4xl font-bold pb-5">
-        <h1>Informations à remplir</h1>
+      <div class="text-center text-3xl font-bold pb-5">
+        <h1>Informations à remplir sur le déménagement</h1>
       </div>
       <DocumentLabel name="Lettre de voiture" color="#438A7A" />
       <DocumentSelectExecutingInput v-model="newWaybill.executing_company_id" :value="newWaybill.executing_company_id" @change="saveExecutingCompany" :options="executingCompanies" default-text="Société exécutante"/>
@@ -88,7 +92,7 @@
         <div class="grid grid-cols-3 gap-6 pb-5 justify-between">
           <div>
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Distance" />
+              <DocumentFieldInput :value="movingjob.distance" v-model="movingjob.distance" placeholder="Distance" />
             </DocumentFieldFrame>
           </div>
           <div>
@@ -206,54 +210,84 @@
     </div>
     <div class="flex flex-col space-y-5 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-5">
-        <DocumentLabel name="Options" color="#438A7A" />
+        <DocumentLabel name="Prestations" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
-        <DynamicFields />
+        <HandleOptionsFields :movingjob="currentMovingJob.id" @options:updated="optionsUpdated" />
       </div>
     </div>
-    <div class="flex flex-col px-8 pb-10 mt-10">
-      <div class="flex flex-col space-y-5 px-16">
-        <DocumentLabel name="Finalisation de la lettre de voiture" color="#438A7A" />
-        <div class="grid grid-cols-4 gap-6 justify-between">
-          <div class="space-y-5">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :value="'Tarification'" />
-            </DocumentFieldFrame>
-            <DocumentFieldFrame>
-              <DocumentFieldInput :value="'Modalités de règlement'" />
-            </DocumentFieldFrame>
+
+
+    <div class="flex flex-col space-y-2 px-8 pb-10 mt-10">
+      <DocumentLabel name="Tarification" color="#438A7A" />
+      <div class="flex flex-col space-y-2 ">
+        <ToggleButton class="my-auto  w-1/2" v-model:checked="applyDiscount" name="apply-discount" label="Appliquer une remise" />
+        <DefaultInput v-if="applyDiscount" class="my-auto w-1/2" type="number" @savingValue="updateDiscount" v-model="movingjob.discount" name="discount" placeholder="Remise (en %)" label="Remise (en %)"/>
+      </div>
+      <div class="grid grid-cols-3 gap-4 justify-between">
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Total HT {{ applyDiscount ? '(-'+movingjob.discount+'%)' : '' }} :
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.amount_ht ? movingjob.amount_ht + ' €' : '' }}
+            </span>
           </div>
-          <div>
-            <DocumentFieldFrame :className="'h-full'">
-              <DocumentFieldInput :className="'h-full'" placeholder="Remise en %" v-model="movingjob.discount_percentage"
-                :value="currentMovingJob.discount_percentage" :fontBold="true"
-                @savingValue="saveField('discount_percentage')" />
-            </DocumentFieldFrame>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              TVA ({{ currentSettings.vat }}%) :
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.amount_tva ? movingjob.amount_tva + ' €' : '' }}
+            </span>
           </div>
-          <div class="space-y-5">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Acompte en %" v-model="movingjob.advance"
-                :value="currentMovingJob.advance" :fontBold="true" @savingValue="saveField('advance')" />
-            </DocumentFieldFrame>
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.discount_amount_ht" :value="movingjob.discount_amount_ht + ' €'"/>
-            </DocumentFieldFrame>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="font-bold p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Total TTC : 
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.amount_ttc ? movingjob.amount_ttc + ' €' : '' }}
+            </span>
           </div>
-          <div class="space-y-5">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Solde en %" v-model="movingjob.balance"
-                :value="currentMovingJob.balance" :fontBold="true" @savingValue="saveField('balance')" />
-            </DocumentFieldFrame>
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :value="total_ttc + ' €'" />
-            </DocumentFieldFrame>
+        </DocumentFieldFrame>
+      </div>
+
+
+      <div class="grid grid-cols-3 gap-4 justify-between">
+        <DocumentSelectInput v-model="movingjob.payment_process" :value="movingjob.payment_process" @change="updatePaymentProcess" :options="processPaymentOptions" default-text="Modalités de règlement"/>
+        
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Accompte ({{ getAdvanceOrBalance(movingjob.payment_process, 'advance') ?? '-' }}%) :
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.advance ? movingjob.advance + ' €' : '' }}
+            </span>
           </div>
-        </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Solde ({{ getAdvanceOrBalance(movingjob.payment_process, 'balance') ?? '-' }}%) :
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.balance ? movingjob.balance + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
       </div>
     </div>
-    <div class="flex flex-row w-1/6 pb-10 mt-10 mx-auto">
-      <DefaultButton @click="previewWaybill" buttontext="Générer le document" />
+    <div class="flex flex-row w-1/3 pb-10 mt-10 mx-auto">
+      <DefaultButton @click="previewWaybill" buttontext="Générer une lettre de voiture" />
     </div>
   </div>
 </template>
@@ -266,13 +300,15 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
-import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
+import HandleOptionsFields from "@/Components/Organisms/HandleOptionsFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import DocumentSelectExecutingInput from "@/Components/Atoms/DocumentSelectExecutingInput.vue";
+import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import 'vue-select/dist/vue-select.css';
 import { reactive, ref, watch, computed } from "vue";
+import { reformatLocation, paymentProcessOptions, calculateTotalHT, calculatePercentage, calculateTTC, getAdvanceOrBalance } from "@/utils";
 
 
 const user = usePage().props.auth.user;
@@ -316,22 +352,21 @@ const movingjob = useForm({
   shipping_elevator: currentMovingJob.shipping_elevator ? currentMovingJob.shipping_elevator : "",
   shipping_portaging: currentMovingJob.shipping_portaging ? currentMovingJob.shipping_portaging : "",
   shipping_details: currentMovingJob.shipping_details ? currentMovingJob.shipping_details : "",
-  discount_percentage: currentMovingJob.discount_percentage ? currentMovingJob.discount_percentage : "",
-  discount_amount_ht: currentMovingJob.discount_amount_ht ? currentMovingJob.discount_amount_ht : 0.00,
+  discount: currentMovingJob.discount ? currentMovingJob.discount : 0,
+  amount_ht: currentMovingJob.amount_ht ? currentMovingJob.amount_ht : 0,
+  amount_tva: currentMovingJob.amount_tva ? currentMovingJob.amount_tva : 0,
+  amount_ttc: currentMovingJob.amount_ttc ? currentMovingJob.amount_ttc : 0,
   advance: currentMovingJob.advance ? currentMovingJob.advance : "",
   balance: currentMovingJob.balance ? currentMovingJob.balance : "",
-  distance: currentMovingJob.distance ? currentMovingJob.distance : ""
+  distance: currentMovingJob.distance ? currentMovingJob.distance : "",
+  payment_process: currentMovingJob.payment_process ? currentMovingJob.payment_process : ""
 });
 
-const total_ttc = movingjob.discount_amount_ht ? ref(parseFloat(movingjob.discount_amount_ht * vat).toFixed(2)) : ref(0.00);
+const currentFormula = ref(movingJobFormulas.find((obj) => {
+  return obj.slug === currentMovingJob.formula;
+}));
 
-const newWaybill = useForm({
-  executing_company_id: currentWaybill.executing_company ? currentWaybill.executing_company.id : ""
-});
-
-const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
-
-const form = reactive({
+const client = reactive({
   clientType: "individual",
   firstName: "",
   lastName: "",
@@ -344,15 +379,6 @@ const form = reactive({
   siren: "",
 });
 
-const watchOptions = watch(
-  () => usePage().props.options,
-  (newOptions) => {
-    movingjob.discount_amount_ht = newOptions.reduce((sum, item) => sum + parseFloat(item.unit_price_ht) * parseFloat(item.quantity), 0.00).toFixed(2);
-    total_ttc.value = parseFloat(movingjob.discount_amount_ht * vat).toFixed(2);
-    saveField('discount_amount_ht');
-  },
-  { deep: true }
-);
 
 const saveField = (field) => {
   console.log(movingjob[field]);
@@ -360,16 +386,6 @@ const saveField = (field) => {
     preserveScroll: true,
     preserveState: true,
     onSuccess: () => console.log("saved"),
-  });
-  watchOptions();
-};
-
-const saveFormula = () => {
-  movingjob.put(route("6dem.waybill.update", { id: currentWaybill.id, field: 'formula' }), {
-    preserveScroll: true,
-    preserveState: true,
-    onSuccess: () => console.log("saved"),
-    onError: (errors) => console.log(errors)
   });
 };
 
@@ -383,15 +399,71 @@ const saveExecutingCompany = () => {
   });
 };
 
+const updateMovingJob = () => {
+  movingjob.put(route("6dem.movingJob.update", { id: currentMovingJob.id }), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("movingJob.update"),
+    onError: (errors) => console.log(errors)
+  });
+};
+
+const updateDiscount = () => {
+  optionsUpdated(servicesOptions.value);
+};
+
+const updatePaymentProcess = () => {
+  optionsUpdated(servicesOptions.value);
+};
+
+const saveFormula = () => {
+  currentFormula.value = getFromulaByName(movingjob.formula);
+  movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: 'formula' }), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("saved"),
+    onError: (errors) => console.log(errors)
+  });
+};
+
 const setLoadingAddressData = (location) => {
   movingjob.loading_address = location.fullAddress;
-  saveField('loading_address');
+  loadingLocation.type = "loading";
+  loadingLocation.address = location.address;
+  loadingLocation.city = location.city;
+  loadingLocation.postalCode = location.postalCode;
+  loadingLocation.country = location.country;
+  loadingLocation.fullAddress = location.fullAddress;
+  loadingLocation.lat = location.lat;
+  loadingLocation.lng = location.lng;
+  loadingLocation.googleMapUrl = location.googleMapUrl;
+
+  loadingLocation.put(route("6dem.quotation.location", { id: currentQuotation.id, from: 'quotation' }), {
+    preserveScroll: true,
+    onSuccess: updateDistance,
+    onError: (errors) => console.log(errors)
+  });
 };
 
 const setShippingAddressData = (location) => {
   movingjob.shipping_address = location.fullAddress;
-  saveField('shipping_address');
+  shippingLocation.type = "shipping";
+  shippingLocation.address = location.address;
+  shippingLocation.city = location.city;
+  shippingLocation.postalCode = location.postalCode;
+  shippingLocation.country = location.country;
+  shippingLocation.fullAddress = location.fullAddress;
+  shippingLocation.lat = location.lat;
+  shippingLocation.lng = location.lng;
+  shippingLocation.googleMapUrl = location.googleMapUrl;
+  shippingLocation.put(route("6dem.quotation.location", { id: currentQuotation.id, from: 'quotation' }), {
+    preserveScroll: true,
+    onSuccess: updateDistance,
+    onError: (errors) => console.log(errors)
+  });
 };
+
+
 
 const previewWaybill = () => {
   router.visit(route("6dem.documents.waybill.preview", currentWaybill.id), {
@@ -407,5 +479,5 @@ watch(sameAddressAsClient, (value) => {
     movingjob.loading_address = "";
     saveField('loading_address');
   }
-});
+})
 </script>
