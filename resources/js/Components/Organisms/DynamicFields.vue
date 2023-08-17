@@ -42,7 +42,7 @@
             <Menu placement="bottom">
                 <AddOptionButton />
                 <template #popper>
-                    <SettingsAddButtonPopperContent @addingElevator="addRowElevator" @addingPiano="addRowPiano" @addingWarehouse="addRowWarehouse" @addingNew="addRow" />
+                    <SettingsAddButtonPopperContent @addingElevator="addRowElevator" @addingPiano="addRowPiano" @addingWarehouse="addRowWarehouse" @addingNew="addRow" @addingInsurance="addInsurance"/>
                 </template>
             </Menu>
         </span>
@@ -162,6 +162,20 @@ const addRowPiano = () => {
     );
 };
 
+const addInsurance = () => {
+    option.type = "insurance-option";
+    option.unit = 1;
+    option.designation = 'Assurance';
+    axios.post(route("6dem.option.create", props.movingjob), option)
+        .then(response => {
+            options.push({ id: response.data, description: 'Assurance', qty: 0, priceHT: 0, totalPriceHT: 0.00, selectedMeasurement:1 })
+        })
+        .catch(error => {
+            console.error(error);
+        }
+    );
+};
+
 
 const removeRow = (index, id) => {
     axios.delete(route("6dem.option.delete", id))
@@ -181,7 +195,6 @@ const saveField = (field, id, value) => {
     option.put(route("6dem.option.update", {id : id, field: field}), {
         preserveScroll: true,
         preserveState: true,
-        onSuccess: () => console.log("saved"),
         onError: (errors) => console.log(errors),
     });
 };

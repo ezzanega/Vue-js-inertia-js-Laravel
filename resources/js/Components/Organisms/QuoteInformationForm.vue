@@ -48,7 +48,12 @@
             :value="currentOrganisation.billing_address.full_address" />
         </DocumentFieldFrame>
       </div>
-      <div class="grid grid-cols-3 gap-6 justify-between">
+    </div>
+    <div class="flex flex-col space-y-2 px-8 mt-16">
+        <div class="text-center text-4xl font-bold mt-5 pb-5">
+          <h1>Informations du client</h1>
+        </div>
+        <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Prénom" :value="currentClient.first_name" />
@@ -73,6 +78,9 @@
           </DocumentFieldFrame>
         </div>
       </div>
+      <DocumentFieldFrame>
+          <DocumentFieldInput placeholder="Adresse du client" :value="currentClient.address.full_address" />
+        </DocumentFieldFrame>
     </div>
     <div class="flex flex-col space-y-2 px-8 mt-16">
       <div class="text-center text-4xl font-bold pb-5">
@@ -83,13 +91,13 @@
         <div class="grid grid-cols-2 gap-6 pb-5 justify-between">
           <div>
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Validité devis (7 jours, 1 mois ..)" :value="movingjob.validity_duratation"  v-model="movingjob.validity_duratation"
-                @savingValue="saveField('validity_duratation')" />
+              <DocumentFieldInput placeholder="Validité devis (7 jours, 1 mois ..)" :value="movingjob.validity_duratation"
+                v-model="movingjob.validity_duratation" @savingValue="saveField('validity_duratation')" />
             </DocumentFieldFrame>
           </div>
           <div>
             <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Volume(en m³)" :value="movingjob.capacity"  v-model="movingjob.capacity"
+              <DocumentFieldInput placeholder="Volume(en m³)" :value="movingjob.capacity" v-model="movingjob.capacity"
                 @savingValue="saveField('capacity')" />
             </DocumentFieldFrame>
           </div>
@@ -99,13 +107,15 @@
       <div class="grid grid-cols-2 gap-20 justify-between">
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="Chargement" color="#438A7A" />
-          <ToggleButton v-model:checked="sameAddressAsClient" label="Adresse de chargement identique à l'adresse du client ?" />
+          <ToggleButton v-model:checked="sameAddressAsClient"
+            label="Adresse de chargement identique à l'adresse du client ?" />
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
-              @place_changed="setLoadingAddressData" />
+            <DocumentFieldInputAddress :value="movingjob.loading_address" name="loading_address"
+              placeholder="Adresse de chargement" @place_changed="setLoadingAddressData" />
           </DocumentFieldFrame>
           <div v-if="movingjobLocationUrl.loading_google_map_url">
-            <a :href="movingjobLocationUrl.loading_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs">
+            <a :href="movingjobLocationUrl.loading_google_map_url" target="_blank"
+              class="border-b text-primary border-primary border-dotted text-xs">
               Voir l'adresse sur Google street map
             </a>
           </div>
@@ -145,11 +155,12 @@
           <DocumentLabel name="Livraison" color="#438A7A" />
           <div class="pt-6"></div>
           <DocumentFieldFrame>
-            <DocumentFieldInputAddress :value="movingjob.shipping_address" name="shipping_address" placeholder="Adresse de livraison"
-              @place_changed="setShippingAddressData" />
+            <DocumentFieldInputAddress :value="movingjob.shipping_address" name="shipping_address"
+              placeholder="Adresse de livraison" @place_changed="setShippingAddressData" />
           </DocumentFieldFrame>
           <div v-if="movingjobLocationUrl.shipping_google_map_url">
-            <a :href="movingjobLocationUrl.shipping_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs">
+            <a :href="movingjobLocationUrl.shipping_google_map_url" target="_blank"
+              class="border-b text-primary border-primary border-dotted text-xs">
               Voir l'adresse sur Google street map
             </a>
           </div>
@@ -188,42 +199,31 @@
       </div>
       <div class="text-center text-2xl font-bold pb-5 flex justify-center">
         <h1>Distance: </h1>
-        <DocumentFieldInput placeholder="distance" :value="movingjob.distance" v-model="movingjob.distance" @savingValue="saveField('distance')" />
+        <DocumentFieldInput placeholder="distance" :value="movingjob.distance" v-model="movingjob.distance"
+          @savingValue="saveField('distance')" />
       </div>
     </div>
 
-    <div  v-if="currentClient.type == 'individual'" class="flex flex-col space-y-2 px-8 mt-8">
+    <div v-if="currentClient.type == 'individual'" class="flex flex-col space-y-2 px-8 mt-8">
       <div class="flex flex-col mt-4 space-y-2">
         <DocumentLabel name="Formule de déménagement (Particulier)" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
-        <DocumentSelectInput v-model="movingjob.formula" :value="movingjob.formula" @change="saveFormula" :options="formulaOptaions" default-text="Formule de déménagament"/>
+        <DocumentSelectInput v-model="movingjob.formula" :value="movingjob.formula" @change="saveFormula"
+          :options="formulaOptaions" default-text="Formule de déménagament" />
       </div>
       <div v-if="currentFormula">
         <div class="space-x-2 lg:flex p-2">
           <div class="w-auto lg:w-1/2">
             <p class="text-sm text-gray-500 underline font-bold">À notre charge</p>
             <ul class="my-2 space-y-1">
-              <li
-                v-for="(option, index) in getOptionByType(currentFormula?.options,'organization-side')"
-                :key="index">
-                <a
-                  href="#"
-                  class="flex items-center p-1.5 text-xs font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
+              <li v-for="(option, index) in getOptionByType(currentFormula?.options, 'organization-side')" :key="index">
+                <a href="#"
+                  class="flex items-center p-1.5 text-xs font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
 
                   <span class="flex-1 ml-3">{{ option.text }}</span>
@@ -237,26 +237,13 @@
               À la charge du client
             </p>
             <ul class="my-2 space-y-1">
-              <li
-                v-for="(option, index) in getOptionByType(currentFormula?.options, 'client-side')"
-                :key="index">
-                <a
-                  href="#"
-                  class="flex items-center p-1.5 text-xs font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
+              <li v-for="(option, index) in getOptionByType(currentFormula?.options, 'client-side')" :key="index">
+                <a href="#"
+                  class="flex items-center p-1.5 text-xs font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span class="flex-1 ml-3">{{ option.text }}</span>
                   <div class="flex justify-end gap-4"></div>
@@ -265,7 +252,8 @@
             </ul>
           </div>
         </div>
-        <div class="text-xs text-center text-gray-500">Pour modifier les formules de déménagement, rendez-vous dans la section <span class="font-bold text-primary">Réglages</span></div>
+        <div class="text-xs text-center text-gray-500">Pour modifier les formules de déménagement, rendez-vous dans la
+          section <span class="font-bold text-primary">Réglages</span></div>
       </div>
       <div v-else class="text-xs text-red-500 text-center">Veuillez selectionner une formule de déménagement</div>
     </div>
@@ -279,71 +267,6 @@
       </div>
     </div>
 
-    <div class="flex flex-col space-y-2 px-8 mt-8">
-      <div class="flex flex-col mt-4 space-y-2">
-        <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
-        <div class="flex space-x-2">
-          <span class="w-2/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :value="'Assurance contractuelle'" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceContractual.max_value"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'max_value', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Franchise" v-model="insuranceContractual.franchise"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'franchise', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="insuranceContractual.amount_ht" :value="insuranceContractual.amount_ht"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'amount_ht', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :value="insuranceContractual.amount_ttc"/>
-            </DocumentFieldFrame>
-          </span>
-        </div>
-        <div class="flex space-x-2">
-          <span class="w-2/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :value="'Assurance ad valorem'" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceAdValorem.max_value"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'max_value', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Franchise" v-model="insuranceAdValorem.franchise"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'franchise', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="insuranceAdValorem.amount_ht"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'amount_ht', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :value="insuranceAdValorem.amount_ttc"/>
-            </DocumentFieldFrame>
-          </span>
-        </div>
-      </div>
-    </div>
     <div class="flex flex-col space-y-2 px-8 pb-10 mt-10">
       <DocumentLabel name="Finalisation du devis" color="#438A7A" />
       <div class="grid grid-cols-4 gap-6 justify-between">
@@ -367,8 +290,7 @@
               @savingValue="saveField('advance')" />
           </DocumentFieldFrame>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.discount_amount_ht"
-              @savingValue="saveField('discount_amount_ht')" />
+            <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.discount_amount_ht" :value="movingjob.discount_amount_ht + ' €'"/>
           </DocumentFieldFrame>
         </div>
         <div class="space-y-2">
@@ -377,8 +299,7 @@
               @savingValue="saveField('balance')" />
           </DocumentFieldFrame>
           <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Montant TTC"
-              :value="'Montant TTC: ' + movingjob.discount_amount_ht * vat" />
+            <DocumentFieldInput placeholder="Montant TTC" :value="total_ttc + ' €'" />
           </DocumentFieldFrame>
         </div>
       </div>
@@ -414,25 +335,12 @@ const currentClient = usePage().props.client;
 const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
 const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
 const movingJobFormulas = usePage().props.movingJobFormulas;
+const vat = (currentSettings.vat/100) + 1
 
 const formulaOptaions = movingJobFormulas.map(item => ({
   name: item.name,
   value: item.slug
 }));
-
-const insuranceContractual = useForm({
-  max_value: currentInsuranceContractual ? currentInsuranceContractual.max_value : "",
-  franchise: currentInsuranceContractual ? currentInsuranceContractual.franchise : "",
-  amount_ht: currentInsuranceContractual ? currentInsuranceContractual.amount_ht : 0,
-  amount_ttc: currentInsuranceContractual ? currentInsuranceContractual.amount_ht + (currentInsuranceContractual.amount_ht*currentSettings.vat)/100 : ""
-});
-
-const insuranceAdValorem = useForm({
-  max_value: currentInsuranceAdValorem ? currentInsuranceAdValorem.max_value : "",
-  franchise: currentInsuranceAdValorem ? currentInsuranceAdValorem.franchise : "",
-  amount_ht: currentInsuranceAdValorem ? currentInsuranceAdValorem.amount_ht : 0,
-  amount_ttc: currentInsuranceContractual ? currentInsuranceAdValorem.amount_ht + (currentInsuranceAdValorem.amount_ht*currentSettings.vat)/100 : ""
-});
 
 const movingjob = useForm({
   validity_duratation: currentQuotation.validity_duratation ? currentQuotation.validity_duratation : currentSettings.quotation_validity_duratation,
@@ -451,14 +359,16 @@ const movingjob = useForm({
   shipping_portaging: currentMovingJob.shipping_portaging ? currentMovingJob.shipping_portaging : "",
   shipping_details: currentMovingJob.shipping_details ? currentMovingJob.shipping_details : "",
   discount_percentage: currentMovingJob.discount_percentage ? currentMovingJob.discount_percentage : "",
-  discount_amount_ht: currentMovingJob.discount_amount_ht ? currentMovingJob.discount_amount_ht : 0,
+  discount_amount_ht: currentMovingJob.discount_amount_ht ? currentMovingJob.discount_amount_ht : 0.00,
   advance: currentMovingJob.advance ? currentMovingJob.advance : "",
   balance: currentMovingJob.balance ? currentMovingJob.balance : "",
   distance: currentMovingJob.distance ? currentMovingJob.distance : ""
 });
 
-const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
-const movingjobLocationUrl = ref( {
+const total_ttc = movingjob.discount_amount_ht ? ref(parseFloat(movingjob.discount_amount_ht * vat).toFixed(2)) : ref(0.00);
+
+const sameAddressAsClient = ref(movingjob.loading_address == currentClient.address.full_address);
+const movingjobLocationUrl = ref({
   loading_google_map_url: currentMovingJob.loading_location ? currentMovingJob.loading_location?.google_map_url : "",
   shipping_google_map_url: currentMovingJob.shipping_location ? currentMovingJob.shipping_location?.google_map_url : "",
 });
@@ -508,7 +418,6 @@ const loadingLocation = useForm({
   googleMapUrl: ''
 });
 
-
 watch(sameAddressAsClient, (value) => {
   if (value) {
     setLoadingAddressData(reformatLocation(currentClient.address))
@@ -517,11 +426,14 @@ watch(sameAddressAsClient, (value) => {
   }
 });
 
-watch(
-  () => insuranceContractual.amount_ht,
-  (newValue) => {
-    insuranceContractual.amount_ttc = (newValue * currentSettings.vat)/100
-  }
+const watchOptions = watch(
+  () => usePage().props.options,
+  (newOptions) => {
+    movingjob.discount_amount_ht = newOptions.reduce((sum, item) => sum + parseFloat(item.unit_price_ht) * parseFloat(item.quantity), 0.00).toFixed(2);
+    total_ttc.value = parseFloat(movingjob.discount_amount_ht * vat).toFixed(2);
+    saveField('discount_amount_ht');
+  },
+  { deep: true }
 );
 
 const saveField = (field) => {
@@ -531,6 +443,7 @@ const saveField = (field) => {
     onSuccess: () => console.log("quotation.update"),
     onError: (errors) => console.log(errors)
   });
+  watchOptions();
 };
 
 const saveFormula = () => {
@@ -599,7 +512,7 @@ const setShippingAddressData = (location) => {
 
 const updateDistance = (response) => {
   movingjobLocationUrl.value.loading_google_map_url = response.props.movingJob.loading_location?.google_map_url;
-  movingjobLocationUrl.value.shipping_google_map_url = response.props.movingJob.shipping_location?.google_map_url; 
+  movingjobLocationUrl.value.shipping_google_map_url = response.props.movingJob.shipping_location?.google_map_url;
   movingjob.distance = response.props.movingJob.distance;
 };
 

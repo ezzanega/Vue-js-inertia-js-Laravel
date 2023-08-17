@@ -6,6 +6,7 @@ class OptionType
 {
     use HasEnums;
 
+    const INSURANCE = 'insurance-option';
     const ELEVATOR = 'elevator-option';
     const PIANO = 'piano-option';
     const WAREHOUSE = 'warehouse-option';

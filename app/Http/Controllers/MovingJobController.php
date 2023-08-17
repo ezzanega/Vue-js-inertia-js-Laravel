@@ -46,8 +46,8 @@ class MovingJobController extends Controller
             'status' => QuotationStatus::NOTSIGNED
         ]);
         $option = Option::create([
-            'type' => OptionType::OTHER,
-            'designation' => '',
+            'type' => OptionType::INSURANCE,
+            'designation' => 'Déménagement',
             'quantity' => 1,
             'unit' => 1,
             'unit_price_ht' => 0,
@@ -101,9 +101,18 @@ class MovingJobController extends Controller
         $quotation = Quotation::find($quotationId);
         $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
         $client = Client::find($movingjob->client_id);
+        $options = Option::where('moving_job_id', $movingjob->id)->get();
+        $amount_ht = 0;
+        foreach ($options as $option) {
+            if (isset($option['unit_price_ht']) && isset($option['quantity'])) {
+                $amount_ht += $option['unit_price_ht'] * $option['quantity'];
+            }
+        }
+
         $invoice = Invoice::create([
             'organization_id' => $organization->id,
-            'status' => InvoiceStatus::ONHOLD
+            'status' => InvoiceStatus::ONHOLD,
+            'amount_ht' => $amount_ht
         ]);
 
         $invoice->movingJob()->associate($movingjob);
@@ -183,6 +192,9 @@ class MovingJobController extends Controller
         $additionalFields = AdditionalField::where('moving_job_id', $movingjobId)->get();
         $options = Option::where('moving_job_id', $movingjobId)->get();
         $invoice = Invoice::find($invoiceId);
+        $invoice->update([
+            'amount_ht' => $movingjob->discount_amount_ht
+        ]);
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
@@ -191,12 +203,7 @@ class MovingJobController extends Controller
         return Inertia::render('6dem/Invoice', [
             'executingCompanies' => $executingCompanies,
             'organization' => $organization,
-            'invoice' => $invoice->only(
-                'id',
-                'number',
-                'type',
-                'executing_company'
-            ),
+            'invoice' => $invoice,
             'additionalFields' => $additionalFields,
             'movingJobFormulas' => $movingJobFormulas,
             'insurances' => $insurance,
@@ -302,6 +309,7 @@ class MovingJobController extends Controller
                 $field => $request->$field,
             ]);
         }
+        return back();
     }
 
     public function updateInvoice(Request $request, $id, $field)
@@ -330,6 +338,7 @@ class MovingJobController extends Controller
                 $field => $request->$field,
             ]);
         }
+        return back();
     }
 
 
