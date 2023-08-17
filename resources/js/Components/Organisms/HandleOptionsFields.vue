@@ -7,29 +7,28 @@
             <span class="w-full text-left p-1">Prix unitaire HT</span>
             <span class="w-full text-left p-1">Prix total HT</span>
         </div>
-        <div v-for="item, index in options" :key="item">
+        <div v-for="item, index in options" :key="item.id">
             <div class="flex space-x-2">
                 <span class="w-1/5 flex-none">
                     <DocumentFieldFrame>
-                        <DocumentFieldInput :value="item.description" v-model="item.description" placeholder="Description" :fontBold="true" @savingValue="saveField('designation', item.id, item.description)"/>
+                        <DocumentFieldInput :value="item.description" v-model="item.description" placeholder="Description" :fontBold="true" @savingValue="updateOption(item)"/>
                     </DocumentFieldFrame>
                 </span>
                 <span class="w-1/5">
                     <DocumentFieldFrame>
-                        <DocumentFieldInput :value="item.qty" v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="saveField('quantity', item.id, item.qty)"/>
+                        <DocumentFieldInput :value="item.qty" v-model="item.qty" placeholder="Quantité" :fontBold="true" @savingValue="updateOption(item)"/>
                     </DocumentFieldFrame>
                 </span>
                 <span class="w-1/5">
-                    <DocumentSelectInput v-model="item.selectedMeasurement" :value="item.selectedMeasurement" @change="() => saveField('unit', item.id, item.selectedMeasurement)" :options="measurementOptions" default-text="Choisir une unité"/>
+                    <DocumentSelectInput v-model="item.selectedMeasurement" :value="item.selectedMeasurement" @change="() => updateOption(item)" :options="measurementOptions" default-text="Choisir une unité"/>
                 </span>
                 <span class="w-1/5">
                     <DocumentFieldFrame>
-                        <DocumentFieldInput :value="item.priceHT" class="w-full" v-model="item.priceHT" placeholder="Prix unitaire HT" :fontBold="true" @savingValue="saveField('unit_price_ht', item.id, item.priceHT)"/>
+                        <DocumentFieldInput :value="item.priceHT" class="w-full" v-model="item.priceHT" placeholder="Prix unitaire HT" :fontBold="true" @savingValue="updateOption(item)"/>
                     </DocumentFieldFrame>
                 </span>
                 <span class="w-1/5">
                     <DocumentFieldFrame>
-                        <!-- <DocumentFieldInput :value="item.totalPriceHT" placeholder="Prix total TTC" :fontBold="true" /> -->
                         <div class="font-bold p-0.5">{{ item.totalPriceHT + ' €' }}</div>
                     </DocumentFieldFrame>
                 </span>
@@ -60,6 +59,8 @@ import RemoveButton from "@/Components/Atoms/RemoveButton.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import { Menu } from "floating-vue";
 
+const emit = defineEmits(["options:updated"]);
+
 const currentOptions = usePage().props.options;
 
 const measurementOptions = [
@@ -72,7 +73,8 @@ const measurementOptions = [
     { name: 'm', value: 6 },
     { name: 'jour(s)', value: 7 },
     { name: 'heure(s)', value: 8 },
-    { name: 'bonhomme(s)', value: 9 },
+    { name: 'mois', value: 9 },
+    { name: 'bonhomme(s)', value: 10 },
 ];
 
 const props = defineProps({
@@ -89,14 +91,14 @@ const option = useForm({
 });
 
 const options = reactive(
-    currentOptions.map(function(option){
+    currentOptions.map(function(itmOption){
         return { 
-            id: option.id, 
-            description: option.designation, 
-            qty: option.quantity,
-            priceHT: option.unit_price_ht, 
-            totalPriceHT: option.unit_price_ht ? parseFloat(option.unit_price_ht*option.quantity).toFixed(2) : 0.00,
-            selectedMeasurement: option.unit 
+            id: itmOption.id, 
+            description: itmOption.designation, 
+            qty: itmOption.quantity,
+            priceHT: itmOption.unit_price_ht, 
+            totalPriceHT: parseFloat(itmOption.total_price_ht).toFixed(2),
+            selectedMeasurement: itmOption.unit 
         }
     })
 )
@@ -117,6 +119,7 @@ const addRow = () => {
             console.error(error);
         }
     );
+    emit('options:updated', options)
 };
 
 const addRowWarehouse = () => {
@@ -131,6 +134,7 @@ const addRowWarehouse = () => {
             console.error(error);
         }
     );  
+    emit('options:updated', options)
 };
 
 const addRowElevator = () => {
@@ -145,6 +149,7 @@ const addRowElevator = () => {
             console.error(error);
         }
     );
+    emit('options:updated', options)
 };
 
 const addRowPiano = () => {
@@ -159,30 +164,35 @@ const addRowPiano = () => {
             console.error(error);
         }
     );
+    emit('options:updated', options)
 };
 
 
 const removeRow = (index, id) => {
     axios.delete(route("6dem.option.delete", id))
         .then(response => {
-            if (options.length > 1) {
-                options.splice(index, 1)
-            }
+            options.splice(index, 1)
         })
         .catch(error => {
             console.error(error);
         }
     );
+    emit('options:updated', options)
 };
 
-const saveField = (field, id, value) => {
-    option[field] = value;
-    option.put(route("6dem.option.update", {id : id, field: field}), {
+const updateOption = (item) => {
+    option.designation = item.description;
+    option.quantity = item.qty;
+    option.unit = item.selectedMeasurement;
+    option.unit_price_ht = item.priceHT;
+    option.total_price_ht = item.totalPriceHT;
+    option.put(route("6dem.option.update", {id : item.id}), {
         preserveScroll: true,
         preserveState: true,
-        onSuccess: () => console.log("saved"),
+        onSuccess: () => console.log("option.update"),
         onError: (errors) => console.log(errors),
     });
-};
+    emit('options:updated', options)
+}
 
 </script>

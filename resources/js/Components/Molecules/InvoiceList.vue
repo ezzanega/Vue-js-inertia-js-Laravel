@@ -298,7 +298,7 @@ const exportSelectedDocuments = (selectedDocuments) => {
       document.moving_job.loading_date,
       document.type,
       document.status,
-      document.moving_job.discount_amount_ht,
+      document.moving_job.amount_ht,
     ];
     worksheet.addRow(rowData);
   });

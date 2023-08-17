@@ -15,6 +15,23 @@
                   </div>
                 </div>
 
+                <UpdateInsurances />
+
+                <div class="hidden sm:block" aria-hidden="true">
+                  <div class="py-5">
+                    <div class="border-t border-neutral-200"></div>
+                  </div>
+                </div>
+
+                <UpdateExecutingCompanies />
+
+                <div class="hidden sm:block" aria-hidden="true">
+                  <div class="py-5">
+                    <div class="border-t border-neutral-200"></div>
+                  </div>
+                </div>
+
+
                 <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal"
                 :deleteOption="deleteOption" :deleteFormula="deleteFormula" :opendelModal="opendelModal" />
 
@@ -42,21 +59,7 @@
                   </div>
                 </div>
 
-                <UpdateInsurances />
 
-                <div class="hidden sm:block" aria-hidden="true">
-                  <div class="py-5">
-                    <div class="border-t border-neutral-200"></div>
-                  </div>
-                </div>
-
-                <UpdateExecutingCompanies />
-
-                <div class="hidden sm:block" aria-hidden="true">
-                  <div class="py-5">
-                    <div class="border-t border-neutral-200"></div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
