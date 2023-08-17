@@ -46,8 +46,10 @@ class PdfGeneratorController extends Controller
     {
         $organization = $request->user()->organization;
         $waybill = Waybill::where('id', $id)->with(['movingJob.client', 'movingJob.client.address', 'movingJob.client.clientOrganization'])->first();
+        $options = Option::where('moving_job_id', $waybill->movingJob->id)->get();
         $pdf = PDF::loadView('documents.waybill-v1', [
             'waybill' => $waybill,
+            'options' => $options,
             'settings' => $organization->settings,
             'organization' => $organization
         ]);

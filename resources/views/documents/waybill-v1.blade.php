@@ -85,67 +85,12 @@
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->distance }}</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->volume }}</td>
+                    {{ $waybill->movingJob->capacity }}</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->formula }}</td>
-                <td style="padding: 8px;">HD dem</td>
+                <td style="padding: 8px;">{{ $waybill->executing_company ?? $organization->name }}</td>
             </tr>
         </table>
-
-        {{-- <!-- Livraison -->
-        <table
-            style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; float: right;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
-                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Livraison</th>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
-                    {{ $waybill->movingJob->shipping_address }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
-                    période: {{ $waybill->movingJob->shipping_date }}
-                </td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
-                    {{ $waybill->movingJob->shipping_floor }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
-                    {{ $waybill->movingJob->shipping_portaging }}</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
-                    {{ $waybill->movingJob->shipping_elevator }}</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding: 8px;">Détails: {{ $waybill->movingJob->shipping_details }}</td>
-            </tr>
-        </table>
-        <!-- Chargement -->
-        <table
-            style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
-                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Chargement</th>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
-                    {{ $waybill->movingJob->loading_address }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
-                    période: {{ $waybill->movingJob->loading_date }}
-                </td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
-                    {{ $waybill->movingJob->loading_floor }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
-                    {{ $waybill->movingJob->loading_portaging }}</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
-                    {{ $waybill->movingJob->loading_elevator }}</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding: 8px;">Détails: {{ $waybill->movingJob->loading_details }}</td>
-            </tr>
-        </table> --}}
 
         <!-- Options Table -->
         <table
@@ -153,63 +98,25 @@
             <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Quantité</th>
-                <th style="padding: 8px; border-right: 1px solid #ccc;">Valeur</th>
-                <th style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</th>
-                <th style="padding: 8px;">Prix TTC</th>
+                <th style="padding: 8px; border-right: 1px solid #ccc;">Prix unitaire HT</th>
+                <th style="padding: 8px;">Prix total HT</th>
             </tr>
-            @if ($waybill->movingJob->client->type === 'individual')
+            @foreach ($options as $item)
                 <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">
-                        Déménagement particuler, formule: <span
-                            style=" font-weight: 600;">{{ $waybill->movingJob->formula }}</span>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
+                        {{ $item->designation }}
                     </td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">1</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">100 €</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">500 €</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc;">600 €</td>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
+                        {{ $item->quantity }}</td>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
+                        {{ $item->unit_price_ht }} €</td>
+                    <td style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif">
+                        {{ $item->total_price_ht }} €</td>
                 </tr>
-            @else
-                <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">
-                        Déménagement Pro
-                    </td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">5</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">100 €</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">500 €</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc;">600 €</td>
-                </tr>
-            @endif
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Autres options</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">3</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">50 €</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">150 €</td>
-                <td style="padding: 8px;">180 €</td>
-            </tr>
-        </table>
-
-        <!-- Assurance -->
-        <table
-            style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
-                <th colspan="5" style="padding: 8px; text-transform: uppercase;">Assurance</th>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Assurance
-                    contractuelle</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Valeur max. par
-                    objet</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Franchise</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Prix HT</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Prix TTC</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Assurance ad valorem</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Valeur max. par objet</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Franchise</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</td>
-                <td style="padding: 8px;">Prix TTC</td>
-            </tr>
+            @endforeach
         </table>
 
         <!-- Véhicules -->
@@ -264,9 +171,11 @@
                 </th>
             </tr>
             <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Solde restant dû : </td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Accompte : Montant en € (réglé ou non)</td>
-                <td style="padding: 8px;">Solde TTC</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Solde restant dû :
+                    {{ $waybill->movingJob->balance }} €</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Accompte :
+                    {{ $waybill->movingJob->advance }} €</td>
+                <td style="padding: 8px;">Total TTC: {{ $waybill->movingJob->amount_ttc }} €</td>
             </tr>
         </table>
 
@@ -360,67 +269,12 @@
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->distance }}</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->volume }}</td>
+                    {{ $waybill->movingJob->capacity }}</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->formula }}</td>
-                <td style="padding: 8px;">HD dem</td>
+                <td style="padding: 8px;">{{ $waybill->executing_company ?? $organization->name }}</td>
             </tr>
         </table>
-
-        {{-- <!-- Livraison -->
-        <table
-            style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; float: right;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
-                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Livraison</th>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
-                    {{ $waybill->movingJob->shipping_address }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
-                    période: {{ $waybill->movingJob->shipping_date }}
-                </td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
-                    {{ $waybill->movingJob->shipping_floor }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
-                    {{ $waybill->movingJob->shipping_portaging }}</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
-                    {{ $waybill->movingJob->shipping_elevator }}</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding: 8px;">Détails: {{ $waybill->movingJob->shipping_details }}</td>
-            </tr>
-        </table>
-        <!-- Chargement -->
-        <table
-            style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
-                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Chargement</th>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
-                    {{ $waybill->movingJob->loading_address }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
-                    période: {{ $waybill->movingJob->loading_date }}
-                </td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
-                    {{ $waybill->movingJob->loading_floor }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
-                    {{ $waybill->movingJob->loading_portaging }}</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
-                    {{ $waybill->movingJob->loading_elevator }}</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding: 8px;">Détails: {{ $waybill->movingJob->loading_details }}</td>
-            </tr>
-        </table> --}}
 
         <!-- Options Table -->
         <table
@@ -428,63 +282,25 @@
             <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Quantité</th>
-                <th style="padding: 8px; border-right: 1px solid #ccc;">Valeur</th>
-                <th style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</th>
-                <th style="padding: 8px;">Prix TTC</th>
+                <th style="padding: 8px; border-right: 1px solid #ccc;">Prix unitaire HT</th>
+                <th style="padding: 8px;">Prix total HT</th>
             </tr>
-            @if ($waybill->movingJob->client->type === 'individual')
+            @foreach ($options as $item)
                 <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">
-                        Déménagement particuler, formule: <span
-                            style=" font-weight: 600;">{{ $waybill->movingJob->formula }}</span>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
+                        {{ $item->designation }}
                     </td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">1</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">100 €</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">500 €</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc;">600 €</td>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
+                        {{ $item->quantity }}</td>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
+                        {{ $item->unit_price_ht }} €</td>
+                    <td style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif">
+                        {{ $item->total_price_ht }} €</td>
                 </tr>
-            @else
-                <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">
-                        Déménagement Pro
-                    </td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">5</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">100 €</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">500 €</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ccc;">600 €</td>
-                </tr>
-            @endif
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Autres options</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">3</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">50 €</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">150 €</td>
-                <td style="padding: 8px;">180 €</td>
-            </tr>
-        </table>
-
-        <!-- Assurance -->
-        <table
-            style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
-                <th colspan="5" style="padding: 8px; text-transform: uppercase;">Assurance</th>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Assurance
-                    contractuelle</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Valeur max. par
-                    objet</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Franchise</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Prix HT</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Prix TTC</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Assurance ad valorem</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Valeur max. par objet</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Franchise</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</td>
-                <td style="padding: 8px;">Prix TTC</td>
-            </tr>
+            @endforeach
         </table>
 
         <!-- Véhicules -->
@@ -540,9 +356,11 @@
                 </th>
             </tr>
             <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Solde restant dû : </td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Accompte : Montant en € (réglé ou non)</td>
-                <td style="padding: 8px;">Solde TTC</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Solde restant dû :
+                    {{ $waybill->movingJob->balance }} €</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Accompte :
+                    {{ $waybill->movingJob->advance }} €</td>
+                <td style="padding: 8px;">Total TTC: {{ $waybill->movingJob->amount_ttc }} €</td>
             </tr>
         </table>
 
