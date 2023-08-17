@@ -34,7 +34,7 @@
           <SelectQuoteModal />
         </ListEmptyMessage>
       </Tab>
-      <Tab title="Facture">
+      <Tab title="Factures">
         <div v-if="$page.props.invoices.length">
           <div class="mt-2">
             <InvoiceList :deleteFacture="deleteFacture" :opendelModal="opendelModal"/>

@@ -56,7 +56,7 @@ Route::get('/test-quotation-doc', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])
+    Route::get('/', [DashboardController::class, 'redirect'])
         ->name('6dem.index');
 
     Route::get('/6dem/dashboard', [DashboardController::class, 'index'])
@@ -272,12 +272,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/clients', [ClientController::class, 'index'])
         ->name('6dem.clients');
 
-    # Create Client
-    Route::post('/6dem/clients/create', [ClientController::class, 'store'])
-        ->name('6dem.create.clients');
     # Search Client
     Route::get('/6dem/clients/search', [ClientController::class, 'search'])
         ->name('6dem.search.clients');
+
+    Route::get('/6dem/clients/details/{id}', [ClientController::class, 'clientDetails'])
+        ->name('6dem.clients.details');
+
+    # Create Client
+    Route::post('/6dem/clients/create', [ClientController::class, 'store'])
+        ->name('6dem.create.clients');
     # Delete Client
     Route::delete('/6dem/clients/delete/{id}', [ClientController::class, 'deleteClient'])
         ->name('6dem.delete.clients');

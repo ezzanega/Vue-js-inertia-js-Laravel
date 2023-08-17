@@ -1,6 +1,11 @@
 <template>
     <div class="w-auto">
       <div class="space-y-0.5">
+        <PopperItem item="Fiche du client" @clicked="goToClientDetails">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+        </PopperItem>
         <PopperItem item="Modifier" @clicked="openUpdateClient">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +104,7 @@
   };
 
   const openUpdateClient = () => {
-    emit('openUpdateClient', props.selectedClient); // Emit the event with the selectedClient data
+    emit('openUpdateClient', props.selectedClient);
   }
 
   const initQuatation = () => {
@@ -107,6 +112,16 @@
       route("6dem.documents.quotation.init", props.client.id),
       {
         method: "post",
+      }
+    );
+  };
+
+
+  const goToClientDetails = () => {
+    router.visit(
+      route("6dem.clients.details", props.client.id),
+      {
+        method: "get",
       }
     );
   };

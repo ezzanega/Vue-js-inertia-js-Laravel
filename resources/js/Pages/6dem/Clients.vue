@@ -19,28 +19,13 @@
 
 import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head, usePage } from "@inertiajs/vue3";
-import IconButton from "@/Components/Atoms/IconButton.vue";
 import ClientList from "@/Components/Molecules/ClientList.vue";
-import Drawer from "@/Components/Organisms/Drawer.vue";
-import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 import ClientMailModal from "@/Components/Molecules/ClientMailModal.vue";
 import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
-import DrawerContent from "@/Components/Molecules/DrawerContent.vue";
 import { ref } from "vue";
 import { router } from '@inertiajs/vue3'
 
-
-
-let isDrawerOpen = ref(false);
 const currentClient = ref(null);
-
-const toggleDrawer = () => {
-  isDrawerOpen.value = !isDrawerOpen.value;
-};
-
-const closeDrawer = () => {
-  isDrawerOpen.value = false;
-};
 
 const isMailOpen = ref(false);
 
@@ -71,7 +56,4 @@ const opendelModal = (id,type) => {
 const closedelModal = () => {
     isModaldelOpen.value = false;
 };
-//fin Open et Close Pop-up
-
-//fin Open et Close de formulaire de suppression Client
 </script>
