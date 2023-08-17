@@ -48,12 +48,12 @@
             :value="currentOrganisation.billing_address.full_address" />
         </DocumentFieldFrame>
       </div>
-    </div>
-    <div class="flex flex-col space-y-2 px-8 mt-16">
-        <div class="text-center text-4xl font-bold mt-5 pb-5">
-          <h1>Informations du client</h1>
-        </div>
-        <div class="grid grid-cols-3 gap-6 justify-between">
+
+      <div class="text-center text-3xl font-bold py-5">
+        <h1>Informations clients</h1>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Prénom" :value="currentClient.first_name" />
@@ -78,9 +78,11 @@
           </DocumentFieldFrame>
         </div>
       </div>
-      <DocumentFieldFrame>
+      <div>
+        <DocumentFieldFrame>
           <DocumentFieldInput placeholder="Adresse du client" :value="currentClient.address.full_address" />
         </DocumentFieldFrame>
+      </div>
     </div>
     <div class="flex flex-col space-y-2 px-8 mt-16">
       <div class="text-center text-3xl font-bold pb-5">
@@ -107,8 +109,7 @@
       <div class="grid grid-cols-2 gap-20 justify-between">
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="Chargement" color="#438A7A" />
-          <ToggleButton v-model:checked="sameAddressAsClient"
-            label="Adresse de chargement identique à l'adresse du client ?" />
+          <ToggleButton v-model:checked="sameAddressAsClient" name="same-address" label="Adresse de chargement identique à l'adresse du client ?" />
           <DocumentFieldFrame>
             <DocumentFieldInputAddress :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
               @place_changed="setLoadingAddressData" />
@@ -288,109 +289,75 @@
       </div>
     </div>
 
-    <div class="flex flex-col space-y-2 px-8 mt-8">
-      <div class="flex flex-col mt-4 space-y-2">
-        <DocumentLabel name="Assurances (optionnel)" color="#438A7A" />
-        <div class="flex space-x-2">
-          <span class="w-2/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :value="'Assurance contractuelle'" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceContractual.max_value"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'max_value', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Franchise" v-model="insuranceContractual.franchise"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'franchise', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="insuranceContractual.amount_ht" :value="insuranceContractual.amount_ht"
-                @savingValue="saveInsurance(currentInsuranceContractual.id, 'amount_ht', 'contractual')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :value="insuranceContractual.amount_ttc"/>
-            </DocumentFieldFrame>
-          </span>
-        </div>
-        <div class="flex space-x-2">
-          <span class="w-2/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput :value="'Assurance ad valorem'" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Valeur max par objet" v-model="insuranceAdValorem.max_value"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'max_value', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Franchise" v-model="insuranceAdValorem.franchise"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'franchise', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant HT" v-model="insuranceAdValorem.amount_ht"
-                @savingValue="saveInsurance(currentInsuranceAdValorem.id, 'amount_ht', 'adValorem')" />
-            </DocumentFieldFrame>
-          </span>
-          <span class="w-1/6 p-1">
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Montant TTC" :value="insuranceAdValorem.amount_ttc"/>
-            </DocumentFieldFrame>
-          </span>
-        </div>
-      </div>
-    </div>
     <div class="flex flex-col space-y-2 px-8 pb-10 mt-10">
-      <DocumentLabel name="Finalisation du devis" color="#438A7A" />
-      <div class="grid grid-cols-4 gap-6 justify-between">
-        <div class="space-y-2">
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="'Tarification'" />
-          </DocumentFieldFrame>
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="'Modalités de règlement'" />
-          </DocumentFieldFrame>
-        </div>
-        <div>
-          <DocumentFieldFrame :className="'h-full'">
-            <DocumentFieldInput :className="'h-full'" placeholder="Remise en %" v-model="movingjob.discount_percentage"
-              @savingValue="saveField('discount_percentage')" />
-          </DocumentFieldFrame>
-        </div>
-        <div class="space-y-2">
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Acompte en %" v-model="movingjob.advance"
-              @savingValue="saveField('advance')" />
-          </DocumentFieldFrame>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Montant HT" v-model="movingjob.discount_amount_ht" :value="movingjob.discount_amount_ht + ' €'"/>
-          </DocumentFieldFrame>
-        </div>
-        <div class="space-y-2">
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Solde en %" v-model="movingjob.balance"
-              @savingValue="saveField('balance')" />
-          </DocumentFieldFrame>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Montant TTC" :value="total_ttc + ' €'" />
-          </DocumentFieldFrame>
-        </div>
+      <DocumentLabel name="Tarification" color="#438A7A" />
+      <div class="flex flex-col space-y-2 ">
+        <ToggleButton class="my-auto  w-1/2" v-model:checked="applyDiscount" name="apply-discount" label="Appliquer une remise" />
+        <DefaultInput v-if="applyDiscount" class="my-auto w-1/2" type="number" @savingValue="updateDiscount" v-model="movingjob.discount" name="discount" placeholder="Remise (en %)" label="Remise (en %)"/>
+      </div>
+      <div class="grid grid-cols-3 gap-4 justify-between">
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Total HT {{ applyDiscount ? '(-'+movingjob.discount+'%)' : '' }} :
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.amount_ht ? movingjob.amount_ht + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              TVA ({{ currentSettings.vat }}%) :
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.amount_tva ? movingjob.amount_tva + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="font-bold p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Total TTC : 
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.amount_ttc ? movingjob.amount_ttc + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+      </div>
+
+
+      <div class="grid grid-cols-3 gap-4 justify-between">
+        <DocumentSelectInput v-model="movingjob.payment_process" :value="movingjob.payment_process" @change="updatePaymentProcess" :options="processPaymentOptions" default-text="Modalités de règlement"/>
+        
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Accompte ({{ getAdvanceOrBalance(movingjob.payment_process, 'advance') ?? '-' }}%) :
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.advance ? movingjob.advance + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
+
+        <DocumentFieldFrame>
+          <div class="p-0.5 flex justify-start">
+            <span class="w-1/2">
+              Solde ({{ getAdvanceOrBalance(movingjob.payment_process, 'balance') ?? '-' }}%) :
+            </span>
+            <span class="w-1/2">
+              {{  movingjob.balance ? movingjob.balance + ' €' : '' }}
+            </span>
+          </div>
+        </DocumentFieldFrame>
       </div>
     </div>
-    <div class="flex flex-row w-1/6 pb-10 mt-10 mx-auto">
+    <div class="flex flex-row w-1/3 pb-10 mt-10 mx-auto">
       <DefaultButton @click="previewQuotation" buttontext="Générer le document" />
     </div>
   </div>
@@ -410,7 +377,7 @@ import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import "vue-select/dist/vue-select.css";
-import { reactive, ref, computed } from "vue";
+import { reactive, ref } from "vue";
 import { watch } from "vue";
 import { reformatLocation, paymentProcessOptions, calculateTotalHT, calculatePercentage, calculateTTC, getAdvanceOrBalance } from "@/utils";
 
@@ -426,6 +393,7 @@ const formulaOptaions = movingJobFormulas.map(item => ({
   name: item.name,
   value: item.slug
 }));
+
 
 const movingjob = useForm({
   validity_duratation: currentQuotation.validity_duratation ? currentQuotation.validity_duratation : currentSettings.quotation_validity_duratation,
@@ -443,17 +411,32 @@ const movingjob = useForm({
   shipping_elevator: currentMovingJob.shipping_elevator ? currentMovingJob.shipping_elevator : "",
   shipping_portaging: currentMovingJob.shipping_portaging ? currentMovingJob.shipping_portaging : "",
   shipping_details: currentMovingJob.shipping_details ? currentMovingJob.shipping_details : "",
-  discount_percentage: currentMovingJob.discount_percentage ? currentMovingJob.discount_percentage : "",
-  discount_amount_ht: currentMovingJob.discount_amount_ht ? currentMovingJob.discount_amount_ht : 0.00,
+  discount: currentMovingJob.discount ? currentMovingJob.discount : 0,
+  amount_ht: currentMovingJob.amount_ht ? currentMovingJob.amount_ht : 0,
+  amount_tva: currentMovingJob.amount_tva ? currentMovingJob.amount_tva : 0,
+  amount_ttc: currentMovingJob.amount_ttc ? currentMovingJob.amount_ttc : 0,
   advance: currentMovingJob.advance ? currentMovingJob.advance : "",
   balance: currentMovingJob.balance ? currentMovingJob.balance : "",
   distance: currentMovingJob.distance ? currentMovingJob.distance : "",
   payment_process: currentMovingJob.payment_process ? currentMovingJob.payment_process : ""
 });
 
-const total_ttc = movingjob.discount_amount_ht ? ref(parseFloat(movingjob.discount_amount_ht * vat).toFixed(2)) : ref(0.00);
-
 const sameAddressAsClient = ref(movingjob.loading_address == currentClient.address.full_address);
+const servicesOptions = ref(
+  usePage().props.options.map(function(option){
+    return { 
+      id: option.id, 
+      description: option.designation, 
+      qty: option.quantity,
+      priceHT: option.unit_price_ht, 
+      totalPriceHT: option.unit_price_ht ? parseFloat(option.unit_price_ht*option.quantity).toFixed(2) : 0.00,
+      selectedMeasurement: option.unit 
+    }
+  })
+);
+
+const applyDiscount = ref(currentMovingJob.discount ? true : false);
+const processPaymentOptions = paymentProcessOptions();
 const movingjobLocationUrl = ref({
   loading_google_map_url: currentMovingJob.loading_location ? currentMovingJob.loading_location?.google_map_url : "",
   shipping_google_map_url: currentMovingJob.shipping_location ? currentMovingJob.shipping_location?.google_map_url : "",
@@ -499,6 +482,10 @@ const loadingLocation = useForm({
   googleMapUrl: ''
 });
 
+watch(applyDiscount, (value) => {
+  optionsUpdated(servicesOptions.value);
+});
+
 watch(sameAddressAsClient, (value) => {
   if (value) {
     setLoadingAddressData(reformatLocation(currentClient.address))
@@ -507,16 +494,6 @@ watch(sameAddressAsClient, (value) => {
   }
 });
 
-const watchOptions = watch(
-  () => usePage().props.options,
-  (newOptions) => {
-    movingjob.discount_amount_ht = newOptions.reduce((sum, item) => sum + parseFloat(item.unit_price_ht) * parseFloat(item.quantity), 0.00).toFixed(2);
-    total_ttc.value = parseFloat(movingjob.discount_amount_ht * vat).toFixed(2);
-    saveField('discount_amount_ht');
-  },
-  { deep: true }
-);
-
 const saveField = (field) => {
   movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: field }), {
     preserveScroll: true,
@@ -524,7 +501,23 @@ const saveField = (field) => {
     onSuccess: () => console.log("quotation.update"),
     onError: (errors) => console.log(errors)
   });
-  watchOptions();
+};
+
+const updateMovingJob = () => {
+  movingjob.put(route("6dem.movingJob.update", { id: currentMovingJob.id }), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("movingJob.update"),
+    onError: (errors) => console.log(errors)
+  });
+};
+
+const updateDiscount = () => {
+  optionsUpdated(servicesOptions.value);
+};
+
+const updatePaymentProcess = () => {
+  optionsUpdated(servicesOptions.value);
 };
 
 const saveFormula = () => {

@@ -48,6 +48,11 @@
             :value="currentOrganisation.billing_address.full_address" />
         </DocumentFieldFrame>
       </div>
+
+      <div class="text-center text-3xl font-bold py-5">
+        <h1>Informations clients</h1>
+      </div>
+
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
@@ -307,12 +312,11 @@ import { reformatLocation, paymentProcessOptions, calculateTotalHT, calculatePer
 
 
 const user = usePage().props.auth.user;
+const currentSettings = usePage().props.settings;
 const currentOrganisation = usePage().props.organization;
 const currentWaybill = usePage().props.waybill;
 const currentMovingJob = usePage().props.movingjob;
 const currentClient = usePage().props.client;
-const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
-const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
 const movingJobFormulas = usePage().props.movingJobFormulas;
 const executingCompanies = usePage().props.executingCompanies;
 
@@ -320,9 +324,6 @@ const formulaOptions = movingJobFormulas.map(item => ({
   name: item.name,
   value: item.slug
 }));
-
-const vat = ref(2);
-const amount_ht = ref(2);
 
 const organization = reactive({
   name: "",
@@ -333,23 +334,6 @@ const organization = reactive({
   billing_address: "",
   phone_number: "",
   email: "",
-});
-
-const insuranceContractual = useForm({
-  max_value: currentInsuranceContractual.max_value,
-  franchise: currentInsuranceContractual.franchise,
-  amount_ht: currentInsuranceContractual.amount_ht,
-  amount_ttc: currentInsuranceContractual.amount_ht * vat.value,
-});
-
-const contractualTTC = computed(() => {
-  return amount_ht;
-});
-
-const insuranceAdValorem = useForm({
-  max_value: currentInsuranceAdValorem.max_value,
-  franchise: currentInsuranceAdValorem.franchise,
-  amount_ht: currentInsuranceAdValorem.amount_ht
 });
 
 const movingjob = useForm({
@@ -377,6 +361,27 @@ const movingjob = useForm({
   payment_process: currentMovingJob.payment_process ? currentMovingJob.payment_process : ""
 });
 
+
+const sameAddressAsClient = ref(movingjob.loading_address == currentClient.address.full_address);
+const servicesOptions = ref(
+  usePage().props.options.map(function(option){
+    return { 
+      id: option.id, 
+      description: option.designation, 
+      qty: option.quantity,
+      priceHT: option.unit_price_ht, 
+      totalPriceHT: option.unit_price_ht ? parseFloat(option.unit_price_ht*option.quantity).toFixed(2) : 0.00,
+      selectedMeasurement: option.unit 
+    }
+  })
+);
+
+const applyDiscount = ref(currentMovingJob.discount ? true : false);
+const processPaymentOptions = paymentProcessOptions();
+const movingjobLocationUrl = ref({
+  loading_google_map_url: currentMovingJob.loading_location ? currentMovingJob.loading_location?.google_map_url : "",
+  shipping_google_map_url: currentMovingJob.shipping_location ? currentMovingJob.shipping_location?.google_map_url : "",
+});
 const currentFormula = ref(movingJobFormulas.find((obj) => {
   return obj.slug === currentMovingJob.formula;
 }));
@@ -392,6 +397,46 @@ const client = reactive({
   clientOrganizationName: "",
   siret: "",
   siren: "",
+});
+
+const shippingLocation = useForm({
+  type: '',
+  address: '',
+  city: '',
+  postalCode: '',
+  country: '',
+  fullAddress: '',
+  lat: '',
+  lng: '',
+  googleMapUrl: ''
+});
+
+const loadingLocation = useForm({
+  type: '',
+  address: '',
+  city: '',
+  postalCode: '',
+  country: '',
+  fullAddress: '',
+  lat: '',
+  lng: '',
+  googleMapUrl: ''
+});
+
+watch(applyDiscount, (value) => {
+  optionsUpdated(servicesOptions.value);
+});
+
+watch(sameAddressAsClient, (value) => {
+  if (value) {
+    setLoadingAddressData(reformatLocation(currentClient.address))
+  } else {
+    movingjob.loading_address = "";
+  }
+});
+
+const newWaybill = useForm({
+  executing_company_id: currentWaybill.executing_company ? currentWaybill.executing_company.id : ""
 });
 
 
@@ -477,6 +522,28 @@ const setShippingAddressData = (location) => {
     onError: (errors) => console.log(errors)
   });
 };
+
+const updateDistance = (response) => {
+  movingjobLocationUrl.value.loading_google_map_url = response.props.movingJob.loading_location?.google_map_url;
+  movingjobLocationUrl.value.shipping_google_map_url = response.props.movingJob.shipping_location?.google_map_url; 
+  movingjob.distance = response.props.movingJob.distance;
+};
+
+const optionsUpdated = (options) => {
+  servicesOptions.value = options;
+  if(options.length > 0) {
+    let currentDiscount = applyDiscount.value ? movingjob.discount : 0;
+    movingjob.amount_ht = calculateTotalHT(options, currentDiscount)
+    movingjob.amount_tva = calculatePercentage(movingjob.amount_ht, currentSettings.vat)
+    movingjob.amount_ttc = calculateTTC(movingjob.amount_ht, movingjob.amount_tva)
+    movingjob.advance = calculatePercentage(movingjob.amount_ttc, getAdvanceOrBalance(movingjob.payment_process, 'advance'))
+    movingjob.balance = calculatePercentage(movingjob.amount_ttc, getAdvanceOrBalance(movingjob.payment_process, 'balance'))
+    setTimeout(() => {
+      updateMovingJob();
+    }, 1000);
+  }
+}
+
 
 const previewWaybill = () => {
   router.visit(route("6dem.documents.waybill.preview", currentWaybill.id), {

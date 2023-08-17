@@ -65,14 +65,15 @@
                             <td
                                 style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 Date:</td>
-                            <td style="padding: 8px; border-bottom: 1px solid #ccc;">10/08/2023</td>
+                            <td style="padding: 8px; border-bottom: 1px solid #ccc;">
+                                {{ \Carbon\Carbon::parse($invoice->created_at)->format('d/m/Y') }}</td>
                         </tr>
                         <tr>
                             <td
                                 style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 Type:
                             </td>
-                            <td style="padding: 8px; border-bottom: 1px solid #ccc;">Accompte</td>
+                            <td style="padding: 8px; border-bottom: 1px solid #ccc;">{{ $invoice->getTypeName() }}</td>
                         </tr>
                         <tr>
                             <td
@@ -109,47 +110,36 @@
             style="width: 100%; margin-top: 20px; border: 1px solid #ccc; text-align: center; font-size: 0.65em; color: #333;">
             <tr style="background-color: {{ $settings->ducuments_primary_color }};">
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Désignation</th>
-                <th style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</th>
-                <th style="padding: 8px;">Prix TTC</th>
+                <th style="padding: 8px; border-right: 1px solid #ccc;">Quantité</th>
+                <th style="padding: 8px; border-right: 1px solid #ccc;">Prix unitaire HT</th>
+                <th style="padding: 8px;">Prix total HT</th>
             </tr>
-            <tr>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Standard</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">150 €</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">180 €</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Chargement</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">150 €</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">180 €</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Livraison</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">150 €</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">180 €</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Assurance</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">150 €</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">180 €</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Préstation 1</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">150 €</td>
-                <td style="padding: 8px;">180 €</td>
-            </tr>
+            @foreach ($options as $item)
+                <tr>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc; text-align: left;">
+                        {{ $item->designation }}
+                    </td>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
+                        {{ $item->quantity }} €
+                    </td>
+                    <td
+                        style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
+                        {{ $item->unit_price_ht }} €
+                    </td>
+                    <td style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif">
+                        {{ $item->total_price_ht }} €
+                    </td>
+                </tr>
+            @endforeach
         </table>
 
         <div style="font-size: 0.65em; margin-top: 20px; font-weight: 400;">
-            <span style="font-weight: 600;">Rappel des termes du contrat:</span> La livraison donne lieu à des
-            formaliteés impératives
-            (reportez-vous à l'article 16 des conditions générales du devis). Dans tous les cas, vous devez donner
-            décharge à l'entreprise en fin de livraison en signant ce document. En cas de dommages, utilisez la grille
-            ci-dessus pour identifier avec précision les pertes et avaries constatées, la mention "sous réserve de
-            déballage ou de controôle" n'ayant aucune valeur de preuve. Si vos réserves émises à la réception du
-            mobilier ne sont pas acceptées par le professionnel, ou si vous n'avez émis aucune réserve à la
-            livraison, vous ne disposez alors que d'un délai de dix jours calendaires à compter de la réception des
-            objets transportés pour émettre par lettre recommandée une protestation motivée sur l'état du mobilier
-            réceptionné en application de l'article L.121-95 du code de la consommation.
+            <span style="font-weight: 600;">Rappel des termes du contrat:</span>
+            Déménagement d'un volume de {{ $invoice->movingJob->capacity }} à une distance de
+            {{ $invoice->movingJob->distance }}.
+            <p style="font-weight: 500;">Prix total TTC: {{ $invoice->movingJob->amount_ttc }} €</p>
         </div>
 
         <!-- Footer -->
@@ -166,21 +156,21 @@
                         <tr>
                             <td
                                 style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
-                                Prix HT</td>
-                            <td style="padding: 8px; border-bottom: 1px solid #ccc;">1090€</td>
+                                Prix HT ({{ $invoice->getTypeName() }})</td>
+                            <td style="padding: 8px; border-bottom: 1px solid #ccc;">{{ $invoice->amount_ht }} €</td>
                         </tr>
                         <tr>
                             <td
                                 style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 TVA(20%)</td>
-                            <td style="padding: 8px; border-bottom: 1px solid #ccc;">190€</td>
+                            <td style="padding: 8px; border-bottom: 1px solid #ccc;">{{ $invoice->amount_tva }} €</td>
                         </tr>
-                        <tr>
+                        <tr style="font-weight: 900;">
                             <td
                                 style="padding: 8px; border-right: 1px solid #ccc; background-color: {{ $settings->ducuments_primary_color }};">
                                 Prix TTC
                             </td>
-                            <td style="padding: 8px;">1990€</td>
+                            <td style="padding: 8px;">{{ $invoice->amount_ttc }} €</td>
                         </tr>
                     </table>
                 </td>
@@ -191,6 +181,20 @@
             En cas de retard, une pénalité au taux annuel de 5 % sera appliquée, à laquelle s’ajoutera une indemnité
             forfaitaire pour frais de recouvrement de 40 €
         </div>
+
+
+        <p style="font-size: 0.65em; margin-top: 20px; font-weight: 400;">
+            <span style="font-weight: 600;">Mentions légales:</span> La livraison donne lieu à des
+            formaliteés impératives
+            (reportez-vous à l'article 16 des conditions générales du devis). Dans tous les cas, vous devez donner
+            décharge à l'entreprise en fin de livraison en signant ce document. En cas de dommages, utilisez la grille
+            ci-dessus pour identifier avec précision les pertes et avaries constatées, la mention "sous réserve de
+            déballage ou de controôle" n'ayant aucune valeur de preuve. Si vos réserves émises à la réception du
+            mobilier ne sont pas acceptées par le professionnel, ou si vous n'avez émis aucune réserve à la
+            livraison, vous ne disposez alors que d'un délai de dix jours calendaires à compter de la réception des
+            objets transportés pour émettre par lettre recommandée une protestation motivée sur l'état du mobilier
+            réceptionné en application de l'article L.121-95 du code de la consommation.
+        </p>
     </div>
 </body>
 
