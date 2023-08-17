@@ -50,7 +50,6 @@ const getComponent = (result, type) => {
 };
 
 
-
 export const getRoleLabel = (role) => {
     const roles = [
         {
@@ -109,11 +108,34 @@ export const paymentProcessOptions = () => {
         },
         {
             name: "Règlement en 1 fois",
-            value: '100'
+            value: '0-100'
         },
-        {
-            name: "Autres",
-            value: 'Others'
-        }
     ];
+}
+
+export function getAdvanceOrBalance(value, type) {
+    const [advance, balance] = value.split('-').map(Number);
+    if (type === 'advance') {
+        return advance;
+    } else if (type === 'balance') {
+        return balance;
+    } else {
+        return null;
+    }
+}
+
+
+export const calculateTotalHT = (options, discount = 0) => {
+    const total = options.reduce((total, option) => total + parseFloat(option.totalPriceHT), 0);
+    return parseFloat(discount > 0 ? total - parseFloat(calculatePercentage(total, parseFloat(discount))) : total).toFixed(2);
+};
+
+
+export const calculatePercentage = (amount, percentage) => {
+    return parseFloat((parseFloat(amount) * parseFloat(percentage)) / 100).toFixed(2);
+}
+
+
+export const calculateTTC = (totalAmountHT, amountTVA) => {
+    return parseFloat(parseFloat(totalAmountHT) + parseFloat(amountTVA)).toFixed(2);
 }

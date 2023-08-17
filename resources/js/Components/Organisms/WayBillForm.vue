@@ -208,7 +208,7 @@
         <DocumentLabel name="Options" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
-        <DynamicFields />
+        <HandleOptionsFields />
       </div>
     </div>
     <div class="flex flex-col space-y-5 px-8 mt-8">
@@ -338,7 +338,7 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
-import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
+import HandleOptionsFields from "@/Components/Organisms/HandleOptionsFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";

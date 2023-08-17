@@ -34,6 +34,7 @@ class MovingJob extends Model
         'discount',
         'amount_ht',
         'amount_ttc',
+        'amount_tva',
         'advance',
         'balance',
         'distance',

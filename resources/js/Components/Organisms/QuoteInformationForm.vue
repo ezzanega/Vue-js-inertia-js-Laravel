@@ -275,7 +275,7 @@
         <DocumentLabel name="Prestations" color="#438A7A" />
       </div>
       <div class="flex flex-col space-y-2">
-        <DynamicFields :movingjob="currentMovingJob.id" />
+        <HandleOptionsFields :movingjob="currentMovingJob.id" @options:updated="optionsUpdated" />
       </div>
     </div>
 
@@ -283,7 +283,7 @@
       <DocumentLabel name="Tarification" color="#438A7A" />
       <div class="flex flex-col space-y-2 ">
         <ToggleButton class="my-auto  w-1/2" v-model:checked="applyDiscount" name="apply-discount" label="Appliquer une remise" />
-        <DefaultInput v-if="applyDiscount" class="my-auto w-1/2" type="number" @savingValue="saveField('discount')" v-model="movingjob.discount" name="discount" placeholder="Remise (en %)" label="Remise (en %)"/>
+        <DefaultInput v-if="applyDiscount" class="my-auto w-1/2" type="number" @savingValue="updateDiscount" v-model="movingjob.discount" name="discount" placeholder="Remise (en %)" label="Remise (en %)"/>
       </div>
       <div class="grid grid-cols-3 gap-4 justify-between">
         <DocumentFieldFrame>
@@ -292,7 +292,7 @@
               Total HT {{ applyDiscount ? '(-'+movingjob.discount+'%)' : '' }} :
             </span>
             <span class="w-1/2">
-              {{ '14650 €' }}
+              {{  movingjob.amount_ht ? movingjob.amount_ht + ' €' : '' }}
             </span>
           </div>
         </DocumentFieldFrame>
@@ -300,10 +300,10 @@
         <DocumentFieldFrame>
           <div class="p-0.5 flex justify-start">
             <span class="w-1/2">
-              TVA (20%) :
+              TVA ({{ currentSettings.vat }}%) :
             </span>
             <span class="w-1/2">
-              {{ '2350 €' }}
+              {{  movingjob.amount_tva ? movingjob.amount_tva + ' €' : '' }}
             </span>
           </div>
         </DocumentFieldFrame>
@@ -314,7 +314,7 @@
               Total TTC : 
             </span>
             <span class="w-1/2">
-              {{ '16980 €' }}
+              {{  movingjob.amount_ttc ? movingjob.amount_ttc + ' €' : '' }}
             </span>
           </div>
         </DocumentFieldFrame>
@@ -322,15 +322,15 @@
 
 
       <div class="grid grid-cols-3 gap-4 justify-between">
-        <DocumentSelectInput v-model="movingjob.payment_process" :value="movingjob.payment_process" @change="saveField('payment_process')" :options="processPaymentOptions" default-text="Modalités de règlement"/>
+        <DocumentSelectInput v-model="movingjob.payment_process" :value="movingjob.payment_process" @change="updatePaymentProcess" :options="processPaymentOptions" default-text="Modalités de règlement"/>
         
         <DocumentFieldFrame>
           <div class="p-0.5 flex justify-start">
             <span class="w-1/2">
-              Accompte (30%) :
+              Accompte ({{ getAdvanceOrBalance(movingjob.payment_process, 'advance') ?? '-' }}%) :
             </span>
             <span class="w-1/2">
-              {{ '2350 €' }}
+              {{  movingjob.advance ? movingjob.advance + ' €' : '' }}
             </span>
           </div>
         </DocumentFieldFrame>
@@ -338,10 +338,10 @@
         <DocumentFieldFrame>
           <div class="p-0.5 flex justify-start">
             <span class="w-1/2">
-              Slode (70%) :
+              Solde ({{ getAdvanceOrBalance(movingjob.payment_process, 'balance') ?? '-' }}%) :
             </span>
             <span class="w-1/2">
-              {{ '2350 €' }}
+              {{  movingjob.balance ? movingjob.balance + ' €' : '' }}
             </span>
           </div>
         </DocumentFieldFrame>
@@ -362,14 +362,14 @@ import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
 import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
-import DynamicFields from "@/Components/Organisms/DynamicFields.vue";
+import HandleOptionsFields from "@/Components/Organisms/HandleOptionsFields.vue";
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import "vue-select/dist/vue-select.css";
 import { reactive, ref, computed } from "vue";
 import { watch } from "vue";
-import { reformatLocation, paymentProcessOptions } from "@/utils";
+import { reformatLocation, paymentProcessOptions, calculateTotalHT, calculatePercentage, calculateTTC, getAdvanceOrBalance } from "@/utils";
 
 
 const currentSettings = usePage().props.settings;
@@ -416,18 +416,32 @@ const movingjob = useForm({
   shipping_elevator: currentMovingJob.shipping_elevator ? currentMovingJob.shipping_elevator : "",
   shipping_portaging: currentMovingJob.shipping_portaging ? currentMovingJob.shipping_portaging : "",
   shipping_details: currentMovingJob.shipping_details ? currentMovingJob.shipping_details : "",
-  discount: currentMovingJob.discount ? currentMovingJob.discount : "",
+  discount: currentMovingJob.discount ? currentMovingJob.discount : 0,
   amount_ht: currentMovingJob.amount_ht ? currentMovingJob.amount_ht : 0,
+  amount_tva: currentMovingJob.amount_tva ? currentMovingJob.amount_tva : 0,
+  amount_ttc: currentMovingJob.amount_ttc ? currentMovingJob.amount_ttc : 0,
   advance: currentMovingJob.advance ? currentMovingJob.advance : "",
   balance: currentMovingJob.balance ? currentMovingJob.balance : "",
   distance: currentMovingJob.distance ? currentMovingJob.distance : "",
   payment_process: currentMovingJob.payment_process ? currentMovingJob.payment_process : ""
 });
 
-const sameAddressAsClient = ref( movingjob.loading_address == currentClient.address.full_address);
+const sameAddressAsClient = ref(movingjob.loading_address == currentClient.address.full_address);
+const servicesOptions = ref(
+  usePage().props.options.map(function(option){
+    return { 
+      id: option.id, 
+      description: option.designation, 
+      qty: option.quantity,
+      priceHT: option.unit_price_ht, 
+      totalPriceHT: option.unit_price_ht ? parseFloat(option.unit_price_ht*option.quantity).toFixed(2) : 0.00,
+      selectedMeasurement: option.unit 
+    }
+  })
+);
 const applyDiscount = ref(currentMovingJob.discount ? true : false);
 const processPaymentOptions = paymentProcessOptions();
-const movingjobLocationUrl = ref( {
+const movingjobLocationUrl = ref({
   loading_google_map_url: currentMovingJob.loading_location ? currentMovingJob.loading_location?.google_map_url : "",
   shipping_google_map_url: currentMovingJob.shipping_location ? currentMovingJob.shipping_location?.google_map_url : "",
 });
@@ -472,6 +486,9 @@ const loadingLocation = useForm({
   googleMapUrl: ''
 });
 
+watch(applyDiscount, (value) => {
+  optionsUpdated(servicesOptions.value);
+});
 
 watch(sameAddressAsClient, (value) => {
   if (value) {
@@ -495,6 +512,23 @@ const saveField = (field) => {
     onSuccess: () => console.log("quotation.update"),
     onError: (errors) => console.log(errors)
   });
+};
+
+const updateMovingJob = () => {
+  movingjob.put(route("6dem.movingJob.update", { id: currentMovingJob.id }), {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => console.log("quotation.update"),
+    onError: (errors) => console.log(errors)
+  });
+};
+
+const updateDiscount = () => {
+  optionsUpdated(servicesOptions.value);
+};
+
+const updatePaymentProcess = () => {
+  optionsUpdated(servicesOptions.value);
 };
 
 const saveFormula = () => {
@@ -566,6 +600,21 @@ const updateDistance = (response) => {
   movingjobLocationUrl.value.shipping_google_map_url = response.props.movingJob.shipping_location?.google_map_url; 
   movingjob.distance = response.props.movingJob.distance;
 };
+
+const optionsUpdated = (options) => {
+  servicesOptions.value = options;
+  if(options.length > 0) {
+    let currentDiscount = applyDiscount.value ? movingjob.discount : 0;
+    movingjob.amount_ht = calculateTotalHT(options, currentDiscount)
+    movingjob.amount_tva = calculatePercentage(movingjob.amount_ht, currentSettings.vat)
+    movingjob.amount_ttc = calculateTTC(movingjob.amount_ht, movingjob.amount_tva)
+    movingjob.advance = calculatePercentage(movingjob.amount_ttc, getAdvanceOrBalance(movingjob.payment_process, 'advance'))
+    movingjob.balance = calculatePercentage(movingjob.amount_ttc, getAdvanceOrBalance(movingjob.payment_process, 'balance'))
+    setTimeout(() => {
+      updateMovingJob();
+    }, 1000);
+  }
+}
 
 const previewQuotation = () => {
   router.visit(route("6dem.documents.quotation.preview", currentQuotation.id), {

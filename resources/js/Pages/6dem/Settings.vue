@@ -15,27 +15,6 @@
                   </div>
                 </div>
 
-                <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal"
-                :deleteOption="deleteOption" :opendelModal="opendelModal" />
-
-              <!-- DeleteFormModal Modal -->
-              <DeleteFormModal
-                :isModaldelOpen="isModaldelOpen"
-                @closedelModal="closedelModal"
-                @deleteFunction="deleteOption(selectedOption)"
-              />
-                <!-- Pour la modification -->
-                <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
-                <!-- Pour la suppression -->
-                <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-                @closedelModal="closedelModal()" @deleteFunction="deleteOption(selectedOption)"/>
-
-                <div class="hidden sm:block" aria-hidden="true">
-                  <div class="py-5">
-                    <div class="border-t border-neutral-200"></div>
-                  </div>
-                </div>
-
                 <UpdateInsurances />
 
                 <div class="hidden sm:block" aria-hidden="true">
@@ -51,6 +30,28 @@
                     <div class="border-t border-neutral-200"></div>
                   </div>
                 </div>
+
+
+                <UpdateFormulas :openUpModal="openUpModal" :OptionData="selectedOption" @closeUpModal="closeUpModal"
+                :deleteOption="deleteOption" :opendelModal="opendelModal" />
+                
+                <!-- DeleteFormModal Modal -->
+                <DeleteFormModal
+                  :isModaldelOpen="isModaldelOpen"
+                  @closedelModal="closedelModal"
+                  @deleteFunction="deleteOption(selectedOption)"
+                />
+                  <!-- Pour la modification -->
+                  <UpdateFormulasOptions v-if="isUpModalopen && selectedOption" :isUpModalopen="isUpModalopen" :OptionData="selectedOption" @closeUpModal="closeUpModal"/>
+                  <!-- Pour la suppression -->
+                  <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+                  @closedelModal="closedelModal()" @deleteFunction="deleteOption(selectedOption)"/>
+
+                  <div class="hidden sm:block" aria-hidden="true">
+                    <div class="py-5">
+                      <div class="border-t border-neutral-200"></div>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>
