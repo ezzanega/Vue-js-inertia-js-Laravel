@@ -86,8 +86,6 @@
                                     class="w-1/3"
                                 />
 
-                                <!-- <p v-if="form.errors.options && form.errors.options[index]?.type" class="text-red-500">{{ form.errors.options[index]?.type }}</p> -->
-
                                 <button @click="removeOptionRow(index)" class="rounded-full p-0.5 bg-red-200 text-red-500 hover:text-red-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
@@ -161,10 +159,10 @@ const Row=ref(false);
     }
 };
 
-    // Remove an option row by index
-    const removeOptionRow = (index) => {
-        form.options.splice(index, 1);
-    };
+// Remove an option row by index
+const removeOptionRow = (index) => {
+    form.options.splice(index, 1);
+};
 const SaveFormula = () => {
     const optionsData = form.options.map(option => {
         return {
@@ -192,7 +190,7 @@ const SaveFormula = () => {
         option: !option.option ? 'Veuillez remplir ce champ, il est obligatoire.' : '',
         type: !option.type ? 'Veuillez sélectionner un type.' : ''
       };
-      return; // Prevent submission if any option has errors
+      return;
     }
   }
     console.log(formulaData);
