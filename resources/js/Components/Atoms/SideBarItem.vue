@@ -1,40 +1,24 @@
 <template>
-  <Link
-    :href="route(itemroute)"
+  <Link :href="route(itemroute)"
     class="hover:bg-secondary hover:text-primary group relative flex items-center rounded-md px-2 py-3 text-md font-bold"
-    :class="[(route(itemroute).includes($page.url.split('/').slice(1, 3).join('/') || '')) ? 'text-primary bg-secondary' : 'text-white']"
-  >
-    <slot />
-    {{ item }}
-    <a
-      v-if="quickcreate"
-      href="#"
-      class="ml-auto hidden rounded-md group-hover:block hover:bg-primary hover:bg-opacity-50 hover:text-white"
-      @click.stop="toggleDrawer"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        aria-hidden="true"
-        class="h-6 w-6"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 4.5v15m7.5-7.5h-15"
-        />
-      </svg>
-    </a>
+    :class="[
+      (($page.url !== '/' && route(itemroute).includes($page.url.split('/').slice(1, 3).join('/')))
+        || ($page.url === '/' && route(itemroute).includes('/6dem/dashboard')))
+        ? 'text-primary bg-secondary'
+        : 'text-white'
+    ]">
+  <slot />
+  {{ item }}
+  <a v-if="quickcreate" href="#"
+    class="ml-auto hidden rounded-md group-hover:block hover:bg-primary hover:bg-opacity-50 hover:text-white"
+    @click.stop="toggleDrawer">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+      aria-hidden="true" class="h-6 w-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+    </svg>
+  </a>
   </Link>
-  <Drawer
-    :is-open="isDrawerOpen"
-    :speed="500"
-    max-width="680px"
-    @close="closeDrawer"
-  >
+  <Drawer :is-open="isDrawerOpen" :speed="500" max-width="680px" @close="closeDrawer">
     <div>
       <DrawerContent title="Create client" @closeDrawer="closeDrawer()">
         <CreateClientForm @created="closeDrawer()" />
