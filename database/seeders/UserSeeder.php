@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
             'last_name' => 'Doe',
             'phone_number' => '00000000',
             'email' => 'jamesdoe@gmail.com',
-            'source' => 'From my auntie',
+            'source' => 'Appel entant',
         ]);
 
         $location = $client->address()->create([

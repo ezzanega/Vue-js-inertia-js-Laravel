@@ -23,6 +23,7 @@ use App\Models\Enums\InvoiceStatus;
 use App\Models\Enums\WaybillStatus;
 use Illuminate\Support\Facades\Http;
 use App\Models\Enums\QuotationStatus;
+use App\Models\Organization;
 use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
@@ -137,7 +138,7 @@ class MovingJobController extends Controller
 
     public function quotation(Request $request, $movingjobId, $clientId, $quotationId): Response
     {
-        $organization = $request->user()->organization->with('billingAddress')->first();
+        $organization = Organization::where('id', $request->user()->organization->id)->with(['billingAddress'])->first();
         $client = Client::where('id', $clientId)->with(['address', 'clientOrganization'])->first();
         $movingjob = MovingJob::where('id', $movingjobId)->with(['loadingLocation', 'shippingLocation'])->first();
         $quotation = Quotation::find($quotationId);

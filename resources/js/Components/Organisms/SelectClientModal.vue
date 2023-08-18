@@ -29,24 +29,7 @@
           </p>
         </div>
 
-        <div class="w-full pt-3 flex space-x-2">
-          <SelectableButton
-            text="Pour un client existant"
-            value="existing"
-            :selected="clientType === 'existing'"
-            @selected="clientTypeChange"
-          />
-          <SelectableButton
-            text="Pour un nouveau client"
-            value="new"
-            :selected="clientType === 'new'"
-            @selected="clientTypeChange"
-          />
-        </div>
-
-        <span class="mt-5 border-b border-gray-200 divide-x"></span>
-
-        <div class="w-full" v-if="clientType === 'existing'">
+        <div class="w-full">
           <div>
             <Dropdown
               :triggers="[]"
@@ -121,7 +104,7 @@
             </a>
           </div>
 
-          <div class="mt-5 pt-16 flex justify-end space-x-4">
+          <div class="mt-5 pt-8 flex justify-end space-x-4">
             <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
             <DefaultButton
               @click="initQuatation"
@@ -131,9 +114,6 @@
             />
           </div>
         </div>
-        <div v-else>
-          <CreateClientForm />
-        </div>
       </div>
     </Modal>
   </div>
@@ -141,13 +121,11 @@
   
 <script setup>
 import Modal from "@/Components/Modal.vue";
-import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import IconButton from "@/Components/Atoms/IconButton.vue";
 import { router, useForm, usePage } from "@inertiajs/vue3";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
-import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 import { Dropdown } from "floating-vue";
 import { ref, watch } from "vue";
 import axios from "axios";
@@ -157,8 +135,6 @@ const searchQuery = ref("");
 const searchResults = ref([]);
 const searching = ref(false);
 const selectedClient = ref(null);
-const clientType = ref("existing");
-const props = usePage().props;
 const clientSelectionModal = ref(false);
 
 const closeModal = () => {
@@ -167,10 +143,6 @@ const closeModal = () => {
 
 const confirmDevisCreation = () => {
   clientSelectionModal.value = true;
-};
-
-const clientTypeChange = (value) => {
-  clientType.value = value;
 };
 
 watch(searchQuery, (newQuery) => {

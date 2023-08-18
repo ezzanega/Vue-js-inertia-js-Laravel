@@ -4,50 +4,7 @@
       <UploadFile class="w-1/6" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
     </div>
     <div class="flex flex-col space-y-2 px-8 mt-24">
-      <div class="text-center text-3xl font-bold pb-5">
-        <h1>Informations de la société de déménagement</h1>
-      </div>
-      <div class="grid grid-cols-3 gap-6 justify-between">
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="'DEVIS N° ' + currentQuotation.number" placeholder="N° du devis"
-              :font-bold="true" />
-          </DocumentFieldFrame>
-        </div>
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="currentOrganisation.phone_number" placeholder="Téléphone" />
-          </DocumentFieldFrame>
-        </div>
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Adresse mail" :value="currentOrganisation.email" />
-          </DocumentFieldFrame>
-        </div>
-      </div>
-      <div class="grid grid-cols-3 gap-6 justify-between">
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="currentOrganisation.siren" placeholder="SIREN" />
-          </DocumentFieldFrame>
-        </div>
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="currentOrganisation.code_ape" placeholder="Code APE" />
-          </DocumentFieldFrame>
-        </div>
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput :value="currentOrganisation.licence" placeholder="Licence N°" />
-          </DocumentFieldFrame>
-        </div>
-      </div>
-      <div>
-        <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Adresse de la société"
-            :value="currentOrganisation.billing_address.full_address" />
-        </DocumentFieldFrame>
-      </div>
+
 
       <div class="text-center text-3xl font-bold py-5">
         <h1>Informations clients</h1>
@@ -55,33 +12,21 @@
 
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Prénom" :value="currentClient.first_name" />
-          </DocumentFieldFrame>
+          <DefaultInput class="w-full my-auto" type="text" v-model="currentClient.first_name" label="Prénom du client" name="client_first_name" placeholder="Prénom du client" />
         </div>
         <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Nom" :value="currentClient.last_name" />
-          </DocumentFieldFrame>
+          <DefaultInput class="w-full my-auto" type="text" v-model="currentClient.last_name" label="Nom du client" name="client_last_name" placeholder="Nom du client" />
         </div>
         <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Téléphone" :value="currentClient.phone_number" />
-          </DocumentFieldFrame>
+          <DefaultInput class="w-full my-auto" type="text" v-model="currentClient.phone_number" label="Nom du client" name="client_phone_number" placeholder="Téléphone" />
         </div>
       </div>
+
       <div v-if="currentClient.type == 'professional'">
-        <div>
-          <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Nom complet de l'entreprise"
-              :value="currentClient.client_organization?.name" />
-          </DocumentFieldFrame>
-        </div>
+        <DefaultInput class="w-full my-auto" type="text" v-model="currentClient.client_organization.name" label="Nom complet de l'entreprise" name="client_organization_name" placeholder="Nom complet de l'entreprise" />
       </div>
       <div>
-        <DocumentFieldFrame>
-          <DocumentFieldInput placeholder="Adresse du client" :value="currentClient.address.full_address" />
-        </DocumentFieldFrame>
+        <DefaultInput class="w-full my-auto" type="text" v-model="currentClient.address.full_address" label="Adresse du client" name="client_full_address" placeholder="Adresse du client" />
       </div>
     </div>
     <div class="flex flex-col space-y-2 px-8 mt-16">
@@ -92,16 +37,10 @@
       <div>
         <div class="grid grid-cols-2 gap-6 pb-5 justify-between">
           <div>
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Validité devis (7 jours, 1 mois ..)" :value="movingjob.validity_duratation"  v-model="movingjob.validity_duratation"
-                @savingValue="saveField('validity_duratation')" />
-            </DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.validity_duratation"  @savingValue="saveField('validity_duratation')" label="Validité devis" name="validity_duratation" placeholder="Validité devis (7 jours, 1 mois ..)" />
           </div>
           <div>
-            <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Volume(en m³)" :value="movingjob.capacity"  v-model="movingjob.capacity"
-                @savingValue="saveField('capacity')" />
-            </DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.capacity"  @savingValue="saveField('capacity')" label="Volume" name="capacity" placeholder="Volume(en m³)" />
           </div>
         </div>
       </div>
@@ -110,90 +49,95 @@
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="Chargement" color="#438A7A" />
           <ToggleButton v-model:checked="sameAddressAsClient" name="same-address" label="Adresse de chargement identique à l'adresse du client ?" />
-          <DocumentFieldFrame>
-            <DocumentFieldInputAddress :value="movingjob.loading_address" name="loading_address" placeholder="Adresse de chargement"
-              @place_changed="setLoadingAddressData" />
-          </DocumentFieldFrame>
+          <LocationAutocomplete :value="movingjob.loading_address" v-model="movingjob.loading_address" name="loading_address" label="Adresse de chargement" placeholder="Adresse de chargement" @place_changed="setLoadingAddressData" />
           <div v-if="movingjobLocationUrl.loading_google_map_url">
             <a :href="movingjobLocationUrl.loading_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs">
               Voir l'adresse sur Google street map
             </a>
           </div>
-          <DocumentFieldFrame>
+          <DefaultInput class="w-full my-auto" type="date" v-model="movingjob.loading_date"  @savingValue="saveField('loading_date')" label="Date de chargement" name="loading_date" placeholder="Date de chargement" />
+          <!-- <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Date de chargement" v-model="movingjob.loading_date"
               @savingValue="saveField('loading_date')" />
-          </DocumentFieldFrame>
+          </DocumentFieldFrame> -->
 
           <div class="flex space-x-2">
-            <DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.loading_floor"  @savingValue="saveField('loading_floor')" label="Étage" name="loading_floor" placeholder="Étage" />
+            <!-- <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Étage" v-model="movingjob.loading_floor"
                 @savingValue="saveField('loading_floor')" />
-            </DocumentFieldFrame>
+            </DocumentFieldFrame> -->
 
-            <DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.loading_elevator"  @savingValue="saveField('loading_elevator')" label="Ascenseur" name="loading_elevator" placeholder="Ascenseur" />
+            <!-- <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Ascenseur" v-model="movingjob.loading_elevator"
                 @savingValue="saveField('loading_elevator')" />
-            </DocumentFieldFrame>
+            </DocumentFieldFrame> -->
           </div>
 
           <div class="flex space-x-2">
-            <DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.loading_portaging"  @savingValue="saveField('loading_portaging')" label="Portage" name="loading_portaging" placeholder="Portage" />
+            <!-- <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Portage" v-model="movingjob.loading_portaging"
                 @savingValue="saveField('loading_portaging')" />
-            </DocumentFieldFrame>
+            </DocumentFieldFrame> -->
 
-            <DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.loading_details"  @savingValue="saveField('loading_details')" label="Détails" name="loading_details" placeholder="Détails" />
+            <!-- <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Détails" v-model="movingjob.loading_details"
                 @savingValue="saveField('loading_details')" />
-            </DocumentFieldFrame>
+            </DocumentFieldFrame> -->
           </div>
 
-          <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'loading'" />
+          <!-- <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'loading'" /> -->
         </div>
 
         <div class="flex flex-col space-y-2">
           <DocumentLabel name="Livraison" color="#438A7A" />
           <div class="pt-6"></div>
-          <DocumentFieldFrame>
-            <DocumentFieldInputAddress :value="movingjob.shipping_address" name="shipping_address" placeholder="Adresse de livraison"
-              @place_changed="setShippingAddressData" />
-          </DocumentFieldFrame>
+          <LocationAutocomplete :value="movingjob.shipping_address" v-model="movingjob.shipping_address" name="shipping_address" label="Adresse de livraison" placeholder="Adresse de livraison" @place_changed="setShippingAddressData" />
           <div v-if="movingjobLocationUrl.shipping_google_map_url">
             <a :href="movingjobLocationUrl.shipping_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs">
               Voir l'adresse sur Google street map
             </a>
           </div>
 
-          <DocumentFieldFrame>
+
+          <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_date"  @savingValue="saveField('shipping_date')" label="Date de livraison" name="shipping_date" placeholder="Date de livraison" />
+          <!-- <DocumentFieldFrame>
             <DocumentFieldInput placeholder="Date de livraison" v-model="movingjob.shipping_date"
               @savingValue="saveField('shipping_date')" />
-          </DocumentFieldFrame>
+          </DocumentFieldFrame> -->
 
           <div class="flex space-x-2">
-            <DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_floor"  @savingValue="saveField('shipping_floor')" label="Étage" name="shipping_floor" placeholder="Étage" />
+            <!-- <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Étage" v-model="movingjob.shipping_floor"
                 @savingValue="saveField('shipping_floor')" />
-            </DocumentFieldFrame>
+            </DocumentFieldFrame> -->
 
-            <DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_elevator"  @savingValue="saveField('shipping_elevator')" label="Ascenseur" name="shipping_elevator" placeholder="Ascenseur" />
+            <!-- <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Ascenseur" v-model="movingjob.shipping_elevator"
                 @savingValue="saveField('shipping_elevator')" />
-            </DocumentFieldFrame>
+            </DocumentFieldFrame> -->
           </div>
 
           <div class="flex space-x-2">
-            <DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_portaging"  @savingValue="saveField('shipping_portaging')" label="Portage" name="shipping_portaging" placeholder="Portage" />
+            <!-- <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Portage" v-model="movingjob.shipping_portaging"
                 @savingValue="saveField('shipping_portaging')" />
-            </DocumentFieldFrame>
+            </DocumentFieldFrame> -->
 
-            <DocumentFieldFrame>
+            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_details"  @savingValue="saveField('shipping_details')" label="Détails" name="shipping_details" placeholder="Détails" />
+            <!-- <DocumentFieldFrame>
               <DocumentFieldInput placeholder="Détails" v-model="movingjob.shipping_details"
                 @savingValue="saveField('shipping_details')" />
-            </DocumentFieldFrame>
+            </DocumentFieldFrame> -->
           </div>
 
-          <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'shipping'" />
+          <!-- <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'shipping'" /> -->
         </div>
       </div>
       <div class="text-center text-2xl font-bold pb-5 flex justify-center">
@@ -376,6 +320,7 @@ import HandleOptionsFields from "@/Components/Organisms/HandleOptionsFields.vue"
 import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
+import LocationAutocomplete from "@/Components/Atoms/LocationAutocomplete.vue";
 import "vue-select/dist/vue-select.css";
 import { reactive, ref } from "vue";
 import { watch } from "vue";

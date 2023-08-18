@@ -2,7 +2,6 @@
   <div class="mt-6 flex flex-1 flex-col overflow-y-auto">
     <nav class="flex-1 space-y-2 px-2">
       <SideBarItem
-        :quickcreate="false"
         itemroute="6dem.dashboard"
         item="Dashboard"
       >
@@ -22,7 +21,7 @@
           />
         </svg>
       </SideBarItem>
-      <SideBarItem :quickcreate="true" itemroute="6dem.clients" item="Clients">
+      <SideBarItem itemroute="6dem.clients" item="Clients">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -40,7 +39,7 @@
         </svg>
       </SideBarItem>
       <SideBarItem
-        :quickcreate="false"
+      
         itemroute="6dem.documents"
         item="Documents"
       >
@@ -60,7 +59,7 @@
           />
         </svg>
       </SideBarItem>
-      <SideBarItem :quickcreate="false" itemroute="6dem.tasks" item="Tâches">
+      <SideBarItem itemroute="6dem.tasks" item="Tâches">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -76,7 +75,7 @@
           />
         </svg>
       </SideBarItem>
-      <SideBarItem :quickcreate="false" itemroute="6dem.calendar" item="Agenda">
+      <SideBarItem itemroute="6dem.calendar" item="Agenda">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -93,7 +92,6 @@
         </svg>
       </SideBarItem>
       <SideBarItem
-        :quickcreate="false"
         itemroute="6dem.manage"
         item="Gestion Équipe"
       >
@@ -113,7 +111,6 @@
         </svg>
       </SideBarItem>
       <SideBarItem
-        :quickcreate="false"
         itemroute="6dem.mail.templates"
         item="Templates Mail"
       >
@@ -134,7 +131,6 @@
       </SideBarItem>
       <SideBarItem
         itemroute="6dem.settings"
-        :quickcreate="false"
         item="Réglages"
       >
         <svg
@@ -162,6 +158,6 @@
   </div>
 </template>
   
-  <script setup>
-import SideBarItem from "@/Components/Atoms/SideBarItem.vue";
+<script setup>
+  import SideBarItem from "@/Components/Atoms/SideBarItem.vue";
 </script>

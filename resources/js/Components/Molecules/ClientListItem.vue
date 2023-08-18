@@ -51,7 +51,7 @@
       </div>
       <div class="w-1/12 my-auto">
         <div class="flex justify-end gap-4">
-          <Dropdown placement="bottom-end">
+          <Menu placement="bottom-end">
             <svg
               class="h-6 w-6 cursor-pointer"
               viewBox="0 0 28 7"
@@ -77,14 +77,14 @@
               @openUpdateClient="openUpdateClient(selectedClient)"
               :selectedClient="selectedClient"/>
             </template>
-          </Dropdown>
+          </Menu>
         </div>
       </div>
     </div>
   </template>
 
   <script setup>
-  import { Dropdown } from "floating-vue";
+  import { Menu } from "floating-vue";
   import { router } from '@inertiajs/vue3'
   import ClientActionsPopperContent from "@/Components/Molecules/ClientActionsPopperContent.vue";
   const props= defineProps({

@@ -34,7 +34,7 @@
           <SelectQuoteModal />
         </ListEmptyMessage>
       </Tab>
-      <Tab title="Facture">
+      <Tab title="Factures">
         <div v-if="$page.props.invoices.length">
           <div class="mt-2">
             <InvoiceList :deleteFacture="deleteFacture" :opendelModal="opendelModal"/>
@@ -69,55 +69,37 @@ import Tab from "@/Components/Atoms/Tab.vue";
 import WaybillList from "@/Components/Molecules/WaybillList.vue";
 import InvoiceList from "@/Components/Molecules/InvoiceList.vue";
 
-let isDrawerOpen = ref(false);
-let innerWidth = ref(window.innerWidth / 4 + "px");
-
-const toggleDrawer = () => {
-  isDrawerOpen.value = !isDrawerOpen.value;
-};
-
-const closeDrawer = () => {
-  isDrawerOpen.value = false;
-};
 function deleteLv(id) {
-
-router.delete(`/6dem/documents/waybill/delete/${id}`, {
+  router.delete(`/6dem/documents/waybill/delete/${id}`, {
     onBefore: () => opendelModal(),
     onSuccess:() => closedelModal()
-});
-//alert('hello from lv function');
+  });
 }
+
 function deleteFacture(id) {
-
-router.delete(`/6dem/documents/invoice/delete/${id}`, {
-onBefore: () => opendelModal(),
-onSuccess:() => closedelModal()
-});
-//alert('hello from Facture  function');
-}
-
-//début Open  et Close de formulaire de suppression quotation
-function deletequotation(id) {
-
-router.delete(`/6dem/documents/quotation/delete/${id}`, {
+  router.delete(`/6dem/documents/invoice/delete/${id}`, {
     onBefore: () => opendelModal(),
     onSuccess:() => closedelModal()
-});
+  });
 }
-//début Open et Close Pop-up
+
+function deletequotation(id) {
+  router.delete(`/6dem/documents/quotation/delete/${id}`, {
+      onBefore: () => opendelModal(),
+      onSuccess:() => closedelModal()
+  });
+}
+
 const isModaldelOpen=ref(false);
 const selectedvalue=ref(null);
 
 const opendelModal = (id) => {
-isModaldelOpen.value = true;
-selectedvalue.value = id;
+  isModaldelOpen.value = true;
+  selectedvalue.value = id;
 };
 
 const closedelModal = () => {
-isModaldelOpen.value = false;
-selectedvalue.value=null;
+  isModaldelOpen.value = false;
+  selectedvalue.value=null;
 };
-//fin Open et Close Pop-up
-
-//fin Open et Close de formulaire de suppression Client
 </script>

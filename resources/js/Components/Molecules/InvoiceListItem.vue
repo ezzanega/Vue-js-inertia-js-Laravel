@@ -6,7 +6,7 @@
     </div>
     <div class="text-left w-3/12 flex justify-center my-auto">{{ props.document.number }}</div>
     <div class="text-left w-3/12 flex justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
-    <div class="text-left w-2/12 flex justify-center my-auto">{{ props.document.type }}</div>
+    <div class="text-left w-2/12 flex justify-center my-auto">{{ getAdvanceOrBalanceNameFromKey(props.document.type) }}</div>
     <div v-if="props.document.status == 'A payer'" class="text-left w-2/12 flex justify-center my-auto">
       <p class="text-left rounded-full bg-yellow-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
@@ -52,6 +52,7 @@
 <script setup>
 import { Dropdown } from "floating-vue";
 import InvoiceActionsPopperContent from "@/Components/Molecules/InvoiceActionsPopperContent.vue";
+import { getAdvanceOrBalanceNameFromKey } from "@/utils";
 
 const emit = defineEmits(["toggle-selected-all"]);
 const props = defineProps({

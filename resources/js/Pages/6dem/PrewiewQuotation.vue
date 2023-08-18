@@ -47,7 +47,7 @@
                   />
                 </svg>
                 <template #popper>
-                  <QuotationActionsPopperContent :id="quotation.id" />
+                  <QuotationActionsPopperContent :movingjob="quotation.moving_job" :client="quotation.moving_job.client" :quotation="quotation" />
                 </template>
               </Dropdown>
             </div>
