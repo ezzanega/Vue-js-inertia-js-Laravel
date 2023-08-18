@@ -136,9 +136,7 @@ const form = useForm({
 }, {
   rules: {
     title: 'required|min:3',
-    // Add more validation rules for other fields if needed
   },
-  // Add validation rules for options
   options: {
     '*': {
       option: 'required|min:3',
