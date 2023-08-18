@@ -8,9 +8,10 @@
                     </svg>
                 </button>
             </div>
-            <input type="text"  name="text" class="block w-full p-4 pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-700 block w-full p-2.5" placeholder="Entrez une option" required v-model="form.text">
-        </div>
+            <input type="text"  name="text" class="block w-full p-4 pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-700 block w-full p-2.5" placeholder="Entrez une option" required v-model="form.text" @input="clearError()">
 
+        </div>
+        <p v-if="showError" class="text-red-500">Please enter a valid option.</p>
 
     <div class="flex flex-row space-x-2 justify-center mt-3">
         <button @click="toggleInputField" class="rounded-full p-0.5 bg-blue-200 text-blue-500 hover:text-blue-700">
@@ -28,6 +29,8 @@
 import { ref } from 'vue';
 import { useForm } from "@inertiajs/vue3";
 
+const showError = ref(false);
+
 const props = defineProps({
     id_formulas:Number,
     type_formulas:String,
@@ -37,6 +40,7 @@ const showInput = ref(false);
 
 const toggleInputField = () => {
     showInput.value = !showInput.value;
+    clearError();
 };
 const form = useForm({
     id_formulas: props.id_formulas,
@@ -44,9 +48,19 @@ const form = useForm({
     type :props.type_formulas,
 });
 
+
+const clearError = () => {
+    showError.value = false;
+};
+
+
 const addOption = () => {
+        if (!form.text) {
+            showError.value = true;
+            return;
+        }
         form.post(route("6dem.settings.create"), {
-            onSuccess: () => {form.text = ""; console.log('added');},
+            onSuccess: () => {form.text = ""; console.log('added'); toggleInputField()},
         });
 };
 
