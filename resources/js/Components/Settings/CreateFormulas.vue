@@ -61,7 +61,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <input type="label" class="mt-1 text-sm text-gray-500 dark:text-gray-400" name="slug_formula"
+                            <input type="hidden" class="mt-1 text-sm text-gray-500 dark:text-gray-400" name="slug_formula"
                             v-model="form.slug" readonly />
                         </div>
 
@@ -73,16 +73,21 @@
                                     name="option"
                                     placeholder="Entrez une option"
                                     v-model="item.option"
-                                    :error="form.errors.option"
+
+                                    :error="form.errors.options && form.errors.options[index]?.option ? form.errors.options[index]?.option : '' "
                                     class="flex-grow mt-2"
                                 />
+
                                 <DefaultSelectInput
                                     name="type"
                                     :options="FormulasOption"
                                     v-model="item.type"
-                                    :error="form.errors.type"
+                                    :error="form.errors.options && form.errors.options[index]?.type ? form.errors.options[index]?.type : '' "
                                     class="w-1/3"
                                 />
+
+                                <!-- <p v-if="form.errors.options && form.errors.options[index]?.type" class="text-red-500">{{ form.errors.options[index]?.type }}</p> -->
+
                                 <button @click="removeOptionRow(index)" class="rounded-full p-0.5 bg-red-200 text-red-500 hover:text-red-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
@@ -125,12 +130,29 @@ const FormulasOption = [
   ];
 
 const Row=ref(false);
+    // const form = useForm({
+    // title: '',
+    // slug:'',
+    // options: []
+    // //{option:''}
+    // });
     const form = useForm({
-    title: '',
-    slug:'',
-    options: []
-    //{option:''}
-    });
+  title: '',
+  slug: '',
+  options: []
+}, {
+  rules: {
+    title: 'required|min:3',
+    // Add more validation rules for other fields if needed
+  },
+  // Add validation rules for options
+  options: {
+    '*': {
+      option: 'required|min:3',
+      type: 'required'
+    }
+  }
+});
 
     const addOptionRow = () => {
     Row.value = true;
@@ -156,6 +178,23 @@ const SaveFormula = () => {
         options: optionsData
     };
 
+    if (!form.title) {
+        form.errors.title = 'Veuillez remplir ce champ, il est obligatoire.';
+        return;
+    }
+      // Initialize options errors
+  form.errors.options = [];
+
+  for (let i = 0; i < form.options.length; i++) {
+    const option = form.options[i];
+    if (!option.option || !option.type) {
+      form.errors.options[i] = {
+        option: !option.option ? 'Veuillez remplir ce champ, il est obligatoire.' : '',
+        type: !option.type ? 'Veuillez sélectionner un type.' : ''
+      };
+      return; // Prevent submission if any option has errors
+    }
+  }
     console.log(formulaData);
     try {
         const response = form.post(route("6dem.formula.create"), formulaData, {

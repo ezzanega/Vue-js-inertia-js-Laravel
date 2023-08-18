@@ -90,7 +90,6 @@ import UpdateExecutingCompanies from "@/Components/Settings/UpdateExecutingCompa
 
  const props=defineProps({
     formulas: Object,
-
  })
 
 

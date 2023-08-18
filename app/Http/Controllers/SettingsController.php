@@ -142,38 +142,34 @@ class SettingsController extends Controller
     }
     public function create_Formulas(Request $request)
     {
-        try {
-         // Validate the request data, including the title
-         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
-            'options' => 'required|array',
-            'options.*.option' => 'required|string|max:255',
-            'options.*.type' => 'required|string|max:255',
-        ]);
-        //return $request->all();
-        // // Create a new MovingJobFormula and save the title and slug and organisation is
-        $organization = $request->user()->organization;
-        $formula = new MovingJobFormula();
-        $formula->name = $validatedData['title'];
-        $formula->slug = $validatedData['slug'];
-        $formula->organization_id = $organization->id;
-        $formula->save();
+            // Validate the request data
+            $validatedData = $request->validate([
+                'title' => 'required|string|max:255',
+                'slug' => 'required|string|max:255',
+                'options' => 'nullable|array',
+                'options.*.option' => 'required|string|max:255',
+                'options.*.type' => 'required|string|max:255',
+            ]);
+            //return $request->all();
+            // // Create a new MovingJobFormula and save the title and slug and organisation is
+            $organization = $request->user()->organization;
+            $formula = new MovingJobFormula();
+            $formula->name = $validatedData['title'];
+            $formula->slug = $validatedData['slug'];
+            $formula->organization_id = $organization->id;
+            $formula->save();
 
-        //Save the options in MovingJobFormulaOptions
-        foreach ($validatedData['options'] as $option) {
-            $formulaOption = new MovingJobFormulaOption();
-            $formulaOption->type =  $option['type'];
-            $formulaOption->moving_job_formula_id = $formula->id;
-            $formulaOption->text = $option['option'];
-            $formulaOption->save();
-        }
-
-        return Redirect::route('6dem.settings');
-
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'An error occurred: ' . $e->getMessage()], 500);
-    }
+            //Save the options in MovingJobFormulaOptions
+            if (isset($validatedData['options']) && is_array($validatedData['options'])) {
+                foreach ($validatedData['options'] as $option) {
+                    $formulaOption = new MovingJobFormulaOption();
+                    $formulaOption->type =  $option['type'];
+                    $formulaOption->moving_job_formula_id = $formula->id;
+                    $formulaOption->text = $option['option'];
+                    $formulaOption->save();
+                }
+            }
+            return Redirect::route('6dem.settings');
     }
 
 }
