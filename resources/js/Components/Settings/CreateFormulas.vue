@@ -128,13 +128,8 @@ const FormulasOption = [
   ];
 
 const Row=ref(false);
-    // const form = useForm({
-    // title: '',
-    // slug:'',
-    // options: []
-    // //{option:''}
-    // });
-    const form = useForm({
+
+const form = useForm({
   title: '',
   slug: '',
   options: []
@@ -152,7 +147,7 @@ const Row=ref(false);
   }
 });
 
-    const addOptionRow = () => {
+const addOptionRow = () => {
     Row.value = true;
     if (form.options.length < 3) {
         form.options.push({ option: '', type: '' });
@@ -162,6 +157,7 @@ const Row=ref(false);
 // Remove an option row by index
 const removeOptionRow = (index) => {
     form.options.splice(index, 1);
+    form.errors.options = [];
 };
 const SaveFormula = () => {
     const optionsData = form.options.map(option => {
