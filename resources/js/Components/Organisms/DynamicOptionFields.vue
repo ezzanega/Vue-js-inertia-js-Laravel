@@ -11,7 +11,7 @@
             <input type="text"  name="text" class="block w-full p-4 pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-700 block w-full p-2.5" placeholder="Entrez une option" required v-model="form.text" @input="clearError()">
 
         </div>
-        <p v-if="showError" class="text-red-500">Please enter a valid option.</p>
+        <p v-if="showError" class="text-sm text-red-500">Veillez entrer une option valide !</p>
 
     <div class="flex flex-row space-x-2 justify-center mt-3">
         <button @click="toggleInputField" class="rounded-full p-0.5 bg-blue-200 text-blue-500 hover:text-blue-700">
