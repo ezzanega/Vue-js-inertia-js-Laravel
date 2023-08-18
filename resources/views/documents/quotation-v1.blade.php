@@ -238,29 +238,7 @@
                     {{ $quotation->movingJob->amount_ttc }} €</td>
             </tr>
         </table>
-        <!-- Assurance -->
-        {{-- <table
-            style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
-                <th colspan="5" style="padding: 8px; text-transform: uppercase;">Assurance</th>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Assurance
-                    contractuelle</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Valeur max. par
-                    objet</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Franchise</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Prix HT</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Prix TTC</td>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Assurance ad valorem</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Valeur max. par objet</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Franchise</td>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Prix HT</td>
-                <td style="padding: 8px;">Prix TTC</td>
-            </tr>
-        </table> --}}
+
         <!-- Modalité de réglement -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">

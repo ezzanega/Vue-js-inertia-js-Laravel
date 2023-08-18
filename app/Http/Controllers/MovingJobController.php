@@ -51,7 +51,7 @@ class MovingJobController extends Controller
 
         $option = Option::create([
             'type' => OptionType::MOVING,
-            'designation' => 'Déménagement ' . ($client->type == ClientType::INDIVIDUAL ? 'particulier, ' : 'professionnel, ') . ($movingjob->formula ? "Formule: $movingjob->formula" : ''),
+            'designation' => 'Déménagement ' . ($client->type == ClientType::INDIVIDUAL ? 'particulier' : 'professionnel'),
             'quantity' => 1,
             'unit' => 1,
             'unit_price_ht' => 0,
@@ -203,16 +203,13 @@ class MovingJobController extends Controller
         $insurance = Insurance::where(['organization_id' => $organization->id])->get();
         $settings = Settings::where('organization_id', $organization->id)->first();
         $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->get();
+        $quotation = Quotation::where('moving_job_id', $movingjobId)->first();
 
         return Inertia::render('6dem/Invoice', [
             'executingCompanies' => $executingCompanies,
             'organization' => $organization,
-            'invoice' => $invoice->only(
-                'id',
-                'number',
-                'type',
-                'executing_company'
-            ),
+            'quotation' => $quotation,
+            'invoice' => $invoice,
             'additionalFields' => $additionalFields,
             'movingJobFormulas' => $movingJobFormulas,
             'insurances' => $insurance,
@@ -252,7 +249,6 @@ class MovingJobController extends Controller
         $movingJobData = [
             'capacity'  => $request->capacity,
             'formula'  => $request->formula,
-            'volume'  => $request->volume,
             'loading_address'  => $request->loading_address,
             'loading_date'  => $request->loading_date,
             'loading_floor'  => $request->loading_floor,
@@ -358,32 +354,22 @@ class MovingJobController extends Controller
         }
     }
 
-    public function updateInvoice(Request $request, $id, $field)
+    public function updateInvoice(Request $request, $id)
     {
-        $invoice = Invoice::where(['id' => $id])->first();
-        $movingjob = MovingJob::where(['id' => $invoice->moving_job_id])->first();
+        $invoice = Invoice::find($id);
+        $invoiceData = [
+            'type' => $request->type,
+            'amount_ht' => $request->amount_ht,
+            'amount_ttc' => $request->amount_ttc,
+            'amount_tva' => $request->amount_tva,
+            'status' => $request->status,
+        ];
+        $filledInvoiceData = array_filter($invoiceData, function ($value) {
+            return $value !== null;
+        });
 
-        $request->validate([
-            $field =>  'required|string|max:125',
-        ]);
-
-        if ($field == "type") {
-            $invoice->update([
-                $field => $request->$field,
-            ]);
-        } else if ($field == "amount_ht") {
-            $invoice->update([
-                $field => $request->$field,
-            ]);
-        } else if ($field == "executing_company") {
-            $invoice->update([
-                $field => $request->$field,
-            ]);
-        } else {
-            $movingjob->update([
-                $field => $request->$field,
-            ]);
-        }
+        $invoice->update($filledInvoiceData);
+        return back();
     }
 
 

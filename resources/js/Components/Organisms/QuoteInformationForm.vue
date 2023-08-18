@@ -4,7 +4,7 @@
       <UploadFile class="w-1/6" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
     </div>
     <div class="flex flex-col space-y-2 px-8 mt-24">
-      <div class="text-center text-4xl font-bold pb-5">
+      <div class="text-center text-3xl font-bold pb-5">
         <h1>Informations de la société de déménagement</h1>
       </div>
       <div class="grid grid-cols-3 gap-6 justify-between">
@@ -48,6 +48,11 @@
             :value="currentOrganisation.billing_address.full_address" />
         </DocumentFieldFrame>
       </div>
+
+      <div class="text-center text-3xl font-bold py-5">
+        <h1>Informations clients</h1>
+      </div>
+
       <div class="grid grid-cols-3 gap-6 justify-between">
         <div>
           <DocumentFieldFrame>
@@ -73,9 +78,14 @@
           </DocumentFieldFrame>
         </div>
       </div>
+      <div>
+        <DocumentFieldFrame>
+          <DocumentFieldInput placeholder="Adresse du client" :value="currentClient.address.full_address" />
+        </DocumentFieldFrame>
+      </div>
     </div>
     <div class="flex flex-col space-y-2 px-8 mt-16">
-      <div class="text-center text-4xl font-bold pb-5">
+      <div class="text-center text-3xl font-bold pb-5">
         <h1>Informations à remplir sur le déménagement</h1>
       </div>
       <DocumentLabel name="Devis" color="#438A7A" />
@@ -367,7 +377,7 @@ import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import "vue-select/dist/vue-select.css";
-import { reactive, ref, computed } from "vue";
+import { reactive, ref } from "vue";
 import { watch } from "vue";
 import { reformatLocation, paymentProcessOptions, calculateTotalHT, calculatePercentage, calculateTTC, getAdvanceOrBalance } from "@/utils";
 
@@ -377,8 +387,6 @@ const currentOrganisation = usePage().props.organization;
 const currentQuotation = usePage().props.quotation;
 const currentMovingJob = usePage().props.movingJob;
 const currentClient = usePage().props.client;
-const currentInsuranceContractual = usePage().props.insurances.find(insurance => insurance.type === "contractual");
-const currentInsuranceAdValorem = usePage().props.insurances.find(insurance => insurance.type === "ad_valorem");
 const movingJobFormulas = usePage().props.movingJobFormulas;
 
 const formulaOptaions = movingJobFormulas.map(item => ({
@@ -386,19 +394,6 @@ const formulaOptaions = movingJobFormulas.map(item => ({
   value: item.slug
 }));
 
-const insuranceContractual = useForm({
-  max_value: currentInsuranceContractual ? currentInsuranceContractual.max_value : "",
-  franchise: currentInsuranceContractual ? currentInsuranceContractual.franchise : "",
-  amount_ht: currentInsuranceContractual ? currentInsuranceContractual.amount_ht : 0,
-  amount_ttc: currentInsuranceContractual ? currentInsuranceContractual.amount_ht + (currentInsuranceContractual.amount_ht*currentSettings.vat)/100 : ""
-});
-
-const insuranceAdValorem = useForm({
-  max_value: currentInsuranceAdValorem ? currentInsuranceAdValorem.max_value : "",
-  franchise: currentInsuranceAdValorem ? currentInsuranceAdValorem.franchise : "",
-  amount_ht: currentInsuranceAdValorem ? currentInsuranceAdValorem.amount_ht : 0,
-  amount_ttc: currentInsuranceContractual ? currentInsuranceAdValorem.amount_ht + (currentInsuranceAdValorem.amount_ht*currentSettings.vat)/100 : ""
-});
 
 const movingjob = useForm({
   validity_duratation: currentQuotation.validity_duratation ? currentQuotation.validity_duratation : currentSettings.quotation_validity_duratation,
@@ -439,6 +434,7 @@ const servicesOptions = ref(
     }
   })
 );
+
 const applyDiscount = ref(currentMovingJob.discount ? true : false);
 const processPaymentOptions = paymentProcessOptions();
 const movingjobLocationUrl = ref({
@@ -498,13 +494,6 @@ watch(sameAddressAsClient, (value) => {
   }
 });
 
-watch(
-  () => insuranceContractual.amount_ht,
-  (newValue) => {
-    insuranceContractual.amount_ttc = (newValue * currentSettings.vat)/100
-  }
-);
-
 const saveField = (field) => {
   movingjob.put(route("6dem.quotation.update", { id: currentQuotation.id, field: field }), {
     preserveScroll: true,
@@ -518,7 +507,7 @@ const updateMovingJob = () => {
   movingjob.put(route("6dem.movingJob.update", { id: currentMovingJob.id }), {
     preserveScroll: true,
     preserveState: true,
-    onSuccess: () => console.log("quotation.update"),
+    onSuccess: () => console.log("movingJob.update"),
     onError: (errors) => console.log(errors)
   });
 };
@@ -539,23 +528,6 @@ const saveFormula = () => {
     onSuccess: () => console.log("saved"),
     onError: (errors) => console.log(errors)
   });
-};
-
-const saveInsurance = (id, field, type) => {
-  if (type === 'contractual') {
-    insuranceContractual.put(route("6dem.insurance.update", { id: id, field: field }), {
-      preserveScroll: true,
-      preserveState: true,
-      onSuccess: () => console.log("saved"),
-    });
-  } else {
-    insuranceAdValorem.put(route("6dem.insurance.update", { id: id, field: field }), {
-      preserveScroll: true,
-      preserveState: true,
-      onSuccess: () => console.log("saved"),
-      onError: (errors) => console.log(errors)
-    });
-  }
 };
 
 const setLoadingAddressData = (location) => {
