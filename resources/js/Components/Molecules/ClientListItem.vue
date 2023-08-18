@@ -29,13 +29,13 @@
             v-if="client.type == 'professional'"
             class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
           >
-            Profetionnel
+            Professionnel
           </span>
           <span
             v-else
             class="inline-flex items-center gap-1 rounded-full bg-violet-50 px-2 py-1 text-xs font-semibold text-violet-600"
           >
-            Particutier
+            Particulier
           </span>
         </div>
       </div>

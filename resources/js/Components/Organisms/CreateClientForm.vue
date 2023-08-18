@@ -117,13 +117,12 @@
           label="Nom de la societé"
         />
 
-        <DefaultInput
-          :required="true"
-          v-model="form.siren"
+        <DefaultInput :required="true" 
+          v-model="form.siren" 
           :error="form.errors.siren"
+          @update:modelValue="getCompanyInformations" 
           name="siren"
-          label="Siren/Siret de la societé"
-        />
+          label="Siren/Siret de la societé"/>
 
         <div class="w-full flex space-x-2">
           <DefaultInput
@@ -222,6 +221,7 @@ import LocationAutocomplete from "@/Components/Atoms/LocationAutocomplete.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
+import { parseCompanyInformations } from "@/utils/index";
 
 const emit = defineEmits(["close"]);
 
@@ -311,6 +311,35 @@ const createClient = () => {
     preserveScroll: true,
     onSuccess: () => emit("close"),
   });
+};
+
+const setClientOrganizationData = (clientOrganization) => {
+    form.clientOrganizationName = clientOrganization.organizationName;
+    form.siren = clientOrganization.siren;
+    form.siret = clientOrganization.siret;
+    form.address = clientOrganization.address;
+    form.city = clientOrganization.city;
+    form.postalCode = clientOrganization.postalCode;
+    form.country = clientOrganization.country;
+    form.codeApe = clientOrganization.codeApe;
+    form.fullAddress = clientOrganization.fullAddress;
+};
+
+const getCompanyInformations = async (value) => {
+    if (value.length >= 9) {
+        try {
+            const result = await axios.get(
+                "https://suggestions.pappers.fr/v2/?q=" +
+                value.replace(/\s/g, "") +
+                "&cibles=siren,siret"
+            );
+            setClientOrganizationData(
+                parseCompanyInformations(result.data.resultats_siren[0])
+            );
+        } catch (e) {
+            console.log(e);
+        }
+    }
 };
 </script>  
 

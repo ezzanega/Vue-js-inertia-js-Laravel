@@ -58,7 +58,7 @@ class InvoiceController extends Controller
             if ($date) {
                 $movingJobQuery->orderBy('loading_date', $date);
             }
-            $movingJobQuery->with('client');
+            $movingJobQuery->with('client', 'client.clientOrganization');
         }])
             ->where('organization_id', auth()->user()->organization->id);
         if ($type) {

@@ -321,7 +321,7 @@ class ClientController extends Controller
         if ($source) {
             $query->orderBy('source', $source);
         }
-        $clients = $query->get();
+        $clients = $query->with('clientOrganization')->get();
 
         return $clients;
     }

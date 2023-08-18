@@ -68,6 +68,7 @@ class QuotationController extends Controller
                 if ($clientType) {
                     $clientQuery->orderBy('type', $clientType);
                 }
+                $clientQuery->with(['clientOrganization']);
             }]);
         }])
             ->where('organization_id', auth()->user()->organization->id);
