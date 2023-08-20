@@ -5,7 +5,7 @@
           <h3 class="text-lg font-medium leading-6 text-neutral-900">
             Formules de déménagement
             <button class="bg-primary hover:bg-green-700 text-white text-sm py-1 px-3 rounded shadow" @click="openFormulaModal">
-                New
+                Ajouter une formule
             </button>
           </h3>
           <p class="mt-1 text-sm text-neutral-600">
