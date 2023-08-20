@@ -228,9 +228,11 @@
 
   const props = defineProps({
     selectedClient: Object,
+    search:Function,
+    searchResults:Array,
   });
 
-  const emit = defineEmits(["close","selectedClient"]);
+  const emit = defineEmits(["close","selectedClient","search"]);
   console.log('Received Selected Client: ', props.selectedClient)
 
   const setAddressData = (location) => {
@@ -273,7 +275,8 @@
 
   console.log('Adress : ', form.address)
 
-
+console.log('search Function   ',props.search);
+console.log('close Function   ',props.searchResults);
 
   // const clientTypeChange = (value) => {
   //   form.clientType = value;
@@ -328,7 +331,9 @@
   const updateClient = () => {
     form.put(route("6dem.update.clients", {id: props.selectedClient.id}), {
         preserveScroll: true,
-        onSuccess: () => emit("close"),
+        onSuccess: () => {
+            props.search();
+            emit("close")},
         });
         //alert('hello from update Client')
   };
