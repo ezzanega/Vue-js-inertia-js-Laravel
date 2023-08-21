@@ -56,7 +56,9 @@
                     </div>
                     <div class="space-x-2 xl:flex">
                         <div class="w-auto xl:w-1/2">
-                          <p v-if="organizationSideOptions.length>0" class="text-sm font-normal text-gray-500">À notre charge</p>
+                          <p v-if="organizationSideOptions.length>0" class="text-sm font-normal text-gray-500">
+                            <u> À notre charge</u>
+                           </p>
                           <ul class="my-4 space-y-3">
                             <li v-for="(option, index) in organizationSideOptions" :key="index">
                               <a
@@ -88,7 +90,7 @@
 
                         <div class="w-auto xl:w-1/2">
                           <p  v-if="clientSideOptions.length>0" class="text-sm font-normal text-gray-500">
-                            À la charge du client
+                            <u> À la charge du client</u>
                           </p>
                           <ul class="my-4 space-y-3">
                             <li v-for="(option, index) in clientSideOptions" :key="index">
