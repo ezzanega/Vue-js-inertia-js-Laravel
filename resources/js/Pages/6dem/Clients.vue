@@ -8,7 +8,8 @@
         <ClientMailModal :isMailOpen="isMailOpen" :client="currentClient" @closeMailModal="closeMailModal" />
 
         <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-        @closedelModal="closedelModal()" @deleteFunction="deleteClient(selectedClient)"/>
+        @closedelModal="closedelModal()"
+        @deleteFunction="deleteClient(selectedClient)"/>
 
       </div>
     </div>

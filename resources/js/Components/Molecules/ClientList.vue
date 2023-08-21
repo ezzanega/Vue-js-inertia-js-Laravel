@@ -64,7 +64,7 @@
               <UpdateClientForm :selectedClient="selectedClient" @close="closeDrawer()" />
             </DrawerContent> -->
             <DrawerContent title="Update client" @closeDrawer="closeDrawer()">
-              <UpdateClientForm :selectedClient="selectedClient" @close="closeDrawer()" />
+              <UpdateClientForm :selectedClient="selectedClient" @close="closeDrawer()" :search="search" :searchResults="searchResults" />
             </DrawerContent>
           </div>
             </Drawer>
