@@ -1,5 +1,5 @@
 <template>
-    <Modal :show="isModal_dup_quot_Open">
+    <Modal :show="isModal_dup_quot_Open" >
         <div  v-if="formulas" class="flex min-h-0 flex-1 flex-col py-6 overflow-y-scroll">
           <div class="px-4 sm:px-6">
             <div class="flex items-start justify-between">
@@ -119,6 +119,9 @@
                           </ul>
                         </div>
                       </div>
+                    <p class="text-sm text-center text-gray-500">
+                        Pour modifier les formules de déménagement, rendez-vous dans la section <span class="text-primary font-bold">Réglages.</span>
+                    </p>
 
 
                     <div class="mt-6 flex justify-end space-x-4">
