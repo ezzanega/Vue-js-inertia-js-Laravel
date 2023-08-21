@@ -56,7 +56,7 @@
                     </div>
                     <div class="space-x-2 xl:flex">
                         <div class="w-auto xl:w-1/2">
-                          <p class="text-sm font-normal text-gray-500">À notre charge</p>
+                          <p v-if="organizationSideOptions.length>0" class="text-sm font-normal text-gray-500">À notre charge</p>
                           <ul class="my-4 space-y-3">
                             <li v-for="(option, index) in organizationSideOptions" :key="index">
                               <a
@@ -87,7 +87,7 @@
                         </div>
 
                         <div class="w-auto xl:w-1/2">
-                          <p class="text-sm font-normal text-gray-500">
+                          <p  v-if="clientSideOptions.length>0" class="text-sm font-normal text-gray-500">
                             À la charge du client
                           </p>
                           <ul class="my-4 space-y-3">
@@ -148,8 +148,8 @@ import { options } from "floating-vue";
     });
     const emit = defineEmits(["closeDupQuotModal"]);
     //Displaying List Of Formules
-    const formulas = usePage().props.movingJobFormulas;
     const page = usePage();
+    const formulas = page.props.movingJobFormulas;
     const FormuleOptions = ref([]);
     const selectedFormule = ref(null);
 
