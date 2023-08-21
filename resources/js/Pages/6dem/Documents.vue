@@ -5,9 +5,16 @@
       <Tab title="Devis">
         <div v-if="$page.props.quotations.length">
           <div class="mt-2">
-            <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal" />
+            <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal"
+            :openDupQuotModal="openDupQuotModal"/>
+
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
             @closedelModal="closedelModal()" @deleteFunction="deletequotation(selectedvalue)"/>
+
+            <DuplicateQuotation v-if="isModal_dup_quot_Open"
+            :isModal_dup_quot_Open="isModal_dup_quot_Open"
+            @closeDupQuotModal="closeDupQuotModal()" />
+
           </div>
         </div>
         <ListEmptyMessage
@@ -61,6 +68,7 @@ import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
 import SelectQuoteInvoiceModal from "@/Components/Organisms/SelectQuoteInvoiceModal.vue";
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import QuotationList from "@/Components/Molecules/QuotationList.vue";
+import DuplicateQuotation from "@/Components/Molecules/DuplicateQuotation.vue";
 import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
 import { Head,router } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -102,4 +110,20 @@ const closedelModal = () => {
   isModaldelOpen.value = false;
   selectedvalue.value=null;
 };
+//fin Open et Close Pop-up
+
+
+//début Open et Close Pop-up de duplicate quotation
+const isModal_dup_quot_Open = ref(false);
+
+const openDupQuotModal = () => {
+    isModal_dup_quot_Open.value = true;
+    console.log(isModal_dup_quot_Open.value)
+};
+
+const closeDupQuotModal = () => {
+    isModal_dup_quot_Open.value = false;
+    //selectedvalue.value = null;
+};
+//fin Open et Close Pop-up
 </script>
