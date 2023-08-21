@@ -112,7 +112,6 @@ const closedelModal = () => {
 };
 //fin Open et Close Pop-up
 
-
 //début Open et Close Pop-up de duplicate quotation
 const isModal_dup_quot_Open = ref(false);
 
