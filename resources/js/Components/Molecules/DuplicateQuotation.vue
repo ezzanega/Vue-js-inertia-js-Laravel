@@ -177,22 +177,14 @@
     };
     const organizationSideOptions = ref([]);
     const clientSideOptions = ref([]);
-    const newSelectedFormuleId=ref([]);
     watch(selectedFormule, (newSelectedFormule) => {
-        console.log('Selected Formule ID:', newSelectedFormule);
-        console.log('All Formulas:', formulas);
         const selectedFormula = formulas.find(formula => formula.id === parseInt(newSelectedFormule));
-        console.log('Selected Formula:', selectedFormula);
-        newSelectedFormuleId.value=newSelectedFormule;
-        console.log('newSelectedFormuleId :', newSelectedFormuleId.value);
-
+        
         if (selectedFormula) {
             const selectedOptions = selectedFormula.options.filter(option => option.moving_job_formula_id === parseInt(newSelectedFormule));
             organizationSideOptions.value = getOptionByType(selectedOptions, 'organization-side');
-            console.log('Selected organizationSideOptions Changed:', organizationSideOptions.value);
 
-            clientSideOptions.value = getOptionByType(selectedOptions, 'client-side');
-            console.log('Selected clientSideOptions Changed:', clientSideOptions.value);
+            clientSideOptions.value = getOptionByType(selectedOptions, 'client-side');;
 
         } else {
             organizationSideOptions.value = [];
