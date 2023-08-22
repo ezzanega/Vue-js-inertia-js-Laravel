@@ -13,7 +13,7 @@
 
             <DuplicateQuotation v-if="isModal_dup_quot_Open"
             :isModal_dup_quot_Open="isModal_dup_quot_Open"
-            @closeDupQuotModal="closeDupQuotModal()" />
+            @closeDupQuotModal="closeDupQuotModal()" @DuplicateQuotation="DuplicateQuotation(selectedvalue)" />
 
           </div>
         </div>
@@ -115,14 +115,21 @@ const closedelModal = () => {
 //début Open et Close Pop-up de duplicate quotation
 const isModal_dup_quot_Open = ref(false);
 
-const openDupQuotModal = () => {
+const openDupQuotModal = (id_quot) => {
     isModal_dup_quot_Open.value = true;
+    selectedvalue.value = id_quot;
     console.log(isModal_dup_quot_Open.value)
 };
 
 const closeDupQuotModal = () => {
     isModal_dup_quot_Open.value = false;
     //selectedvalue.value = null;
+};
+
+const DuplicateQuotation = (selectedvalue) => {
+    router.visit(route("6dem.documents.quotation.preview", selectedvalue), {
+        method: "get",
+    });
 };
 //fin Open et Close Pop-up
 </script>

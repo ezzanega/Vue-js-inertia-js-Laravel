@@ -42,7 +42,7 @@
             </div>
           </div>
 
-          <form>
+          <!-- <form > -->
             <div class="px-4 sm:px-6">
                 <div class="w-full py-3 flex flex-col space-y-2">
                     <div class="my-6 space-y-5">
@@ -128,11 +128,11 @@
 
                     <div class="mt-6 flex justify-end space-x-4">
                     <SecondaryButton @click="closeDupQuotModal"> Annuler </SecondaryButton>
-                    <DefaultButton class="w-32" buttontext="Dupliquer" />
+                    <DefaultButton @click="DuplicateQuotation" class="w-32" buttontext="Dupliquer" />
                     </div>
                 </div>
             </div>
-        </form>
+        <!-- </form> -->
 
         </div>
     </Modal>
@@ -146,12 +146,13 @@
     import SecondaryButton from "@/Components/SecondaryButton.vue";
     import { useForm,usePage } from "@inertiajs/vue3";
     import { ref,onMounted,watch} from "vue";
-import { options } from "floating-vue";
+    import { options } from "floating-vue";
+    import { router } from "@inertiajs/vue3";
 
     const props = defineProps({
         isModal_dup_quot_Open : Boolean,
     });
-    const emit = defineEmits(["closeDupQuotModal"]);
+    const emit = defineEmits(["closeDupQuotModal","DuplicateQuotation"]);
     //Displaying List Of Formules
     const page = usePage();
     const formulas = page.props.movingJobFormulas;
@@ -201,6 +202,9 @@ import { options } from "floating-vue";
     });
 
 
+    const DuplicateQuotation = () => {
+       emit('DuplicateQuotation');
+    };
 
     const closeDupQuotModal = () => {
         emit("closeDupQuotModal");
