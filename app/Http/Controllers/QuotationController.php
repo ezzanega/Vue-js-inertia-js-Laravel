@@ -112,6 +112,43 @@ class QuotationController extends Controller
         ]);
 
     }
+    // public function duplicate($id, $id_formule): Response
+    // {
+    //     // Retrieve the original quotation
+    //     $originalQuotation = Quotation::where('id', $id)
+    //         ->with(['movingJob.client', 'movingJob.client.clientOrganization'])
+    //         ->first();
+
+    //     // Retrieve the original movingJob
+    //     $originalMovingJob = $originalQuotation->movingJob;
+
+    //     // Duplicate the quotation
+    //     $newQuotation = $originalQuotation->replicate();
+    //     $newQuotation->save();
+
+    //     // Duplicate the movingJob and associate with the new quotation
+    //     $newMovingJob = $originalMovingJob->replicate();
+    //     $newMovingJob->save();
+
+    //     // Retrieve the formula
+    //     $formula = MovingJobFormula::where('id', $id_formule)->with('options')->first();
+
+    //     // Update the formula attribute of the new movingJob
+    //     $newMovingJob->update([
+    //         'formula' => $formula->name,
+    //     ]);
+
+    //     // Update the moving_job_id attribute of the newQuotation
+    //     $newQuotation->update([
+    //         'moving_job_id' => $newMovingJob->id,
+    //     ]);
+
+    //     return Inertia::render('6dem/PrewiewQuotation', [
+    //         'quotation' => $newQuotation,
+    //     ]);
+    // }
+
+
 
     public function deleteQuotation($id)
     {
