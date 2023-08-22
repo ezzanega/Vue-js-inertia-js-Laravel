@@ -13,8 +13,8 @@
 
             <DuplicateQuotation v-if="isModal_dup_quot_Open"
             :isModal_dup_quot_Open="isModal_dup_quot_Open"
-            @closeDupQuotModal="closeDupQuotModal()" @DuplicateQuotation="DuplicateQuotation(selectedvalue)" />
-
+            @closeDupQuotModal="closeDupQuotModal()"
+            :selectedvalue="selectedvalue" />
           </div>
         </div>
         <ListEmptyMessage
@@ -126,10 +126,10 @@ const closeDupQuotModal = () => {
     //selectedvalue.value = null;
 };
 
-const DuplicateQuotation = (selectedvalue) => {
-    router.visit(route("6dem.documents.quotation.preview", selectedvalue), {
-        method: "get",
-    });
-};
+// const DupQuotation = (selectedvalue) => {
+//     router.visit(route("6dem.documents.quotation.preview", selectedvalue), {
+//         method: "get",
+//     });
+// };
 //fin Open et Close Pop-up
 </script>

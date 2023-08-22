@@ -52,7 +52,6 @@
                             label="Formule"
                             :options="FormuleOptions"
                         />
-
                     </div>
                     <div class="space-x-2 xl:flex">
                         <div class="w-auto xl:w-1/2">
@@ -125,10 +124,9 @@
                         Pour modifier les formules de déménagement, rendez-vous dans la section <span class="text-primary font-bold">Réglages.</span>
                     </p>
 
-
                     <div class="mt-6 flex justify-end space-x-4">
                     <SecondaryButton @click="closeDupQuotModal"> Annuler </SecondaryButton>
-                    <DefaultButton @click="DuplicateQuotation" class="w-32" buttontext="Dupliquer" />
+                    <DefaultButton @click="DupQuotation(selectedFormule)" class="w-32" buttontext="Dupliquer" />
                     </div>
                 </div>
             </div>
@@ -151,8 +149,9 @@
 
     const props = defineProps({
         isModal_dup_quot_Open : Boolean,
+        selectedvalue:Number,
     });
-    const emit = defineEmits(["closeDupQuotModal","DuplicateQuotation"]);
+    const emit = defineEmits(["closeDupQuotModal"]);
     //Displaying List Of Formules
     const page = usePage();
     const formulas = page.props.movingJobFormulas;
@@ -178,33 +177,42 @@
     };
     const organizationSideOptions = ref([]);
     const clientSideOptions = ref([]);
-
+    const newSelectedFormuleId=ref([]);
     watch(selectedFormule, (newSelectedFormule) => {
-    console.log('Selected Formule ID:', newSelectedFormule);
-    console.log('All Formulas:', formulas);
+        console.log('Selected Formule ID:', newSelectedFormule);
+        console.log('All Formulas:', formulas);
+        const selectedFormula = formulas.find(formula => formula.id === parseInt(newSelectedFormule));
+        console.log('Selected Formula:', selectedFormula);
+        newSelectedFormuleId.value=newSelectedFormule;
+        console.log('newSelectedFormuleId :', newSelectedFormuleId.value);
 
-    const selectedFormula = formulas.find(formula => formula.id === parseInt(newSelectedFormule));
-    console.log('Selected Formula:', selectedFormula);
+        if (selectedFormula) {
+            const selectedOptions = selectedFormula.options.filter(option => option.moving_job_formula_id === parseInt(newSelectedFormule));
+            organizationSideOptions.value = getOptionByType(selectedOptions, 'organization-side');
+            console.log('Selected organizationSideOptions Changed:', organizationSideOptions.value);
 
-    if (selectedFormula) {
-        const selectedOptions = selectedFormula.options.filter(option => option.moving_job_formula_id === parseInt(newSelectedFormule));
+            clientSideOptions.value = getOptionByType(selectedOptions, 'client-side');
+            console.log('Selected clientSideOptions Changed:', clientSideOptions.value);
 
-        organizationSideOptions.value = getOptionByType(selectedOptions, 'organization-side');
-        console.log('Selected organizationSideOptions Changed:', organizationSideOptions.value);
-
-        clientSideOptions.value = getOptionByType(selectedOptions, 'client-side');
-        console.log('Selected clientSideOptions Changed:', clientSideOptions.value);
-        console.log('selectedOptions:', selectedOptions);
-    } else {
-        organizationSideOptions.value = [];
-        clientSideOptions.value = [];
-    }
+        } else {
+            organizationSideOptions.value = [];
+            clientSideOptions.value = [];
+        }
     });
 
-
-    const DuplicateQuotation = () => {
-       emit('DuplicateQuotation');
+    const DupQuotation = (selectedFormule) => {
+       //emit('DupQuotation');
+       const selectedvalue = props.selectedvalue;
+        const routeParams = {
+            id: selectedvalue,
+            id_formule: selectedFormule,
+        };
+        console.log('selectedvalue   '+selectedvalue)
+       router.visit(route("6dem.documents.quotation.duplicate", routeParams), {
+        method: "get",
+        });
     };
+
 
     const closeDupQuotModal = () => {
         emit("closeDupQuotModal");

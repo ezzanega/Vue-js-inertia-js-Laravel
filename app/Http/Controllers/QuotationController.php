@@ -7,6 +7,7 @@ use Inertia\Response;
 use App\Models\Client;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
+use App\Models\MovingJobFormula;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -91,6 +92,25 @@ class QuotationController extends Controller
         return Inertia::render('6dem/PrewiewQuotation', [
             'quotation' => $quotation,
         ]);
+    }
+    public function duplicate($id,$id_formule): Response
+    {
+        // Retrieve the original quotation
+        $originalQuotation = Quotation::where('id', $id)
+            ->with(['movingJob.client', 'movingJob.client.clientOrganization'])
+            ->first();
+        $formula = MovingJobFormula::where('id', $id_formule)->with('options')->first();
+        $newQuotation = $originalQuotation->replicate();
+        $newQuotation->save();
+
+        $newQuotation->movingJob()->update([
+        'formula' => $formula->name,
+        ]);
+
+        return Inertia::render('6dem/PrewiewQuotation', [
+            'quotation' => $newQuotation,
+        ]);
+
     }
 
     public function deleteQuotation($id)
