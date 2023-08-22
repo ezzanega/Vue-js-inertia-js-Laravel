@@ -193,16 +193,15 @@
     });
 
     const DupQuotation = (selectedFormule) => {
-       //emit('DupQuotation');
-       const selectedvalue = props.selectedvalue;
-        const routeParams = {
-            id: selectedvalue,
-            id_formule: selectedFormule,
-        };
-        console.log('selectedvalue   '+selectedvalue)
-       router.visit(route("6dem.documents.quotation.duplicate", routeParams), {
+      const selectedvalue = props.selectedvalue;
+      const routeParams = {
+        id: selectedvalue,
+        id_formule: selectedFormule,
+      };
+      console.log('selectedvalue   '+selectedvalue)
+      router.visit(route("6dem.documents.quotation.duplicate", routeParams), {
         method: "get",
-        });
+      });
     };
 
 

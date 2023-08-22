@@ -9,6 +9,7 @@ use App\Models\Quotation;
 use Illuminate\Http\Request;
 use App\Models\MovingJobFormula;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
 class QuotationController extends Controller
@@ -93,23 +94,31 @@ class QuotationController extends Controller
             'quotation' => $quotation,
         ]);
     }
-    public function duplicate($id, $id_formule): Response
+
+    public function duplicate($id, $id_formule): RedirectResponse
     {
         // Retrieve the original quotation
         $originalQuotation = Quotation::where('id', $id)
             ->with(['movingJob.client', 'movingJob.client.clientOrganization'])
             ->first();
+
+        // Retrieve the original movingJob
+        $originalMovingJob = $originalQuotation->movingJob;
+
+        // Retrieve the formula
         $formula = MovingJobFormula::where('id', $id_formule)->with('options')->first();
+
+        // Duplicate the movingJob
+        $newMovingJob = $originalMovingJob->replicate();
+        $newMovingJob->formula = $formula->slug;
+        $newMovingJob->save();  // Save the new MovingJob first
+
+        // Duplicate the quotation and associate with the new movingJob
         $newQuotation = $originalQuotation->replicate();
-        $newQuotation->save();
+        $newQuotation->movingJob()->associate($newMovingJob);  // Associate the new MovingJob
+        $newQuotation->save();  // Save the new Quotation to update the foreign key
 
-        $newQuotation->movingJob()->update([
-            'formula' => $formula->slug,
-        ]);
-
-        return Inertia::render('6dem/PrewiewQuotation', [
-            'quotation' => $newQuotation,
-        ]);
+        return Redirect::route('6dem.documents.quotation.preview', $newQuotation->id);
     }
 
     public function deleteQuotation($id)
