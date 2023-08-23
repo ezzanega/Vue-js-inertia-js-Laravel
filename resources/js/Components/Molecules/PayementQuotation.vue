@@ -46,6 +46,7 @@
                         <DefaultSelectInput
                             name="type"
                             label="Type de facture"
+                            :options="TypeFactureOption"
                         />
                     </div>
                     <DefaultInput
@@ -58,9 +59,10 @@
                         <DefaultSelectInput
                             name="moyen"
                             label="Moyen de paiement"
+                            :options="MoyenPayementOption"
                         />
                     </div>
-                    
+
                     <div class="mt-6 flex justify-end space-x-4">
                     <SecondaryButton @click="closePayQuotModal"> Annuler </SecondaryButton>
                     <DefaultButton class="w-32" buttontext="Dupliquer" />
@@ -90,6 +92,17 @@
     const emit = defineEmits(["closePayQuotModal"]);
     //Displaying List Of Formules
     const page = usePage();
+    const TypeFactureOption = [
+        { name: "Accompte", value: "accompte" },
+        { name: "Solde", value: "solde" }
+    ];
+    const MoyenPayementOption = [
+        { name: "Virement", value: "accompte" },
+        { name: "Check", value: "solde" },
+        { name: "Carte bancaire", value: "carte-bancaire" },
+        { name: "Mandat", value: "mandat" },
+        { name: "Espèce", value: "espece" },
+    ];
 
 
     const closePayQuotModal = () => {
