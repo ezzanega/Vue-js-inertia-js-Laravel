@@ -47,6 +47,8 @@
                             name="type"
                             label="Type de facture"
                             :options="TypeFactureOption"
+                            v-model="form.type"
+
                         />
                     </div>
                     <DefaultInput
@@ -54,12 +56,15 @@
                                 type="text"
                                 name="montant"
                                 label="Montant"
+                                v-model="form.montant"
                             />
                     <div class="my-6 space-y-5">
                         <DefaultSelectInput
                             name="moyen"
                             label="Moyen de paiement"
                             :options="MoyenPayementOption"
+                            v-model="form.moyen_payment"
+
                         />
                     </div>
 
@@ -103,7 +108,11 @@
         { name: "Mandat", value: "mandat" },
         { name: "Espèce", value: "espece" },
     ];
-
+    const form = useForm({
+        type:"",
+        montant: "",
+        moyen_payment: "",
+    });
 
     const closePayQuotModal = () => {
         emit("closePayQuotModal");
