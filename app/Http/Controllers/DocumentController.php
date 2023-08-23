@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use Illuminate\Http\Request;
-use App\Models\Quotation;
-use App\Models\Waybill;
-use App\Models\Invoice;
-use App\Models\ExecutingCompany;
 use Inertia\Response;
+use App\Models\Invoice;
+use App\Models\Waybill;
+use App\Models\Quotation;
+use Illuminate\Http\Request;
+use App\Models\MovingJobFormula;
+use App\Models\MovingJobFormulaOption;
+use App\Models\ExecutingCompany;
 
 class DocumentController extends Controller
 {
@@ -18,13 +20,15 @@ class DocumentController extends Controller
         $quotations = Quotation::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
         $waybills = Waybill::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
         $invoices = Invoice::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
 
         return Inertia::render('6dem/Documents', [
             'executingCompanies' => $executingCompanies,
             'quotations' => $quotations,
             'waybills' => $waybills,
-            'invoices' => $invoices
+            'invoices' => $invoices,
+            'movingJobFormulas'=> $movingJobFormulas,
         ]);
     }
 }

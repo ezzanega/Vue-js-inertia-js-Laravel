@@ -99,6 +99,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/documents/quotation/preview/{id}', [QuotationController::class, 'preview'])
         ->name('6dem.documents.quotation.preview');
+    Route::get('/6dem.documents.quotation.duplicate/{id}/{id_formule}', [QuotationController::class, 'duplicate'])
+        ->name('6dem.documents.quotation.duplicate');
+
 
     Route::get('/6dem/documents/quotation/search', [QuotationController::class, 'search'])
         ->name('6dem.search.quotation');

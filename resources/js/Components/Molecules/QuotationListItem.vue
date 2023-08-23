@@ -60,7 +60,14 @@
             />
           </svg>
           <template #popper>
-            <QuotationActionsPopperContent @updatedStatus="updatedStatus" :movingjob="props.document.moving_job" :client="props.document.moving_job.client" :quotation="document" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
+            <QuotationActionsPopperContent 
+              :movingjob="props.document.moving_job" 
+              :client="props.document.moving_job.client" 
+              :quotation="document" 
+              :deletequotation="deletequotation" 
+              :opendelModal="opendelModal" 
+              :openDupQuotModal="openDupQuotModal" 
+            />
           </template>
         </Dropdown>
       </div>
@@ -81,6 +88,7 @@ const props = defineProps({
   toggleDocumentSelection: Function,
   deletequotation:Function,
   opendelModal:Function,
+  openDupQuotModal:Function,
 });
 
 const handleCheckboxChange = () => {

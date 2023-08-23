@@ -97,7 +97,7 @@
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
               class="w-3 h-3 text-gray-400 hover:text-gray-900"
-              :class="[filters.date == 'asc' ? 'text-gray-900 hover:opacity-80' : '']" 
+              :class="[filters.date == 'asc' ? 'text-gray-900 hover:opacity-80' : '']"
               @click="sortField('date', 'asc')">
               <path fill-rule="evenodd"
                 d="M11.47 7.72a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z"
@@ -198,7 +198,8 @@
         <QuotationListItem v-for="(document, index) in searchQuotationResults" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
       </div>
       <div v-else class="space-y-2 w-auto">
-        <QuotationListItem v-for="(document, index) in usePage().props.quotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
+        <QuotationListItem v-for="(document, index) in usePage().props.quotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deletequotation="deletequotation" :opendelModal="opendelModal"
+        :openDupQuotModal="openDupQuotModal"/>
       </div>
     </div>
 </template>
@@ -218,6 +219,7 @@ import { reactive } from "vue";
 const props=defineProps({
   opendelModal:Function,
   deletequotation:Function,
+  openDupQuotModal:Function,
 });
 
 const currentQuotations = ref(usePage().props.quotations)
