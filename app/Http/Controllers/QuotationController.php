@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Client;
+use App\Models\Option;
+use App\Models\Payment;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\MovingJobFormula;
-use App\Models\Option;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -134,7 +136,33 @@ class QuotationController extends Controller
 
     public function SavePayment(Request $request,$id)
     {
-        return $request->all();
+        $quotation = Quotation::where('id', $id)
+            ->with(['movingJob.client', 'movingJob.client.clientOrganization'])
+            ->first();
+        $MovingJob = $quotation->movingJob;
+
+        //return $request->all();
+        // $request->all() = {"type":"accompte","montant":"10000.5","reference":"ER4356","moyen_payment":"carte-bancaire"}
+
+        $payment = new Payment([
+            'type' => $request->type,
+            'amount' => $request->montant,
+            'payment_channel' => $request->moyen_payment,
+            'reference' => $request->reference,
+        ]);
+        $MovingJob->payments()->save($payment);
+        // Update amount_ht and updated_at of MovingJob
+        //$newAmountHt = $MovingJob->amount_ht + $request->montant;
+        $newAmountHt = $request->montant;
+        $currentDate = Carbon::now();
+
+        $MovingJob->update([
+            'amount_ht' => $newAmountHt,
+            'loading_date' => $currentDate,
+        ]);
+        return Redirect::route('6dem.documents');
+
+
     }
 
     public function deleteQuotation($id)

@@ -129,6 +129,7 @@
         form.put(route("6dem.documents.payment.quotation", {id: id}),
         {
             preserveScroll: true,
+            onSuccess: () => closePayQuotModal(),
         });
     };
 
