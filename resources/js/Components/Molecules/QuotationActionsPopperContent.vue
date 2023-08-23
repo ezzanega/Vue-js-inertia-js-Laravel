@@ -115,9 +115,6 @@ const props = defineProps({
   //Props pour la dupliquation de devis
   openDupQuotModal:Function
 });
-const PopperItemClicked = () => {
-    //console.log(props.openDupQuotModal);
-};
 
 const changeStatusModal = ref(false);
 const createInvoiceModal = ref(false);
