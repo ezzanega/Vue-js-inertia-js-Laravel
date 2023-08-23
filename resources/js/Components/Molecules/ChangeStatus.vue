@@ -85,7 +85,10 @@ const updateStatus = () => {
     form.put(route("6dem.quotation.update", { id: props.quotation.id, field: "status" }), {
         preserveScroll: true,
         preserveState: true,
-        onSuccess: () => console.log("quotation.update"),
+        onSuccess: () => {
+            closeModal()
+            console.log("quotation.update")
+        },
         onError: (errors) => console.log(errors)
     });
 };
