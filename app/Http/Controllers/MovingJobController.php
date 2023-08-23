@@ -53,27 +53,16 @@ class MovingJobController extends Controller
 
         $option = Option::create([
             'type' => OptionType::MOVING,
-            'designation' => 'Déménagement ' . ($client->type == ClientType::INDIVIDUAL ? 'particulier' : 'professionnel'),
+            'designation' => 'Déménagement Forfaitaire',
             'quantity' => 1,
             'unit' => 1,
             'unit_price_ht' => 0,
             'total_price_ht' => 0
         ]);
 
-        $insuranceOption = Option::create([
-            'type' => OptionType::OTHER,
-            'designation' => "Assurance Contractuelle, Valeur maximale par objet: $insurance->max_value €, Montant de la franchise: $insurance->franchise €",
-            'quantity' => 1,
-            'unit' => 1,
-            'unit_price_ht' => $insurance->amount_ht ? $insurance->amount_ht : 0,
-            'total_price_ht' => $insurance->amount_ht ? $insurance->amount_ht : 0,
-        ]);
 
         $option->movingJob()->associate($movingjob);
         $option->save();
-
-        $insuranceOption->movingJob()->associate($movingjob);
-        $insuranceOption->save();
 
         $quotation->movingJob()->associate($movingjob);
         $quotation->save();
@@ -170,8 +159,8 @@ class MovingJobController extends Controller
         $invoice = Invoice::create([
             'type' => $request->type,
             'amount_ht' => $request->amount,
-            'amount_ttc' => $request->amount + ($request->amount * $settings->vat)/100,
-            'amount_tva' => ($request->amount * $settings->vat)/100,
+            'amount_ttc' => $request->amount + ($request->amount * $settings->vat) / 100,
+            'amount_tva' => ($request->amount * $settings->vat) / 100,
             'organization_id' => $organization->id,
             'status' => InvoiceStatus::ONHOLD
         ]);
@@ -284,7 +273,7 @@ class MovingJobController extends Controller
             $quotation->update([
                 $field => $request->$field,
             ]);
-        }else if ($field === "status") {
+        } else if ($field === "status") {
             $quotation->update([
                 $field => $request->$field,
             ]);

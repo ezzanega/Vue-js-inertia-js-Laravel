@@ -27,14 +27,26 @@
         <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div>
       </div>
     </div>
-    <div v-if="props.document.status == 'Envoyé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-yellow-400 text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
-    <div v-if="props.document.status == 'Accepté'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-red-400 text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
-    <div v-if="props.document.status == 'Expiré'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-primary text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
-    <div v-if="props.document.status == 'Refusé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-fuchsia-400 text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
-    <div v-if="props.document.status == 'Signé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-primary text-white w-fit px-2.5 py-1 my-auto">{{ props.document.status }}</span></div>
-    <div v-if="props.document.status == 'Non signé'" class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-red-400 text-white w-fit p-1 my-auto">{{ props.document.status }}</span></div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">
+      <span class="text-left rounded-full text-white w-fit px-2.5 py-1 my-auto"
+      :class="[
+        props.document.status === 'Accepté' ? 'bg-green-600' : '',
+        props.document.status === 'Signé' ? 'bg-primary' : '',
+        props.document.status === 'Envoyé' ? 'bg-gray-400' : '',
+        props.document.status === 'Refusé' ? 'bg-red-600' : '',
+        props.document.status === 'Expiré' ? 'bg-fuchsia-600' : '',
+        props.document.status === 'Non signé' ? 'bg-red-300' : '',
+      ]"
+      >{{ props.document.status }}</span>
+    </div>
+
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
-    <div class="text-left lg:w-2/12 min-w-2/12 flex flex-nowrap justify-center my-auto"><span class="text-left rounded-full bg-primary text-white w-fit px-2.5 py-1 my-auto">{{props.document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier"}}</span></div>
+    <div class="text-left lg:w-2/12 min-w-2/12 flex flex-nowrap justify-center my-auto">
+      <span class="text-left rounded-full text-white w-fit px-2.5 py-1 my-auto"
+        :class="[props.document.moving_job.client.type == 'professional' ? 'bg-blue-400' : 'bg-primary']">
+        {{props.document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier"}}
+      </span>
+    </div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.amount_ht }}</div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"></div>
     <div class="lg:w-1/12 min-w-1/12 my-auto">
