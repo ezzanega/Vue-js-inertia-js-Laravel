@@ -170,11 +170,29 @@ class QuotationController extends Controller
             if (!$quotation) {
                 return response()->json(['message' => 'Ce devis n\'existe pas'], 404);
             }
+            $movingJob = $quotation->movingJob; // Get the associated MovingJob
+            if ($movingJob) {
+                $movingJob->payments()->delete();  // Delete associated payments
+
+                // Delete associated options
+                $MovingOptions = Option::where('moving_job_id', $movingJob->id)->get();
+                if ($MovingOptions) {
+                    foreach ($MovingOptions as $option) {
+                        $option->delete();
+                    }
+                }
+
+                $movingJob->delete();// Delete the MovingJob
+            }
             $quotation->delete();
             return Redirect::route('6dem.documents');
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
+            return response()->json([
+                'message' => 'Une erreur s\'est produite lors de la suppression',
+                'error' => $e->getMessage(),  // Include the exception message
+                // You can include more details as needed, such as $e->getCode(), $e->getFile(), $e->getLine(), etc.
+            ], 500);
         }
     }
 }
