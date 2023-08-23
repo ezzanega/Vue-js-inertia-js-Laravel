@@ -51,13 +51,25 @@
 
                         />
                     </div>
-                    <DefaultInput
-                                :required="true"
-                                type="text"
-                                name="montant"
-                                label="Montant"
-                                v-model="form.montant"
-                            />
+                    <div class="my-6  flex">
+                        <DefaultInput
+                            :required="true"
+                            type="text"
+                            name="montant"
+                            label="Montant"
+                            v-model="form.montant"
+                            class="flex-grow mr-4"
+                        />
+                        <DefaultInput
+                            :required="true"
+                            type="text"
+                            name="reference"
+                            label="Référence du paiement"
+                            v-model="form.reference"
+                            class="flex-grow"
+                        />
+                    </div>
+
                     <div class="my-6 space-y-5">
                         <DefaultSelectInput
                             name="moyen"
@@ -70,7 +82,7 @@
 
                     <div class="mt-6 flex justify-end space-x-4">
                     <SecondaryButton @click="closePayQuotModal"> Annuler </SecondaryButton>
-                    <DefaultButton class="w-32" buttontext="Dupliquer" />
+                    <DefaultButton class="w-32" buttontext="Enregistrer" />
                     </div>
                 </div>
             </div>
@@ -111,6 +123,7 @@
     const form = useForm({
         type:"",
         montant: "",
+        reference: "",
         moyen_payment: "",
     });
 
