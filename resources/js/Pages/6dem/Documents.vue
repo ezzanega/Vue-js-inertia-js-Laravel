@@ -9,7 +9,8 @@
             :openDupQuotModal="openDupQuotModal"/>
 
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-            @closedelModal="closedelModal()" @deleteFunction="deletequotation(selectedvalue)"/>
+            @closedelModal="closedelModal()"
+            @deleteFunction="deletequotation(selectedvalue)"/>
 
             <DuplicateQuotation v-if="isModal_dup_quot_Open"
             :isModal_dup_quot_Open="isModal_dup_quot_Open"

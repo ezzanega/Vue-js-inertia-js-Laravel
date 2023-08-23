@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 use App\Models\MovingJobFormula;
+use App\Models\Option;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -95,7 +96,7 @@ class QuotationController extends Controller
         ]);
     }
 
-    public function duplicate($id, $id_formule): RedirectResponse
+    public function duplicate($id, $id_formule)
     {
         // Retrieve the original quotation
         $originalQuotation = Quotation::where('id', $id)
@@ -108,15 +109,28 @@ class QuotationController extends Controller
         // Retrieve the formula
         $formula = MovingJobFormula::where('id', $id_formule)->with('options')->first();
 
-        // Duplicate the movingJob
+        // // Duplicate the movingJob
         $newMovingJob = $originalMovingJob->replicate();
         $newMovingJob->formula = $formula->slug;
         $newMovingJob->save();  // Save the new MovingJob first
 
-        // Duplicate the quotation and associate with the new movingJob
+        // Duplicate the associated options and link them to the new MovingJob
+        //$originalOptions = $originalMovingJob->options;
+        $originalOptions = Option::where('moving_job_id', $originalMovingJob->id)->get();
+        // foreach ($originalOptions as $originalOption) {
+        //     return 'originalOptions:    '.$originalOption;
+        // }
+        if ($originalOptions) {
+            foreach ($originalOptions as $originalOption) {
+                $newOption = $originalOption->replicate();
+                $newOption->moving_job_id = $newMovingJob->id;
+                $newOption->save();
+            }
+        }
+        // // Duplicate the quotation and associate with the new movingJob
         $newQuotation = $originalQuotation->replicate();
         $newQuotation->movingJob()->associate($newMovingJob);  // Associate the new MovingJob
-        $newQuotation->save();  // Save the new Quotation to update the foreign key
+        $newQuotation->save();
 
         return Redirect::route('6dem.documents.quotation.preview', $newQuotation->id);
     }
