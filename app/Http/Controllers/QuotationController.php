@@ -154,7 +154,7 @@ class QuotationController extends Controller
         // Update amount_ht and updated_at of MovingJob
         //$newAmountHt = $MovingJob->amount_ht + $request->montant;
         $newAmountHt = $request->montant;
-        $currentDate = Carbon::now();
+        $currentDate = Carbon::today()->toDateString();
 
         $MovingJob->update([
             'amount_ht' => $newAmountHt,
