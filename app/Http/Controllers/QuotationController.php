@@ -132,6 +132,11 @@ class QuotationController extends Controller
         return Redirect::route('6dem.documents.quotation.preview', $newQuotation->id);
     }
 
+    public function SavePayment(Request $request,$id)
+    {
+        return $request->all();
+    }
+
     public function deleteQuotation($id)
     {
         try {

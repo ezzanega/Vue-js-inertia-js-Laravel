@@ -48,7 +48,6 @@
                             label="Type de facture"
                             :options="TypeFactureOption"
                             v-model="form.type"
-
                         />
                     </div>
                     <div class="my-6  flex">
@@ -76,13 +75,12 @@
                             label="Moyen de paiement"
                             :options="MoyenPayementOption"
                             v-model="form.moyen_payment"
-
                         />
                     </div>
 
                     <div class="mt-6 flex justify-end space-x-4">
                     <SecondaryButton @click="closePayQuotModal"> Annuler </SecondaryButton>
-                    <DefaultButton class="w-32" buttontext="Enregistrer" />
+                    <DefaultButton @click="SavePayment(props.selectedvalue)" class="w-32" buttontext="Enregistrer" />
                     </div>
                 </div>
             </div>
@@ -105,6 +103,7 @@
 
     const props = defineProps({
         isModal_payment_quot_Open : Boolean,
+        selectedvalue:Number,
     });
     const emit = defineEmits(["closePayQuotModal"]);
     //Displaying List Of Formules
@@ -126,6 +125,12 @@
         reference: "",
         moyen_payment: "",
     });
+    const SavePayment = (id) => {
+        form.put(route("6dem.documents.payment.quotation", {id: id}),
+        {
+            preserveScroll: true,
+        });
+    };
 
     const closePayQuotModal = () => {
         emit("closePayQuotModal");

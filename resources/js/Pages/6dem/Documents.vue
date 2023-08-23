@@ -20,7 +20,8 @@
             <PayementQuotation
             v-if="isModal_payment_quot_Open"
             :isModal_payment_quot_Open="isModal_payment_quot_Open"
-            @closePayQuotModal="closePayQuotModal()"/>
+            @closePayQuotModal="closePayQuotModal()"
+            :selectedvalue="selectedvalue"/>
           </div>
         </div>
         <ListEmptyMessage
