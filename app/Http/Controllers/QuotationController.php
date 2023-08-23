@@ -142,7 +142,6 @@ class QuotationController extends Controller
         $MovingJob = $quotation->movingJob;
 
         //return $request->all();
-        // $request->all() = {"type":"accompte","montant":"10000.5","reference":"ER4356","moyen_payment":"carte-bancaire"}
 
         $payment = new Payment([
             'type' => $request->type,
@@ -151,11 +150,9 @@ class QuotationController extends Controller
             'reference' => $request->reference,
         ]);
         $MovingJob->payments()->save($payment);
-        // Update amount_ht and updated_at of MovingJob
-        //$newAmountHt = $MovingJob->amount_ht + $request->montant;
+        //update amount_ht & loading_date for the MovingJob
         $newAmountHt = $request->montant;
         $currentDate = Carbon::today()->toDateString();
-
         $MovingJob->update([
             'amount_ht' => $newAmountHt,
             'loading_date' => $currentDate,
