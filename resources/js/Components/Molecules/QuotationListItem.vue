@@ -60,7 +60,7 @@
             />
           </svg>
           <template #popper>
-            <QuotationActionsPopperContent :movingjob="props.document.moving_job" :client="props.document.moving_job.client" :quotation="document" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
+            <QuotationActionsPopperContent @updatedStatus="updatedStatus" :movingjob="props.document.moving_job" :client="props.document.moving_job.client" :quotation="document" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
           </template>
         </Dropdown>
       </div>
@@ -71,7 +71,7 @@
   <script setup>
 import { Dropdown } from "floating-vue";
 import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
-
+import { router } from "@inertiajs/vue3";
 const emit = defineEmits(["toggle-selected-all"]);
 const props = defineProps({
   selectedAll: Boolean,
@@ -86,5 +86,9 @@ const props = defineProps({
 const handleCheckboxChange = () => {
   props.toggleDocumentSelection(props.document);
   emit("toggle-selected-all");
+};
+
+const updatedStatus = () => {
+  router.reload();
 };
 </script>

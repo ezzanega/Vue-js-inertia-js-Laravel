@@ -123,6 +123,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents/waybill/preview/{id}', [WaybillController::class, 'preview'])
         ->name('6dem.documents.waybill.preview');
 
+    Route::post('/6dem/documents/waybill/quotation/preview/{id}', [MovingJobController::class, 'initWaybillPreview'])
+        ->name('6dem.documents.waybill.quotation.preview');
+
     Route::get('/6dem/documents/waybill/search', [WaybillController::class, 'search'])
         ->name('6dem.search.waybill');
     # Delete Waybill
@@ -144,6 +147,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/documents/invoice/preview/{id}', [InvoiceController::class, 'preview'])
         ->name('6dem.documents.invoice.preview');
+
+    Route::post('/6dem/documents/invoice/quotation/preview/{id}', [MovingJobController::class, 'initInvoicePreview'])
+        ->name('6dem.documents.invoice.quotation.preview');
 
     Route::get('/6dem/documents/invoice/search', [InvoiceController::class, 'search'])
         ->name('6dem.search.invoice');

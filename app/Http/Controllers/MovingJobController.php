@@ -20,6 +20,7 @@ use App\Models\ExecutingCompany;
 use App\Models\MovingJobFormula;
 use App\Models\Enums\InsuranceType;
 use App\Models\Enums\InvoiceStatus;
+use App\Models\Enums\InvoiceType;
 use App\Models\Enums\WaybillStatus;
 use Illuminate\Support\Facades\Http;
 use App\Models\Enums\QuotationStatus;
@@ -46,7 +47,7 @@ class MovingJobController extends Controller
         $movingjob = MovingJob::create([]);
         $quotation = Quotation::create([
             'organization_id' => $organization->id,
-            'status' => QuotationStatus::NOTSIGNED
+            'status' => QuotationStatus::DRAFTED
         ]);
         $insurance = Insurance::where(['organization_id' => $organization->id, 'type' => InsuranceType::CONTRACTUAL])->first();
 
@@ -112,6 +113,30 @@ class MovingJobController extends Controller
         ]);
     }
 
+    public function initWaybillPreview(Request $request, $quotationId)
+    {
+        $organization = $request->user()->organization;
+        $quotation = Quotation::find($quotationId);
+        $executingCompany = ExecutingCompany::find($request->executingCompany);
+        $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
+        $waybill = Waybill::create([
+            'executing_company' => $executingCompany->name,
+            'organization_id' => $organization->id,
+            'status' => WaybillStatus::NOTSIGNED
+        ]);
+
+        $waybill->movingJob()->associate($movingjob);
+        $waybill->save();
+
+        $waybill->executingCompany()->associate($executingCompany);
+        $waybill->save();
+
+        $waybill = Waybill::where('id', $waybill->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
+        return Inertia::render('6dem/PreviewWaybill', [
+            'waybill' => $waybill,
+        ]);
+    }
+
     public function initInvoice(Request $request, $quotationId)
     {
         $organization = $request->user()->organization;
@@ -133,6 +158,30 @@ class MovingJobController extends Controller
             'movingjobId' => $movingjob->id,
             'clientId' => $client->id,
             'invoiceId' => $invoice->id,
+        ]);
+    }
+
+    public function initInvoicePreview(Request $request, $quotationId)
+    {
+        $organization = $request->user()->organization;
+        $quotation = Quotation::find($quotationId);
+        $settings = Settings::where('organization_id', $organization->id)->first();
+        $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
+        $invoice = Invoice::create([
+            'type' => $request->type,
+            'amount_ht' => $request->amount,
+            'amount_ttc' => $request->amount + ($request->amount * $settings->vat)/100,
+            'amount_tva' => ($request->amount * $settings->vat)/100,
+            'organization_id' => $organization->id,
+            'status' => InvoiceStatus::ONHOLD
+        ]);
+
+        $invoice->movingJob()->associate($movingjob);
+        $invoice->save();
+
+        $invoice = Invoice::where('id', $invoice->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
+        return Inertia::render('6dem/PreviewInvoice', [
+            'invoice' => $invoice,
         ]);
     }
 
@@ -232,6 +281,10 @@ class MovingJobController extends Controller
         ]);
 
         if ($field === "validity_duratation") {
+            $quotation->update([
+                $field => $request->$field,
+            ]);
+        }else if ($field === "status") {
             $quotation->update([
                 $field => $request->$field,
             ]);

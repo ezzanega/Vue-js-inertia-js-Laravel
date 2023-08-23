@@ -198,7 +198,7 @@
         <QuotationListItem v-for="(document, index) in searchQuotationResults" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
       </div>
       <div v-else class="space-y-2 w-auto">
-        <QuotationListItem v-for="(document, index) in currentQuotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
+        <QuotationListItem v-for="(document, index) in usePage().props.quotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deletequotation="deletequotation" :opendelModal="opendelModal"/>
       </div>
     </div>
 </template>

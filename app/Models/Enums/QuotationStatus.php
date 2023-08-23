@@ -10,6 +10,5 @@ class QuotationStatus
     const ACCEPTED = 'Accepté';
     const DENIED = 'Refusé';
     const EXPIRED = 'Expiré';
-    const SIGNED = 'Signé';
-    const NOTSIGNED = 'Non signé';
+    const DRAFTED = 'Brouillon';
 }
