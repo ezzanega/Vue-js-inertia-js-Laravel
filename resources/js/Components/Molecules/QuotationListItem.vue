@@ -31,11 +31,10 @@
       <span class="text-left rounded-full text-white w-fit px-2.5 py-1 my-auto"
       :class="[
         props.document.status === 'Accepté' ? 'bg-green-600' : '',
-        props.document.status === 'Signé' ? 'bg-primary' : '',
+        props.document.status === 'Brouillon' ? 'bg-red-300' : '',
         props.document.status === 'Envoyé' ? 'bg-gray-400' : '',
         props.document.status === 'Refusé' ? 'bg-red-600' : '',
         props.document.status === 'Expiré' ? 'bg-fuchsia-600' : '',
-        props.document.status === 'Non signé' ? 'bg-red-300' : '',
       ]"
       >{{ props.document.status }}</span>
     </div>
