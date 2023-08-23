@@ -117,9 +117,6 @@ class QuotationController extends Controller
         // Duplicate the associated options and link them to the new MovingJob
         //$originalOptions = $originalMovingJob->options;
         $originalOptions = Option::where('moving_job_id', $originalMovingJob->id)->get();
-        // foreach ($originalOptions as $originalOption) {
-        //     return 'originalOptions:    '.$originalOption;
-        // }
         if ($originalOptions) {
             foreach ($originalOptions as $originalOption) {
                 $newOption = $originalOption->replicate();
