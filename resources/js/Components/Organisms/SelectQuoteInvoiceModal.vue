@@ -14,8 +14,6 @@
                     </p>
                 </div>
 
-                <span class="mt-5 border-b border-gray-200 divide-x"></span>
-
                 <div class="my-6 space-y-5">
                     <DefaultSelectInput name="type" label="Type de facture" v-model="form.type" :options="typesOptions"
                         :error="form.errors.type" />

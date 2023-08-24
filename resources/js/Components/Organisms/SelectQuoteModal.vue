@@ -14,7 +14,6 @@
                     </p>
                 </div>
 
-
                 <div class="mt-6 space-y-5">
                     <DefaultSelectInput name="executingCompany" label="Société Exécutante" v-model="form.executingCompany"
                         :options="executingCompaniesOptions" :error="form.errors.executingCompany" />
