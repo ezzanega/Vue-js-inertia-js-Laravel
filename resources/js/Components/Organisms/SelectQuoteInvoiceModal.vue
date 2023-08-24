@@ -13,12 +13,6 @@
                         Créer une facture
                     </p>
                 </div>
-                <div class="w-full pt-3 flex space-x-2">
-                    <SelectableButton text="Pour un devis existant" value="existing"
-                        :selected="quotationType === 'existing'" @selected="quotationTypeChange" />
-                    <SelectableButton text="Pour un nouveau client" value="new" :selected="quotationType === 'new'"
-                        @selected="quotationTypeChange" />
-                </div>
 
                 <span class="mt-5 border-b border-gray-200 divide-x"></span>
 
@@ -29,7 +23,7 @@
                         :error="form.errors.amount" label="Montant de la facture" placeholder="Montant de la facture" />
                 </div>
 
-                <div class="w-full" v-if="quotationType === 'existing'">
+                <div class="w-full">
                     <div>
                         <Dropdown :triggers="[]" :shown="searchingQuotation" :autoHide="false" placement="bottom">
                             <SearchBar :required="true" name="waybill" v-model="searchQuotationQuery" class="shrink mt-1"
@@ -80,15 +74,10 @@
                         </a>
                     </div>
 
-                    <div class="mt-5 pt-16 flex justify-end space-x-4">
+                    <div class="mt-5 pt-8 flex justify-end space-x-4">
                         <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
                         <DefaultButton @click="initDocument" class="w-32" :disabled="selectedQuotation == null"
                             buttontext="Valider" />
-                    </div>
-                </div>
-                <div v-else>
-                    <div class="w-full px-6 flex flex-col space-y-2">
-                        <CreateClientForm @created="" />
                     </div>
                 </div>
             </div>
@@ -98,7 +87,6 @@
   
 <script setup>
 import Modal from "@/Components/Modal.vue";
-import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import IconButton from '@/Components/Atoms/IconButton.vue';
 import { ref, watch, onMounted } from "vue";
@@ -106,7 +94,6 @@ import { router } from '@inertiajs/vue3'
 import { usePage, useForm } from "@inertiajs/vue3";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
-import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 import { Dropdown } from "floating-vue";
 import axios from "axios";
 import debounce from "lodash/debounce";
@@ -120,7 +107,6 @@ const searchQuotationResults = ref([]);
 const searchingQuotation = ref(false);
 
 const selectedQuotation = ref(null);
-const quotationType = ref("existing");
   
 const typesOptions = [
     {
@@ -145,10 +131,6 @@ const closeModal = () => {
 
 const confirmWaybillCreation = () => {
     quoteSelectionModal.value = true;
-};
-
-const quotationTypeChange = (value) => {
-    quotationType.value = value;
 };
 
 const selectQuotation = async (quotation) => {

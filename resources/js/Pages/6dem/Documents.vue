@@ -6,15 +6,22 @@
         <div v-if="$page.props.quotations.length">
           <div class="mt-2">
             <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal"
-            :openDupQuotModal="openDupQuotModal"/>
+            :openDupQuotModal="openDupQuotModal"
+            :openPayQuotModal="openPayQuotModal"/>
 
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-            @closedelModal="closedelModal()" @deleteFunction="deletequotation(selectedvalue)"/>
+            @closedelModal="closedelModal()"
+            @deleteFunction="deletequotation(selectedvalue)"/>
 
             <DuplicateQuotation v-if="isModal_dup_quot_Open"
             :isModal_dup_quot_Open="isModal_dup_quot_Open"
             @closeDupQuotModal="closeDupQuotModal()"
             :selectedvalue="selectedvalue" />
+            <PayementQuotation
+            v-if="isModal_payment_quot_Open"
+            :isModal_payment_quot_Open="isModal_payment_quot_Open"
+            @closePayQuotModal="closePayQuotModal()"
+            :selectedvalue="selectedvalue"/>
           </div>
         </div>
         <ListEmptyMessage
@@ -69,6 +76,7 @@ import SelectQuoteInvoiceModal from "@/Components/Organisms/SelectQuoteInvoiceMo
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import QuotationList from "@/Components/Molecules/QuotationList.vue";
 import DuplicateQuotation from "@/Components/Molecules/DuplicateQuotation.vue";
+import PayementQuotation from "@/Components/Molecules/PayementQuotation.vue";
 import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
 import { Head,router } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -125,11 +133,19 @@ const closeDupQuotModal = () => {
     isModal_dup_quot_Open.value = false;
     //selectedvalue.value = null;
 };
-
-// const DupQuotation = (selectedvalue) => {
-//     router.visit(route("6dem.documents.quotation.preview", selectedvalue), {
-//         method: "get",
-//     });
-// };
 //fin Open et Close Pop-up
+
+//début Open et Close Pop-up de duplicate quotation
+const isModal_payment_quot_Open = ref(false);
+
+const openPayQuotModal = (id_quot) => {
+    isModal_payment_quot_Open.value = true;
+    selectedvalue.value = id_quot;
+    console.log(isModal_payment_quot_Open.value)
+};
+
+const closePayQuotModal = () => {
+    isModal_payment_quot_Open.value = false;
+    //selectedvalue.value = null;
+};
 </script>

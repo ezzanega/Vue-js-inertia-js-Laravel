@@ -31,7 +31,8 @@
                         <tr>
                             <td>
                                 <address>
-                                    Adresse: {{ $organization->billingAddress->address }}<br>
+                                    Adresse:
+                                    {{ $organization->billingAddress ? $organization->billingAddress->address : '' }}<br>
                                     Téléphone: {{ $organization->phone_number }}<br>
                                     Email: {{ $organization->email }}<br>
                                 </address>
@@ -92,8 +93,8 @@
                     <span style="color: #333;">CLIENT :</span>
                     <span style="color: #333;">{{ $quotation->movingJob->client->getFullName() }}</span>
                     <address style="color: #777;">
-                        {{ $quotation->movingJob->client->address->address }}<br />
-                        {{ $quotation->movingJob->client->address->postal_code . ' ' . $quotation->movingJob->client->address->city }}
+                        {{ $quotation->movingJob->client->address ? $quotation->movingJob->client->address->address : '' }}<br />
+                        {{ $quotation->movingJob->client->address ? $quotation->movingJob->client->address->postal_code . ' ' . $quotation->movingJob->client->address->city : '' }}
                         <br />
                         Tél : {{ $quotation->movingJob->client->phone_number }}
                     </address>

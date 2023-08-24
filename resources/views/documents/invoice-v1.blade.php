@@ -31,7 +31,8 @@
                         <tr>
                             <td>
                                 <address>
-                                    Adresse: {{ $organization->billingAddress->address }}<br>
+                                    Adresse:
+                                    {{ $organization->billingAddress ? $organization->billingAddress->address : '' }}<br>
                                     Téléphone: {{ $organization->phone_number }}<br>
                                     Email: {{ $organization->email }}<br>
                                 </address>

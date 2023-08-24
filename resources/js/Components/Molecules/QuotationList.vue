@@ -199,7 +199,8 @@
       </div>
       <div v-else class="space-y-2 w-auto">
         <QuotationListItem v-for="(document, index) in usePage().props.quotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deletequotation="deletequotation" :opendelModal="opendelModal"
-        :openDupQuotModal="openDupQuotModal"/>
+        :openDupQuotModal="openDupQuotModal"
+        :openPayQuotModal="openPayQuotModal"/>
       </div>
     </div>
 </template>
@@ -220,6 +221,7 @@ const props=defineProps({
   opendelModal:Function,
   deletequotation:Function,
   openDupQuotModal:Function,
+  openPayQuotModal:Function,
 });
 
 const currentQuotations = ref(usePage().props.quotations)
