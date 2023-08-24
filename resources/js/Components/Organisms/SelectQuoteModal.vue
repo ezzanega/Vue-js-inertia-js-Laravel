@@ -7,7 +7,7 @@
             </svg>
         </IconButton>
         <Modal :show="quoteSelectionModal" @close="closeModal">
-            <div class="w-full p-6 flex flex-col space-y-2">
+            <div class="w-full p-6 flex flex-col space-y-3">
                 <div class="mt-2 border-b border-gray-200 divide-x">
                     <p class="text-lg ml-2 font-semibold leading-6 text-gray-900">
                         Créer une lettre de voiture
@@ -21,6 +21,12 @@
                 </div>
 
                 <span class="mt-5 border-b border-gray-200 divide-x"></span>
+
+
+                <div class="mt-6 space-y-5">
+                    <DefaultSelectInput name="executingCompany" label="Société Exécutante" v-model="form.executingCompany"
+                        :options="executingCompaniesOptions" :error="form.errors.executingCompany" />
+                </div>
 
                 <div class="w-full" v-if="quotationType === 'existing'">
                     <div>
@@ -67,7 +73,8 @@
                                 <span class="">Client : {{ selectedQuotation.moving_job.client.first_name + " " +
                                     selectedQuotation.moving_job.client.last_name }}</span>
                                 <span class="">Date de chargement : {{ selectedQuotation.moving_job.loading_date }}</span>
-                                <span class="">Adresse de chargement : {{ selectedQuotation.moving_job.loading_address }}</span>
+                                <span class="">Adresse de chargement : {{ selectedQuotation.moving_job.loading_address
+                                }}</span>
                             </div>
                         </a>
                     </div>
@@ -75,7 +82,7 @@
                     <div class="mt-5 pt-16 flex justify-end space-x-4">
                         <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
                         <DefaultButton @click="initDocument" class="w-32" :disabled="selectedQuotation == null"
-                            buttontext="Valider" />
+                            :buttontext="selectedQuotation && selectedQuotation.status !== 'Accepté' ? 'Valider le devis et créer la lettre de voiture' : 'Valider'" />
                     </div>
                 </div>
                 <div v-else>
@@ -93,16 +100,20 @@ import Modal from "@/Components/Modal.vue";
 import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import IconButton from '@/Components/Atoms/IconButton.vue';
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { router } from '@inertiajs/vue3'
-import { usePage } from "@inertiajs/vue3";
+import { usePage, useForm } from "@inertiajs/vue3";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 import { Dropdown } from "floating-vue";
 import axios from "axios";
 import debounce from "lodash/debounce";
+import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 
+const currentExecutingCompanies = usePage().props.executingCompanies;
+
+const executingCompaniesOptions = ref([]);
 const quoteSelectionModal = ref(false);
 
 const searchQuotationQuery = ref("");
@@ -113,6 +124,7 @@ const selectedQuotation = ref(null);
 const quotationType = ref("existing");
 
 const closeModal = () => {
+    form.reset();
     quoteSelectionModal.value = false;
 };
 
@@ -130,6 +142,15 @@ const selectQuotation = async (quotation) => {
     searchQuotationResults.value = [];
 };
 
+onMounted(() => {
+    currentExecutingCompanies.forEach((executingCompany) => {
+        executingCompaniesOptions.value.push({
+            name: executingCompany.name,
+            value: executingCompany.id,
+        });
+    });
+});
+
 watch(searchQuotationQuery, (newQuery) => {
     debouncedFetchQuotationResults(newQuery);
 });
@@ -146,14 +167,13 @@ const searchQuotation = async () => {
     }
 };
 
+const form = useForm({
+    executingCompany: "",
+});
+
 const debouncedFetchQuotationResults = debounce(searchQuotation, 300);
 
 const initDocument = () => {
-    router.visit(
-        route("6dem.documents.waybill.init", selectedQuotation.value.id),
-        {
-            method: "post",
-        }
-    );
+    form.post(route("6dem.documents.waybill.quotation.preview", selectedQuotation.value.id));
 };
 </script>

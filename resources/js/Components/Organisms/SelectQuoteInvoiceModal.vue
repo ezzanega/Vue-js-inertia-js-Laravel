@@ -22,6 +22,13 @@
 
                 <span class="mt-5 border-b border-gray-200 divide-x"></span>
 
+                <div class="my-6 space-y-5">
+                    <DefaultSelectInput name="type" label="Type de facture" v-model="form.type" :options="typesOptions"
+                        :error="form.errors.type" />
+                    <DefaultInput :required="true" type="text" name="amount_ht" v-model="form.amount"
+                        :error="form.errors.amount" label="Montant de la facture" placeholder="Montant de la facture" />
+                </div>
+
                 <div class="w-full" v-if="quotationType === 'existing'">
                     <div>
                         <Dropdown :triggers="[]" :shown="searchingQuotation" :autoHide="false" placement="bottom">
@@ -94,15 +101,17 @@ import Modal from "@/Components/Modal.vue";
 import SelectableButton from "@/Components/Atoms/SelectableButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import IconButton from '@/Components/Atoms/IconButton.vue';
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { router } from '@inertiajs/vue3'
-import { usePage } from "@inertiajs/vue3";
+import { usePage, useForm } from "@inertiajs/vue3";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 import CreateClientForm from "@/Components/Organisms/CreateClientForm.vue";
 import { Dropdown } from "floating-vue";
 import axios from "axios";
 import debounce from "lodash/debounce";
+import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
+import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 
 const quoteSelectionModal = ref(false);
 
@@ -112,8 +121,25 @@ const searchingQuotation = ref(false);
 
 const selectedQuotation = ref(null);
 const quotationType = ref("existing");
+  
+const typesOptions = [
+    {
+        name: "Acompte",
+        value: "advance"
+    },
+    {
+        name: "Solde",
+        value: "balance"
+    }
+];
+
+const form = useForm({
+    type: "",
+    amount: "",
+  });
 
 const closeModal = () => {
+    form.reset();
     quoteSelectionModal.value = false;
 };
 
@@ -127,6 +153,7 @@ const quotationTypeChange = (value) => {
 
 const selectQuotation = async (quotation) => {
     selectedQuotation.value = quotation;
+    form.amount = quotation.moving_job.amount_ht
     searchingQuotation.value = false;
     searchQuotationResults.value = [];
 };
@@ -150,12 +177,7 @@ const searchQuotation = async () => {
 const debouncedFetchQuotationResults = debounce(searchQuotation, 300);
 
 const initDocument = () => {
-    router.visit(
-        route("6dem.documents.invoice.init", selectedQuotation.value.id),
-        {
-            method: "post",
-        }
-    );
+    form.post(route("6dem.documents.invoice.quotation.preview", selectedQuotation.value.id));
 
 };
 </script>

@@ -119,22 +119,34 @@ class MovingJobController extends Controller
         $quotation = Quotation::find($quotationId);
         $executingCompany = ExecutingCompany::find($request->executingCompany);
         $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
-        $waybill = Waybill::create([
-            'executing_company' => $executingCompany->name,
-            'organization_id' => $organization->id,
-            'status' => WaybillStatus::NOTSIGNED
-        ]);
-
-        $waybill->movingJob()->associate($movingjob);
-        $waybill->save();
-
-        $waybill->executingCompany()->associate($executingCompany);
-        $waybill->save();
-
-        $waybill = Waybill::where('id', $waybill->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
-        return Inertia::render('6dem/PreviewWaybill', [
-            'waybill' => $waybill,
-        ]);
+        $waybill = Waybill::where('moving_job_id', $movingjob->id)->first();
+        if($waybill){
+            $waybill = Waybill::where('id', $waybill->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
+            return Inertia::render('6dem/PreviewWaybill', [
+                'waybill' => $waybill,
+            ]);
+        }else{
+            $waybill = Waybill::create([
+                'executing_company' => $executingCompany->name,
+                'organization_id' => $organization->id,
+                'status' => WaybillStatus::NOTSIGNED
+            ]);
+    
+            $quotation->update([
+                'status' => QuotationStatus::ACCEPTED,
+            ]);
+    
+            $waybill->movingJob()->associate($movingjob);
+            $waybill->save();
+    
+            $waybill->executingCompany()->associate($executingCompany);
+            $waybill->save();
+    
+            $waybill = Waybill::where('id', $waybill->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
+            return Inertia::render('6dem/PreviewWaybill', [
+                'waybill' => $waybill,
+            ]);
+        }
     }
 
     public function initInvoice(Request $request, $quotationId)
@@ -176,6 +188,10 @@ class MovingJobController extends Controller
             'status' => InvoiceStatus::ONHOLD
         ]);
 
+        $quotation->update([
+            'status' => QuotationStatus::ACCEPTED,
+        ]);
+        
         $invoice->movingJob()->associate($movingjob);
         $invoice->save();
 
