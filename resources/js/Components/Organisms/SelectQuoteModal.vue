@@ -14,7 +14,9 @@
                     </p>
                 </div>
 
-                <div class="mt-6 space-y-5">
+                <ToggleButton v-model:checked="toggleExecuting" name="toggle-executing" label="Déménagement effectué par un prestataire ?" />
+
+                <div v-show="toggleExecuting" class="mt-6 space-y-5">
                     <DefaultSelectInput name="executingCompany" label="Société Exécutante" v-model="form.executingCompany"
                         :options="executingCompaniesOptions" :error="form.errors.executingCompany" />
                 </div>
@@ -84,6 +86,7 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import IconButton from '@/Components/Atoms/IconButton.vue';
 import { ref, watch, onMounted } from "vue";
 import { router } from '@inertiajs/vue3';
@@ -99,7 +102,7 @@ const currentExecutingCompanies = usePage().props.executingCompanies;
 
 const executingCompaniesOptions = ref([]);
 const quoteSelectionModal = ref(false);
-
+const toggleExecuting = ref(false);
 const searchQuotationQuery = ref("");
 const searchQuotationResults = ref([]);
 const searchingQuotation = ref(false);

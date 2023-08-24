@@ -22,7 +22,8 @@
             </div>
             <div class="px-4 sm:px-6">
                 <div class="w-full py-3 flex flex-col space-y-2">
-                    <div class="my-6 space-y-5">
+                    <ToggleButton v-model:checked="toggleExecuting" name="toggle-executing" label="Déménagement effectué par un prestataire ?" />
+                    <div v-show="toggleExecuting" class="my-6 space-y-5">
                         <DefaultSelectInput name="executingCompany" label="Société Exécutante"
                             v-model="form.executingCompany" :options="executingCompaniesOptions"
                             :error="form.errors.executingCompany" />
@@ -41,6 +42,7 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import { usePage, useForm } from "@inertiajs/vue3";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
@@ -55,7 +57,7 @@ const props = defineProps({
 const currentExecutingCompanies = usePage().props.executingCompanies;
 
 const executingCompaniesOptions = ref([]);
-
+const toggleExecuting = ref(false);
 onMounted(() => {
     currentExecutingCompanies.forEach((executingCompany) => {
         executingCompaniesOptions.value.push({
