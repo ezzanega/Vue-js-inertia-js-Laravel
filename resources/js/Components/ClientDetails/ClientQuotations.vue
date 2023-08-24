@@ -2,7 +2,7 @@
     <div class="overflow-hidden space-y-2">
       <div class="flex flex-row justify-between items-center mt-5">
         <div class="flex flex-row space-x-2 items-center">
-            <IconButton @click="initQuatation" class="mt-6" text="Ajoouter un devis" >
+            <IconButton @click="initQuatation" class="mt-6" text="Ajouter un devis" >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor" aria-hidden="true" class="pointer-events-none shrink-0 w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
@@ -35,7 +35,7 @@
         </div>
       </div>
   </template>
-  
+
   <script setup>
   import ExcelJS from "exceljs";
   import SelectClientModal from "@/Components/Organisms/SelectClientModal.vue";
@@ -44,14 +44,14 @@
   import { usePage, router } from "@inertiajs/vue3";
   import { ref } from "vue";
 
-  
+
   const currentQuotations = ref(usePage().props.quotations)
   const currentClient = usePage().props.client
-  
+
   const selectedAll = ref(false);
-  
+
   const selectedDocuments = ref([]);
-  
+
   const toggleDocumentSelection = (document) => {
     const index = selectedDocuments.value.findIndex((doc) => doc.id === document.id);
     if (index !== -1) {
@@ -61,7 +61,7 @@
     }
     console.log(selectedDocuments.value);
   };
-  
+
   const toggleSelectedAll = () => {
     if (selectedAll.value) {
       selectedDocuments.value = []; // Deselect all documents
@@ -71,11 +71,11 @@
     selectedAll.value = !selectedAll.value;
     console.log(selectedDocuments.value);
   };
-  
+
   const exportSelectedDocuments = (selectedDocuments) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Quotations");
-  
+
     const columns = [
       "N° du devis",
       "Client",
@@ -87,7 +87,7 @@
       "Montant TTC",
     ];
     worksheet.addRow(columns);
-  
+
     selectedDocuments.forEach((document) => {
       const rowData = [
         document.number,
@@ -100,7 +100,7 @@
       ];
       worksheet.addRow(rowData);
     });
-  
+
     const fileName = "Liste des devis.xlsx";
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
@@ -110,7 +110,7 @@
       link.click();
     });
   };
-  
+
   const handleExportClick = () => {
     exportSelectedDocuments(selectedDocuments.value);
   };
@@ -124,4 +124,3 @@
     );
   };
   </script>
-  
