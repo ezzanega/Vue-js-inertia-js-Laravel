@@ -1,7 +1,7 @@
 <template>
     <Head title="Fiche client" />
     <DemLayout>
-      <Tabs>
+      <Tabs :routePath="route('6dem.clients.details', currentClient.id)">
         <Tab title="Informations client">
             <div class="mt-5 py-5">
                 <ClientInformations />

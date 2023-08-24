@@ -1,7 +1,7 @@
 <template>
   <Head title="Documents" />
   <DemLayout>
-    <Tabs>
+    <Tabs :routePath="route('6dem.documents')">
       <Tab title="Devis">
         <div v-if="$page.props.quotations.length">
           <div class="mt-2">

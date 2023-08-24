@@ -1,15 +1,19 @@
 <template>
   <div>
     <ul class="flex flex-wrap">
-      <li v-for="title in tabTitles" :key="title" @click="selectedTitle = title"
+      <li v-for="title in tabTitles" :key="title" @click="selectTab(title)"
         class="text-primary md:w-auto items-start cursor-pointer mr-2 overflow-auto">
-        <div class="flex space-x-5 py-2 px-4 justify-center hover:bg-primary hover:text-white rounded-md border border-gray-300 shadow" :class="[
-          selectedTitle == title
-            ? 'bg-primary text-white'
-            : 'font-medium bg-white',
-        ]">
-          <svg v-if="title === 'Informations client'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        <div
+          class="flex space-x-3 py-2 px-3 justify-center items-center hover:bg-primary hover:text-white rounded-md border border-gray-300 shadow"
+          :class="[
+            selectedTabTitle == title
+              ? 'bg-primary text-white'
+              : 'font-medium bg-white',
+          ]">
+          <svg v-if="title === 'Informations client'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
           </svg>
 
           <svg v-if="title === 'Devis'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -31,8 +35,10 @@
             </path>
           </svg>
 
-          <svg v-if="title === 'Paiements'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+          <svg v-if="title === 'Paiements'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
           </svg>
 
           <a href="#" aria-current="page" class="text-sm md:text-md">{{ title }}</a>
@@ -43,20 +49,28 @@
   </div>
 </template>
 
-<script>
-import { provide } from "vue";
-import { ref } from "vue";
-export default {
-  setup(props, context) {
-    const tabTitles = ref(
-      context.slots.default().map((tab) => tab.props.title)
-    );
-    const selectedTitle = ref(tabTitles.value[0]);
-    provide("selectedTitle", selectedTitle);
-    return {
-      selectedTitle,
-      tabTitles,
-    };
-  },
-};
+<script setup>
+import { provide, ref, useSlots } from "vue";
+import { router, usePage } from '@inertiajs/vue3';
+
+const props = defineProps({
+  routePath: String
+});
+
+const tabTitles = ref(
+  useSlots().default().map((tab) => tab.props.title)
+);
+
+const selectedTitle = ref(tabTitles.value[0]);
+const currentURL = usePage().url;
+
+const equalIndex = currentURL.indexOf('=');
+
+const tabFromUrl = equalIndex !== -1 ? currentURL.substring(equalIndex + 1) : null;
+
+const selectedTabTitle = tabFromUrl ? decodeURIComponent(tabFromUrl.replace(/\+/g, ' ')) : selectedTitle;
+provide("selectedTitle", selectedTabTitle);
+const selectTab = (title) => {
+  router.visit(props.routePath + '?tab=' + title);
+}
 </script>

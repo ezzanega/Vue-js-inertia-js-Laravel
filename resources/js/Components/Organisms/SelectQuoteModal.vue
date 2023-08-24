@@ -86,7 +86,7 @@ import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import IconButton from '@/Components/Atoms/IconButton.vue';
 import { ref, watch, onMounted } from "vue";
-import { router } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3';
 import { usePage, useForm } from "@inertiajs/vue3";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
