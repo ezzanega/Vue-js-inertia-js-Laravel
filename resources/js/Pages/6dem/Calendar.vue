@@ -1,16 +1,13 @@
 <template>
   <Head title="Agenda" />
   <DemLayout>
-    <main class="relative flex-1 focus:outline-none overflow-y-auto" id="main">
-      <iframe class="full-screen-iframe" :src="taskproUrl">
-        <p>Your browser does not support iframes.</p>
-      </iframe>
-    </main>
+    <Calendar />
   </DemLayout>
 </template>
             
-    <script setup>
+<script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
+import Calendar from "@/Components/Calendar/Calendar.vue";
 import { Head, usePage } from "@inertiajs/vue3";
 const user = usePage().props.auth.user;
 const organization = usePage().props.auth.organization;
