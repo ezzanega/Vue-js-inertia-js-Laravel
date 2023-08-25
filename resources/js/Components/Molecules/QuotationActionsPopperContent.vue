@@ -126,12 +126,14 @@ const PopperItemClicked = () => { };
 const previewQuotation = () => {
   router.visit(route("6dem.documents.quotation.preview", props.quotation.id), {
     method: "get",
+    replace: true
   });
 };
 
 const updateQuotation = () => {
   router.visit(route("6dem.documents.quotation", [props.movingjob.id, props.client.id, props.quotation.id]), {
     method: "get",
+    replace: true
   });
 };
 

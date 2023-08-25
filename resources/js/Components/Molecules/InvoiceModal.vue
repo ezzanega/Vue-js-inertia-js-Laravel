@@ -109,7 +109,7 @@
   };
   
   const createInvoice = () => {
-    form.post(route("6dem.documents.invoice.quotation.preview", props.quotation.id));
+    form.post(route("6dem.documents.invoice.quotation.preview", props.quotation.id), { replace: true });
   };
   </script>
   

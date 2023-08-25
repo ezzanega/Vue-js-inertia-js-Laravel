@@ -67,11 +67,13 @@ const PopperItemClicked = () => { };
 const previewWaybill = () => {
   router.visit(route("6dem.documents.waybill.preview", props.id), {
     method: "get",
+    replace: true
   });
 };
 const updateWaybill = () => {
   router.visit(route("6dem.documents.waybill", [props.moving_job_id, props.client_id, props.id]), {
     method: "get",
+    replace: true
   });
 };
 </script>

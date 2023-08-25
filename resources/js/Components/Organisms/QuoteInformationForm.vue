@@ -536,6 +536,7 @@ const optionsUpdated = (options) => {
 const previewQuotation = () => {
   router.visit(route("6dem.documents.quotation.preview", currentQuotation.id), {
     method: "get",
+    replace: true
   });
 };
 

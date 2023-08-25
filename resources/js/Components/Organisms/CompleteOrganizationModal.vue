@@ -182,6 +182,7 @@ const setOrganizationData = (organization) => {
 const updateOrganization = () => {
   form.put(route("6dem.organization.update"), {
     preserveScroll: true,
+    replace: true,
     onSuccess: () => emit("close"),
   });
 };

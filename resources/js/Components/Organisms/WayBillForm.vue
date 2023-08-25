@@ -548,6 +548,7 @@ const optionsUpdated = (options) => {
 const previewWaybill = () => {
   router.visit(route("6dem.documents.waybill.preview", currentWaybill.id), {
     method: "get",
+    replace: true
   });
 };
 

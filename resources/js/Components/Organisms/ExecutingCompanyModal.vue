@@ -129,6 +129,7 @@ const setExecutingCompanyData = (executingCompany) => {
 
 const createExecutingCompany = () => {
     form.post(route("6dem.create.executingCompany"), {
+        replace: true,
         onSuccess: () => closeUpModal(),
     });
 };

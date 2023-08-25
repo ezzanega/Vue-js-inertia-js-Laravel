@@ -14,9 +14,13 @@
                     </p>
                 </div>
 
-                <ToggleButton v-model:checked="toggleExecuting" name="toggle-executing" label="Déménagement effectué par un prestataire ?" />
+                <ToggleButton v-model:checked="toggleExecuting" name="toggle-executing"
+                    label="Déménagement effectué par un prestataire ?" />
 
                 <div v-show="toggleExecuting" class="mt-6 space-y-5">
+                    <p class="mt-1 text-sm text-neutral-600">
+                        Vous pouvez ajouter des prestataires au sei ndes réglages de votre compte.
+                    </p>
                     <DefaultSelectInput name="executingCompany" label="Société Exécutante" v-model="form.executingCompany"
                         :options="executingCompaniesOptions" :error="form.errors.executingCompany" />
                 </div>
@@ -156,6 +160,6 @@ const form = useForm({
 const debouncedFetchQuotationResults = debounce(searchQuotation, 300);
 
 const initDocument = () => {
-    form.post(route("6dem.documents.waybill.quotation.preview", selectedQuotation.value.id));
+    form.post(route("6dem.documents.waybill.quotation.preview", selectedQuotation.value.id), { replace: true });
 };
 </script>

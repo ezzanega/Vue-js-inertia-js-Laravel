@@ -71,6 +71,6 @@ const tabFromUrl = equalIndex !== -1 ? currentURL.substring(equalIndex + 1) : nu
 const selectedTabTitle = tabFromUrl ? decodeURIComponent(tabFromUrl.replace(/\+/g, ' ')) : selectedTitle;
 provide("selectedTitle", selectedTabTitle);
 const selectTab = (title) => {
-  router.visit(props.routePath + '?tab=' + title);
+  router.visit(props.routePath + '?tab=' + title, { replace: true });
 }
 </script>

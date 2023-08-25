@@ -115,6 +115,7 @@ const form = useForm({
 const createRole = () => {
   form.post(route("6dem.manage.invite.user"), {
     preserveScroll: true,
+    replace: true,
     onSuccess: () => closeModal(),
     onError: () => console.log("error"),
   });
