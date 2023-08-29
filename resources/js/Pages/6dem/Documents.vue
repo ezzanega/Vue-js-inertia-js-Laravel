@@ -36,8 +36,8 @@
         <div v-if="$page.props.waybills.length">
           <div class="mt-2">
             <WaybillList :deleteLv="deleteLv" :opendelModal="opendelModal" />
-            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-            @closedelModal="closedelModal()" @deleteFunction="deleteLv(selectedvalue)"/>
+            <!-- <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()" @deleteFunction="deleteLv(selectedvalue)"/> -->
           </div>
         </div>
         <ListEmptyMessage
@@ -52,8 +52,8 @@
         <div v-if="$page.props.invoices.length">
           <div class="mt-2">
             <InvoiceList :deleteFacture="deleteFacture" :opendelModal="opendelModal"/>
-            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-            @closedelModal="closedelModal()" @deleteFunction="deleteFacture(selectedvalue)"/>
+            <!-- <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()" @deleteFunction="deleteFacture(selectedvalue)"/> -->
           </div>
         </div>
         <ListEmptyMessage

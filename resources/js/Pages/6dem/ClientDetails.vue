@@ -22,6 +22,7 @@
             </ListEmptyMessage>
         </Tab>
         <Tab title="Paiements">
+            <ClientPayment v-if="$page.props.payments.length" />
             <ListEmptyMessage
                 v-if="!$page.props.payments.length"
                 message-title="Pas de paiements effectués"
@@ -43,20 +44,21 @@
                 message-title="Pas de lettres de voiture enregistré"
                 message-content="Pas de Lettres de voiture enregistré pour ce client"
                 >
-            </ListEmptyMessage> 
+            </ListEmptyMessage>
         </Tab>
       </Tabs>
     </DemLayout>
   </template>
-  
+
   <script setup>
   import DemLayout from "@/Layouts/DemLayout.vue";
   import { Head, router, usePage } from "@inertiajs/vue3";
   import Tabs from "@/Components/Molecules/Tabs.vue";
-  import Tab from "@/Components/Atoms/Tab.vue"; 
+  import Tab from "@/Components/Atoms/Tab.vue";
   import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
   import ClientInformations from "@/Components/ClientDetails/ClientInformations.vue";
   import ClientQuotations from "@/Components/ClientDetails/ClientQuotations.vue";
+  import ClientPayment from "@/Components/ClientDetails/ClientPayment.vue";
   import IconButton from "@/Components/Atoms/IconButton.vue";
 
   const currentClient = usePage().props.client
@@ -71,4 +73,3 @@
     );
   };
   </script>
-  

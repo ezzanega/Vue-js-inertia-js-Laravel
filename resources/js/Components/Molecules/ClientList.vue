@@ -82,8 +82,10 @@
 
       <div
         class="flex justify-between w-full px-6 py-4 text-sm font-medium text-left text-gray-900 bg-white border-b border-gray-200 rounded-xl">
-        <div class="w-1/12"><input name="" type="checkbox"
-              class="w-5 h-5 rounded-md form-checkbox text-primary focus:ring-0" :checked="selectedAll" @change="toggleSelectedAll"/></div>
+        <div class="w-1/12">
+            <input name="" type="checkbox"
+              class="w-5 h-5 rounded-md form-checkbox text-primary focus:ring-0" :checked="selectedAll" @change="toggleSelectedAll"/>
+        </div>
         <div class="flex flex-row items-center justify-center w-2/12 text-center">Nom
           <div class="flex flex-col items-center ml-2">
               <button>
