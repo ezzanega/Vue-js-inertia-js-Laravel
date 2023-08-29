@@ -1,15 +1,18 @@
 <template>
     <div class="bg-secondary">
-        <FullCalendar  class="flex h-screen w-full font-sans text-sm" :options='calendarOptions' />
-        <div id="eventPopover" class="popover">
-            <div class="popover-header flex justify-between text-xs">
-                <span id="popoverTitle" class="text-xs"></span>
-                <button class="text-blue-400 font-normal underline" @click="closePopover">Fermer</button>
-            </div>
-            <div class="popover-body text-sm" id="popoverBody">
-            </div>
-        </div>
-        <EventModal :openModal="openModal" :event="eventData" @closeModal="openModal=!openModal" @createEvent="createEvent" />
+        <FullCalendar ref="calendarRef" class="flex h-screen w-full font-sans text-sm" :options='calendarOptions' />
+        <EventCreationForm 
+            :openModal="showEventCreationModal"
+            :event="eventData"
+            @createEvent="createEvent"
+            @closeModal="closeEventCreationModal"
+        />
+        <EventDetails 
+            :openModal="showEventDeatilsModal"
+            :event="eventData"
+            @createEvent="createEvent"
+            @closeModal="closeEventDetailsModal"
+        />
     </div>
 </template>
 
@@ -19,10 +22,15 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import frLocale from '@fullcalendar/core/locales/fr';
-import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils'
-import EventModal from "@/Components/Calendar/EventModal.vue";
-import { onMounted, ref } from 'vue';
+import EventCreationForm from "@/Components/Calendar/EventCreationForm.vue";
+import EventDetails from "@/Components/Calendar/EventDetails.vue";
+import { ref } from 'vue';
 
+const calendarRef = ref(null);
+const currentEvents = ref([]);
+const showEventCreationModal = ref(false);
+const showEventDeatilsModal = ref(false);
+const eventData = ref(null);
 const calendarOptions = ref({
     plugins: [
         dayGridPlugin,
@@ -36,7 +44,6 @@ const calendarOptions = ref({
     },
     initialView: 'dayGridMonth',
     eventColor: '#438A7A',
-    initialEvents: INITIAL_EVENTS,
     weekends: true,
     editable: true,
     selectable: true,
@@ -45,14 +52,13 @@ const calendarOptions = ref({
     weekends: true,
     locale: frLocale,
     timeZone: 'Europe/Paris', 
-    datesSet: function(dateInfo) {
+    datesSet: (dateInfo) => {
         const start = dateInfo.startStr;
         const end = dateInfo.endStr;
         const calendarApi = dateInfo.view.calendar;
         axios.get(route("6dem.calendar.events"), {
             params: { start, end }
         }).then(response => {
-            console.log(response)
             calendarApi.removeAllEvents();
             response.data.forEach(event => {
                 calendarApi.addEvent({
@@ -61,108 +67,60 @@ const calendarOptions = ref({
                     start: event.start,
                     end: event.end,
                     allDay: event.all_day,
-                    details: event.details
+                    details: event.details,
+                    backgroundColor: event.color,
                 });
             });
         });
     },
+    select: (selectInfo) => {
+        let calendarApi = selectInfo.view.calendar;
+        calendarApi.unselect();
+
+        eventData.value = {
+            start: selectInfo.startStr,
+            end: selectInfo.endStr,
+            all_day: selectInfo.allDay
+        };
+
+        showEventCreationModal.value = true;
+    },
+    eventClick:  (clickInfo) => {
+        eventData.value = {
+            title: clickInfo.event.title,
+            details: clickInfo.event.extendedProps.details,
+            start: clickInfo.event.startStr,
+            end: clickInfo.event.endStr,
+            color: clickInfo.event.backgroundColor,
+            all_day: clickInfo.event.allDay
+        };
+        showEventDeatilsModal.value = true;
+    },
+    eventsSet: (events) => {
+        currentEvents.value = events
+    }
 })
-const currentEvents = ref([]);
-const openModal = ref(false);
-const eventData = ref(null);
-
-onMounted(() => {
-    calendarOptions.value = {
-        plugins: [
-            dayGridPlugin,
-            timeGridPlugin,
-            interactionPlugin // needed for dateClick
-        ],
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        initialView: 'dayGridMonth',
-        eventColor: '#438A7A',
-        initialEvents: INITIAL_EVENTS,
-        weekends: true,
-        editable: true,
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: true,
-        weekends: true,
-        locale: frLocale,
-        timeZone: 'Europe/Paris', 
-        select: handleDateSelect,
-        eventClick: handleEventClick,
-        eventsSet: handleEvents
-    };
-});
-
-
-const handleDateSelect = (selectInfo) => {
-    let calendarApi = selectInfo.view.calendar;
-    calendarApi.unselect();
-
-    eventData.value = {
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        all_day: selectInfo.allDay
-    };
-
-    // console.log(eventData.value)
-
-    openModal.value = true;
-
-    // let title = prompt('Please enter a new title for your event');
-    // let details = prompt('Please enter details for your event');
-
-    // if (title) {
-    //     const eventData = {
-    //         title,
-    //         details,
-    //         start: selectInfo.startStr,
-    //         end: selectInfo.endStr,
-    //         all_day: selectInfo.allDay
-    //     };
-    //     axios.post(route("6dem.calendar.create.events"), eventData).then(response => {
-    //         calendarApi.addEvent({
-    //             id: response.data.id,
-    //             title: response.data.title,
-    //             details: response.data.details,
-    //             start: response.data.start,
-    //             end: response.data.end,
-    //             allDay: response.data.all_day
-    //         });
-    //     });
-    // }
-}
 
 const createEvent = (event) => {
-    calendarApi.addEvent(event);
+    const calendarApi = calendarRef.value.getApi();
+    calendarApi.addEvent({
+        id: event.id,
+        title: event.title,
+        details: event.details,
+        start: event.start,
+        end: event.end,
+        allDay: event.all_day,
+        backgroundColor: event.color,
+    });
+    closeEventCreationModal();
 }
 
-const handleEventClick = (clickInfo) => {
-  const popover = document.getElementById('eventPopover');
-  const titleElement = document.getElementById('popoverTitle');
-  const bodyElement = document.getElementById('popoverBody');
-  titleElement.textContent = clickInfo.event.title;
-  const details = clickInfo.event.extendedProps.details;
-  bodyElement.textContent = `Détails: ${details}`;
-  const rect = clickInfo.el.getBoundingClientRect();
-  popover.style.left = rect.left + 'px';
-  popover.style.top = (rect.top - popover.offsetHeight) + 'px';
-  popover.style.display = 'block';
+const closeEventCreationModal = () => {
+    showEventCreationModal.value =!showEventCreationModal.value;
 }
 
-const handleEvents = (events) => {
-    currentEvents.value = events
-}
-
-const closePopover = () => {
-  const popover = document.getElementById('eventPopover');
-  popover.style.display = 'none';
+const closeEventDetailsModal = () => {
+    showEventDeatilsModal.value =!showEventDeatilsModal.value;
 }
 </script>
 

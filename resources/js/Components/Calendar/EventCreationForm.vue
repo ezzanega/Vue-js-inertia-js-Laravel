@@ -4,7 +4,7 @@
             <div class="px-4 sm:px-6">
                 <div class="flex items-start justify-between">
                     <div class="space-y-1">
-                        <h2 class="text-lg font-medium">Détails</h2>
+                        <h2 class="text-lg font-medium">Céer un événement</h2>
                     </div>
                     <div class="ml-3 flex h-7 items-center">
                         <button @click="closeModal" tabindex="0" type="button" class="rounded-md bg-white text-neutral-400 hover:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500">
@@ -18,21 +18,33 @@
             <div class="px-4 sm:px-6">
                 <div class="w-full py-3 flex flex-col space-y-2">
                     <div class="my-6 space-y-5">
+                        <div class="flex space-x-2 bg-secondary rounded-md p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div v-if="event.all_day">
+                                Toute la journée du <span class="underline">{{ formatDate(event.start) }}</span>
+                            </div>
+                            <div v-else class="flex space-x-2">
+                                <div>Le <span class="underline">{{ formatDate(event.start) }}</span></div>
+                                <div>De <span class="font-bold underline">{{ formatTime(event.start) }}</span></div>
+                                <div>À <span class="font-bold underline">{{ formatTime(event.end) }}</span></div>
+                            </div>
+                        </div>
                         <ColorPicker
-                            label="Couleur"
+                            label="Couleur d'affichage dans le calendrier"
                             :color="form.color"
                             v-model="form.color"
                         />
-                        <DefaultInput type="text" name="title" label="Titre" v-model="form.title" :error="form.errors.title"/>
-                        <DefaultSelectInput name="eventType" label="Type" v-model="form.eventType" :options="eventTypesOptions" :error="form.errors.eventType"/>
-                        <TextArea name="details" label="Conditions générales documents"
+                        <DefaultInput type="text" name="title" label="Ajouter un titre" v-model="form.title" :error="form.errors.title"/>
+                        <DefaultSelectInput name="eventType" label="Selectionner le type" v-model="form.type" :options="eventTypesOptions" :error="form.errors.type"/>
+                        <TextArea name="details" label="Ajouter des détails"
                             v-model="form.details" :error="form.errors.details" />
-                        <vue3-colorpicker v-model="form.color"></vue3-colorpicker>
                     </div>
         
                     <div class="mt-6 flex justify-end space-x-4">
-                        <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
-                        <DefaultButton @click="createEvent" class="w-32" buttontext="Enregistrer"/>
+                        <SecondaryButton @click="closeModal" class="w-1/3"> Annuler </SecondaryButton>
+                        <DefaultButton @click="createEvent" class="w-2/3" buttontext="Enregistrer"/>
                     </div>
                 </div>
             </div>
@@ -46,10 +58,11 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
-import Checkbox from "@/Components/Checkbox.vue";
 import TextArea from "@/Components/Atoms/TextArea.vue";
 import ColorPicker from "@/Components/Atoms/ColorPicker.vue";
 import { useForm } from "@inertiajs/vue3";
+import { formatDate, formatTime } from "@/utils/index";
+
 
 const emit = defineEmits(["closeModal", "createEvent"]);
 
@@ -80,30 +93,31 @@ const eventTypesOptions = [
 const form = useForm({
     title: '',
     details: '',
-    eventType: '',
+    type: '',
     color: "#3788d8",
 });
 
 const createEvent = () => {
-    const eventData = {
+    axios.post(route("6dem.calendar.create.events"), {
         start: props.event.start,
         end: props.event.end,
         all_day: props.event.all_day,
         title: form.title,
         details: form.details,
-        type: form.eventType,
+        type: form.type,
         color: form.color,
-    };
-
-    axios.post(route("6dem.calendar.create.events"), eventData).then(response => {
+    }).then(response => {
         emit("createEvent", {
             id: response.data.id,
-            title: response.data.title,
-            details: response.data.details,
-            start: response.data.start,
-            end: response.data.end,
-            allDay: response.data.all_day
+            start: props.event.start,
+            end: props.event.end,
+            all_day: props.event.all_day,
+            title: form.title,
+            details: form.details,
+            type: form.type,
+            color: form.color,
         });
+        form.reset();
     });
 }
 

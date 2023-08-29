@@ -41,6 +41,7 @@
         "html2pdf.js": "^0.10.1",
         "jspdf": "^2.5.1",
         "lodash": "^4.17.21",
+        "moment": "^2.29.4",
         "slugify": "^1.6.6",
         "vue-final-modal": "^4.4.2",
         "vue-select": "^4.0.0-beta.6",

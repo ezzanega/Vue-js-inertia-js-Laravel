@@ -1,3 +1,4 @@
+import moment from 'moment';
 
 export const parseLocation = (result) => {
     return {
@@ -148,4 +149,18 @@ export const calculatePercentage = (amount, percentage) => {
 
 export const calculateTTC = (totalAmountHT, amountTVA) => {
     return parseFloat(parseFloat(totalAmountHT) + parseFloat(amountTVA)).toFixed(2);
+}
+
+
+export const formatDate = (value) => {
+    return moment(value).format('DD/MM/YYYY');
+}
+
+
+export const formatDateWithTime = (value) => {
+    return moment(value).format('DD/MM/YYYY, h:mm');
+}
+
+export const formatTime = (value) => {
+    return moment(value).format('HH:mm');
 }

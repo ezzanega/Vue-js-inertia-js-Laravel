@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('details')->nullable();
+            $table->string('color')->nullable();
             $table->dateTime('start');
             $table->dateTime('end');
             $table->boolean('all_day');
