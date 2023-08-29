@@ -97,7 +97,13 @@
 
                 <td style="width: 50%; border: 1px solid #ccc; padding: 8px; border-radius: 8px; font-size: 0.65em;">
                     <span style="color: #333;">CLIENT :</span>
-                    <span style="color: #333;">{{ $quotation->movingJob->client->getFullName() }}</span>
+                    <span
+                        style="color: #333;">{{ $quotation->movingJob->client->type === 'individual' ? $quotation->movingJob->client->getFullName() : $quotation->movingJob->client->clientOrganization?->name }}
+                    </span>
+                    @if ($quotation->movingJob->client->type === 'professional')
+                        <br>
+                        <span style="color: #333;">{{ $quotation->movingJob->client->getFullName() }}</span>
+                    @endif
                     <address style="color: #777;">
                         {{ $quotation->movingJob->client->address ? $quotation->movingJob->client->address->address : '' }}<br />
                         {{ $quotation->movingJob->client->address ? $quotation->movingJob->client->address->postal_code . ' ' . $quotation->movingJob->client->address->city : '' }}

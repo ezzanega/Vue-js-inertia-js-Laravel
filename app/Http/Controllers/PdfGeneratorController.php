@@ -37,7 +37,8 @@ class PdfGeneratorController extends Controller
             'settings' => $organization->settings,
             'organization' => $organization
         ]);
-        $filename = 'Devis N°' . $quotation->number . '.pdf';
+        $clientName = $quotation->movingJob->client->type === 'individual' ?  $quotation->movingJob->client->getFullName() : $quotation->movingJob->client->clientOrganization?->name;
+        $filename = 'Devis N°' . $quotation->number . ' - ' . $clientName . '.pdf';
         return $pdf->stream($filename);
     }
 
@@ -52,7 +53,8 @@ class PdfGeneratorController extends Controller
             'settings' => $organization->settings,
             'organization' => $organization
         ]);
-        $filename = 'Lettre de voiture N°' . $waybill->number . '.pdf';
+        $clientName = $waybill->movingJob->client->type === 'individual' ?  $waybill->movingJob->client->getFullName() : $waybill->movingJob->client->clientOrganization?->name;
+        $filename = 'Lettre de voiture N°' . $waybill->number . ' - ' . $clientName . '.pdf';
         return $pdf->stream($filename);
     }
 
@@ -67,7 +69,8 @@ class PdfGeneratorController extends Controller
             'settings' => $organization->settings,
             'organization' => $organization
         ]);
-        $filename = 'Devis N°' . $invoice->number . '.pdf';
+        $clientName = $invoice->movingJob->client->type === 'individual' ?  $invoice->movingJob->client->getFullName() : $invoice->movingJob->client->clientOrganization?->name;
+        $filename = 'Facture N°' . $invoice->number . ' - ' . $clientName . '.pdf';
         return $pdf->stream($filename);
     }
 
@@ -94,7 +97,8 @@ class PdfGeneratorController extends Controller
             'settings' => $organization->settings,
             'organization' => $organization
         ]);
-        $filename = 'Devis N°' . $quotation->number . '.pdf';
+        $clientName = $quotation->movingJob->client->type === 'individual' ?  $quotation->movingJob->client->getFullName() : $quotation->movingJob->client->clientOrganization?->name;
+        $filename = 'Devis N°' . $quotation->number . ' - ' . $clientName . '.pdf';
         return $pdf->download($filename);
     }
 
@@ -109,7 +113,8 @@ class PdfGeneratorController extends Controller
             'settings' => $organization->settings,
             'organization' => $organization
         ]);
-        $filename = 'Lettre de voiture N°' . $waybill->number . '.pdf';
+        $clientName = $waybill->movingJob->client->type === 'individual' ?  $waybill->movingJob->client->getFullName() : $waybill->movingJob->client->clientOrganization?->name;
+        $filename = 'Lettre de voiture N°' . $waybill->number . ' - ' . $clientName . '.pdf';
         return $pdf->download($filename);
     }
 
@@ -124,7 +129,8 @@ class PdfGeneratorController extends Controller
             'settings' => $organization->settings,
             'organization' => $organization
         ]);
-        $filename = 'Devis N°' . $invoice->number . '.pdf';
+        $clientName = $invoice->movingJob->client->type === 'individual' ?  $invoice->movingJob->client->getFullName() : $invoice->movingJob->client->clientOrganization?->name;
+        $filename = 'Facture N°' . $invoice->number . ' - ' . $clientName . '.pdf';
         return $pdf->download($filename);
     }
 }

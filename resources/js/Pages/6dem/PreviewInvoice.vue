@@ -2,36 +2,55 @@
     <Head title="Details Facture" />
     <DemLayout>
       <div class="flex flex-col space-y-2 mb-4 text-sm text-gray-600">
-        <div class="relative z-20 flex h-navbar shrink-0 bg-secondary shadow">
+        <div class="relative z-20 flex h-navbar shrink-0 bg-white rounded-md shadow border border-gray-300">
           <span class="h-navbar border-r border-neutral-200 lg:block" />
           <div class="flex flex-1 justify-between pr-4 sm:pr-6 lg:pr-8">
             <div class="w-full flex justify-between">
               <div class="mx-8 max-w-xs py-5 lg:block">
-                <h1 class="text-primary truncate font-semibold">
+                <h1 class="truncate font-semibold">
                   Facture N° {{ invoice.number }}
                 </h1>
               </div>
               <span class="h-navbar border-l border-neutral-200 hidden xl:block">
               </span>
-  
+
               <div class="mx-5 hidden xl:flex items-center">
-                <SecondaryButton> Modifier </SecondaryButton>
+                <SecondaryButton @click="downloadInvoice">
+                  <div class="flex space-x-2 py-1.5 my-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                    <span class="my-auto">
+                      Télécharger
+                    </span>
+                  </div>
+                </SecondaryButton>
               </div>
-  
+
               <div class="mx-5 hidden xl:flex items-center">
-                <SecondaryButton> Créer une facture </SecondaryButton>
+                <SecondaryButton @click="updateInvoice"> 
+                  <div class="flex space-x-2 py-1.5 my-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                    </svg>
+                    <span class="my-auto">
+                      Modifier
+                    </span>
+                  </div>
+                </SecondaryButton>
               </div>
-  
+
               <div class="mx-5 hidden xl:flex items-center">
-                <SecondaryButton>Télécharger</SecondaryButton>
-              </div>
-  
-              <div class="mx-5 hidden xl:flex items-center">
-                <SecondaryButton>Envoyer par mail</SecondaryButton>
-              </div>
-  
-              <div class="mx-5 hidden xl:flex items-center">
-                <SecondaryButton>Supprimer</SecondaryButton>
+                <SecondaryButton>
+                  <div class="flex space-x-2 py-1.5 my-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                    </svg>
+                    <span class="my-auto">
+                      Envoyer au client
+                    </span>
+                  </div>
+                </SecondaryButton>
               </div>
   
               <div class="mx-1 flex items-center justify-end">
@@ -71,4 +90,10 @@
   import { Head, usePage } from "@inertiajs/vue3";
   
   const invoice = usePage().props.invoice;
+
+  const downloadInvoice = () => {
+    window.location.href = route("6dem.invoice.download", [invoice.id])
+  };
+
+  const updateInvoice = () => {};
 </script>

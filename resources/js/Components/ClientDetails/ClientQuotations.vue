@@ -91,7 +91,7 @@
     selectedDocuments.forEach((document) => {
       const rowData = [
         document.number,
-        document.moving_job.client.type == "professional" ? document.moving_job.client.client_organization.name + " (" + document.moving_job.client.client_organization.siren + ")" : document.moving_job.client.first_name + " " + document.moving_job.client.last_name,
+        document.moving_job.client.type == "professional" ? document.moving_job.client.client_organization.name : document.moving_job.client.first_name + " " + document.moving_job.client.last_name,
         document.moving_job.client.email,
         document.status,
         document.moving_job.loading_date,

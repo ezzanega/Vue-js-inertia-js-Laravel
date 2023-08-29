@@ -15,10 +15,7 @@
         <div class="font-medium text-gray-700 text-center">
           {{
             props.document.moving_job.client.type == "professional"
-            ? props.document.moving_job.client.client_organization.name +
-            " (" +
-            props.document.moving_job.client.client_organization.siren +
-            ")"
+            ? props.document.moving_job.client.client_organization.name
             : props.document.moving_job.client.first_name +
             " " +
             props.document.moving_job.client.last_name

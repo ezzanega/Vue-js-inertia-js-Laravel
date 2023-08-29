@@ -83,7 +83,8 @@
             </tr>
             <tr>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->client->getFullName() }}</td>
+                    {{ $waybill->movingJob->client->type === 'individual' ? $waybill->movingJob->client->getFullName() : $waybill->movingJob->client->clientOrganization?->name }}
+                </td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->distance }}</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
