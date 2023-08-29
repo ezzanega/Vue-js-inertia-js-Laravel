@@ -1,18 +1,15 @@
 <template>
-  <div v-show="title == selectedTitle">
+  <div v-show="props.title == selectedTitle">
     <slot />
   </div>
 </template>
   
-  <script>
+<script setup>
 import { inject } from "vue";
-export default {
-  props: ["title"],
-  setup() {
-    const selectedTitle = inject("selectedTitle");
-    return {
-      selectedTitle,
-    };
-  },
-};
+
+const props = defineProps({
+  title: String
+});
+
+const selectedTitle = inject("selectedTitle");
 </script>

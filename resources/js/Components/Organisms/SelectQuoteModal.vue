@@ -14,7 +14,13 @@
                     </p>
                 </div>
 
-                <div class="mt-6 space-y-5">
+                <ToggleButton v-model:checked="toggleExecuting" name="toggle-executing"
+                    label="Déménagement effectué par un prestataire ?" />
+
+                <div v-show="toggleExecuting" class="mt-6 space-y-5">
+                    <p class="mt-1 text-sm text-neutral-600">
+                        Vous pouvez ajouter des prestataires au sei ndes réglages de votre compte.
+                    </p>
                     <DefaultSelectInput name="executingCompany" label="Société Exécutante" v-model="form.executingCompany"
                         :options="executingCompaniesOptions" :error="form.errors.executingCompany" />
                 </div>
@@ -84,9 +90,10 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import IconButton from '@/Components/Atoms/IconButton.vue';
 import { ref, watch, onMounted } from "vue";
-import { router } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3';
 import { usePage, useForm } from "@inertiajs/vue3";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
@@ -99,7 +106,7 @@ const currentExecutingCompanies = usePage().props.executingCompanies;
 
 const executingCompaniesOptions = ref([]);
 const quoteSelectionModal = ref(false);
-
+const toggleExecuting = ref(false);
 const searchQuotationQuery = ref("");
 const searchQuotationResults = ref([]);
 const searchingQuotation = ref(false);
@@ -153,6 +160,6 @@ const form = useForm({
 const debouncedFetchQuotationResults = debounce(searchQuotation, 300);
 
 const initDocument = () => {
-    form.post(route("6dem.documents.waybill.quotation.preview", selectedQuotation.value.id));
+    form.post(route("6dem.documents.waybill.quotation.preview", selectedQuotation.value.id), { replace: true });
 };
 </script>

@@ -27,6 +27,11 @@
     },
     "dependencies": {
         "@fawmi/vue-google-maps": "^0.9.79",
+        "@fullcalendar/core": "^6.1.8",
+        "@fullcalendar/daygrid": "^6.1.8",
+        "@fullcalendar/interaction": "^6.1.8",
+        "@fullcalendar/timegrid": "^6.1.8",
+        "@fullcalendar/vue3": "^6.1.8",
         "@headlessui/vue": "^1.7.14",
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.2",

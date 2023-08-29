@@ -76,6 +76,7 @@ const confirmRoleCreation = () => {
 const createRole = () => {
   form.post(route("6dem.manage.role"), {
     preserveScroll: true,
+    replace: true,
     onSuccess: () => closeModal(),
     onError: () => console.log("error"),
   });

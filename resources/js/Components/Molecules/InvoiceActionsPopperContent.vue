@@ -59,11 +59,13 @@ const PopperItemClicked = () => { };
 const previewInvoice = () => {
   router.visit(route("6dem.documents.invoice.preview", props.id), {
     method: "get",
+    replace: true
   });
 };
 const updateInvoice = () => {
   router.visit(route("6dem.documents.invoice", [props.moving_job_id, props.client_id, props.id]), {
     method: "get",
+    replace: true
   });
 };
 </script>

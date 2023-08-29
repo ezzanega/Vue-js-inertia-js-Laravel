@@ -42,7 +42,7 @@ const confirmRoleDelete = () => {
 };
 
 const DeleteRole = () => {
-    router.delete(route("6dem.manage.role.delete", props.role.id))
+    router.delete(route("6dem.manage.role.delete", props.role.id), { replace: true })
 };
 
 const closeModal = () => {

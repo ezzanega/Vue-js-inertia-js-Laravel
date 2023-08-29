@@ -120,6 +120,7 @@
       route("6dem.documents.quotation.init", currentClient.id),
       {
         method: "post",
+        replace: true
       }
     );
   };

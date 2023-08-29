@@ -201,6 +201,7 @@
       console.log('selectedvalue   '+selectedvalue)
       router.visit(route("6dem.documents.quotation.duplicate", routeParams), {
         method: "get",
+        replace: true
       });
     };
 

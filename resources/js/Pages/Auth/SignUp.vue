@@ -207,6 +207,7 @@ form.companyName = props.organization;
 const submit = () => {
   form.post(route("6dem.signup"), {
     onFinish: () => form.reset("password"),
+    replace: true
   });
 };
 </script>

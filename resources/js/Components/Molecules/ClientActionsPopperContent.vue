@@ -112,6 +112,7 @@
       route("6dem.documents.quotation.init", props.client.id),
       {
         method: "post",
+        replace: true
       }
     );
   };
@@ -122,6 +123,7 @@
       route("6dem.clients.details", props.client.id),
       {
         method: "get",
+        replace: true
       }
     );
   };

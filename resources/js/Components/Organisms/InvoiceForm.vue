@@ -230,6 +230,7 @@ const updateInvoice = () => {
   invoice.amount_ttc = calculateTTC(invoice.amount_ht, invoice.amount_tva);
   invoice.put(route("6dem.invoice.update", { id: currentInvoice.id }), {
     preserveScroll: true,
+    replace: true,
     preserveState: true,
     onSuccess: () => console.log("invoice.update"),
     onError: (errors) => console.log(errors)
@@ -239,6 +240,7 @@ const updateInvoice = () => {
 const previewInvoice = () => {
   router.visit(route("6dem.documents.invoice.preview", currentInvoice.id), {
     method: "get",
+    replace: true
   });
 };
 </script>

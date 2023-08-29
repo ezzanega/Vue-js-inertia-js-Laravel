@@ -174,6 +174,7 @@ const initQuatation = () => {
     route("6dem.documents.quotation.init", selectedClient.value.id),
     {
       method: "post",
+      replace: true
     }
   );
 };

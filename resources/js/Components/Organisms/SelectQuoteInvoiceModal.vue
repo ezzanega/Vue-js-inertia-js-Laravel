@@ -157,7 +157,7 @@ const searchQuotation = async () => {
 const debouncedFetchQuotationResults = debounce(searchQuotation, 300);
 
 const initDocument = () => {
-    form.post(route("6dem.documents.invoice.quotation.preview", selectedQuotation.value.id));
+    form.post(route("6dem.documents.invoice.quotation.preview", selectedQuotation.value.id), { replace: true });
 
 };
 </script>
