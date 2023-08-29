@@ -42,7 +42,7 @@ const calendarOptions = ref({
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
-    initialView: 'dayGridMonth',
+    initialView: 'timeGridWeek',
     eventColor: '#438A7A',
     weekends: true,
     editable: true,

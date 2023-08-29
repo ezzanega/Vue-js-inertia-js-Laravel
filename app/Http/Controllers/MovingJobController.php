@@ -12,19 +12,20 @@ use App\Models\Settings;
 use App\Models\Insurance;
 use App\Models\MovingJob;
 use App\Models\Quotation;
+use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Models\CalendarEvent;
 use App\Models\AdditionalField;
 use App\Models\Enums\ClientType;
 use App\Models\Enums\OptionType;
 use App\Models\ExecutingCompany;
 use App\Models\MovingJobFormula;
+use App\Models\Enums\InvoiceType;
 use App\Models\Enums\InsuranceType;
 use App\Models\Enums\InvoiceStatus;
-use App\Models\Enums\InvoiceType;
 use App\Models\Enums\WaybillStatus;
 use Illuminate\Support\Facades\Http;
 use App\Models\Enums\QuotationStatus;
-use App\Models\Organization;
 use Illuminate\Support\Facades\Redirect;
 
 class MovingJobController extends Controller
@@ -278,7 +279,7 @@ class MovingJobController extends Controller
 
     public function updateQuotation(Request $request, $id, $field)
     {
-        $quotation = Quotation::find($id);
+        $quotation = Quotation::where('id', $id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
         $movingjob = MovingJob::find($quotation->moving_job_id);
 
         $request->validate([
@@ -293,6 +294,17 @@ class MovingJobController extends Controller
             $quotation->update([
                 $field => $request->$field,
             ]);
+            if ($request->$field == QuotationStatus::ACCEPTED) {
+                $clientName = $quotation->movingJob->client->type === 'individual' ?  $quotation->movingJob->client->getFullName() : $quotation->movingJob->client->clientOrganization?->name;
+                CalendarEvent::create([
+                    'title' => 'Déménagement - ' . $clientName,
+                    'details' => 'Départ: ' . $quotation->movingJob->loading_address . '\nArrivée: ' . $quotation->movingJob->shipping_address,
+                    'color' => '#438A7A',
+                    'start' => $quotation->movingJob->loading_date,
+                    'end' => $quotation->movingJob->loading_date,
+                    'all_day' => true,
+                ]);
+            }
         } else {
             $movingjob->update([
                 $field => $request->$field,

@@ -94,7 +94,7 @@ const form = useForm({
     title: '',
     details: '',
     type: '',
-    color: "#3788d8",
+    color: "#438A7A",
 });
 
 const createEvent = () => {

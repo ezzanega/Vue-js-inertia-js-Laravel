@@ -34,7 +34,7 @@
                         </div>
                         <div class="flex flex-col space-y-1 bg-secondary rounded-md p-2">
                             <span class="font-bold">Détails:</span>
-                            <span>{{ event.details }}</span>
+                            <div v-html="detailsTextForHTML"></div>
                         </div>
                     </div>
         
@@ -50,15 +50,18 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import ColorPicker from "@/Components/Atoms/ColorPicker.vue";
 import { formatDate, formatTime } from "@/utils/index";
-
+import { computed } from 'vue';
 
 const emit = defineEmits(["closeModal"]);
-
 const props = defineProps({
   openModal: Boolean,
   event: Object,
+});
+
+const detailsTextForHTML = computed(() => {
+  const replacedText = props.event?.details?.replace(/\\n/g, '<br>') || '';
+  return replacedText;
 });
 
 const closeModal = () => {
