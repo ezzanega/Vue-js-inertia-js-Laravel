@@ -42,19 +42,19 @@
                     <table style="width: 100%; font-size: 0.65em; color: #333;">
                         <tr>
                             <td>
-                                <address>
+                                <span>
                                     Adresse:
                                     {{ $organization->billingAddress ? $organization->billingAddress->address : '' }}<br>
                                     Téléphone: {{ $organization->phone_number }}<br>
                                     Email: {{ $organization->email }}<br>
-                                </address>
+                                </span>
                             </td>
                             <td>
-                                <address>
+                                <span>
                                     SIREN: {{ $organization->siren }}<br>
                                     Licence: {{ $organization->licence }}<br>
                                     Code APE: {{ $organization->code_ape }}
-                                </address>
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -64,7 +64,7 @@
 
         <div style="text-align: center; margin-top: 10px;">
             <span
-                style="font-size: 1em; font-weight: 600; background-color: {{ $settings->ducuments_primary_color }}; padding: 2px;">
+                style="font-size: 1em; font-weight: 600; background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }}; padding: 2px;">
                 Lettre de voiture N°<span style="font-weight: 900;">{{ $waybill->number }}</span> - Exemplaire A
                 (Chargement)
             </span>
@@ -77,7 +77,8 @@
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Client</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Distance</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Volume</th>
-                <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Formule</th>
+                <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">
+                    {{ $waybill->movingJob->client->type === 'individual' ? 'Formule' : 'Catégorie' }}</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc;">Nom de la Société exécutante</th>
             </tr>
             <tr>
@@ -86,17 +87,21 @@
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->distance }}</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->capacity }}</td>
+                    {{ $waybill->movingJob->capacity }} m³</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->formula }}</td>
-                <td style="padding: 8px;">{{ $waybill->executing_company ?? $organization->name }}</td>
+                    {{ $waybill->movingJob->client->type === 'individual' ? $waybill->movingJob->formula : 'professionnel' }}
+                </td>
+                <td style="padding: 8px;">
+                    {{ $waybill->executing_company && $waybill->executing_company != '' ? $waybill->executing_company : $organization->name }}
+                </td>
             </tr>
         </table>
 
         <!-- Options Table -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; color: #333;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Quantité</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Prix unitaire HT</th>
@@ -123,20 +128,22 @@
         <!-- Véhicules -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Véhicules</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc;">Type de Véhicules</th>
             </tr>
             <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">001</td>
-                <td style="padding: 8px;">002</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">--</td>
+                <td style="padding: 8px;">--</td>
             </tr>
         </table>
 
         <!-- Observation(s) -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Observation(s)</th>
             </tr>
             <tr style="font-weight: 900;">
@@ -167,7 +174,8 @@
         <!-- Montant restant due à la livraison -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="3" style="padding: 8px; text-transform: uppercase;">Montant restant due à la livraison
                 </th>
             </tr>
@@ -183,7 +191,8 @@
         <!-- Signatures -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Signatures</th>
             </tr>
             <tr style="font-weight: 900;">
@@ -227,19 +236,19 @@
                     <table style="width: 100%; font-size: 0.65em; color: #333;">
                         <tr>
                             <td>
-                                <address>
+                                <span>
                                     Adresse:
                                     {{ $organization->billingAddress ? $organization->billingAddress->address : '' }}<br>
                                     Téléphone: {{ $organization->phone_number }}<br>
                                     Email: {{ $organization->email }}<br>
-                                </address>
+                                </span>
                             </td>
                             <td>
-                                <address>
+                                <span>
                                     SIREN: {{ $organization->siren }}<br>
                                     Licence: {{ $organization->licence }}<br>
                                     Code APE: {{ $organization->code_ape }}
-                                </address>
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -249,7 +258,7 @@
 
         <div style="text-align: center; margin-top: 10px;">
             <span
-                style="font-size: 1em; font-weight: 600; color: #438A7A; background-color: {{ $settings->ducuments_primary_color }}; padding: 2px;">
+                style="font-size: 1em; font-weight: 600; background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }}; padding: 2px;">
                 Lettre de voiture N°<span style="font-weight: 900;">{{ $waybill->number }}</span> - Exemplaire B
                 (Livraison)
             </span>
@@ -262,7 +271,8 @@
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Client</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Distance</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Volume</th>
-                <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Formule</th>
+                <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">
+                    {{ $waybill->movingJob->client->type === 'individual' ? 'Formule' : 'Catégorie' }}</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc;">Nom de la Société exécutante</th>
             </tr>
             <tr>
@@ -271,17 +281,21 @@
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->distance }}</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->capacity }}</td>
+                    {{ $waybill->movingJob->capacity }} m³</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->formula }}</td>
-                <td style="padding: 8px;">{{ $waybill->executing_company ?? $organization->name }}</td>
+                    {{ $waybill->movingJob->client->type === 'individual' ? $waybill->movingJob->formula : 'professionnel' }}
+                </td>
+                <td style="padding: 8px;">
+                    {{ $waybill->executing_company && $waybill->executing_company != '' ? $waybill->executing_company : $organization->name }}
+                </td>
             </tr>
         </table>
 
         <!-- Options Table -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; color: #333;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Quantité</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Prix unitaire HT</th>
@@ -308,20 +322,22 @@
         <!-- Véhicules -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Véhicules</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc;">Type de Véhicules</th>
             </tr>
             <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">001</td>
-                <td style="padding: 8px;">002</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">--</td>
+                <td style="padding: 8px;">--</td>
             </tr>
         </table>
 
         <!-- Observation(s) -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Observation(s)</th>
             </tr>
             <tr style="font-weight: 900;">
@@ -353,7 +369,8 @@
         <!-- Montant restant due à la livraison -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="3" style="padding: 8px; text-transform: uppercase;">Montant restant due à la livraison
                 </th>
             </tr>
@@ -369,7 +386,8 @@
         <!-- Signatures -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Signatures</th>
             </tr>
             <tr style="font-weight: 900;">

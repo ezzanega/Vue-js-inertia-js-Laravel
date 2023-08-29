@@ -9,6 +9,7 @@
             <div class="popover-body text-sm" id="popoverBody">
             </div>
         </div>
+        <EventModal :openModal="openModal" :event="eventData" @closeModal="openModal=!openModal" @createEvent="createEvent" />
     </div>
 </template>
 
@@ -19,7 +20,8 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import frLocale from '@fullcalendar/core/locales/fr';
 import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils'
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import EventModal from "@/Components/Calendar/EventModal.vue";
+import { onMounted, ref } from 'vue';
 
 const calendarOptions = ref({
     plugins: [
@@ -34,7 +36,7 @@ const calendarOptions = ref({
     },
     initialView: 'dayGridMonth',
     eventColor: '#438A7A',
-    initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+    initialEvents: INITIAL_EVENTS,
     weekends: true,
     editable: true,
     selectable: true,
@@ -43,8 +45,31 @@ const calendarOptions = ref({
     weekends: true,
     locale: frLocale,
     timeZone: 'Europe/Paris', 
+    datesSet: function(dateInfo) {
+        const start = dateInfo.startStr;
+        const end = dateInfo.endStr;
+        const calendarApi = dateInfo.view.calendar;
+        axios.get(route("6dem.calendar.events"), {
+            params: { start, end }
+        }).then(response => {
+            console.log(response)
+            calendarApi.removeAllEvents();
+            response.data.forEach(event => {
+                calendarApi.addEvent({
+                    id: event.id,
+                    title: event.title,
+                    start: event.start,
+                    end: event.end,
+                    allDay: event.all_day,
+                    details: event.details
+                });
+            });
+        });
+    },
 })
 const currentEvents = ref([]);
+const openModal = ref(false);
+const eventData = ref(null);
 
 onMounted(() => {
     calendarOptions.value = {
@@ -60,7 +85,7 @@ onMounted(() => {
         },
         initialView: 'dayGridMonth',
         eventColor: '#438A7A',
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        initialEvents: INITIAL_EVENTS,
         weekends: true,
         editable: true,
         selectable: true,
@@ -77,20 +102,45 @@ onMounted(() => {
 
 
 const handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
+    let calendarApi = selectInfo.view.calendar;
+    calendarApi.unselect();
 
-    calendarApi.unselect() // clear date selection
+    eventData.value = {
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        all_day: selectInfo.allDay
+    };
 
-    if (title) {
-        calendarApi.addEvent({
-            id: createEventId(),
-            title,
-            start: selectInfo.startStr,
-            end: selectInfo.endStr,
-            allDay: selectInfo.allDay
-        })
-    }
+    // console.log(eventData.value)
+
+    openModal.value = true;
+
+    // let title = prompt('Please enter a new title for your event');
+    // let details = prompt('Please enter details for your event');
+
+    // if (title) {
+    //     const eventData = {
+    //         title,
+    //         details,
+    //         start: selectInfo.startStr,
+    //         end: selectInfo.endStr,
+    //         all_day: selectInfo.allDay
+    //     };
+    //     axios.post(route("6dem.calendar.create.events"), eventData).then(response => {
+    //         calendarApi.addEvent({
+    //             id: response.data.id,
+    //             title: response.data.title,
+    //             details: response.data.details,
+    //             start: response.data.start,
+    //             end: response.data.end,
+    //             allDay: response.data.all_day
+    //         });
+    //     });
+    // }
+}
+
+const createEvent = (event) => {
+    calendarApi.addEvent(event);
 }
 
 const handleEventClick = (clickInfo) => {
@@ -98,7 +148,8 @@ const handleEventClick = (clickInfo) => {
   const titleElement = document.getElementById('popoverTitle');
   const bodyElement = document.getElementById('popoverBody');
   titleElement.textContent = clickInfo.event.title;
-  bodyElement.textContent = `Starts: ${clickInfo.event.start}`;
+  const details = clickInfo.event.extendedProps.details;
+  bodyElement.textContent = `Détails: ${details}`;
   const rect = clickInfo.el.getBoundingClientRect();
   popover.style.left = rect.left + 'px';
   popover.style.top = (rect.top - popover.offsetHeight) + 'px';

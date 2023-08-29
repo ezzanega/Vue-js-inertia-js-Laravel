@@ -40,7 +40,7 @@
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.validity_duratation"  @savingValue="saveField('validity_duratation')" label="Validité devis" name="validity_duratation" placeholder="Validité devis (7 jours, 1 mois ..)" />
           </div>
           <div>
-            <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.capacity"  @savingValue="saveField('capacity')" label="Volume" name="capacity" placeholder="Volume(en m³)" />
+            <DefaultInput class="w-full my-auto" type="number" v-model="movingjob.capacity"  @savingValue="saveField('capacity')" label="Volume (en m³)" name="capacity" placeholder="Volume(en m³)" />
           </div>
         </div>
       </div>
@@ -101,43 +101,18 @@
               Voir l'adresse sur Google street map
             </a>
           </div>
-
-
-          <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_date"  @savingValue="saveField('shipping_date')" label="Date de livraison" name="shipping_date" placeholder="Date de livraison" />
-          <!-- <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date de livraison" v-model="movingjob.shipping_date"
-              @savingValue="saveField('shipping_date')" />
-          </DocumentFieldFrame> -->
-
+          <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_date"  @savingValue="saveField('shipping_date')" label='Date de livraison (ou mention "Au suivant")' name="shipping_date" placeholder="Date de livraison" />
           <div class="flex space-x-2">
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_floor"  @savingValue="saveField('shipping_floor')" label="Étage" name="shipping_floor" placeholder="Étage" />
-            <!-- <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Étage" v-model="movingjob.shipping_floor"
-                @savingValue="saveField('shipping_floor')" />
-            </DocumentFieldFrame> -->
 
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_elevator"  @savingValue="saveField('shipping_elevator')" label="Ascenseur" name="shipping_elevator" placeholder="Ascenseur" />
-            <!-- <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Ascenseur" v-model="movingjob.shipping_elevator"
-                @savingValue="saveField('shipping_elevator')" />
-            </DocumentFieldFrame> -->
           </div>
 
           <div class="flex space-x-2">
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_portaging"  @savingValue="saveField('shipping_portaging')" label="Portage" name="shipping_portaging" placeholder="Portage" />
-            <!-- <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Portage" v-model="movingjob.shipping_portaging"
-                @savingValue="saveField('shipping_portaging')" />
-            </DocumentFieldFrame> -->
 
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.shipping_details"  @savingValue="saveField('shipping_details')" label="Détails" name="shipping_details" placeholder="Détails" />
-            <!-- <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Détails" v-model="movingjob.shipping_details"
-                @savingValue="saveField('shipping_details')" />
-            </DocumentFieldFrame> -->
           </div>
-
-          <!-- <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'shipping'" /> -->
         </div>
       </div>
       <div class="text-center text-2xl font-bold pb-5 flex justify-center">

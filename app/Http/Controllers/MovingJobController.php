@@ -109,31 +109,31 @@ class MovingJobController extends Controller
         $executingCompany = ExecutingCompany::find($request->executingCompany);
         $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
         $waybill = Waybill::where('moving_job_id', $movingjob->id)->first();
-        if($waybill){
+        if ($waybill) {
             $waybill = Waybill::where('id', $waybill->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
-            return Inertia::render('6dem/PreviewWaybill', [
-                'waybill' => $waybill,
+            return Redirect::route('6dem.documents.waybill.preview', [
+                'id' => $waybill->id,
             ]);
-        }else{
+        } else {
             $waybill = Waybill::create([
-                'executing_company' => $executingCompany->name,
+                'executing_company' => $executingCompany ? $executingCompany->name : '',
                 'organization_id' => $organization->id,
                 'status' => WaybillStatus::NOTSIGNED
             ]);
-    
+
             $quotation->update([
                 'status' => QuotationStatus::ACCEPTED,
             ]);
-    
+
             $waybill->movingJob()->associate($movingjob);
             $waybill->save();
-    
+
             $waybill->executingCompany()->associate($executingCompany);
             $waybill->save();
-    
+
             $waybill = Waybill::where('id', $waybill->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
-            return Inertia::render('6dem/PreviewWaybill', [
-                'waybill' => $waybill,
+            return Redirect::route('6dem.documents.waybill.preview', [
+                'id' => $waybill->id,
             ]);
         }
     }
@@ -180,7 +180,7 @@ class MovingJobController extends Controller
         $quotation->update([
             'status' => QuotationStatus::ACCEPTED,
         ]);
-        
+
         $invoice->movingJob()->associate($movingjob);
         $invoice->save();
 

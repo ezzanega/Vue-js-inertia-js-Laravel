@@ -30,19 +30,19 @@
                     <table style="width: 100%; font-size: 0.65em; color: #333;">
                         <tr>
                             <td>
-                                <address>
+                                <div>
                                     Adresse:
                                     {{ $organization->billingAddress ? $organization->billingAddress->address : '' }}<br>
                                     Téléphone: {{ $organization->phone_number }}<br>
                                     Email: {{ $organization->email }}<br>
-                                </address>
+                                </div>
                             </td>
                             <td>
-                                <address>
+                                <div>
                                     SIREN: {{ $organization->siren }}<br>
                                     Licence: {{ $organization->licence }}<br>
                                     Code APE: {{ $organization->code_ape }}
-                                </address>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -55,9 +55,15 @@
                 <td style="width: 50%; text-align: left; border: 1px solid #ccc; padding: 8px; border-radius: 8px;">
                     <table style="width: 100%;">
                         <tr>
-                            <td colspan="4"
-                                style=" border-bottom: 1px solid #ccc; font-size: 0.65em; font-weight: 600; color: #777; padding: 8px;">
-                                Devis N°<span style="color: #438A7A; font-weight: 900;">{{ $quotation->number }}</span>
+                            <td colspan="2"
+                                style=" border-bottom: 1px solid #ccc; font-size: 0.65em; font-weight: 600; padding: 8px;">
+                                Devis N°<span style="font-weight: 900;"> {{ $quotation->number }}</span>
+                            </td>
+                            <td colspan="2"
+                                style=" border-bottom: 1px solid #ccc; font-size: 0.65em; font-weight: 600; padding: 8px;">
+                                Date:
+                                Date:<span style="font-weight: 900;">
+                                    {{ \Carbon\Carbon::parse($quotation->created_at)->format('d/m/Y') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -73,7 +79,7 @@
                         <tr>
                             <td colspan="2"
                                 style="border-bottom: 1px solid #ccc; font-size: 0.65em; color: #333; padding: 8px;">
-                                Formule: {{ $quotation->movingJob->formula }}
+                                {{ $quotation->movingJob->client->type === 'individual' ? 'Formule: ' . $quotation->movingJob->formula : 'Catégorie: professionnel' }}
                             </td>
                             <td colspan="2"
                                 style="border-bottom: 1px solid #ccc; font-size: 0.65em; color: #333; padding: 8px;">
@@ -82,7 +88,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" style="font-size: 0.65em; color: #333; padding: 8px;">Volume:
-                                {{ $quotation->movingJob->capacity }}</td>
+                                {{ $quotation->movingJob->capacity }} m³</td>
                             <td colspan="2" style="font-size: 0.65em; color: #333; padding: 8px;">Distance:
                                 {{ $quotation->movingJob->distance }}</td>
                         </tr>
@@ -104,7 +110,8 @@
         <!-- Livraison -->
         <table
             style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; float: right;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Livraison</th>
             </tr>
             <tr>
@@ -131,7 +138,8 @@
         <!-- Chargement -->
         <table
             style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Chargement</th>
             </tr>
             <tr>
@@ -140,7 +148,7 @@
             </tr>
             <tr>
                 <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
-                    période: {{ $quotation->movingJob->loading_date }}
+                    période: {{ \Carbon\Carbon::parse($quotation->movingJob->loading_date)->format('d/m/Y') }}
                 </td>
                 <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
                     {{ $quotation->movingJob->loading_floor }}</td>
@@ -158,7 +166,8 @@
         <!-- Options Table -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; color: #333;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Details prestation</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Quantité</th>
                 <th style="padding: 8px; border-right: 1px solid #ccc;">Prix unitaire HT</th>
@@ -215,7 +224,8 @@
         <!-- Montant final du devis -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Montant final du devis</th>
             </tr>
             <tr>
@@ -243,7 +253,8 @@
         <!-- Modalité de réglement -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
-            <tr style="background-color: {{ $settings->ducuments_primary_color }};">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Modalité de réglement</th>
             </tr>
             <tr>
@@ -265,7 +276,7 @@
                     BIC: XXXX-XXXX<br>
                 </td>
                 <td
-                    style="width: 50%; height: 65px; background-color: {{ $settings->ducuments_primary_color }}; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
+                    style="width: 50%; height: 65px; background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }}; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
                     Date et Signature du Client <br>
                     Précédé de la mention “lu et approuvé”.
                 </td>

@@ -18,6 +18,7 @@ use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PdfGeneratorController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\CalendarEventController;
 use App\Http\Controllers\MailTemplatesController;
 use App\Http\Controllers\AdditionalFieldController;
 use App\Http\Controllers\ExecutingCompanyController;
@@ -69,12 +70,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents', [DocumentController::class, 'index'])
         ->name('6dem.documents');
 
-
     Route::get('/6dem/documents/waybill/pdf/{id}', [PdfGeneratorController::class, 'waybill'])
         ->name('6dem.waybill.pdf');
 
     Route::get('/6dem/documents/invoice/pdf/{id}', [PdfGeneratorController::class, 'invoice'])
         ->name('6dem.invoice.pdf');
+
+    Route::get('/6dem/documents/quotation/download/{id}', [PdfGeneratorController::class, 'downloadQuotation'])
+        ->name('6dem.quotation.download');
+
+    Route::get('/6dem/documents/waybill/download/{id}', [PdfGeneratorController::class, 'downloadWaybill'])
+        ->name('6dem.waybill.download');
+
+    Route::get('/6dem/documents/invoice/download/{id}', [PdfGeneratorController::class, 'downloadInvoice'])
+        ->name('6dem.invoice.download');
+
 
     # Organization
     Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
@@ -99,11 +109,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/documents/quotation/preview/{id}', [QuotationController::class, 'preview'])
         ->name('6dem.documents.quotation.preview');
+
     Route::get('/6dem.documents.quotation.duplicate/{id}/{id_formule}', [QuotationController::class, 'duplicate'])
         ->name('6dem.documents.quotation.duplicate');
+
     Route::put('/6dem.documents.payment.quotation/{id}', [QuotationController::class, 'SavePayment'])
         ->name('6dem.documents.payment.quotation');
-
 
     Route::get('/6dem/documents/quotation/search', [QuotationController::class, 'search'])
         ->name('6dem.search.quotation');
@@ -133,6 +144,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/documents/waybill/search', [WaybillController::class, 'search'])
         ->name('6dem.search.waybill');
+
+
     # Delete Waybill
     Route::delete('/6dem/documents/waybill/delete/{id}', [WaybillController::class, 'deleteWaybill'])
         ->name('6dem.delete.waybill');
@@ -305,14 +318,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/clients/sort', [ClientController::class, 'sort'])
         ->name('6dem.sort.client');
 
+    # Calendar Event
+    Route::get('/6dem/calendar', function () {
+        return inertia('6dem/Calendar');
+    })->name('6dem.calendar');
+
+    Route::get('/6dem/calendar/events', [CalendarEventController::class, 'index'])
+        ->name('6dem.calendar.events');
+
+    Route::post('/6dem/calendar/events', [CalendarEventController::class, 'store'])
+        ->name('6dem.calendar.create.events');
 
     Route::get('/6dem/tasks', function () {
         return inertia('6dem/Tasks');
     })->name('6dem.tasks');
-
-    Route::get('/6dem/calendar', function () {
-        return inertia('6dem/Calendar');
-    })->name('6dem.calendar');
 
     Route::get('/6dem/messages', function () {
         return inertia('6dem/Messages');

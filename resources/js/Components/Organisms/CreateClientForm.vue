@@ -81,19 +81,19 @@
         </div>
 
         <DefaultInput
-          :required="true"
-          v-model="form.phoneNumber"
-          :error="form.errors.phoneNumber"
-          name="phone"
-          label="Téléphone"
-        />
-
-        <DefaultInput
           :required="false"
           v-model="form.email"
           :error="form.errors.email"
           name="email"
           label="Email"
+        />
+
+        <DefaultInput
+          :required="true"
+          v-model="form.phoneNumber"
+          :error="form.errors.phoneNumber"
+          name="phone"
+          label="Téléphone"
         />
 
        <DefaultSelectInput
@@ -144,6 +144,14 @@
         </div>
 
         <DefaultInput
+          :required="false"
+          v-model="form.email"
+          :error="form.errors.email"
+          name="email"
+          label="Email"
+        />
+
+        <DefaultInput
           :required="true"
           v-model="form.phoneNumber"
           :error="form.errors.phoneNumber"
@@ -188,14 +196,6 @@
             label="Pays"
           />
         </div>
-
-        <DefaultInput
-          :required="false"
-          v-model="form.email"
-          :error="form.errors.email"
-          name="email"
-          label="Email"
-        />
 
         <DefaultSelectInput
           name="source"
