@@ -110,7 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents/quotation/preview/{id}', [QuotationController::class, 'preview'])
         ->name('6dem.documents.quotation.preview');
 
-    Route::get('/6dem.documents.quotation.duplicate/{id}/{id_formule}', [QuotationController::class, 'duplicate'])
+    Route::post('/6dem.documents.quotation.duplicate/{id}', [QuotationController::class, 'duplicate'])
         ->name('6dem.documents.quotation.duplicate');
 
     Route::put('/6dem.documents.payment.quotation/{id}', [QuotationController::class, 'SavePayment'])

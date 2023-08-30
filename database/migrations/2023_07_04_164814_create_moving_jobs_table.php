@@ -30,6 +30,7 @@ return new class extends Migration
             $table->text('shipping_details')->nullable();
             $table->string('payment_process')->nullable();
             $table->string('discount')->nullable();
+            $table->string('discount_amount')->nullable();
             $table->string('amount_ht')->nullable();
             $table->string('amount_ttc')->nullable();
             $table->string('amount_tva')->nullable();

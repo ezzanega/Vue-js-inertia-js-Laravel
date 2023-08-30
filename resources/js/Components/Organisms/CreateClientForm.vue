@@ -226,7 +226,6 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import LocationAutocomplete from "@/Components/Atoms/LocationAutocomplete.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import { useForm } from "@inertiajs/vue3";
-import { onMounted, ref } from "vue";
 import { parseCompanyInformations } from "@/utils/index";
 
 const emit = defineEmits(["close"]);

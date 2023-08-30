@@ -20,7 +20,7 @@
       <div class="w-1/12"><input name="" type="checkbox"
             class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0" :checked="selectedAll"
         @change="toggleSelectedAll"/></div>
-      <div class="w-2/12 text-center flex flex-row justify-center items-center">N° du devis
+      <div class="w-1/12 text-center flex flex-row justify-center items-center">N° du devis
         <div class="flex flex-col items-center ml-2">
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -140,7 +140,8 @@
           </button>
         </div>
       </div>
-      <div class="w-1/12 text-center flex flex-row justify-center items-center">Volume/Distance</div>
+      <div class="w-1/12 text-center flex flex-row justify-center items-center">Volume</div>
+      <div class="w-1/12 text-center flex flex-row justify-center items-center">Distance</div>
       <div class="w-1/12 text-center flex flex-row justify-center items-center">Montant HT
         <div class="flex flex-col items-center ml-2">
           <button>

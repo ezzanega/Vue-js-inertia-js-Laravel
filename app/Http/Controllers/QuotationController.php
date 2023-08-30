@@ -7,9 +7,11 @@ use Inertia\Response;
 use App\Models\Client;
 use App\Models\Option;
 use App\Models\Payment;
+use App\Models\Settings;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\Enums\OptionType;
 use App\Models\MovingJobFormula;
 use Illuminate\Support\Facades\DB;
 use App\Models\Enums\QuotationStatus;
@@ -100,8 +102,14 @@ class QuotationController extends Controller
         ]);
     }
 
-    public function duplicate($id, $id_formule)
+    public function duplicate(Request $request, $id)
     {
+        $request->validate([
+            'formula' => 'required',
+            'amount' => 'required',
+        ]);
+        $organization = $request->user()->organization;
+        $settings = Settings::where('organization_id', $organization->id)->first();
         // Retrieve the original quotation
         $originalQuotation = Quotation::where('id', $id)
             ->with(['movingJob.client', 'movingJob.client.clientOrganization'])
@@ -111,7 +119,7 @@ class QuotationController extends Controller
         $originalMovingJob = $originalQuotation->movingJob;
 
         // Retrieve the formula
-        $formula = MovingJobFormula::where('id', $id_formule)->with('options')->first();
+        $formula = MovingJobFormula::where('id', $request->formula)->with('options')->first();
 
         // // Duplicate the movingJob
         $newMovingJob = $originalMovingJob->replicate();
@@ -124,10 +132,16 @@ class QuotationController extends Controller
         if ($originalOptions) {
             foreach ($originalOptions as $originalOption) {
                 $newOption = $originalOption->replicate();
+                if ($newOption->type === OptionType::MOVING) {
+                    $newOption->unit_price_ht = floatval($request->amount);
+                    $newOption->total_price_ht = floatval($request->amount);
+                }
                 $newOption->moving_job_id = $newMovingJob->id;
                 $newOption->save();
             }
         }
+
+        $newMovingJob->updateMovingJobPrice($settings->vat);
         // // Duplicate the quotation and associate with the new movingJob
         $newQuotation = $originalQuotation->replicate();
         $newQuotation->status = QuotationStatus::DRAFTED;

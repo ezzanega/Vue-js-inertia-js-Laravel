@@ -33,6 +33,7 @@ class MovingJob extends Model
         'shipping_portaging',
         'shipping_details',
         'discount',
+        'discount_amount',
         'amount_ht',
         'amount_ttc',
         'amount_tva',
@@ -51,6 +52,11 @@ class MovingJob extends Model
     public function quotations(): HasMany
     {
         return $this->hasMany(Quotation::class);
+    }
+
+    public function options(): HasMany
+    {
+        return $this->hasMany(Option::class);
     }
 
     public function payments(): HasMany
@@ -86,5 +92,28 @@ class MovingJob extends Model
         } else {
             return null;
         }
+    }
+
+    public function updateMovingJobPrice($tva)
+    {
+        $options = $this->options()->get();
+        $total = 0;
+        foreach ($options as $option) {
+            $total += floatval($option->total_price_ht);
+        }
+        $totalHT = floatval($this->discount) > 0 ? $total - floatval($this->calculatePercentage($total, floatval($this->discount))) : $total;
+        $amountTVA = floatval($this->calculatePercentage(floatval($totalHT), floatval($tva)));
+        $amountTTC = number_format(floatval($totalHT) + floatval($amountTVA), 2, '.', '');
+        $this->amount_ht = $totalHT;
+        $this->amount_tva = $amountTVA;
+        $this->amount_ttc = $amountTTC;
+        $this->advance = $this->calculatePercentage($amountTTC, floatval($this->getAdvanceOrBalance('advance')));
+        $this->balance = $this->calculatePercentage($amountTTC, floatval($this->getAdvanceOrBalance('balance')));
+        return $this->save();
+    }
+
+    public function calculatePercentage($amount, $percentage)
+    {
+        return number_format((floatval($amount) * floatval($percentage)) / 100, 2, '.', '');
     }
 }
