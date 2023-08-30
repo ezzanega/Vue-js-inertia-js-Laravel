@@ -61,7 +61,6 @@
                             </td>
                             <td colspan="2"
                                 style=" border-bottom: 1px solid #ccc; font-size: 0.65em; font-weight: 600; padding: 8px;">
-                                Date:
                                 Date:<span style="font-weight: 900;">
                                     {{ \Carbon\Carbon::parse($quotation->created_at)->format('d/m/Y') }}</span>
                             </td>
