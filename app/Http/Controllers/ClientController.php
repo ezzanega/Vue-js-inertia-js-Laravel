@@ -77,14 +77,12 @@ class ClientController extends Controller
         $organization = $request->user()->organization;
         if ($request->clientType === ClientType::PROFESSIONAL) {
             $request->validate([
+                'firstName' => 'required|string|max:255',
+                'lastName' => 'required|string|max:255',
                 'clientType' => 'required|string|max:255',
                 'clientOrganizationName' => 'required|string|max:255',
                 'phoneNumber' => 'required|string|max:255',
-                'email' => 'required|string|max:255',
                 'address' => 'required|string',
-                'city' => 'required|string',
-                'country' => 'required|string',
-                'source' => 'required|string|max:255',
             ]);
 
             $client = Client::create([
@@ -124,11 +122,7 @@ class ClientController extends Controller
                 'firstName' => 'required|string|max:255',
                 'lastName' => 'required|string|max:255',
                 'phoneNumber' => 'required|string|max:255',
-                'email' => 'required|string|max:255',
                 'address' => 'required|string',
-                'city' => 'required|string',
-                'country' => 'required|string',
-                'source' => 'required|string|max:255',
             ]);
 
             $client = Client::create([

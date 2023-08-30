@@ -14,10 +14,7 @@
           <div class="font-medium text-gray-700">
             {{
               client.type == "professional"
-                ? client.client_organization.name +
-                  " (" +
-                  client.client_organization.siren +
-                  ")"
+                ? client.client_organization.name
                 : client.first_name + " " + client.last_name
             }}
           </div>

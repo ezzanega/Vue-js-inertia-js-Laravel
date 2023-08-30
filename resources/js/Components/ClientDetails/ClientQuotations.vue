@@ -25,9 +25,9 @@
         <div class="w-2/12 text-center flex flex-row justify-center items-center">Client</div>
         <div class="w-1/12 text-center flex flex-row justify-center items-center">Statut</div>
         <div class="w-1/12 text-center flex flex-row justify-center items-center">Date</div>
-        <div class="w-2/12 text-center flex flex-row justify-center items-center">Type du client</div>
+        <div class="w-2/12 text-center flex flex-row justify-center items-center">Formule</div>
+        <div class="w-1/12 text-center flex flex-row justify-center items-center">Volume/Distance</div>
         <div class="w-1/12 text-center flex flex-row justify-center items-center">Montant HT</div>
-        <div class="w-1/12 text-center flex flex-row justify-center items-center">Montant TTC</div>
         <div class="w-1/12 text-center"></div>
       </div>
         <div class="space-y-2 overflow-auto">
@@ -82,9 +82,9 @@
       "Email",
       "Statut",
       "Date",
-      "Type du client",
+      "Formule",
+      "Volume/Distance",
       "Montant HT",
-      "Montant TTC",
     ];
     worksheet.addRow(columns);
 
@@ -95,7 +95,7 @@
         document.moving_job.client.email,
         document.status,
         document.moving_job.loading_date,
-        document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier",
+        document.moving_job.client.type == "professional" ? "Professionnel" : document.moving_job.formula,
         document.moving_job.amount_ht,
       ];
       worksheet.addRow(rowData);

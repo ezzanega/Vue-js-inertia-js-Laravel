@@ -2,7 +2,7 @@
   <div class="pt-3 flex flex-col py-10 h-auto">
     <form
       @submit.prevent="createClient"
-      class="w-full pt-3 flex flex-col space-y-2"
+      class="w-full pt-3 flex flex-col space-y-3"
     >
       <div class="w-full pt-3 flex space-x-2">
         <SelectableButton
@@ -34,13 +34,29 @@
           />
           <DefaultInput
             class="w-1/2"
-            :required="false"
+            :required="true"
             v-model="form.lastName"
             :error="form.errors.lastName"
             name="last_name"
             label="Nom"
           />
         </div>
+
+        <DefaultInput
+          :required="true"
+          v-model="form.phoneNumber"
+          :error="form.errors.phoneNumber"
+          name="phone"
+          label="Téléphone"
+        />
+
+        <DefaultInput
+          :required="false"
+          v-model="form.email"
+          :error="form.errors.email"
+          name="email"
+          label="Email"
+        />
 
         <LocationAutocomplete
           :required="true"
@@ -55,124 +71,7 @@
         <div class="w-full flex space-x-2">
           <DefaultInput
             class="w-1/3"
-            :required="true"
-            v-model="form.city"
-            :error="form.errors.city"
-            name="city"
-            label="Ville"
-          />
-          <DefaultInput
-            class="w-1/3"
             :required="false"
-            v-model="form.postalCode"
-            :error="form.errors.postalCode"
-            name="postalCode"
-            label="Code postal"
-          />
-
-          <DefaultInput
-            class="w-1/3"
-            :required="false"
-            v-model="form.country"
-            :error="form.errors.country"
-            name="country"
-            label="Pays"
-          />
-        </div>
-
-        <DefaultInput
-          :required="false"
-          v-model="form.email"
-          :error="form.errors.email"
-          name="email"
-          label="Email"
-        />
-
-        <DefaultInput
-          :required="true"
-          v-model="form.phoneNumber"
-          :error="form.errors.phoneNumber"
-          name="phone"
-          label="Téléphone"
-        />
-
-       <DefaultSelectInput
-          name="source"
-          label="Source"
-          v-model="form.source"
-          :options="sourceOptions"
-          :error="form.errors.source"
-        />
-      </div>
-
-      <div
-        v-if="form.clientType === 'professional'"
-        class="w-full flex flex-col space-y-2"
-      >
-        <DefaultInput
-          :required="true"
-          v-model="form.clientOrganizationName"
-          :error="form.errors.clientOrganizationName"
-          name="company_name"
-          label="Nom de la societé"
-        />
-
-        <DefaultInput :required="true" 
-          v-model="form.siren" 
-          :error="form.errors.siren"
-          @update:modelValue="getCompanyInformations" 
-          name="siren"
-          label="Siren/Siret de la societé"/>
-
-        <div class="w-full flex space-x-2">
-          <DefaultInput
-            class="w-1/2"
-            :required="true"
-            v-model="form.firstName"
-            :error="form.errors.firstName"
-            name="fist_name"
-            label="Prénom"
-          />
-          <DefaultInput
-            class="w-1/2"
-            :required="false"
-            v-model="form.lastName"
-            :error="form.errors.lastName"
-            name="last_name"
-            label="Nom"
-          />
-        </div>
-
-        <DefaultInput
-          :required="false"
-          v-model="form.email"
-          :error="form.errors.email"
-          name="email"
-          label="Email"
-        />
-
-        <DefaultInput
-          :required="true"
-          v-model="form.phoneNumber"
-          :error="form.errors.phoneNumber"
-          name="phone"
-          label="Téléphone"
-        />
-
-        <LocationAutocomplete
-          :required="true"
-          v-model="form.address"
-          :error="form.errors.address"
-          name="address"
-          label="Adresse de Facturation"
-          placeholder="Adresse du client"
-          @place_changed="setAddressData"
-        />
-
-        <div class="w-full flex space-x-2">
-          <DefaultInput
-            class="w-1/3"
-            :required="true"
             v-model="form.city"
             :error="form.errors.city"
             name="city"
@@ -205,6 +104,113 @@
           :error="form.errors.source"
         />
       </div>
+
+      <div
+        v-if="form.clientType === 'professional'"
+        class="w-full flex flex-col space-y-2"
+      >
+
+        <DefaultInput
+          v-model="form.siren" 
+          :error="form.errors.siren"
+          @update:modelValue="getCompanyInformations" 
+          name="siren"
+          label="Numéro Siren ou Siret de la societé (Remplissage automatique)"
+        />
+
+        <DefaultInput
+          :required="true"
+          v-model="form.clientOrganizationName"
+          :error="form.errors.clientOrganizationName"
+          name="company_name"
+          label="Nom de la societé"
+        />
+
+        <div class="flex flex-col space-y-1">
+          <span class="text-sm underline">Répresantant de la société</span>
+          <div class="w-full flex space-x-2">
+            <DefaultInput
+              class="w-1/2"
+              :required="true"
+              v-model="form.firstName"
+              :error="form.errors.firstName"
+              name="fist_name"
+              label="Prénom"
+            />
+            <DefaultInput
+              class="w-1/2"
+              :required="true"
+              v-model="form.lastName"
+              :error="form.errors.lastName"
+              name="last_name"
+              label="Nom"
+            />
+          </div>
+        </div>
+
+        <DefaultInput
+          :required="false"
+          v-model="form.email"
+          :error="form.errors.email"
+          name="email"
+          label="Email"
+        />
+
+        <DefaultInput
+          :required="true"
+          v-model="form.phoneNumber"
+          :error="form.errors.phoneNumber"
+          name="phone"
+          label="Téléphone"
+        />
+
+        <LocationAutocomplete
+          :required="true"
+          v-model="form.address"
+          :error="form.errors.address"
+          name="address"
+          label="Adresse de Facturation"
+          placeholder="Adresse du client"
+          @place_changed="setAddressData"
+        />
+
+        <div class="w-full flex space-x-2">
+          <DefaultInput
+            class="w-1/3"
+            :required="false"
+            v-model="form.city"
+            :error="form.errors.city"
+            name="city"
+            label="Ville"
+          />
+          <DefaultInput
+            class="w-1/3"
+            :required="false"
+            v-model="form.postalCode"
+            :error="form.errors.postalCode"
+            name="postalCode"
+            label="Code postal"
+          />
+
+          <DefaultInput
+            class="w-1/3"
+            :required="false"
+            v-model="form.country"
+            :error="form.errors.country"
+            name="country"
+            label="Pays"
+          />
+        </div>
+
+        <DefaultSelectInput
+          name="source"
+          label="Source"
+          v-model="form.source"
+          :options="sourceOptions"
+          :error="form.errors.source"
+        />
+      </div>
+      <div class="pt-3 font-bold">Les champs marqués d'une <span class="text-red-500">*</span> sont obligatoires</div>
       <div class="shrink-0 py-4">
         <div class="flex flex-wrap justify-end space-x-3 sm:flex-nowrap">
           <DefaultButton type="submit" class="w-1/2" buttontext="Valider" />
@@ -318,12 +324,13 @@ const setClientOrganizationData = (clientOrganization) => {
     form.clientOrganizationName = clientOrganization.organizationName;
     form.siren = clientOrganization.siren;
     form.siret = clientOrganization.siret;
-    form.address = clientOrganization.address;
+    form.address = clientOrganization.fullAddress;
     form.city = clientOrganization.city;
     form.postalCode = clientOrganization.postalCode;
     form.country = clientOrganization.country;
     form.codeApe = clientOrganization.codeApe;
     form.fullAddress = clientOrganization.fullAddress;
+    console.log(clientOrganization);
 };
 
 const getCompanyInformations = async (value) => {

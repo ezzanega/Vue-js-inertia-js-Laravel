@@ -116,7 +116,7 @@
           </button>
         </div>
       </div>
-      <div class="w-2/12 text-center flex flex-row justify-center items-center">Type du client
+      <div class="w-2/12 text-center flex flex-row justify-center items-center">Formule
         <div class="flex flex-col items-center ml-2">
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -140,6 +140,7 @@
           </button>
         </div>
       </div>
+      <div class="w-1/12 text-center flex flex-row justify-center items-center">Volume/Distance</div>
       <div class="w-1/12 text-center flex flex-row justify-center items-center">Montant HT
         <div class="flex flex-col items-center ml-2">
           <button>
@@ -157,30 +158,6 @@
               class="w-3 h-3 text-gray-400 hover:text-gray-900"
               :class="[filters.amountHT == 'desc' ? 'text-gray-900 hover:opacity-80' : '']"
               @click="sortField('amountHT', 'desc')">
-              <path fill-rule="evenodd"
-                d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
-                clip-rule="evenodd" />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div class="w-1/12 text-center flex flex-row justify-center items-center">Montant TTC
-        <div class="flex flex-col items-center ml-2">
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              class="w-3 h-3 text-gray-400 hover:text-gray-900"
-              :class="[filters.amountTTC == 'asc' ? 'text-gray-900 hover:opacity-80' : '']"
-              @click="sortField('amountTTC', 'asc')">
-              <path fill-rule="evenodd"
-                d="M11.47 7.72a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z"
-                clip-rule="evenodd" />
-            </svg>
-          </button>
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              class="w-3 h-3 text-gray-400 hover:text-gray-900"
-              :class="[filters.amountTTC == 'desc' ? 'text-gray-900 hover:opacity-80' : '']"
-              @click="sortField('amountTTC', 'desc')">
               <path fill-rule="evenodd"
                 d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
                 clip-rule="evenodd" />
@@ -318,9 +295,9 @@ const exportSelectedDocuments = (selectedDocuments) => {
     "Email",
     "Statut",
     "Date",
-    "Type du client",
+    "Formule",
+    "Volume/Distance",
     "Montant HT",
-    "Montant TTC",
   ];
   worksheet.addRow(columns);
 

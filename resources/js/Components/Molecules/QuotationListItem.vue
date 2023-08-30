@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-grow flex-nowrap px-6 py-4 rounded-xl border border-gray-300 bg-white text-sm md:text-xs">
+  <div class="flex flex-grow flex-nowrap px-6 py-4 rounded-xl border border-gray-300 bg-white text-sm md:text-xs hover:bg-secondary">
     <div class="lg:w-1/12 min-w-1/12 my-auto">
       <input
         name=""
@@ -11,8 +11,8 @@
     </div>
     <div class="text-left lg:w-2/12 min-w-2/12 flex justify-center my-auto">{{ props.document.number }}</div>
     <div class="flex flex-nowrap gap-3 text-left lg:w-2/12 min-w-2/12 justify-center my-auto">
-      <div class="">
-        <div class="font-medium text-gray-700 text-center">
+      <div class="text-center">
+        <div class="font-medium text-gray-700 w-full">
           {{
             props.document.moving_job.client.type == "professional"
               ? props.document.moving_job.client.client_organization.name
@@ -22,6 +22,7 @@
           }}
         </div>
         <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div>
+        <div class="text-gray-400">Tél: {{ props.document.moving_job.client.phone_number }}</div>
       </div>
     </div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">
@@ -38,13 +39,13 @@
 
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
     <div class="text-left lg:w-2/12 min-w-2/12 flex flex-nowrap justify-center my-auto">
-      <span class="text-left rounded-full text-white w-fit px-2.5 py-1 my-auto"
-        :class="[props.document.moving_job.client.type == 'professional' ? 'bg-blue-400' : 'bg-primary']">
-        {{props.document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier"}}
+      <span class="hover-group cursor-pointer text-center rounded-full text-white px-2.5 py-1 my-auto w-24 truncate hover:truncate-off"
+        :class="[props.document.moving_job.client.type == 'professional' ? 'bg-blue-400' : 'bg-primary bg-opacity-80']">
+        {{ props.document.moving_job.client.type == "professional" ? "Professionnel" : props.document.moving_job.formula}}
       </span>
     </div>
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.amount_ht }}</div>
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto"></div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.capacity + ' m³ - ' + props.document.moving_job.distance}}</div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto font-bold">{{ props.document.moving_job.amount_ht }} €</div>
     <div class="lg:w-1/12 min-w-1/12 my-auto">
       <div class="flex flex-nowrap justify-end gap-4">
         <Dropdown placement="bottom-end">
@@ -110,3 +111,19 @@ const updatedStatus = () => {
   router.reload();
 };
 </script>
+
+<style scoped>
+.truncate-off {
+  white-space: normal !important;
+  overflow: visible !important;
+  width: auto !important;
+  text-overflow: clip !important;
+}
+
+/* Optional: You might want to add a background and some padding when hovering */
+.hover-group:hover .truncate-off {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+</style>

@@ -89,9 +89,9 @@
       "Email",
       "Statut",
       "Date",
-      "Type du client",
+      "Formule",
+      "Volume/Distance",
       "Montant HT",
-      "Montant TTC",
     ];
     worksheet.addRow(columns);
 
@@ -102,7 +102,7 @@
         document.moving_job.client.email,
         document.status,
         document.moving_job.loading_date,
-        document.moving_job.client.type == "professional" ? "Professionnel" : "Particulier",
+        document.moving_job.client.type == "professional" ? "Professionnel" : document.moving_job.formula,
         document.moving_job.amount_ht,
       ];
       worksheet.addRow(rowData);
