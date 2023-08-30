@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\MovingJobFormula;
 use Illuminate\Support\Facades\DB;
+use App\Models\Enums\QuotationStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
@@ -128,13 +129,14 @@ class QuotationController extends Controller
         }
         // // Duplicate the quotation and associate with the new movingJob
         $newQuotation = $originalQuotation->replicate();
+        $newQuotation->status = QuotationStatus::DRAFTED;
         $newQuotation->movingJob()->associate($newMovingJob);  // Associate the new MovingJob
         $newQuotation->save();
 
         return Redirect::route('6dem.documents.quotation.preview', $newQuotation->id);
     }
 
-    public function SavePayment(Request $request,$id)
+    public function SavePayment(Request $request, $id)
     {
         $quotation = Quotation::where('id', $id)
             ->with(['movingJob.client', 'movingJob.client.clientOrganization'])
@@ -158,8 +160,6 @@ class QuotationController extends Controller
             'loading_date' => $currentDate,
         ]);
         return Redirect::route('6dem.documents');
-
-
     }
 
     public function deleteQuotation($id)
@@ -182,7 +182,7 @@ class QuotationController extends Controller
                     }
                 }
 
-                $movingJob->delete();// Delete the MovingJob
+                $movingJob->delete(); // Delete the MovingJob
             }
             $quotation->delete();
             return Redirect::route('6dem.documents');

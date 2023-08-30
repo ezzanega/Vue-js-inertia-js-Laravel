@@ -12,6 +12,10 @@ class ExecutingCompanyController extends Controller
 {
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
         $organization = $request->user()->organization;
         $executingCompany = ExecutingCompany::create([
             'name' => $request->name,

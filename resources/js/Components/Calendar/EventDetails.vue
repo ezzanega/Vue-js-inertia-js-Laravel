@@ -32,9 +32,9 @@
                                 <div>À <span class="font-bold underline">{{ formatTime(event.end) }}</span></div>
                             </div>
                         </div>
-                        <div class="flex flex-col space-y-1 bg-secondary rounded-md p-2">
+                        <div class="flex flex-col space-y-1 bg-secondary rounded-md p-2 text-sm">
                             <span class="font-bold">Détails:</span>
-                            <div v-html="detailsTextForHTML"></div>
+                            <div class="flex flex-col space-y-2" v-html="detailsTextForHTML"></div>
                         </div>
                     </div>
         

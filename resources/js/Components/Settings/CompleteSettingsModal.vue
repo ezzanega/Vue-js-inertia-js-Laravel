@@ -16,8 +16,9 @@
                     Veuillez compléter vos informations de réglages afin de profiter pleinement de l'expérience offerte par notre système CRM. <br>
                     Nous vous encourageons vivement à prendre quelques instants pour saisir ces détails cruciaux, 
                     ce qui ouvrira la voie à une expérience personnalisée et efficace au sein de notre CRM. <br>
+                    Notre équipe reste à votre disposition pour toute assistance que vous pourriez nécessiter lors de ce processus.
                     <div class="underline">
-                        Notre équipe reste à votre disposition pour toute assistance que vous pourriez nécessiter lors de ce processus.
+                        Vous pouvez nous contacter au 0601418010
                     </div>
                 </span>
             </div>

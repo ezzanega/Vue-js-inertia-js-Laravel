@@ -7,24 +7,23 @@
                 </p>
             </div>
             <div class="w-full flex flex-col space-y-2">
+
+                <DefaultInput
+                    v-model="form.siren"
+                    :error="form.errors.siren"
+                    @update:modelValue="getCompanyInformations"
+                    name="siren"
+                    label="Veuillez renseigner le numéro SIREN ou SIRET (Remplissage automatique)"
+                />
+                    
                 <DefaultInput :required="true" v-model="form.name" :error="form.errors.name" name="name"
                     label="Nom de la société" />
 
-                <div class="w-full flex space-x-2">
-                    <DefaultInput :required="true" class="w-1/2" v-model="form.siren" :error="form.errors.siren"
-                        @update:modelValue="getCompanyInformations" name="siren"
-                        label="N° siren (Remplissage automatique)" />
-
-                    <DefaultInput :required="true" class="w-1/2" v-model="form.siret" :error="form.errors.siret"
-                        @update:modelValue="getCompanyInformations" name="siret"
-                        label="N° siret (Remplissage automatique)" />
-                </div>
-
-                <LocationAutocomplete :required="true" :value="form.address" :error="form.errors.address" name="address"
+                <LocationAutocomplete :value="form.address" :error="form.errors.address" name="address"
                     label="Adresse" placeholder="Adresse de la société" @place_changed="setAddressData" />
 
                 <div class="w-full flex space-x-2">
-                    <DefaultInput class="w-1/3" :required="true" v-model="form.city" :error="form.errors.city" name="city"
+                    <DefaultInput class="w-1/3" v-model="form.city" :error="form.errors.city" name="city"
                         label="Ville" />
                     <DefaultInput class="w-1/3" :required="false" v-model="form.postalCode" :error="form.errors.postalCode"
                         name="postalCode" label="Code postal" />
@@ -34,9 +33,9 @@
                 </div>
 
                 <div class="w-full flex space-x-2">
-                    <DefaultInput :required="true" class="w-1/2" v-model="form.phone_number"
+                    <DefaultInput class="w-1/2" v-model="form.phone_number"
                         :error="form.errors.phone_number" name="phone" label="Téléphone" />
-                    <DefaultInput :required="true" class="w-1/2" v-model="form.email" :error="form.errors.email"
+                    <DefaultInput class="w-1/2" v-model="form.email" :error="form.errors.email"
                         name="email" label="Email" />
                 </div>
 

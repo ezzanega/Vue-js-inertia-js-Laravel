@@ -69,6 +69,7 @@ const calendarOptions = ref({
                     allDay: event.all_day,
                     details: event.details,
                     backgroundColor: event.color,
+                    borderColor: event.color,
                 });
             });
         });
@@ -111,6 +112,7 @@ const createEvent = (event) => {
         end: event.end,
         allDay: event.all_day,
         backgroundColor: event.color,
+        borderColor: event.color,
     });
     closeEventCreationModal();
 }

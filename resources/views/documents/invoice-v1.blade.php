@@ -147,7 +147,7 @@
         <div style="font-size: 0.65em; margin-top: 20px; font-weight: 400;">
             <span style="font-weight: 600; text-decoration: underline;">Rappel des termes du contrat:</span>
             Déménagement {{ $invoice->movingJob->client->type === 'individual' ? 'particulier ' : 'professionnel' }},
-            <span style="font-weight: 500;">Volume: {{ $invoice->movingJob->capacity }}</span>,
+            <span style="font-weight: 500;">Volume: {{ $invoice->movingJob->capacity }} m³</span>,
             <span style="font-weight: 500;">Distance: {{ $invoice->movingJob->distance }}</span>.
             <p style="font-weight: 500;">Prix total TTC: {{ $invoice->movingJob->amount_ttc }} €</p>
         </div>

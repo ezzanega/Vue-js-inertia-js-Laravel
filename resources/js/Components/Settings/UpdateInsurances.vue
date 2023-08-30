@@ -28,7 +28,7 @@
                                     v-model="contractual.franchise" :error="contractual.errors.franchise" />
                             </div>
                             <div class="w-full pt-3 flex flex-col space-y-2">
-                                <DefaultInput type="number" name="amount_ht" label="Montant HT de l'assurence (en €)"
+                                <DefaultInput type="number" name="amount_ht" label="Montant HT de l'assurance (en €)"
                                     placeholder="Montant HT" v-model="contractual.amount_ht"
                                     :error="contractual.errors.amount_ht" />
                             </div>

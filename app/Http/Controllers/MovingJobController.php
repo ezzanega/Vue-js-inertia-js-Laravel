@@ -294,17 +294,6 @@ class MovingJobController extends Controller
             $quotation->update([
                 $field => $request->$field,
             ]);
-            if ($request->$field == QuotationStatus::ACCEPTED) {
-                $clientName = $quotation->movingJob->client->type === 'individual' ?  $quotation->movingJob->client->getFullName() : $quotation->movingJob->client->clientOrganization?->name;
-                CalendarEvent::create([
-                    'title' => 'Déménagement - ' . $clientName,
-                    'details' => 'Départ: ' . $quotation->movingJob->loading_address . '\nArrivée: ' . $quotation->movingJob->shipping_address,
-                    'color' => '#438A7A',
-                    'start' => $quotation->movingJob->loading_date,
-                    'end' => $quotation->movingJob->loading_date,
-                    'all_day' => true,
-                ]);
-            }
         } else {
             $movingjob->update([
                 $field => $request->$field,

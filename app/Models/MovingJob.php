@@ -72,4 +72,19 @@ class MovingJob extends Model
     {
         return $this->hasOne(Location::class, 'shipping_moving_job_id');
     }
+
+    public function getAdvanceOrBalance($type)
+    {
+        $parts = explode('-', $this->payment_process);
+        $advance = isset($parts[0]) ? (float) $parts[0] : 0;
+        $balance = isset($parts[1]) ? (float) $parts[1] : 0;
+
+        if ($type === 'advance') {
+            return $advance ? $advance : 0;
+        } elseif ($type === 'balance') {
+            return $balance ? $balance : 0;
+        } else {
+            return null;
+        }
+    }
 }

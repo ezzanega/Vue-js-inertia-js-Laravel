@@ -264,12 +264,14 @@
                 <th colspan="2" style="padding: 8px; text-transform: uppercase;">Modalité de réglement</th>
             </tr>
             <tr>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Accompte en %
+                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Accompte
+                    ({{ $quotation->movingJob->getAdvanceOrBalance('advance') }}%)
                     TTC</td>
                 <td style="padding: 8px; border-bottom: 1px solid #ccc;">{{ $quotation->movingJob->advance }} €</td>
             </tr>
             <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc;">Solde % TTC</td>
+                <td style="padding: 8px; border-right: 1px solid #ccc;">Solde
+                    ({{ $quotation->movingJob->getAdvanceOrBalance('balance') }}%) TTC</td>
                 <td style="padding: 8px;">{{ $quotation->movingJob->balance }} €</td>
             </tr>
         </table>
