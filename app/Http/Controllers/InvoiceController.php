@@ -51,7 +51,7 @@ class InvoiceController extends Controller
         $status = $request->input('status') ?? "";
         $amountHT = $request->input('amountHT') ?? "";
 
-        $query = Invoice::with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date) {
+        $query = Invoice::where('organization_id', auth()->user()->organization->id)->with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date) {
             if ($amountHT) {
                 $movingJobQuery->orderBy('amount_ht', $amountHT);
             }
@@ -59,8 +59,8 @@ class InvoiceController extends Controller
                 $movingJobQuery->orderBy('loading_date', $date);
             }
             $movingJobQuery->with('client', 'client.clientOrganization');
-        }])
-            ->where('organization_id', auth()->user()->organization->id);
+        }]);
+
         if ($type) {
             $query->orderBy('type', $type);
         }

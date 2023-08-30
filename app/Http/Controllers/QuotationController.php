@@ -21,7 +21,8 @@ class QuotationController extends Controller
 
     public function index(Request $request): Response
     {
-        $quotations = Quotation::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
+        $organization = $request->user()->organization;
+        $quotations = Quotation::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
         return Inertia::render('6dem/Documents', [
             'quotations' => $quotations,
         ]);
@@ -53,6 +54,7 @@ class QuotationController extends Controller
      */
     public function sort(Request $request)
     {
+        $organization = $request->user()->organization;
         $number = $request->input('number') ?? "";
         $client = $request->input('client') ?? "";
         $date = $request->input('date') ?? "";
@@ -60,7 +62,7 @@ class QuotationController extends Controller
         $amountHT = $request->input('amountHT') ?? "";
         $clientType = $request->input('clientType') ?? "";
 
-        $query = Quotation::with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date, $client, $clientType) {
+        $query = Quotation::where('organization_id', $organization->id)->with(['movingJob' => function ($movingJobQuery) use ($amountHT, $date, $client, $clientType) {
             if ($amountHT) {
                 $movingJobQuery->orderBy('amount_ht', $amountHT);
             }
@@ -76,8 +78,7 @@ class QuotationController extends Controller
                 }
                 $clientQuery->with(['clientOrganization']);
             }]);
-        }])
-            ->where('organization_id', auth()->user()->organization->id);
+        }]);
 
         if ($number) {
             $query->orderBy('number', $number);

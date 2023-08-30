@@ -131,7 +131,7 @@
                     </td>
                     <td
                         style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">
-                        {{ $item->quantity }} €
+                        {{ $item->quantity }}
                     </td>
                     <td
                         style="padding: 8px; @if (!$loop->last) border-bottom: 1px solid #ccc; @endif border-right: 1px solid #ccc;">

@@ -9,7 +9,11 @@
         @change="handleCheckboxChange"
       />
     </div>
-    <div class="text-left lg:w-2/12 min-w-2/12 flex justify-center my-auto">{{ props.document.number }}</div>
+    <div class="text-left lg:w-2/12 min-w-2/12 flex justify-center my-auto">
+      <span class="font-bold text-primary border-b border-dashed border-primary cursor-pointer" @click="() => router.visit(route('6dem.documents.quotation.preview', props.document.id))">
+        D-{{ props.document.number }}
+      </span>
+    </div>
     <div class="flex flex-nowrap gap-3 text-left lg:w-2/12 min-w-2/12 justify-center my-auto">
       <div class="text-center">
         <div class="font-medium text-gray-700 w-full">
@@ -21,7 +25,7 @@
                 props.document.moving_job.client.last_name
           }}
         </div>
-        <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div>
+        <!-- <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div> -->
         <div class="text-gray-400">Tél: {{ props.document.moving_job.client.phone_number }}</div>
       </div>
     </div>

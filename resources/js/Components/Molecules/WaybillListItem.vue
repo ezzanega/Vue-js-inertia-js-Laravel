@@ -9,7 +9,11 @@
         @change="handleCheckboxChange"
       />
     </div>
-    <div class="text-left w-3/12 flex justify-center my-auto">{{ props.document.number }}</div>
+    <div class="text-left w-3/12 flex justify-center my-auto">
+      <span class="font-bold text-primary border-b border-dashed border-primary cursor-pointer" @click="() => router.visit(route('6dem.documents.waybill.preview', props.document.id))">
+        LV-{{ props.document.number }}
+      </span>
+    </div>
     <div class="flex gap-3 text-left w-3/12 justify-center my-auto">
       <div class="">
         <div class="font-medium text-gray-700 text-center">
@@ -21,7 +25,8 @@
             props.document.moving_job.client.last_name
           }}
         </div>
-        <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div>
+        <!-- <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div> -->
+        <div class="text-gray-400">Tél: {{ props.document.moving_job.client.phone_number }}</div>
       </div>
     </div>
     <div v-if="props.document.status == 'Signé'" class="text-left w-2/12 flex justify-center my-auto">
@@ -34,7 +39,7 @@
       <p class="text-left rounded-full bg-primary text-white w-fit px-1.5 py-1 my-auto">{{ props.document.moving_job.client.type ==
         "professional" ? "Professionnel" : "Particulier" }}</p>
     </div>
-    <div class="text-left w-2/12 flex justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
+    <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.document.moving_job.loading_date) }}</div>
     <div class="w-1/12 my-auto">
       <div class="flex justify-end gap-4">
         <Dropdown placement="bottom-end">
@@ -63,6 +68,8 @@
 <script setup>
 import { Dropdown } from "floating-vue";
 import WaybillActionsPopperContent from "@/Components/Molecules/WaybillActionsPopperContent.vue";
+import { router } from "@inertiajs/vue3";
+import { formatDate } from "@/utils/index";
 
 const emit = defineEmits(["toggle-selected-all"]);
 const props = defineProps({

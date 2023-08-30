@@ -17,9 +17,9 @@ class DocumentController extends Controller
     public function index(Request $request): Response
     {
         $organization = $request->user()->organization;
-        $quotations = Quotation::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
-        $waybills = Waybill::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
-        $invoices = Invoice::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
+        $quotations = Quotation::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
+        $waybills = Waybill::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
+        $invoices = Invoice::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
         $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
 
@@ -28,7 +28,7 @@ class DocumentController extends Controller
             'quotations' => $quotations,
             'waybills' => $waybills,
             'invoices' => $invoices,
-            'movingJobFormulas'=> $movingJobFormulas,
+            'movingJobFormulas' => $movingJobFormulas,
         ]);
     }
 }

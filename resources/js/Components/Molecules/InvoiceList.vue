@@ -20,7 +20,7 @@
       <div class="w-1/12"><input name="" type="checkbox"
             class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0" :checked="selectedAll"
         @change="toggleSelectedAll"/></div>
-      <div class="w-3/12 text-center flex flex-row justify-center items-center">N° Facture
+      <div class="w-2/12 text-center flex flex-row justify-center items-center">N° Facture
         <div class="flex flex-col items-center ml-2">
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -44,7 +44,8 @@
             </button>
           </div>
       </div>
-      <div class="w-3/12 text-center flex flex-row justify-center items-center">Date de déménagement
+      <div class="w-2/12 text-center flex flex-row justify-center items-center">Client</div>
+      <div class="w-2/12 text-center flex flex-row justify-center items-center">Date de la facture
         <div class="flex flex-col items-center ml-2">
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

@@ -30,7 +30,7 @@ class WaybillController extends Controller
             })
             ->orWhereHas('movingJob.client', function ($query) use ($search_text) {
                 $query->where('first_name', 'LIKE', "%{$search_text}%")
-                ->orWhere('last_name', 'LIKE', "%{$search_text}%");
+                    ->orWhere('last_name', 'LIKE', "%{$search_text}%");
             })
             ->with('movingJob.client')
             ->take(20)
@@ -50,21 +50,20 @@ class WaybillController extends Controller
         $status = $request->input('status') ?? "";
         $clientType = $request->input('clientType') ?? "";
 
-        $query = Waybill::with(['movingJob' => function ($movingJobQuery) use ($date, $client, $clientType) {
+        $query = Waybill::where('organization_id', auth()->user()->organization->id)->with(['movingJob' => function ($movingJobQuery) use ($date, $client, $clientType) {
             if ($date) {
                 $movingJobQuery->orderBy('loading_date', $date);
             }
             $movingJobQuery->with(['client' => function ($clientQuery) use ($client, $clientType) {
-                    if ($client) {
-                        $clientQuery->orderBy('last_name', $client);
-                    }
-                    if ($clientType) {
-                        $clientQuery->orderBy('type', $clientType);
-                    }
-                    $clientQuery->with(['clientOrganization']);
-                }]);
-        }])
-        ->where('organization_id', auth()->user()->organization->id);
+                if ($client) {
+                    $clientQuery->orderBy('last_name', $client);
+                }
+                if ($clientType) {
+                    $clientQuery->orderBy('type', $clientType);
+                }
+                $clientQuery->with(['clientOrganization']);
+            }]);
+        }]);
 
         if ($number) {
             $query->orderBy('number', $number);
@@ -88,7 +87,6 @@ class WaybillController extends Controller
             }
             $Waybill->delete();
             return Redirect::route('6dem.documents');
-
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);

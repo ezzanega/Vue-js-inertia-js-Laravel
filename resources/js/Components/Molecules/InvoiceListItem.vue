@@ -4,8 +4,25 @@
       <input name="" type="checkbox" class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0"
         :checked="props.selectedAll" @change="handleCheckboxChange" />
     </div>
-    <div class="text-left w-3/12 flex justify-center my-auto">{{ props.document.number }}</div>
-    <div class="text-left w-3/12 flex justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
+    <div class="text-left w-2/12 flex justify-center my-auto">
+      <span class="font-bold text-primary border-b border-dashed border-primary cursor-pointer" @click="() => router.visit(route('6dem.documents.invoice.preview', props.document.id))">
+        F-{{ props.document.number }}
+      </span>  
+    </div>
+    <div class="text-center w-2/12">
+      <div class="font-medium text-gray-700">
+        {{
+          props.document.moving_job.client.type == "professional"
+          ? props.document.moving_job.client.client_organization.name
+          : props.document.moving_job.client.first_name +
+          " " +
+          props.document.moving_job.client.last_name
+        }}
+      </div>
+      <!-- <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div> -->
+      <div class="text-gray-400">Tél: {{ props.document.moving_job.client.phone_number }}</div>
+    </div>
+    <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.document.created_at) }}</div>
     <div class="text-left w-2/12 flex justify-center my-auto">{{ getAdvanceOrBalanceNameFromKey(props.document.type) }}</div>
     <div v-if="props.document.status == 'A payer'" class="text-left w-2/12 flex justify-center my-auto">
       <p class="text-left rounded-full bg-yellow-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
@@ -22,8 +39,8 @@
     <div v-if="props.document.status == 'Annulé'" class="text-left w-2/12 flex justify-center my-auto">
       <p class="text-left rounded-full bg-red-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
-    <div class="text-left w-2/12 flex justify-center my-auto">{{ props.document.amount_ht }}</div>
-    <div class="text-left w-2/12 flex justify-center my-auto"></div>
+    <div class="text-left w-2/12 flex justify-center my-auto font-bold">{{ props.document.amount_ht }}€</div>
+    <div class="text-left w-2/12 flex justify-center my-auto font-bold">{{ props.document.amount_ttc }}€</div>
     <div class="w-1/12 my-auto">
       <div class="flex justify-end gap-4">
         <Dropdown placement="bottom-end">
@@ -53,6 +70,8 @@
 import { Dropdown } from "floating-vue";
 import InvoiceActionsPopperContent from "@/Components/Molecules/InvoiceActionsPopperContent.vue";
 import { getAdvanceOrBalanceNameFromKey } from "@/utils";
+import { router } from "@inertiajs/vue3";
+import { formatDate } from "@/utils/index";
 
 const emit = defineEmits(["toggle-selected-all"]);
 const props = defineProps({

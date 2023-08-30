@@ -32,8 +32,9 @@ class MovingJobController extends Controller
 {
     public function index(Request $request): Response
     {
-        $quotations = Quotation::with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
-        $waybills = Waybill::with('movingJob')->latest()->get();
+        $organization = $request->user()->organization;
+        $quotations = Quotation::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
+        $waybills = Waybill::where('organization_id', $organization->id)->with('movingJob')->latest()->get();
 
         return Inertia::render('6dem/Documents', [
             'quotations' => $quotations,
@@ -186,8 +187,8 @@ class MovingJobController extends Controller
         $invoice->save();
 
         $invoice = Invoice::where('id', $invoice->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
-        return Inertia::render('6dem/PreviewInvoice', [
-            'invoice' => $invoice,
+        return Redirect::route('6dem.documents.invoice.preview', [
+            'id' => $invoice->id,
         ]);
     }
 
