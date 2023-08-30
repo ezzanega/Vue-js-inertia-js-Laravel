@@ -7,6 +7,14 @@
           <div class="sm:py-4">
             <div class="">
               <div class="m-auto max-w-7xl">
+                <UpdateOrganization />
+
+                <div class="hidden sm:block" aria-hidden="true">
+                  <div class="py-5">
+                    <div class="border-t border-neutral-200"></div>
+                  </div>
+                </div>
+
                 <UpdateSettingsFrom />
 
                 <div class="hidden sm:block" aria-hidden="true">
@@ -82,7 +90,7 @@ import { ref } from "vue";
 import UpdateSettingsFrom from "@/Components/Settings/UpdateSettingsFrom.vue";
 import UpdateFormulas from "@/Components/Settings/UpdateFormulas.vue";
 import CreateFormulas from "@/Components/Settings/CreateFormulas.vue";
-CreateFormulas
+import UpdateOrganization from "@/Components/Organisms/UpdateOrganization.vue";
 import UpdateInsurances from "@/Components/Settings/UpdateInsurances.vue";
 import UpdateFormulasOptions from "@/Components/Settings/UpdateFormulasOptions.vue";
 import UpdateExecutingCompanies from "@/Components/Settings/UpdateExecutingCompanies.vue";

@@ -1,8 +1,8 @@
 <template>
   <Head title="Dashboard" />
   <DemLayout>
-    <CompleteOrganizationModal
-      :showModal="showCompleteOrganizationModal"
+    <CompleteSettingsModal
+      :showModal="showCompleteSettingsModal"
       @close="closeModal"
     />
     <div class="py-6">
@@ -73,7 +73,7 @@ import DashboardCard from "@/Components/Molecules/DashboardCard.vue";
 import AppointmentCardContent from "@/Components/Organisms/AppointmentCardContent.vue";
 import AgendaCardContent from "@/Components/Organisms/AgendaCardContent.vue";
 import WayBillsCardContent from "@/Components/Organisms/WayBillsCardContent.vue";
-import CompleteOrganizationModal from "@/Components/Organisms/CompleteOrganizationModal.vue";
+import CompleteSettingsModal from "@/Components/Settings/CompleteSettingsModal.vue";
 import InvoicesCardContent from "@/Components/Organisms/InvoicesCardContent.vue";
 import QuotationsCardContent from "@/Components/Organisms/QuotationsCardContent.vue";
 import TasksCardContent from "@/Components/Organisms/TasksCardContent.vue";
@@ -84,7 +84,7 @@ const props = defineProps({
   organization: Object,
 });
 
-const showCompleteOrganizationModal = ref(false);
+const showCompleteSettingsModal = ref(false);
 
 onMounted(async () => {
   if (
@@ -92,12 +92,12 @@ onMounted(async () => {
     props.organization.siren == null
   ) {
     setTimeout(() => {
-      showCompleteOrganizationModal.value = true;
+      showCompleteSettingsModal.value = true;
     }, 1500);
   }
 });
 
 const closeModal = () => {
-  showCompleteOrganizationModal.value = false;
+  showCompleteSettingsModal.value = false;
 };
 </script>

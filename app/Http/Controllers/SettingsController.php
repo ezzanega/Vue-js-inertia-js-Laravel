@@ -23,6 +23,7 @@ class SettingsController extends Controller
         $insurances = Insurance::where(['organization_id' => $organization->id])->get();
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
         return Inertia::render('6dem/Settings', [
+            'organization' => $organization,
             'settings' => $settings,
             'formulas' => $movingJobFormulas,
             'status' => session('status'),
@@ -51,7 +52,7 @@ class SettingsController extends Controller
     }
 
 
-    public function update_Formulas_option(Request $request,$id)
+    public function update_Formulas_option(Request $request, $id)
     {
 
         $request->validate([
@@ -59,11 +60,11 @@ class SettingsController extends Controller
             'type' => 'required|string|min:3',
         ]);
 
-        $option=MovingJobFormulaOption::where(['id' => $id])->first();
+        $option = MovingJobFormulaOption::where(['id' => $id])->first();
 
         $option->update([
             'type' => $request->type,
-            'text'=> $request->text,
+            'text' => $request->text,
         ]);
 
         return Redirect::route('6dem.settings');
@@ -72,8 +73,8 @@ class SettingsController extends Controller
     }
     public function delete_Formulas_option($id)
     {
-        try{
-            $option=MovingJobFormulaOption::find($id);
+        try {
+            $option = MovingJobFormulaOption::find($id);
             $option->delete();
             return Redirect::route('6dem.settings');
         } catch (\Exception $e) {
@@ -106,7 +107,7 @@ class SettingsController extends Controller
             return back()->withError('An error occurred while adding the option.');
         }
     }
-    public function update_Formulas(Request $request,$id)
+    public function update_Formulas(Request $request, $id)
     {
         //return $request->all();
         $request->validate([
@@ -114,11 +115,11 @@ class SettingsController extends Controller
             'slug_formula' => 'required|string',
         ]);
 
-        $formula=MovingJobFormula::where(['id' => $id])->first();
+        $formula = MovingJobFormula::where(['id' => $id])->first();
 
         $formula->update([
             'name' => $request->title_formula,
-            'slug'=> $request->slug_formula,
+            'slug' => $request->slug_formula,
         ]);
 
         return Redirect::route('6dem.settings');
@@ -142,34 +143,33 @@ class SettingsController extends Controller
     }
     public function create_Formulas(Request $request)
     {
-            // Validate the request data
-            $validatedData = $request->validate([
-                'title' => 'required|string|max:255',
-                'slug' => 'required|string|max:255',
-                'options' => 'nullable|array',
-                'options.*.option' => 'required|string|max:255',
-                'options.*.type' => 'required|string|max:255',
-            ]);
-            //return $request->all();
-            // // Create a new MovingJobFormula and save the title and slug and organisation is
-            $organization = $request->user()->organization;
-            $formula = new MovingJobFormula();
-            $formula->name = $validatedData['title'];
-            $formula->slug = $validatedData['slug'];
-            $formula->organization_id = $organization->id;
-            $formula->save();
+        // Validate the request data
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
+            'options' => 'nullable|array',
+            'options.*.option' => 'required|string|max:255',
+            'options.*.type' => 'required|string|max:255',
+        ]);
+        //return $request->all();
+        // // Create a new MovingJobFormula and save the title and slug and organisation is
+        $organization = $request->user()->organization;
+        $formula = new MovingJobFormula();
+        $formula->name = $validatedData['title'];
+        $formula->slug = $validatedData['slug'];
+        $formula->organization_id = $organization->id;
+        $formula->save();
 
-            //Save the options in MovingJobFormulaOptions
-            if (isset($validatedData['options']) && is_array($validatedData['options'])) {
-                foreach ($validatedData['options'] as $option) {
-                    $formulaOption = new MovingJobFormulaOption();
-                    $formulaOption->type =  $option['type'];
-                    $formulaOption->moving_job_formula_id = $formula->id;
-                    $formulaOption->text = $option['option'];
-                    $formulaOption->save();
-                }
+        //Save the options in MovingJobFormulaOptions
+        if (isset($validatedData['options']) && is_array($validatedData['options'])) {
+            foreach ($validatedData['options'] as $option) {
+                $formulaOption = new MovingJobFormulaOption();
+                $formulaOption->type =  $option['type'];
+                $formulaOption->moving_job_formula_id = $formula->id;
+                $formulaOption->text = $option['option'];
+                $formulaOption->save();
             }
-            return Redirect::route('6dem.settings');
+        }
+        return Redirect::route('6dem.settings');
     }
-
 }

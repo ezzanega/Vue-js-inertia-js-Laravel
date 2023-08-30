@@ -20,6 +20,16 @@
                   message="Les informations de la société ont bien été mises à jour"
                 />
                 <div class="w-full pt-3 flex flex-col space-y-2">
+
+                  <DefaultInput
+                    :required="true"
+                    v-model="form.siren"
+                    :error="form.errors.siren"
+                    @update:modelValue="getCompanyInformations"
+                    name="siren"
+                    label="Veuillez renseigner le numéro SIREN ou SIRET (Remplissage automatique)"
+                  />
+
                   <DefaultInput
                     :required="true"
                     v-model="form.organizationName"
@@ -27,28 +37,6 @@
                     name="organizationName"
                     label="Nom de la société"
                   />
-
-                  <div class="w-full flex space-x-2">
-                    <DefaultInput
-                      :required="true"
-                      class="w-1/2"
-                      v-model="form.siren"
-                      :error="form.errors.siren"
-                      @update:modelValue="getCompanyInformations"
-                      name="siren"
-                      label="N° siren (Remplissage automatique)"
-                    />
-
-                    <DefaultInput
-                      :required="true"
-                      class="w-1/2"
-                      v-model="form.siret"
-                      :error="form.errors.siret"
-                      @update:modelValue="getCompanyInformations"
-                      name="siret"
-                      label="N° siret (Remplissage automatique)"
-                    />
-                  </div>
 
                   <LocationAutocomplete
                     :required="true"
