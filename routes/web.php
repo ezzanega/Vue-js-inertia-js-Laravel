@@ -90,6 +90,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
         ->name('6dem.organization.update');
 
+    Route::post('/6dem/organization/upload-logo', [OrganizationController::class, 'uploadLogo'])
+        ->name('6dem.organization.upload.logo');
+
     # MovingJob
     Route::put('/6dem/documents/movingjob/update/{id}', [MovingJobController::class, 'updateMovingJob'])
         ->name('6dem.movingJob.update');

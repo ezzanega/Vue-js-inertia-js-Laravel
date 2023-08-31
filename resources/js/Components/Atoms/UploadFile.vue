@@ -3,7 +3,7 @@
     <label
       class="flex justify-center h-32 px-4 transition bg-white border-2 border-secondary border-dashed rounded-md appearance-none cursor-pointer hover:border-primary focus:outline-none"
     >
-      <span class="flex flex-col items-center text-center space-y-2 my-auto">
+      <span v-if="!imagePreview" class="flex flex-col items-center text-center space-y-2 my-auto">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="w-8 h-8 text-gray-400"
@@ -22,21 +22,53 @@
           {{ label }}
         </span>
       </span>
-      <input type="file" :name="name" class="hidden" />
+      <img v-if="imagePreview" :src="imagePreview" alt="Logo" class="object-cover w-full h-32 rounded-md" />
+      <input ref="fileInput" type="file" :name="name" class="hidden" @change="uploadLogo" />
     </label>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import { router } from '@inertiajs/vue3';
+import { ref } from 'vue';
+
+const props = defineProps({
   name: {
     type: String,
     default: "",
   },
-
   label: {
     type: String,
     default: "",
   },
+  logo: {
+    type: String,
+    default: "",
+  },
 });
+
+const fileInput = ref(null);
+const imagePreview = ref(props.logo ?? null);
+
+const uploadLogo = () => {
+  const file = fileInput.value.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", () => {
+    imagePreview.value = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+
+  const formData = new FormData();
+  formData.append('logo', fileInput.value.files[0]);
+
+  router.post(route('6dem.organization.upload.logo'), formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
 </script>

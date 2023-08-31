@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('ducuments_general_conditions')->nullable();
             $table->longText('legal_notice')->nullable();
             $table->string('vat')->nullable();
+            $table->string('logo')->nullable();
             $table->foreignId('organization_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });

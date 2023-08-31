@@ -85,4 +85,22 @@ class TaskProService
 
         return $response->json();
     }
+
+
+    public function uploadOrganizationLogo($file)
+    {
+        $fileContents = file_get_contents($file->getRealPath());
+        $response = Http::withHeaders([
+            'Authorization' => 'Token ' . auth()->user()->taskpro_token,
+        ])->attach(
+            'logo',
+            $fileContents,
+            $file->getClientOriginalName()
+        )->post($this->baseUrl . '/user/organization/logo');
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+        return null;
+    }
 }

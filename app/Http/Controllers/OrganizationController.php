@@ -7,7 +7,7 @@ use Inertia\Response;
 use App\Models\Location;
 use App\Models\Organization;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use App\Services\TaskProService;
 
 class OrganizationController extends Controller
 {
@@ -73,5 +73,24 @@ class OrganizationController extends Controller
         }
 
         return back()->with('status', 'organization-updated');
+    }
+
+    public function uploadLogo(Request $request, TaskProService $taskProService)
+    {
+        $organization = $request->user()->organization;
+        $request->validate([
+            'logo' => 'required|file|mimes:png,jpg,jpeg|max:2048',
+        ]);
+
+        $file = $request->file('logo');
+        $response = $taskProService->uploadOrganizationLogo($file);
+
+        $path = $response['path'];
+
+        $organization->settings()->updateOrCreate(
+            [],
+            ['logo' => $path]
+        );
+        return back();
     }
 }

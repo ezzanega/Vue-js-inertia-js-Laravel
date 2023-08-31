@@ -23,7 +23,8 @@
         <table style="width: 100%;">
             <tr>
                 <td style="width: 50%;">
-                    <h1 style="font-size: 1em; font-weight: 600;">Logo</h1>
+                    <img src="{{ $settings->logo }}" alt="Logo"
+                        style="object-fit: cover; width: 50%; height: 8rem; border-radius: 0.375rem;" />
                 </td>
                 <td style="width: 50%; text-align: left;">
                     <span style="font-size: 1em; font-weight: 600; color: #333;">{{ $organization->name }}</span>

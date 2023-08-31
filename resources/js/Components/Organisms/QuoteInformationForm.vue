@@ -1,7 +1,7 @@
 <template>
   <div class="2xl:px-28">
     <div class="pt-14 grid justify-items-center">
-      <UploadFile class="w-1/6" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
+      <UploadFile class="w-1/6" :logo="currentSettings.logo" label="Déposez ou cliquez si vous souhaitez ajouter votre logo" />
     </div>
     <div class="flex flex-col space-y-2 px-8 mt-24">
 
