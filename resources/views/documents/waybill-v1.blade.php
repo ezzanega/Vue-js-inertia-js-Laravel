@@ -410,6 +410,18 @@
             </tr>
         </table>
     </div>
+    {{-- <script type="text/php">
+        if ( isset($pdf) ) { 
+            $pdf->page_text(72, 750, "{PAGE_NUM} / {PAGE_COUNT}", null, 6, array(0,0,0));
+        }
+    </script> --}}
+    <script type="text/php">
+        if ( isset($pdf) ) { 
+            $pdf->page_text(255, 805, "Lettre de voiture", null, 6, array(0,0,0));
+            $pdf->page_text(270, 820, "{PAGE_NUM} / {PAGE_COUNT}", null, 6, array(0,0,0));
+        }
+    </script>
+
 </body>
 
 </html>
