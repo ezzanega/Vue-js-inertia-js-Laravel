@@ -41,8 +41,8 @@
                             <td>
                                 <div>
                                     SIREN: {{ $organization->siren }}<br>
-                                    Licence: {{ $organization->licence }}<br>
-                                    Code APE: {{ $organization->code_ape }}
+                                    {{ $organization->licence ? 'Licence: ' . $organization->licence : '' }}<br>
+                                    {{ $organization->code_ape ? 'Code APE: ' . $organization->code_ape : '' }}
                                 </div>
                             </td>
                         </tr>

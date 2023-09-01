@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('ducuments_secondary_color')->nullable();
             $table->longText('ducuments_general_conditions')->nullable();
             $table->longText('legal_notice')->nullable();
+            $table->string('paiement_process')->nullable();
             $table->string('vat')->nullable();
             $table->string('logo')->nullable();
+            $table->string('iban')->nullable();
+            $table->string('bic')->nullable();
             $table->foreignId('organization_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });

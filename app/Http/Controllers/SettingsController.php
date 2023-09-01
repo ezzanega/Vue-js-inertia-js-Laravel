@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Settings;
 use App\Models\Insurance;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Models\ExecutingCompany;
 use App\Models\MovingJobFormula;
-use App\Models\MovingJobFormulaOption;
 use Illuminate\Support\Facades\DB;
+use App\Models\MovingJobFormulaOption;
 use Illuminate\Support\Facades\Redirect;
 
 class SettingsController extends Controller
@@ -23,7 +24,7 @@ class SettingsController extends Controller
         $insurances = Insurance::where(['organization_id' => $organization->id])->get();
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
         return Inertia::render('6dem/Settings', [
-            'organization' => $organization,
+            'organization' => Organization::where('id', $organization->id)->with('billingAddress')->first(),
             'settings' => $settings,
             'formulas' => $movingJobFormulas,
             'status' => session('status'),
@@ -42,7 +43,10 @@ class SettingsController extends Controller
             'ducuments_primary_color' => $request->ducuments_primary_color,
             'ducuments_secondary_color' => $request->ducuments_secondary_color,
             'legal_notice' => $request->legal_notice,
-            'vat' => $request->vat
+            'paiement_process' => $request->paiement_process,
+            'vat' => $request->vat,
+            'iban' => $request->iban,
+            'bic' => $request->bic
         ];
         $filledSettingsData = array_filter($settingsData, function ($value) {
             return $value !== null;

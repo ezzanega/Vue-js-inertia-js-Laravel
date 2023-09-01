@@ -94,6 +94,23 @@
                       label="Email"
                     />
                   </div>
+
+                  <div class="w-full flex space-x-2">
+                    <DefaultInput
+                      class="w-1/2"
+                      v-model="form.codeApe"
+                      :error="form.errors.codeApe"
+                      name="codeApe"
+                      label="Code NAF ou APE de la Société (optionnel)"
+                    />
+                    <DefaultInput
+                      class="w-1/2"
+                      v-model="form.licence"
+                      :error="form.errors.licence"
+                      name="email"
+                      label="Licence déménageur (optionnel)"
+                    />
+                  </div>
                 </div>
               </div>
               <div class="bg-neutral-50 px-4 py-4 sm:px-6">
@@ -111,14 +128,13 @@
   </div>
 </template>
   
-  <script setup>
+<script setup>
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import Message from "@/Components/Atoms/Message.vue";
 import LocationAutocomplete from "@/Components/Atoms/LocationAutocomplete.vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import { parseCompanyInformations } from "@/utils/index";
-import { ref } from "vue";
 
 const organization = usePage().props.organization;
 
@@ -129,6 +145,7 @@ const form = useForm({
   siret: "",
   siren: "",
   codeApe: "",
+  licence: "",
   address: "",
   city: "",
   postalCode: "",
@@ -144,6 +161,8 @@ form.phoneNumber = organization.phone_number;
 form.email = organization.email;
 form.siret = organization.siret;
 form.siren = organization.siren;
+form.codeApe = organization.code_ape;
+form.licence = organization.licence;
 if (organization.billing_address) {
   form.address = organization.billing_address.address;
   form.city = organization.billing_address.city;

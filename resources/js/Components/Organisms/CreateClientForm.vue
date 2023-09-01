@@ -315,7 +315,10 @@ const createClient = () => {
   form.post(route("6dem.create.clients"), {
     preserveScroll: true,
     replace: true,
-    onSuccess: () => emit("close"),
+    onSuccess: () => {
+      emit("close")
+      form.reset();
+    },
   });
 };
 

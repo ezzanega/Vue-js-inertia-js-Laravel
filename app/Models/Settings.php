@@ -17,8 +17,11 @@ class Settings extends Model
         'ducuments_primary_color',
         'ducuments_secondary_color',
         'legal_notice',
+        'paiement_process',
         'vat',
         'logo',
+        'iban',
+        'bic',
     ];
 
     public function organization(): BelongsTo

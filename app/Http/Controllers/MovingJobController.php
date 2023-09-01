@@ -442,8 +442,12 @@ class MovingJobController extends Controller
 
         if ($response->successful()) {
             $data = $response->json();
-            $distance = $data['rows'][0]['elements'][0]['distance']['text'];
-            return $distance;
+            if (isset($data['rows'][0]['elements'][0]['status']) && $data['rows'][0]['elements'][0]['status'] === 'OK') {
+                $distance = $data['rows'][0]['elements'][0]['distance']['text'];
+                return $distance;
+            } elseif (isset($data['rows'][0]['elements'][0]['status']) && $data['rows'][0]['elements'][0]['status'] === 'NOT_FOUND') {
+                return '';
+            }
         }
         return null;
     }

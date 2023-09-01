@@ -51,45 +51,24 @@
           <ToggleButton v-model:checked="sameAddressAsClient" name="same-address" label="Adresse de chargement identique à l'adresse du client ?" />
           <LocationAutocomplete :value="movingjob.loading_address" v-model="movingjob.loading_address" name="loading_address" label="Adresse de chargement" placeholder="Adresse de chargement" @place_changed="setLoadingAddressData" />
           <div v-if="movingjobLocationUrl.loading_google_map_url">
-            <a :href="movingjobLocationUrl.loading_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs">
+            <a :href="movingjobLocationUrl.loading_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs font-bold">
               Voir l'adresse sur Google street map
             </a>
           </div>
           <DefaultInput class="w-full my-auto" type="date" v-model="movingjob.loading_date"  @savingValue="saveField('loading_date')" label="Date de chargement" name="loading_date" placeholder="Date de chargement" />
-          <!-- <DocumentFieldFrame>
-            <DocumentFieldInput placeholder="Date de chargement" v-model="movingjob.loading_date"
-              @savingValue="saveField('loading_date')" />
-          </DocumentFieldFrame> -->
 
           <div class="flex space-x-2">
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.loading_floor"  @savingValue="saveField('loading_floor')" label="Étage" name="loading_floor" placeholder="Étage" />
-            <!-- <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Étage" v-model="movingjob.loading_floor"
-                @savingValue="saveField('loading_floor')" />
-            </DocumentFieldFrame> -->
 
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.loading_elevator"  @savingValue="saveField('loading_elevator')" label="Ascenseur" name="loading_elevator" placeholder="Ascenseur" />
-            <!-- <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Ascenseur" v-model="movingjob.loading_elevator"
-                @savingValue="saveField('loading_elevator')" />
-            </DocumentFieldFrame> -->
           </div>
 
           <div class="flex space-x-2">
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.loading_portaging"  @savingValue="saveField('loading_portaging')" label="Portage" name="loading_portaging" placeholder="Portage" />
-            <!-- <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Portage" v-model="movingjob.loading_portaging"
-                @savingValue="saveField('loading_portaging')" />
-            </DocumentFieldFrame> -->
 
             <DefaultInput class="w-full my-auto" type="text" v-model="movingjob.loading_details"  @savingValue="saveField('loading_details')" label="Détails" name="loading_details" placeholder="Détails" />
-            <!-- <DocumentFieldFrame>
-              <DocumentFieldInput placeholder="Détails" v-model="movingjob.loading_details"
-                @savingValue="saveField('loading_details')" />
-            </DocumentFieldFrame> -->
           </div>
 
-          <!-- <DynamicQuoteFields :movingjob="currentMovingJob.id" :position="'loading'" /> -->
         </div>
 
         <div class="flex flex-col space-y-2">
@@ -97,7 +76,7 @@
           <div class="pt-6"></div>
           <LocationAutocomplete :value="movingjob.shipping_address" v-model="movingjob.shipping_address" name="shipping_address" label="Adresse de livraison" placeholder="Adresse de livraison" @place_changed="setShippingAddressData" />
           <div v-if="movingjobLocationUrl.shipping_google_map_url">
-            <a :href="movingjobLocationUrl.shipping_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs">
+            <a :href="movingjobLocationUrl.shipping_google_map_url" target="_blank" class="border-b text-primary border-primary border-dotted text-xs font-bold">
               Voir l'adresse sur Google street map
             </a>
           </div>
@@ -289,10 +268,8 @@ import DocumentFieldFrame from "@/Components/Atoms/DocumentFieldFrame.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import ToggleButton from "@/Components/Atoms/ToggleButton.vue";
 import DocumentFieldInput from "@/Components/Atoms/DocumentFieldInput.vue";
-import DocumentFieldInputAddress from "@/Components/Atoms/DocumentFieldInputAddress.vue";
 import DocumentLabel from "@/Components/Atoms/DocumentLabel.vue";
 import HandleOptionsFields from "@/Components/Organisms/HandleOptionsFields.vue";
-import DynamicQuoteFields from "@/Components/Organisms/DynamicQuoteFields.vue";
 import DocumentSelectInput from "@/Components/Atoms/DocumentSelectInput.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import LocationAutocomplete from "@/Components/Atoms/LocationAutocomplete.vue";
@@ -300,6 +277,7 @@ import "vue-select/dist/vue-select.css";
 import { reactive, ref } from "vue";
 import { watch } from "vue";
 import { reformatLocation, paymentProcessOptions, calculateTotalHT, calculatePercentage, calculateTTC, getAdvanceOrBalance } from "@/utils";
+import { onMounted } from "vue";
 
 
 const currentSettings = usePage().props.settings;
@@ -316,7 +294,7 @@ const formulaOptaions = movingJobFormulas.map(item => ({
 
 
 const movingjob = useForm({
-  validity_duratation: currentQuotation.validity_duratation ? currentQuotation.validity_duratation : currentSettings.quotation_validity_duratation,
+  validity_duratation: currentQuotation.validity_duratation ?? currentSettings.quotation_validity_duratation,
   capacity: currentMovingJob.capacity ? currentMovingJob.capacity : "",
   formula: currentMovingJob.formula ? currentMovingJob.formula : "",
   loading_address: currentMovingJob.loading_address ? currentMovingJob.loading_address : "",
@@ -355,7 +333,7 @@ const servicesOptions = ref(
   })
 );
 
-const applyDiscount = ref(currentMovingJob.discount ? true : false);
+const applyDiscount = ref(currentMovingJob.discount > 0 ? true : false);
 const processPaymentOptions = paymentProcessOptions();
 const movingjobLocationUrl = ref({
   loading_google_map_url: currentMovingJob.loading_location ? currentMovingJob.loading_location?.google_map_url : "",
@@ -411,6 +389,12 @@ watch(sameAddressAsClient, (value) => {
     setLoadingAddressData(reformatLocation(currentClient.address))
   } else {
     movingjob.loading_address = "";
+  }
+});
+
+onMounted(() => {
+  if (!currentQuotation.validity_duratation) {
+    saveField('validity_duratation')
   }
 });
 

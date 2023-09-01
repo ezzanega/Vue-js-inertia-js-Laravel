@@ -41,8 +41,8 @@
                             <td>
                                 <span>
                                     SIREN: {{ $organization->siren }}<br>
-                                    Licence: {{ $organization->licence }}<br>
-                                    Code APE: {{ $organization->code_ape }}
+                                    {{ $organization->licence ? 'Licence: ' . $organization->licence : '' }}<br>
+                                    {{ $organization->code_ape ? 'Code APE: ' . $organization->code_ape : '' }}
                                 </span>
                             </td>
                         </tr>
@@ -158,8 +158,8 @@
             <tr>
                 <td style="width: 40%; font-size: 0.55em;">
                     Coordonnées bancaire pour un paiement par virement : <br>
-                    IBAN: XXXX-XXXX-XXXX-XXXX<br>
-                    BIC: XXXX-XXXX<br>
+                    IBAN: {{ $settings->iban ?? '-' }}<br>
+                    BIC: {{ $settings->bic ?? '-' }}<br>
                 </td>
                 <td style="width: 60%;">
                     <table

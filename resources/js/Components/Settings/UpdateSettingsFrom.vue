@@ -36,13 +36,19 @@
                 <DefaultInput name="quotation_validity_duratation" type="number" label="TVA (en %)"
                   v-model="form.vat" :error="form.errors.vat" />
 
-                <!-- <DefaultSelectInput
+                <DefaultSelectInput
                   name="paiement-process"
-                  label="Modalités de règlement"
-                  v-model="form.role"
+                  label="Modalités de règlement par défaut"
+                  v-model="form.paiement_process"
                   :options="paiementProcessOPtions"
                   :error="form.errors.paiementProcess"
-                /> -->
+                />
+
+                <DefaultInput name="invoice_iban" type="text" label="IBAN (à afficher sur la facture)"
+                  v-model="form.iban" :error="form.errors.iban" />
+
+                <DefaultInput name="invoice_bic" type="text" label="BIC (à afficher sur la facture))"
+                  v-model="form.bic" :error="form.errors.bic" />
               </div>
             </div>
             <div class="bg-neutral-50 px-4 py-4 sm:px-6">
@@ -74,7 +80,10 @@ const form = useForm({
   ducuments_primary_color: "",
   ducuments_secondary_color: "",
   legal_notice: "",
-  vat: ""
+  paiement_process: "",
+  vat: "",
+  iban: "",
+  bic: ""
 });
 
 const paiementProcessOPtions = [
@@ -114,7 +123,10 @@ form.ducuments_general_conditions = settings.ducuments_general_conditions;
 form.ducuments_primary_color = settings.ducuments_primary_color;
 form.ducuments_secondary_color = settings.ducuments_secondary_color;
 form.legal_notice = settings.legal_notice;
+form.paiement_process = settings.paiement_process;
 form.vat = settings.vat;
+form.iban = settings.iban;
+form.bic = settings.bic;
 
 const updateSettings = () => {
   form.put(route("6dem.settings.update"), {
