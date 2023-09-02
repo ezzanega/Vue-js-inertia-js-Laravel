@@ -316,7 +316,7 @@ const movingjob = useForm({
   advance: currentMovingJob.advance ? currentMovingJob.advance : "",
   balance: currentMovingJob.balance ? currentMovingJob.balance : "",
   distance: currentMovingJob.distance ? currentMovingJob.distance : "",
-  payment_process: currentMovingJob.payment_process ? currentMovingJob.payment_process : ""
+  payment_process: currentMovingJob.payment_process ?? currentSettings.paiement_process,
 });
 
 const sameAddressAsClient = ref(movingjob.loading_address == currentClient.address.full_address);
@@ -395,6 +395,9 @@ watch(sameAddressAsClient, (value) => {
 onMounted(() => {
   if (!currentQuotation.validity_duratation) {
     saveField('validity_duratation')
+  }
+  if (!currentMovingJob.payment_process) {
+    updatePaymentProcess()
   }
 });
 

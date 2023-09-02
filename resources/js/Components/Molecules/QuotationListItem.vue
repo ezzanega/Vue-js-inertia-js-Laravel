@@ -48,7 +48,7 @@
         {{ props.document.moving_job.client.type == "professional" ? "Professionnel" : props.document.moving_job.formula}}
       </span>
     </div>
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.capacity + ' m³'}}</div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.capacity ? props.document.moving_job.capacity + ' m³' : '' }}</div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.distance}}</div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto font-bold">{{ props.document.moving_job.amount_ht }} €</div>
     <div class="lg:w-1/12 min-w-1/12 my-auto">

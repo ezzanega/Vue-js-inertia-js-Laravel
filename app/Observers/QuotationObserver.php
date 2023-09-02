@@ -68,7 +68,7 @@ class QuotationObserver
             $details .= '<div class="flex flex-col border border-gray-200 rounded-md p-2">';
             $details .= '<div class="font-bold text-center underline">LIVRAISON</div>';
             $details .= '<div><span class="text-gray-600">Date:</span> ' . $quotation->movingJob->shipping_date . '</div>';
-            $details .= '<div><span class="text-gray-600">Adresse:</span> <a href="' . $quotation->movingJob->shippingLocation->google_map_url . '" target="_blank" class="text-blue-500 underline">' . $quotation->movingJob->shipping_address . '</a></div>';
+            $details .= '<div><span class="text-gray-600">Adresse:</span> <a href="' . $quotation->movingJob->shippingLocation ? $quotation->movingJob->shippingLocation->google_map_url : '' . '" target="_blank" class="text-blue-500 underline">' . $quotation->movingJob->shipping_address . '</a></div>';
             $details .= '<div><span class="text-gray-600">Étage:</span> ' . $quotation->movingJob->shipping_floor . '</div>';
             $details .= '<div><span class="text-gray-600">Ascenseur:</span> ' . $quotation->movingJob->shipping_elevator . '</div>';
             $details .= '<div><span class="text-gray-600">Portage:</span> ' . $quotation->movingJob->shipping_portaging . '</div>';

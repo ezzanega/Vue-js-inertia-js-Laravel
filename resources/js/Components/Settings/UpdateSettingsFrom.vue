@@ -26,13 +26,17 @@
                   <ColorPicker name="ducuments_secondary_color" label="Couleur secondaire documents"
                     :color="form.ducuments_secondary_color" v-model="form.ducuments_secondary_color" />
                 </div>
-
-                <div class="py-6 max-h-96 overflow-auto">
-                  <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor>
+                
+                <div class="py-6">
+                  <span>Conditions générales documents (dans le devis)</span>
+                  <div class="max-h-96 overflow-auto">
+                    <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor>
+                  </div>
                 </div>
-                <div class="py-6 max-h-96 overflow-auto">
-                  <ckeditor :editor="editor" v-model="form.legal_notice" :config="editorConfig"></ckeditor>
-                </div>
+                <!-- <div class="py-6 max-h-96 overflow-auto">
+                  <span>Mentions légales</span>
+                  <ckeditor class="max-h-96 overflow-auto" :editor="editor" v-model="form.legal_notice" :config="editorConfig"></ckeditor>
+                </div> -->
 
                 <DefaultInput name="quotation_validity_duratation" type="number" label="TVA (en %)"
                   v-model="form.vat" :error="form.errors.vat" />
