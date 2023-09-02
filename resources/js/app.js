@@ -10,6 +10,7 @@ import 'vue3-colorpicker/style.css';
 import 'floating-vue/dist/style.css'
 import { InertiaProgress } from '@inertiajs/progress'
 import VueGoogleMaps from "@fawmi/vue-google-maps";
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -20,6 +21,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(Vue3ColorPicker)
+            .use(CKEditor)
             .use(ZiggyVue, Ziggy)
             .use(VueGoogleMaps, {
                 load: {

@@ -15,6 +15,10 @@
         body {
             font-family: 'Arial', sans-serif;
         }
+
+        .page-break {
+            page-break-after: always;
+        }
     </style>
 </head>
 
@@ -24,7 +28,7 @@
             <tr>
                 <td style="width: 34%;">
                     <img src="{{ $settings->logo }}" alt="Logo"
-                        style="object-fit: cover; width: 50%; height: 8rem; border-radius: 0.375rem;" />
+                        style="object-fit: cover; width: auto; height: 8rem; border-radius: 0.375rem;" />
                 </td>
                 <td style="width: 66%; text-align: left;">
                     <span style="font-size: 1em; font-weight: 600; color: #333;">{{ $organization->name }}</span>
@@ -192,21 +196,8 @@
             En cas de retard, une pénalité au taux annuel de 5 % sera appliquée, à laquelle s’ajoutera une indemnité
             forfaitaire pour frais de recouvrement de 40 €
         </div>
-
-
-        {{-- <p style="font-size: 0.65em; margin-top: 20px; font-weight: 400;">
-            <span style="font-weight: 600;">Mentions légales:</span> La livraison donne lieu à des
-            formaliteés impératives
-            (reportez-vous à l'article 16 des conditions générales du devis). Dans tous les cas, vous devez donner
-            décharge à l'entreprise en fin de livraison en signant ce document. En cas de dommages, utilisez la grille
-            ci-dessus pour identifier avec précision les pertes et avaries constatées, la mention "sous réserve de
-            déballage ou de controôle" n'ayant aucune valeur de preuve. Si vos réserves émises à la réception du
-            mobilier ne sont pas acceptées par le professionnel, ou si vous n'avez émis aucune réserve à la
-            livraison, vous ne disposez alors que d'un délai de dix jours calendaires à compter de la réception des
-            objets transportés pour émettre par lettre recommandée une protestation motivée sur l'état du mobilier
-            réceptionné en application de l'article L.121-95 du code de la consommation.
-        </p> --}}
     </div>
+    {!! $organization->getDocumentFooterDetails() !!}
 </body>
 
 </html>

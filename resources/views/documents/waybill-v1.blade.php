@@ -25,18 +25,11 @@
 <body>
     {{-- Exemplaire A --}}
     <div style="background-color: #fff;">
-        <div style="text-align: center;">
-            <p style="font-size: 0.45em; color: #333;">
-                Document obligatoire par l'arrêté du 09/11/1999,
-                A conserver deux ans par l'entreprise
-            </p>
-        </div>
-
         <table style="width: 100%; margin-top: 10px;">
             <tr>
                 <td style="width: 34%;">
                     <img src="{{ $settings->logo }}" alt="Logo"
-                        style="object-fit: cover; width: 50%; height: 8rem; border-radius: 0.375rem;" />
+                        style="object-fit: cover; width: auto; height: 8rem; border-radius: 0.375rem;" />
                 </td>
                 <td style="width: 66%; text-align: left;">
                     <span style="font-size: 1em; font-weight: 600; color: #333;">{{ $organization->name }}</span>
@@ -221,18 +214,11 @@
 
     {{-- Exemplaire B --}}
     <div style="background-color: #fff;">
-        <div style="text-align: center;">
-            <p style="font-size: 0.45em; color: #333;">
-                Document obligatoire par l'arrêté du 09/11/1999,
-                A conserver deux ans par l'entreprise
-            </p>
-        </div>
-
         <table style="width: 100%; margin-top: 10px;">
             <tr>
                 <td style="width: 34%;">
                     <img src="{{ $settings->logo }}" alt="Logo"
-                        style="object-fit: cover; width: 50%; height: 8rem; border-radius: 0.375rem;" />
+                        style="object-fit: cover; width: auto; height: 8rem; border-radius: 0.375rem;" />
                 </td>
                 <td style="width: 66%; text-align: left;">
                     <span style="font-size: 1em; font-weight: 600; color: #333;">{{ $organization->name }}</span>
@@ -410,18 +396,21 @@
             </tr>
         </table>
     </div>
-    {{-- <script type="text/php">
-        if ( isset($pdf) ) { 
-            $pdf->page_text(72, 750, "{PAGE_NUM} / {PAGE_COUNT}", null, 6, array(0,0,0));
-        }
-    </script> --}}
+    {!! $organization->getDocumentFooterDetails() !!}
     <script type="text/php">
-        if ( isset($pdf) ) { 
-            $pdf->page_text(255, 805, "Lettre de voiture", null, 6, array(0,0,0));
-            $pdf->page_text(270, 820, "{PAGE_NUM} / {PAGE_COUNT}", null, 6, array(0,0,0));
-        }
+    if ( isset($pdf) ) { 
+        $font_size = 6;
+        $pageWidth = 595.28;
+        $text1 = "Document obligatoire par l'arrêté du 09/11/1999,";
+        $textWidth1 = strlen($text1) * $font_size * 0.5;
+        $x1 = ($pageWidth - $textWidth1) / 2;
+        $pdf->page_text($x1, 20, $text1, null, $font_size, array(0,0,0));
+        $text2 = "A conserver deux ans par l'entreprise";
+        $textWidth2 = strlen($text2) * $font_size * 0.5;
+        $x2 = ($pageWidth - $textWidth2) / 2;
+        $pdf->page_text($x2, 30, $text2, null, $font_size, array(0,0,0));
+    }
     </script>
-
 </body>
 
 </html>

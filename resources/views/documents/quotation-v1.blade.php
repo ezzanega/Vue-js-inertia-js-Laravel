@@ -15,6 +15,10 @@
         body {
             font-family: 'Arial', sans-serif;
         }
+
+        .page-break {
+            page-break-after: always;
+        }
     </style>
 </head>
 
@@ -24,7 +28,7 @@
             <tr>
                 <td style="width: 50%;">
                     <img src="{{ $settings->logo }}" alt="Logo"
-                        style="object-fit: cover; width: 50%; height: 8rem; border-radius: 0.375rem;" />
+                        style="object-fit: cover; width: auto; height: 8rem; border-radius: 0.375rem;" />
                 </td>
                 <td style="width: 50%; text-align: left;">
                     <span style="font-size: 1em; font-weight: 600; color: #333;">{{ $organization->name }}</span>
@@ -280,8 +284,8 @@
             <tr>
                 <td style="width: 50%;">
                     Coordonnées bancaire pour un paiement par virement : <br>
-                    IBAN: XXXX-XXXX-XXXX-XXXX<br>
-                    BIC: XXXX-XXXX<br>
+                    IBAN: {{ $settings->iban ?? '-' }}<br>
+                    BIC: {{ $settings->bic ?? '-' }}<br>
                 </td>
                 <td
                     style="width: 50%; height: 65px; background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }}; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
@@ -291,6 +295,37 @@
             </tr>
         </table>
     </div>
+
+    <div style="margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid #ccc;"></div>
+
+    <div style="width: 100%; text-align: center; font-size: 0.65em; text-decoration: underline; font-weight: 600;">
+        CONDITIONS DE
+        RÉALISATION DU
+        DÉMÉNAGEMENT</div>
+    <?php
+    $text = $settings->ducuments_general_conditions;
+    $length = strlen($text);
+    $halfway = floor($length / 2);
+    
+    $last_space = strrpos(substr($text, 0, $halfway), ' ');
+    
+    $part1 = substr($text, 0, $last_space);
+    $part2 = substr($text, $last_space + 1);
+    ?>
+
+    <div style="width: 100%; margin-top: 8px; font-size: 0.45em;">
+        <div style="width: 50%; float: left; margin-right: 2%;">
+            Les présentes conditions générales de vente et les conditions particulières négociées entre l'entreprise et
+            le client déterminent les droits et obligations de chacun d'eux. Elles s'appliquent de plein droit aux
+            opérations de déménagement objet du présent contrat.
+            {!! $part1 !!}
+        </div>
+        <div style="width: 50%; float: left;">
+            {!! $part2 !!}
+        </div>
+    </div>
+
+    {!! $organization->getDocumentFooterDetails() !!}
 </body>
 
 </html>

@@ -27,11 +27,12 @@
                     :color="form.ducuments_secondary_color" v-model="form.ducuments_secondary_color" />
                 </div>
 
-                <TextArea name="ducuments_general_conditions" label="Conditions générales documents"
-                  v-model="form.ducuments_general_conditions" :error="form.errors.ducuments_general_conditions" />
-
-                <TextArea name="legal_notice" label="Mentions légales" v-model="form.legal_notice"
-                  :error="form.errors.legal_notice" />
+                <div class="py-6 max-h-96 overflow-auto">
+                  <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor>
+                </div>
+                <div class="py-6 max-h-96 overflow-auto">
+                  <ckeditor :editor="editor" v-model="form.legal_notice" :config="editorConfig"></ckeditor>
+                </div>
 
                 <DefaultInput name="quotation_validity_duratation" type="number" label="TVA (en %)"
                   v-model="form.vat" :error="form.errors.vat" />
@@ -67,10 +68,29 @@
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
-import TextArea from "@/Components/Atoms/TextArea.vue";
 import ColorPicker from "@/Components/Atoms/ColorPicker.vue";
 import Message from "@/Components/Atoms/Message.vue";
 import { usePage, useForm } from "@inertiajs/vue3";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '@ckeditor/ckeditor5-build-classic/build/translations/fr';
+
+const editor = ClassicEditor
+const editorConfig = {
+  language: 'fr',
+  toolbar: [
+    'undo', 'redo', 
+    '|', 
+    'bold', 'italic', 'underline', 
+    '|', 
+    'link', 
+    '|', 
+    'fontSize', 'fontColor', 
+    '|', 
+    'alignment', 
+    '|', 
+    'bulletedList', 'numberedList'
+  ]
+}
 
 const settings = usePage().props.settings;
 

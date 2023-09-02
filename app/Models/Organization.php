@@ -70,4 +70,25 @@ class Organization extends Model
         $role = Role::findOrCreate($roleName);
         $this->roles()->attach($role);
     }
+
+    public function getDocumentFooterDetails()
+    {
+        $line1 =  $this->name . ' - Adresse: ' . $this->billingAddress->full_address . ' - Tél: ' . $this->phone_number;
+        $line2 =  'Mail: ' . $this->email . ' - Siren: ' . $this->siren;
+        return '<script type="text/php">
+            if ( isset($pdf) ) { 
+                $font_size = 7;
+                $pageWidth = 595.28;
+                $line1Text = "' . $line1 . '";
+                $line2Text = "' . $line2 . '";
+                $line1TextWidth = strlen($line1Text) * $font_size * 0.5;
+                $line2TextWidth = strlen($line2Text) * $font_size * 0.5;
+                $x = ($pageWidth - $line1TextWidth) / 2;
+                $x2 = ($pageWidth - $line2TextWidth) / 2;
+                $pdf->page_text($x, 805, $line1Text, null, $font_size, array(0,0,0));
+                $pdf->page_text($x2, 815, $line2Text, null, $font_size, array(0,0,0));
+                $pdf->page_text(550, 820, "{PAGE_NUM} / {PAGE_COUNT}", null, 6, array(0,0,0));
+            }
+        </script>';
+    }
 }
