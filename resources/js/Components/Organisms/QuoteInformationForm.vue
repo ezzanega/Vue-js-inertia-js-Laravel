@@ -235,7 +235,7 @@
         <DocumentFieldFrame>
           <div class="p-0.5 flex justify-start">
             <span class="w-1/2">
-              Accompte ({{ getAdvanceOrBalance(movingjob.payment_process, 'advance') ?? '-' }}%) :
+              Accompte ({{ movingjob.payment_process ? getAdvanceOrBalance(movingjob.payment_process, 'advance') : '-' }}%) :
             </span>
             <span class="w-1/2">
               {{  movingjob.advance ? movingjob.advance + ' €' : '' }}
@@ -246,7 +246,7 @@
         <DocumentFieldFrame>
           <div class="p-0.5 flex justify-start">
             <span class="w-1/2">
-              Solde ({{ getAdvanceOrBalance(movingjob.payment_process, 'balance') ?? '-' }}%) :
+              Solde ({{ movingjob.payment_process ? getAdvanceOrBalance(movingjob.payment_process, 'balance') : '-' }}%) :
             </span>
             <span class="w-1/2">
               {{  movingjob.balance ? movingjob.balance + ' €' : '' }}
@@ -393,10 +393,10 @@ watch(sameAddressAsClient, (value) => {
 });
 
 onMounted(() => {
-  if (!currentQuotation.validity_duratation) {
+  if (!currentQuotation.validity_duratation && currentSettings.quotation_validity_duratation) {
     saveField('validity_duratation')
   }
-  if (!currentMovingJob.payment_process) {
+  if (!currentMovingJob.payment_process && currentSettings.paiement_process) {
     updatePaymentProcess()
   }
 });
