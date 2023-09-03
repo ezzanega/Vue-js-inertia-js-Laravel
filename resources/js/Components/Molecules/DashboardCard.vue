@@ -32,7 +32,7 @@
               <div class="flex items-center px-7 pt-4 md:pb-4">
                 <div class="truncate">
                   <h3
-                    class="whitespace-nowrap text-lg font-medium leading-6 text-neutral-800 truncate"
+                    class="whitespace-nowrap font-medium leading-6 text-neutral-800 truncate text-sm"
                   >
                     {{ title }}
                   </h3>
@@ -63,7 +63,7 @@
             </div>
             <div class="flex shrink-0 space-x-2 py-2 px-3 sm:py-4 sm:px-7">
               <div class="v-popper v-popper--theme-dropdown">
-                <button
+                <!-- <button
                   type="button"
                   class="flex w-full items-center rounded-md px-1 text-sm text-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-300 disabled:pointer-events-none disabled:opacity-60 hover:text-neutral-500"
                 >
@@ -83,7 +83,7 @@
                       d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                     />
                   </svg>
-                </button>
+                </button> -->
               </div>
             </div>
           </div>

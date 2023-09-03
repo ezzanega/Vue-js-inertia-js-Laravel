@@ -27,17 +27,12 @@
       </div>
     </div>
     <div class="mx-auto">
-      <IconButton customClass="m" text="Voir Plus"> </IconButton>
+      <IconButton customClass="m" @click="router.visit('/6dem/tasks', { replace: true })" text="Voir Plus"> </IconButton>
     </div>
   </div>
 </template>
   
   <script setup>
 import IconButton from "@/Components/Atoms/IconButton.vue";
-
-const appointments = [
-  "Présentation de notre nouveau produit à Société Y (test)",
-  "Présentation de notre nouveau produit à Société Y (test)",
-  "Présentation de notre nouveau produit à Société Y (test)",
-];
+import { router } from "@inertiajs/vue3";
 </script>

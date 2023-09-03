@@ -1,9 +1,8 @@
 <template>
-  <div class="mx-5 flex items-center">
-    <h1 class="text-primary truncate font-semibold mx-2">{{ label }} :</h1>
+  <div class="flex items-center border border-dashed p-2">
+    <h1 class="text-primary truncate font-semibold pr-2">{{ label }}</h1>
     <color-picker
       @update:pureColor="pureColorChange"
-      shape="circle"
       v-model:pureColor="pureColor"
       v-model:gradientColor="gradientColor"
     />

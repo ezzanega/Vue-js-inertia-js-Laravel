@@ -37,7 +37,7 @@
                             v-model="form.color"
                         />
                         <DefaultInput type="text" name="title" label="Ajouter un titre" v-model="form.title" :error="form.errors.title"/>
-                        <DefaultSelectInput name="eventType" label="Selectionner le type" v-model="form.type" :options="eventTypesOptions" :error="form.errors.type"/>
+                        <DefaultSelectInput name="eventType" label="Selectionner le type" v-model="form.type" :options="eventTypesOptions" :error="form.errors.type" @update:modelValue="eventTypeChanged"/>
                         <TextArea name="details" label="Ajouter des détails"
                             v-model="form.details" :error="form.errors.details" />
                     </div>
@@ -124,5 +124,25 @@ const createEvent = () => {
 const closeModal = () => {
     form.reset();
     emit("closeModal");
+};
+
+const eventTypeChanged = () => {
+    console.log(form.type)
+    switch(form.type) {
+        case 'meeting':
+            form.color = 'rgb(67, 138, 122)'
+            break;
+        case 'moving':
+            form.color = 'rgb(146, 145, 244)'
+            break;
+        case 'others':
+            form.color = 'rgb(67, 138, 122)'
+            break;
+        case 'cartons-delivery':
+            form.color = 'rgb(228, 146, 146)'
+            break;
+        default:
+            form.color = 'rgb(67, 138, 122)'
+    }
 };
 </script>

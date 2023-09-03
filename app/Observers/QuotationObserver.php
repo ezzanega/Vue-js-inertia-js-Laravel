@@ -2,10 +2,12 @@
 
 namespace App\Observers;
 
+use App\Models\Settings;
 use App\Models\Quotation;
 use Illuminate\Support\Str;
 use App\Models\CalendarEvent;
 use Illuminate\Support\Carbon;
+use App\Models\Enums\EventType;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Enums\QuotationStatus;
 
@@ -78,10 +80,13 @@ class QuotationObserver
             $details .= '<a href="' . route('6dem.documents.quotation.preview', ['id' => $quotation->id]) . '" class="text-blue-500 underline">Voir le devis</a>';
 
             if ($quotation->movingJob?->loading_date) {
+                $organization = Auth::user()->organization;
+                $settings = Settings::where('organization_id', $organization->id)->first();
                 CalendarEvent::create([
                     'title' => 'Déménagement - ' . $clientName,
+                    'type' => EventType::MOVING,
                     'details' => $details,
-                    'color' => '#438A7A',
+                    'color' => $settings->calendar_moving_color,
                     'start' => $quotation->movingJob->loading_date,
                     'end' => $quotation->movingJob->loading_date,
                     'all_day' => true,

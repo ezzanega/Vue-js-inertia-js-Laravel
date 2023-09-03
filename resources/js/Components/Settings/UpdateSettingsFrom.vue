@@ -20,11 +20,27 @@
                   placeholder="1 semaine, 1 mois, 1 an, ..." v-model="form.quotation_validity_duratation"
                   :error="form.errors.quotation_validity_duratation" />
 
-                <div class="py-6 flex flex-col space-y-5">
-                  <ColorPicker name="ducuments_primary_color" label="Couleur primaire documents"
-                    :color="form.ducuments_primary_color" v-model="form.ducuments_primary_color" />
-                  <ColorPicker name="ducuments_secondary_color" label="Couleur secondaire documents"
-                    :color="form.ducuments_secondary_color" v-model="form.ducuments_secondary_color" />
+                <div class="flex flex-col py-2">
+                  <h2 class="text-lg underline">Couleurs par défaut dans les documents</h2>
+                  <div class="grid grid-cols-2 gap-4 mt-2">
+                    <ColorPicker name="ducuments_primary_color" label="Couleur primaire documents"
+                      :color="form.ducuments_primary_color" v-model="form.ducuments_primary_color" />
+                    <ColorPicker name="ducuments_secondary_color" label="Couleur secondaire documents"
+                      :color="form.ducuments_secondary_color" v-model="form.ducuments_secondary_color" />
+                  </div>
+                </div>
+                <div class="flex flex-col py-2">
+                  <h2 class="text-lg underline">Couleurs par défaut dans l'agenda</h2>
+                  <div class="grid grid-cols-2 gap-4 mt-2">
+                    <ColorPicker name="calendar_meeting_color" label="Rendez-vous"
+                      :color="form.calendar_meeting_color" v-model="form.calendar_meeting_color" />
+                    <ColorPicker name="calendar_moving_color" label="Déménagement"
+                      :color="form.calendar_moving_color" v-model="form.calendar_moving_color" />
+                    <ColorPicker name="calendar_cartons_delivery_color" label="Livraison de cartons"
+                      :color="form.calendar_cartons_delivery_color" v-model="form.calendar_cartons_delivery_color" />
+                    <ColorPicker name="calendar_others_color" label="Autres"
+                      :color="form.calendar_others_color" v-model="form.calendar_others_color" />
+                  </div>
                 </div>
                 
                 <div class="py-6">
@@ -33,10 +49,6 @@
                     <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor>
                   </div>
                 </div>
-                <!-- <div class="py-6 max-h-96 overflow-auto">
-                  <span>Mentions légales</span>
-                  <ckeditor class="max-h-96 overflow-auto" :editor="editor" v-model="form.legal_notice" :config="editorConfig"></ckeditor>
-                </div> -->
 
                 <DefaultInput name="vat" type="number" label="TVA (en %)"
                   v-model="form.vat" :error="form.errors.vat" />
@@ -107,7 +119,11 @@ const form = useForm({
   paiement_process: "",
   vat: "",
   iban: "",
-  bic: ""
+  bic: "",
+  calendar_meeting_color: "",
+  calendar_moving_color: "",
+  calendar_cartons_delivery_color: "",
+  calendar_others_color: "",
 });
 
 const paiementProcessOPtions = [
@@ -151,6 +167,10 @@ form.paiement_process = settings.paiement_process;
 form.vat = settings.vat;
 form.iban = settings.iban;
 form.bic = settings.bic;
+form.calendar_meeting_color = settings.calendar_meeting_color;
+form.calendar_moving_color = settings.calendar_moving_color;
+form.calendar_cartons_delivery_color = settings.calendar_cartons_delivery_color;
+form.calendar_others_color = settings.calendar_others_color;
 
 const updateSettings = () => {
   form.put(route("6dem.settings.update"), {

@@ -1,15 +1,17 @@
 <template>
-  <div class="flex flex-col space-y-2">
+  <div class="flex flex-col space-y-2 text-sm">
     <div
-      v-for="(invoice, index) in invoices"
+      v-for="(waybill, index) in waybills"
       :key="index"
       class="flex p-2 border-l-4 border-[#E49292]"
     >
       <div class="text-left w-1/3 my-auto">
-        {{ invoice.number }}
+        <span class="text-primary border-b border-dashed border-primary cursor-pointer" @click="() => router.visit(route('6dem.documents.waybill.preview', waybill.id))">
+          LV-{{ waybill.number }}
+        </span>
       </div>
       <div class="text-center w-1/3 my-auto">
-        {{ invoice.client }}
+        {{ waybill.moving_job.client?.first_name + ' ' + waybill.moving_job.client?.last_name }}
       </div>
       <div class="flex justify-end w-1/3 my-auto">
         <svg
@@ -18,7 +20,8 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-6 h-6"
+          class="w-6 h-6 cursor-pointer"
+          @click="downloadWaybill(waybill.id)"
         >
           <path
             stroke-linecap="round"
@@ -29,18 +32,17 @@
       </div>
     </div>
     <div class="mx-auto">
-      <IconButton customClass="m" text="Voir Plus"> </IconButton>
+      <IconButton customClass="m" @click="router.visit('/6dem/documents' + '?tab=Lettres de voiture', { replace: true })" text="Voir Plus"> </IconButton>
     </div>
   </div>
 </template>
 
   <script setup>
 import IconButton from "@/Components/Atoms/IconButton.vue";
+import { router, usePage } from "@inertiajs/vue3";
 
-const invoices = [
-  { number: "N° 8706222", client: "M. Smith" },
-  { number: "N° 4506222", client: "M. Abdoul" },
-  { number: "N° 9206222", client: "Mle. Bouchra" },
-  { number: "N° 9306222", client: "M. Khalid" },
-];
+const waybills = usePage().props.waybills
+const downloadWaybill = (id) => {
+  window.location.href = route("6dem.waybill.download", [id])
+};
 </script>
