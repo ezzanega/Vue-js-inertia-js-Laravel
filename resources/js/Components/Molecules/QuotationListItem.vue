@@ -18,15 +18,15 @@
       <div class="text-center">
         <div class="font-medium text-gray-700 w-full">
           {{
-            props.document.moving_job.client.type == "professional"
-              ? props.document.moving_job.client.client_organization.name
-              : props.document.moving_job.client.first_name +
+            props.document.moving_job?.client?.type == "professional"
+              ? props.document.moving_job?.client.client_organization.name
+              : props.document.moving_job?.client.first_name +
                 " " +
-                props.document.moving_job.client.last_name
+                props.document.moving_job?.client.last_name
           }}
         </div>
-        <!-- <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div> -->
-        <div class="text-gray-400">Tél: {{ props.document.moving_job.client.phone_number }}</div>
+        <!-- <div class="text-gray-400">{{ props.document.moving_job?.client.email }}</div> -->
+        <div class="text-gray-400">Tél: {{ props.document.moving_job?.client.phone_number }}</div>
       </div>
     </div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">
@@ -41,16 +41,16 @@
       >{{ props.document.status }}</span>
     </div>
 
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.loading_date }}</div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ formatDate(props.document.moving_job?.created_at) }}</div>
     <div class="text-left lg:w-2/12 min-w-2/12 flex flex-nowrap justify-center my-auto">
       <span class="hover-group cursor-pointer text-center rounded-full text-white px-2.5 py-1 my-auto w-24 truncate hover:truncate-off"
-        :class="[props.document.moving_job.client.type == 'professional' ? 'bg-blue-400' : 'bg-primary bg-opacity-80']">
-        {{ props.document.moving_job.client.type == "professional" ? "Professionnel" : props.document.moving_job.formula}}
+        :class="[props.document.moving_job?.client?.type == 'professional' ? 'bg-blue-400' : 'bg-primary bg-opacity-80']">
+        {{ props.document.moving_job?.client?.type == "professional" ? "Professionnel" : props.document.moving_job?.formula}}
       </span>
     </div>
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.capacity ? props.document.moving_job.capacity + ' m³' : '' }}</div>
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job.distance}}</div>
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto font-bold">{{ props.document.moving_job.amount_ht }} €</div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job?.capacity ? props.document.moving_job?.capacity + ' m³' : '' }}</div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job?.distance}}</div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto font-bold">{{ props.document.moving_job?.amount_ht }} €</div>
     <div class="lg:w-1/12 min-w-1/12 my-auto">
       <div class="flex flex-nowrap justify-end gap-4">
         <Dropdown placement="bottom-end">
@@ -76,7 +76,7 @@
           <template #popper>
             <QuotationActionsPopperContent
               :movingjob="props.document.moving_job"
-              :client="props.document.moving_job.client"
+              :client="props.document.moving_job?.client"
               :quotation="document"
               :deletequotation="deletequotation"
               :opendelModal="opendelModal"
@@ -94,6 +94,7 @@
 import { Dropdown } from "floating-vue";
 import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
 import { router } from "@inertiajs/vue3";
+import { formatDate } from "@/utils";
 const emit = defineEmits(["toggle-selected-all"]);
 const props = defineProps({
   selectedAll: Boolean,

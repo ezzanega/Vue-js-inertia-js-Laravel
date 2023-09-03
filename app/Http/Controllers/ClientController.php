@@ -32,27 +32,27 @@ class ClientController extends Controller
     {
         $organization = $request->user()->organization;
         $client = Client::where(['id' => $id, 'organization_id' => $organization->id])->with('clientOrganization', 'address')->first();
-        $quotations = Quotation::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])
+        $quotations = Quotation::with(['movingJob.client', 'movingJob.client.clientOrganization'])
             ->whereHas('movingJob.client', function ($query) use ($id) {
                 $query->where('id', $id);
             })
             ->latest()
             ->get();
 
-        $waybills = Waybill::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])
+        $waybills = Waybill::with(['movingJob.client', 'movingJob.client.clientOrganization'])
             ->whereHas('movingJob.client', function ($query) use ($id) {
                 $query->where('id', $id);
             })
             ->latest()
             ->get();
-        $invoices = Invoice::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])
+        $invoices = Invoice::with(['movingJob.client', 'movingJob.client.clientOrganization'])
             ->whereHas('movingJob.client', function ($query) use ($id) {
                 $query->where('id', $id);
             })
             ->latest()
             ->get();
 
-        $payments = Payment::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])
+        $payments = Payment::with(['movingJob.client', 'movingJob.client.clientOrganization'])
             ->whereHas('movingJob.client', function ($query) use ($id) {
                 $query->where('id', $id);
             })

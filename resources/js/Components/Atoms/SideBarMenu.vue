@@ -112,7 +112,7 @@
       </SideBarItem>
       <SideBarItem
         itemroute="6dem.mail.templates"
-        item="Templates Mail"
+        item="Modèles Mail"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

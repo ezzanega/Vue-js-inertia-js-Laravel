@@ -263,10 +263,9 @@
 
     const isModaldelOpen=ref(false);
     const opendelModal = (member,Role) => {
-        isModaldelOpen.value = true;
-        selectedMember.value = member;
-        RoleMember.value = Role;
-        console.log(selectedMember.value+'   '+RoleMember.value);
+      isModaldelOpen.value = true;
+      selectedMember.value = member;
+      RoleMember.value = Role;
     };
 
     const closedelModal = () => {

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Quotation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Waybill extends Model
 {
@@ -14,7 +15,8 @@ class Waybill extends Model
         'number',
         'executing_company',
         'status',
-        'organization_id'
+        'organization_id',
+        'quotation_id',
     ];
 
     public function movingJob(): BelongsTo
@@ -25,5 +27,10 @@ class Waybill extends Model
     public function executingCompany(): BelongsTo
     {
         return $this->belongsTo(ExecutingCompany::class, 'executing_company_id', 'id');
+    }
+
+    public function quotation(): BelongsTo
+    {
+        return $this->belongsTo(Quotation::class, 'quotation_id', 'id');
     }
 }

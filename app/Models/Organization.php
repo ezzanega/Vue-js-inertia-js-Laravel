@@ -73,8 +73,8 @@ class Organization extends Model
 
     public function getDocumentFooterDetails()
     {
-        $line1 =  $this->name . ' - Adresse: ' . $this->billingAddress->full_address . ' - Tél: ' . $this->phone_number;
-        $line2 =  'Mail: ' . $this->email . ' - Siren: ' . $this->siren;
+        $line1 =  $this->name . ' - Adresse: ' . $this->billingAddress?->full_address . ' - Tél: ' . $this->phone_number;
+        $line2 =  'E-mail: ' . $this->email . ' - Siren: ' . $this->siren;
         return '<script type="text/php">
             if ( isset($pdf) ) { 
                 $font_size = 7;

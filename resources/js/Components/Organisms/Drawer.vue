@@ -66,21 +66,18 @@
         (val) => {
             isTransitioning.value = true
             if (val) {
-            toggleBackgroundScrolling(true);
-            isVisible.value = true;
-            console.log("Drawer ",props.selectedClient)
+                toggleBackgroundScrolling(true);
+                isVisible.value = true;
             } else {
-            toggleBackgroundScrolling(false);
-            setTimeout(() => (isVisible.value = false), props.speed);
+                toggleBackgroundScrolling(false);
+                setTimeout(() => (isVisible.value = false), props.speed);
             }
-
             setTimeout(() => (isTransitioning.value = false), props.speed);
         },
     );
 
 
     const closeDrawer = () => {
-        console.log("closeDrawer");
         if (!isTransitioning.value) {
             emit('close');
         }

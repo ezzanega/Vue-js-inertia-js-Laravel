@@ -269,7 +269,6 @@
   const toggleUpdateDrawer = (client) => {
       isDrawerUpOpen.value = !isDrawerUpOpen.value;
       selectedClient.value = client;
-      console.log("Selected Client: ", selectedClient.value);
   };
 
   const closeDrawer = () => {
@@ -302,7 +301,6 @@
     } else {
       selectedClients.value.push(client); // Add the client if not selected
     }
-    console.log(selectedClients.value);
   };
 
   const toggleSelectedAll = () => {
@@ -312,7 +310,6 @@
       selectedClients.value = [...usePage().props.clients]; // Select all clients
     }
     selectedAll.value = !selectedAll.value;
-    console.log(selectedClients.value);
   };
   watch(searchQuery, (newQuery) => {
     debouncedFetchResults(newQuery);
@@ -326,7 +323,7 @@
       );
       searchResults.value = result.data;
     } catch (e) {
-      console.log(e);
+      console.log('error');
     }
   };
 
@@ -357,7 +354,7 @@
         );
         filteredClientsResults.value = result.data;
       } catch (e) {
-        console.log(e);
+        console.log('error');
       }
     }
   }

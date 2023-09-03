@@ -157,7 +157,7 @@ const search = async () => {
     );
     searchResults.value = result.data;
   } catch (e) {
-    console.log(e);
+    console.log('error');
   }
 };
 

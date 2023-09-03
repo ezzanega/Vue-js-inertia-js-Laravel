@@ -8,7 +8,7 @@
                     </svg>
                 </button>
             </div>
-            <input type="text"  name="text" class="block w-full p-4 pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-700 block w-full p-2.5" placeholder="Entrez une option" required v-model="form.text" @input="clearError()">
+            <input type="text"  name="text" class="block w-full p-4 pl-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-700 focus:border-teal-700" placeholder="Entrez une option" required v-model="form.text" @input="clearError()">
 
         </div>
         <p v-if="showError" class="text-sm text-red-500">Veillez entrer une option valide !</p>
@@ -60,7 +60,10 @@ const addOption = () => {
             return;
         }
         form.post(route("6dem.settings.create"), {
-            onSuccess: () => {form.text = ""; console.log('added'); toggleInputField()},
+            onSuccess: () => {
+                form.text = "";  
+                toggleInputField()
+            },
         });
 };
 

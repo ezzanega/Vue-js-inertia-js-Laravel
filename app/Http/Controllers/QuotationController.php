@@ -12,6 +12,7 @@ use App\Models\Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Enums\OptionType;
+use App\Models\ExecutingCompany;
 use App\Models\MovingJobFormula;
 use Illuminate\Support\Facades\DB;
 use App\Models\Enums\QuotationStatus;
@@ -96,8 +97,13 @@ class QuotationController extends Controller
 
     public function preview(Request $request, $id): Response
     {
+        $organization = $request->user()->organization;
         $quotation = Quotation::where('id', $id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
-        return Inertia::render('6dem/PrewiewQuotation', [
+        $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
+        return Inertia::render('6dem/PreviewQuotation', [
+            'movingJobFormulas' => $movingJobFormulas,
+            'executingCompanies' => $executingCompanies,
             'quotation' => $quotation,
         ]);
     }

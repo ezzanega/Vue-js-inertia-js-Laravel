@@ -107,7 +107,7 @@
                       class="w-1/2"
                       v-model="form.licence"
                       :error="form.errors.licence"
-                      name="email"
+                      name="licence"
                       label="Licence déménageur (optionnel)"
                     />
                   </div>
@@ -177,7 +177,7 @@ if (organization.billing_address) {
 const updateBillingAddress = () => {
   form.put(route("6dem.organization.update"), {
     preserveScroll: true,
-    onSuccess: () => console.log(),
+    onSuccess: () => console.log('organization.update'),
   });
 };
 
@@ -216,7 +216,7 @@ const getCompanyInformations = async (value) => {
         parseCompanyInformations(result.data.resultats_siren[0])
       );
     } catch (e) {
-      console.log(e);
+      console.log('error');
     }
   }
 };

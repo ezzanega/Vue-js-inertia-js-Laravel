@@ -18,15 +18,15 @@
       <div class="">
         <div class="font-medium text-gray-700 text-center">
           {{
-            props.document.moving_job.client.type == "professional"
-            ? props.document.moving_job.client.client_organization.name
-            : props.document.moving_job.client.first_name +
+            props.document.moving_job?.client?.type == "professional"
+            ? props.document.moving_job?.client?.client_organization?.name
+            : props.document.moving_job?.client?.first_name +
             " " +
-            props.document.moving_job.client.last_name
+            props.document.moving_job?.client?.last_name
           }}
         </div>
-        <!-- <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div> -->
-        <div class="text-gray-400">Tél: {{ props.document.moving_job.client.phone_number }}</div>
+        <!-- <div class="text-gray-400">{{ props.document.moving_job?.client.email }}</div> -->
+        <div class="text-gray-400">Tél: {{ props.document.moving_job?.client.phone_number }}</div>
       </div>
     </div>
     <div v-if="props.document.status == 'Signé'" class="text-left w-2/12 flex justify-center my-auto">
@@ -36,10 +36,10 @@
       <p class="text-left rounded-full bg-red-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>
     </div>
     <div class="text-left w-2/12 flex justify-center my-auto">
-      <p class="text-left rounded-full bg-primary text-white w-fit px-1.5 py-1 my-auto">{{ props.document.moving_job.client.type ==
+      <p class="text-left rounded-full bg-primary text-white w-fit px-1.5 py-1 my-auto">{{ props.document.moving_job?.client?.type ==
         "professional" ? "Professionnel" : "Particulier" }}</p>
     </div>
-    <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.document.moving_job.loading_date) }}</div>
+    <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.document.moving_job?.loading_date) }}</div>
     <div class="w-1/12 my-auto">
       <div class="flex justify-end gap-4">
         <Dropdown placement="bottom-end">
@@ -55,8 +55,8 @@
               fill="currentColor" />
           </svg>
           <template #popper>
-            <WaybillActionsPopperContent :moving_job_id="props.document.moving_job.id"
-              :client_id="props.document.moving_job.client.id" :id="props.document.id"
+            <WaybillActionsPopperContent :moving_job_id="props.document.moving_job?.id"
+              :client_id="props.document.moving_job?.client.id" :id="props.document.id"
               :deleteLv="deleteLv" :document="document" :opendelModal="opendelModal"/>
           </template>
         </Dropdown>

@@ -222,7 +222,6 @@ const toggleDocumentSelection = (document) => {
   } else {
     selectedDocuments.value.push(document); // Add the document if not selected
   }
-  console.log(selectedDocuments.value);
 };
 
 const toggleSelectedAll = () => {
@@ -232,7 +231,6 @@ const toggleSelectedAll = () => {
     selectedDocuments.value = [...usePage().props.invoices]; // Select all documents
   }
   selectedAll.value = !selectedAll.value;
-  console.log(selectedDocuments.value);
 };
 
 watch(searchInvoiceQuery, (newQuery) => {
@@ -247,7 +245,7 @@ const searchInvoice = async () => {
     );
     searchInvoiceResults.value = result.data;
   } catch (e) {
-    console.log(e);
+    console.log('error');
   }
 };
 
@@ -274,7 +272,7 @@ const sortField = async (field, order) => {
       );
       filteredInvoicesResults.value = result.data;
     } catch (e) {
-      console.log(e);
+      console.log('error');
     }
   }
 }

@@ -88,7 +88,6 @@ const updateStatus = () => {
         replace: true,
         onSuccess: () => {
             closeModal()
-            console.log("quotation.update")
         },
         onError: (errors) => console.log(errors)
     });

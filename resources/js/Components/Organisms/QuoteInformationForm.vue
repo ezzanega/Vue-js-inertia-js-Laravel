@@ -487,8 +487,8 @@ const optionsUpdated = (options) => {
     movingjob.amount_ht = calculateTotalHT(options, currentDiscount)
     movingjob.amount_tva = calculatePercentage(movingjob.amount_ht, currentSettings.vat)
     movingjob.amount_ttc = calculateTTC(movingjob.amount_ht, movingjob.amount_tva)
-    movingjob.advance = calculatePercentage(movingjob.amount_ttc, getAdvanceOrBalance(movingjob.payment_process, 'advance'))
-    movingjob.balance = calculatePercentage(movingjob.amount_ttc, getAdvanceOrBalance(movingjob.payment_process, 'balance'))
+    movingjob.advance = calculatePercentage(movingjob.amount_ttc, movingjob.payment_process ? getAdvanceOrBalance(movingjob.payment_process, 'advance') : 0)
+    movingjob.balance = calculatePercentage(movingjob.amount_ttc, movingjob.payment_process ? getAdvanceOrBalance(movingjob.payment_process, 'balance'): 0)
     setTimeout(() => {
       updateMovingJob();
     }, 1000);

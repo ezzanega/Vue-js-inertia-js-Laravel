@@ -188,17 +188,14 @@ const SaveFormula = () => {
       return;
     }
   }
-    console.log(formulaData);
-    try {
-        const response = form.post(route("6dem.formula.create"), formulaData, {
-            preserveScroll: true
-        });
-        //console.log('Formula saved successfully:', response.data);
-        props.closeFormulaModal();
-    } catch (error) {
-        // Handle the error response
-        console.error('Error saving formula:', error);
-    }
+  try {
+    const response = form.post(route("6dem.formula.create"), formulaData, {
+      preserveScroll: true
+    });
+    props.closeFormulaModal();
+  } catch (error) {
+      console.error('error');
+  }
 };
 
 const generateSlug = () => {

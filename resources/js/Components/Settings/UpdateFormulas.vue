@@ -24,7 +24,7 @@
                       type="text"
                       name="title_formula"
                       autofocus
-                      class="block bg-gray-40 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-700 focus:border-green-700 block p-2 "
+                      class="block bg-gray-40 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-700 focus:border-green-700 p-2"
                       required
                       @blur="onInputBlur(index),updateFormulas(formula.id)"
                       v-model="formFormulas.title_formula"
@@ -232,18 +232,14 @@ const onInputBlur = (id) => {
 };
 
 const updateFormulas = (id) => {
-        // console.log('the id    : ',id);
-        // console.log("title_formula   : ",formFormulas.title_formula.value);
-        // console.log("slug_formula   : ",formFormulas.slug_formula.value);
-        formFormulas.put(route("6dem.formula.update", {id: id}),
-        {
-            preserveScroll: true,
-            onSuccess: () => {
-                console.log('Formulas updated succefully');
-                formFormulas.title_formula.value = '';
-                formFormulas.slug_formula.value = '';
-            },
-        });
+  formFormulas.put(route("6dem.formula.update", {id: id}),
+  {
+    preserveScroll: true,
+    onSuccess: () => {
+      formFormulas.title_formula.value = '';
+      formFormulas.slug_formula.value = '';
+    },
+  });
 };
 
 const generateSlug = () => {

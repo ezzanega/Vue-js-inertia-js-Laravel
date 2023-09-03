@@ -100,8 +100,6 @@
     togglePaymentSelection: Function,
   });
 
-  console.log(props.payments);
-
   const handleCheckboxChange = () => {
    alert('hello')
   };

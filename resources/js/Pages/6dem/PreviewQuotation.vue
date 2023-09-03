@@ -11,10 +11,10 @@
                 Devis N° {{ quotation.number }}
               </h1>
             </div>
-            <span class="h-navbar border-l border-neutral-200 hidden xl:block">
+            <span class="h-navbar border-l border-neutral-200 hidden lg:block">
             </span>
 
-            <div class="mx-5 hidden xl:flex items-center">
+            <div class="mx-5 hidden lg:flex items-center">
               <SecondaryButton @click="downloadQuotation">
                 <div class="flex space-x-2 py-1.5 my-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -27,7 +27,7 @@
               </SecondaryButton>
             </div>
 
-            <div class="mx-5 hidden xl:flex items-center">
+            <div class="mx-5 hidden lg:flex items-center">
               <SecondaryButton @click="updateQuotation"> 
                 <div class="flex space-x-2 py-1.5 my-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -40,7 +40,7 @@
               </SecondaryButton>
             </div>
 
-            <div class="mx-5 hidden xl:flex items-center">
+            <div class="mx-5 hidden lg:flex items-center">
               <SecondaryButton>
                 <div class="flex space-x-2 py-1.5 my-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -53,9 +53,8 @@
               </SecondaryButton>
             </div>
 
-
             <div class="mx-1 flex items-center justify-end">
-              <Dropdown placement="bottom-end">
+              <Menu placement="bottom-end">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -71,9 +70,9 @@
                   />
                 </svg>
                 <template #popper>
-                  <QuotationActionsPopperContent :movingjob="quotation.moving_job" :client="quotation.moving_job.client" :quotation="quotation" />
+                  <PreviewQuotationPopperContent :quotation="quotation" :client="quotation.moving_job.client" @clicked="optionClicked" />
                 </template>
-              </Dropdown>
+              </Menu>
             </div>
           </div>
         </div>
@@ -86,20 +85,35 @@
       </div>
       <iframe :src="`/6dem/documents/quotation/pdf/${quotation.id}`" @load="onIframeLoad" width="100%" height="600px"></iframe>
     </div>
+    <ChangeStatus :quotation="quotation" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" />
+    <InvoiceModal :quotation="quotation" :openModal="createInvoiceModal" @closeModal="closeCreateInvoiceModal" />
+    <SelectExecutingModal :quotation="quotation" :openModal="selectExecutingModal" @closeModal="closeSelectExecutingModal" />
+    <DuplicateQuotation :isModal_dup_quot_Open="duplicateModal" @closeDupQuotModal="closeDuplicateModal()" :id="quotation.id" />
+    <PayementQuotation :isModal_payment_quot_Open="payementModal" @closePayQuotModal="closePayementModal()" :selectedvalue="quotation.id"/>
   </DemLayout>
 </template>
       
-  <script setup>
+<script setup>
 import DemLayout from "@/Layouts/DemLayout.vue";
-import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
+import PreviewQuotationPopperContent from "@/Components/Documents/PreviewQuotationPopperContent.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { Dropdown } from "floating-vue";
+import ChangeStatus from "@/Components/Molecules/ChangeStatus.vue";
+import InvoiceModal from "@/Components/Molecules/InvoiceModal.vue";
+import SelectExecutingModal from "@/Components/Molecules/SelectExecutingModal.vue";
+import DuplicateQuotation from "@/Components/Molecules/DuplicateQuotation.vue";
+import PayementQuotation from "@/Components/Molecules/PayementQuotation.vue";
+import { Menu } from "floating-vue";
 import { Head, usePage } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 const quotation = usePage().props.quotation;
 const loading = ref(true)
+const changeStatusModal = ref(false);
+const duplicateModal = ref(false);
+const payementModal = ref(false);
+const createInvoiceModal = ref(false);
+const selectExecutingModal = ref(false);
 
 const updateQuotation = () => {
   router.visit(route("6dem.documents.quotation", [quotation.moving_job.id, quotation.moving_job.client.id, quotation.id]), {
@@ -113,5 +127,56 @@ const onIframeLoad = () => {
 
 const downloadQuotation = () => {
   window.location.href = route("6dem.quotation.download", [quotation.id])
+};
+
+const optionClicked = (element) => {
+  switch (element) {
+    case 'update-status':
+      changeStatusModal.value = true
+      break;
+    case 'duplicate':
+      duplicateModal.value = true
+      break;
+    case 'payement':
+      payementModal.value = true
+      break;
+    case 'create-invoice':
+      createInvoiceModal.value = true
+      break;
+    case 'create-waybill':
+      selectExecutingModal.value = true
+      break;
+    case 'send-to-client':
+      console.log(element)
+      break;
+    case 'delete':
+      console.log(element)
+      break;
+    default:
+      console.log(element)
+  }   
+}
+
+const closeChangeStatusModal = () => {
+  changeStatusModal.value = false;
+};
+
+const closeCreateInvoiceModal = () => {
+  createInvoiceModal.value = false;
+};
+
+const closePayementModal = () => {
+  payementModal.value = false;
+};
+
+const closeDuplicateModal = () => {
+  duplicateModal.value = false;
+  router.reload({ only: ['quotation'] });
+  console.log(quotation.id)
+  // window.location.href = route("6dem.documents.quotation.preview", [quotation.id])
+};
+
+const closeSelectExecutingModal = () => {
+  selectExecutingModal.value = false;
 };
 </script>

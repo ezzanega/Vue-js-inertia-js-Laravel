@@ -124,14 +124,12 @@ const closedelModal = () => {
 const isModal_dup_quot_Open = ref(false);
 
 const openDupQuotModal = (id_quot) => {
-    isModal_dup_quot_Open.value = true;
-    selectedvalue.value = id_quot;
-    console.log(isModal_dup_quot_Open.value)
+  isModal_dup_quot_Open.value = true;
+  selectedvalue.value = id_quot;
 };
 
 const closeDupQuotModal = () => {
-    isModal_dup_quot_Open.value = false;
-    //selectedvalue.value = null;
+  isModal_dup_quot_Open.value = false;
 };
 //fin Open et Close Pop-up
 
@@ -141,11 +139,9 @@ const isModal_payment_quot_Open = ref(false);
 const openPayQuotModal = (id_quot) => {
     isModal_payment_quot_Open.value = true;
     selectedvalue.value = id_quot;
-    console.log(isModal_payment_quot_Open.value)
 };
 
 const closePayQuotModal = () => {
     isModal_payment_quot_Open.value = false;
-    //selectedvalue.value = null;
 };
 </script>

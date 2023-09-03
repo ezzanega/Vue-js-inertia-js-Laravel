@@ -232,19 +232,17 @@
     searchResults:Array,
   });
 
-  const emit = defineEmits(["close","selectedClient","search"]);
-  console.log('Received Selected Client: ', props.selectedClient)
-
+  const emit = defineEmits(["close", "selectedClient", "search"]);
   const setAddressData = (location) => {
-  form.address = location.address;
-  form.city = location.city;
-  form.postalCode = location.postalCode;
-  form.country = location.country;
-  form.fullAddress = location.fullAddress;
-  form.lat = location.lat;
-  form.lng = location.lng;
-  form.googleMapUrl = location.googleMapUrl;
-    };
+    form.address = location.address;
+    form.city = location.city;
+    form.postalCode = location.postalCode;
+    form.country = location.country;
+    form.fullAddress = location.fullAddress;
+    form.lat = location.lat;
+    form.lng = location.lng;
+    form.googleMapUrl = location.googleMapUrl;
+  };
 
   const form = useForm({
     clientType: props.selectedClient.type,
@@ -272,33 +270,6 @@
     lng:props.selectedClient.address.lng,
     googleMapUrl: props.selectedClient.address.google_map_url,
   });
-
-  console.log('Adress : ', form.address)
-
-console.log('search Function   ',props.search);
-console.log('close Function   ',props.searchResults);
-
-  // const clientTypeChange = (value) => {
-  //   form.clientType = value;
-  //   form.clientOrganizationName = "";
-  //   form.firstName = "";
-  //   form.lastName = "";
-  //   form.phoneNumber = "";
-  //   form.email = "";
-  //   form.address = "";
-  //   form.source = "";
-  //   form.siret = "";
-  //   form.siren = "";
-  //   form.address = "";
-  //   form.city = "";
-  //   form.postalCode = "";
-  //   form.country = "";
-  //   form.fullAddress = "";
-  //   form.lat = "";
-  //   form.lng = "";
-  //   form.googleMapUrl = "";
-  //   form.clearErrors();
-  // };
 
   const sourceOptions = [
     {
@@ -335,7 +306,6 @@ console.log('close Function   ',props.searchResults);
             props.search();
             emit("close")},
         });
-        //alert('hello from update Client')
   };
   </script>
 

@@ -228,7 +228,6 @@ const toggleDocumentSelection = (document) => {
   } else {
     selectedDocuments.value.push(document); // Add the document if not selected
   }
-  console.log(selectedDocuments.value);
 };
 
 const toggleSelectedAll = () => {
@@ -238,7 +237,6 @@ const toggleSelectedAll = () => {
     selectedDocuments.value = [...usePage().props.quotations]; // Select all documents
   }
   selectedAll.value = !selectedAll.value;
-  console.log(selectedDocuments.value);
 };
 
 watch(searchQuotationQuery, (newQuery) => {
@@ -253,7 +251,7 @@ const searchQuotation = async () => {
     );
     searchQuotationResults.value = result.data;
   } catch (e) {
-    console.log(e);
+    console.log('error');
   }
 };
 
@@ -281,7 +279,7 @@ const sortField = async (field, order) => {
       );
       filteredQuotationsResults.value = result.data;
     } catch (e) {
-      console.log(e);
+      console.log('error');
     }
   }
 }

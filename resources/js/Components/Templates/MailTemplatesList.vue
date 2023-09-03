@@ -131,22 +131,19 @@ createMailModal.value = true;
 const closeModal = () => {
   createMailModal.value = false;
 };
-//début Open  et Close de formulaire d'update Mail
+
 const isModalUpOpen = ref(false);
 const selectedMail = ref(null);
 
 const openUpModal = (mail) => {
   isModalUpOpen.value = true;
   selectedMail.value = mail;
-  console.log(selectedMail.value);
 };
 
 const closeUpModal = () => {
   isModalUpOpen.value = false;
 };
-//fin Open  et Close de formulaire d'update Mail
 
-//La suppression de Mail Avec le popup
 function deleteMail(id) {
   router.delete(`/6dem/templates/delete/${id}`,{
     onSuccess: () => closedelModal(),
@@ -154,18 +151,15 @@ function deleteMail(id) {
 }
 
 
-//début Open  et Close de formulaire de suppression Mail
 const isModaldelOpen=ref(false);
 const opendelModal = (mail) => {
-    isModaldelOpen.value = true;
-    selectedMail.value=mail;
-    console.log(selectedMail.value);
+  isModaldelOpen.value = true;
+  selectedMail.value=mail;
 };
 
 const closedelModal = () => {
     isModaldelOpen.value = false;
 };
-//fin Open  et Close de formulaire de suppression Mail
 
 </script>
 

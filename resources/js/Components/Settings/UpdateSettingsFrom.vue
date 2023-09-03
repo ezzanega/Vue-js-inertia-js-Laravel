@@ -38,7 +38,7 @@
                   <ckeditor class="max-h-96 overflow-auto" :editor="editor" v-model="form.legal_notice" :config="editorConfig"></ckeditor>
                 </div> -->
 
-                <DefaultInput name="quotation_validity_duratation" type="number" label="TVA (en %)"
+                <DefaultInput name="vat" type="number" label="TVA (en %)"
                   v-model="form.vat" :error="form.errors.vat" />
 
                 <DefaultSelectInput

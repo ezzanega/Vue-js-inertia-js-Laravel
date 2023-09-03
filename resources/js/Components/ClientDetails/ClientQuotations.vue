@@ -60,7 +60,6 @@
     } else {
       selectedDocuments.value.push(document); // Add the document if not selected
     }
-    console.log(selectedDocuments.value);
   };
 
   const toggleSelectedAll = () => {
@@ -70,7 +69,6 @@
       selectedDocuments.value = [...usePage().props.quotations]; // Select all documents
     }
     selectedAll.value = !selectedAll.value;
-    console.log(selectedDocuments.value);
   };
 
   const exportSelectedDocuments = (selectedDocuments) => {

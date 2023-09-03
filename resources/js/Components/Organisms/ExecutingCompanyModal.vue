@@ -150,7 +150,7 @@ const getCompanyInformations = async (value) => {
                 parseCompanyInformations(result.data.resultats_siren[0])
             );
         } catch (e) {
-            console.log(e);
+            console.log('error');
         }
     }
 };

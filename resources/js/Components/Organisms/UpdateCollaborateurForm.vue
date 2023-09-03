@@ -84,15 +84,15 @@
     </Modal>
   </template>
 
-  <script setup>
-  import Modal from "@/Components/Modal.vue";
-  import SecondaryButton from "@/Components/SecondaryButton.vue";
-  import { useForm } from "@inertiajs/vue3";
-  import { ref, onMounted } from "vue";
-  import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
-  import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
-  import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
-  import { getRoleLabel } from "@/utils/index";
+<script setup>
+import Modal from "@/Components/Modal.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import { useForm } from "@inertiajs/vue3";
+import { ref, onMounted } from "vue";
+import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
+import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
+import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
+import { getRoleLabel } from "@/utils/index";
 
 
 const props = defineProps({
@@ -113,11 +113,8 @@ onMounted(() => {
   });
 });
 
-// Create the form object using useForm
 const form = useForm({
     email:props.MemberData.email,
-    //role: props.MemberData.role,
-    //role: props.MembreData.roles ? props.MembreData.roles[0].name : props.MemberData.role,
     role : getInitialRole(),
 });
 let membreUpType = '';
@@ -132,26 +129,18 @@ function getInitialRole() {
 
 
 const updateRole = (id) => {
-    if (props.MemberData.roles && props.MemberData.roles.length > 0) {
-        // Update in the user table logic
-        console.log(`Updating role for user with ID: ${id}`);
-        form.put(route("6dem.manage.collaborateur.userRole.update", {id: id}), {
-        preserveScroll: true,
-        onSuccess: () => closeUpRoleModal(),
-        });
-    } else {
-        // Update in the inviteuser table logic
-        console.log(`Updating role for invite user with ID: ${id}`);
-        form.put(route("6dem.manage.collaborateur.inviteRole.update", {id: id}), {
-        preserveScroll: true,
-        onSuccess: () => closeUpRoleModal(),
-        });
-    }
+  if (props.MemberData.roles && props.MemberData.roles.length > 0) {
+    form.put(route("6dem.manage.collaborateur.userRole.update", {id: id}), {
+      preserveScroll: true,
+      onSuccess: () => closeUpRoleModal(),
+    });
+  } else {
+    form.put(route("6dem.manage.collaborateur.inviteRole.update", {id: id}), {
+      preserveScroll: true,
+      onSuccess: () => closeUpRoleModal(),
+    });
+  }
 };
-
-// const updateRole = (id) => {
-//         alert('update function');
-//     };
 
 const closeUpRoleModal = () => {
   form.reset();

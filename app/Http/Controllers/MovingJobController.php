@@ -110,7 +110,7 @@ class MovingJobController extends Controller
         $quotation = Quotation::find($quotationId);
         $executingCompany = ExecutingCompany::find($request->executingCompany);
         $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
-        $waybill = Waybill::where('moving_job_id', $movingjob->id)->first();
+        $waybill = Waybill::where(['moving_job_id' => $movingjob->id, 'quotation_id' => $quotation->id])->first();
         if ($waybill) {
             $waybill = Waybill::where('id', $waybill->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
             return Redirect::route('6dem.documents.waybill.preview', [
@@ -120,11 +120,8 @@ class MovingJobController extends Controller
             $waybill = Waybill::create([
                 'executing_company' => $executingCompany ? $executingCompany->name : '',
                 'organization_id' => $organization->id,
+                'quotation_id' => $quotation->id,
                 'status' => WaybillStatus::NOTSIGNED
-            ]);
-
-            $quotation->update([
-                'status' => QuotationStatus::ACCEPTED,
             ]);
 
             $waybill->movingJob()->associate($movingjob);

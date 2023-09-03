@@ -332,7 +332,6 @@ const setClientOrganizationData = (clientOrganization) => {
     form.country = clientOrganization.country;
     form.codeApe = clientOrganization.codeApe;
     form.fullAddress = clientOrganization.fullAddress;
-    console.log(clientOrganization);
 };
 
 const getCompanyInformations = async (value) => {
@@ -347,7 +346,7 @@ const getCompanyInformations = async (value) => {
                 parseCompanyInformations(result.data.resultats_siren[0])
             );
         } catch (e) {
-            console.log(e);
+          console.log('error');
         }
     }
 };

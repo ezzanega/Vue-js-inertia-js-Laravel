@@ -88,19 +88,19 @@
   
   const typesOptions = [
     {
-        name: "Acompte",
-        value: "advance"
+      name: "Acompte",
+      value: "advance"
     },
     {
-        name: "Solde",
-        value: "balance"
+      name: "Solde",
+      value: "balance"
     }
 ];
   const emit = defineEmits(["closeModal"]);
 
   const form = useForm({
     type: "",
-    amount: props.quotation.moving_job.amount_ht,
+    amount: props.quotation.moving_job?.amount_ht,
   });
 
   const closeModal = () => {

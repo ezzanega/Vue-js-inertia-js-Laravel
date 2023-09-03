@@ -106,13 +106,9 @@ const form = useForm({
 });
 
 const submit = () => {
-  console.log(form.processing);
   form.post(route("6dem.signin"), {
     onFinish: () => form.reset("password"),
     replace: true
   });
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

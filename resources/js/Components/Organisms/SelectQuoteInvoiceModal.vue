@@ -150,7 +150,7 @@ const searchQuotation = async () => {
         );
         searchQuotationResults.value = result.data;
     } catch (e) {
-        console.log(e);
+        console.log('error');
     }
 };
 

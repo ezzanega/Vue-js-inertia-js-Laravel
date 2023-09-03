@@ -178,8 +178,6 @@ onMounted(() => {
       value: formule.id,
     });
   });
-
-  console.log('Formule Options:', FormuleOptions.value);
 });
 
 const getOptionByType = (options, type) => {
@@ -204,7 +202,7 @@ watch(form, (nexForm) => {
 
 const DupQuotation = (selectedFormule) => {
   form.post(route("6dem.documents.quotation.duplicate", props.id), {
-    preserveScroll: true,
+    preserveScroll: false,
     replace: true,
     onSuccess: () => closeDupQuotModal(),
   });

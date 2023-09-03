@@ -54,8 +54,6 @@ const props = defineProps({
   teamMembres: Array,
 });
 
-console.log(props.teamMembres.length);
-
 const inviteUserModal = ref(false);
 
 const openInviteUserModal = () => {

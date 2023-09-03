@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label for="location" class="block text-sm font-medium text-gray-700">
+    <label :for="name" class="block text-sm font-medium text-gray-700">
       <div class="flex">
         <span>
           {{ label }}

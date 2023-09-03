@@ -12,15 +12,15 @@
     <div class="text-center w-2/12">
       <div class="font-medium text-gray-700">
         {{
-          props.document.moving_job.client.type == "professional"
-          ? props.document.moving_job.client.client_organization.name
-          : props.document.moving_job.client.first_name +
+          props.document.moving_job?.client?.type == "professional"
+          ? props.document.moving_job?.client.client_organization.name
+          : props.document.moving_job?.client.first_name +
           " " +
-          props.document.moving_job.client.last_name
+          props.document.moving_job?.client.last_name
         }}
       </div>
-      <!-- <div class="text-gray-400">{{ props.document.moving_job.client.email }}</div> -->
-      <div class="text-gray-400">Tél: {{ props.document.moving_job.client.phone_number }}</div>
+      <!-- <div class="text-gray-400">{{ props.document.moving_job?.client.email }}</div> -->
+      <div class="text-gray-400">Tél: {{ props.document.moving_job?.client.phone_number }}</div>
     </div>
     <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.document.created_at) }}</div>
     <div class="text-left w-2/12 flex justify-center my-auto">{{ getAdvanceOrBalanceNameFromKey(props.document.type) }}</div>
@@ -56,8 +56,8 @@
               fill="currentColor" />
           </svg>
           <template #popper>
-            <InvoiceActionsPopperContent :moving_job_id="props.document.moving_job.id"
-              :client_id="props.document.moving_job.client.id" :id="props.document.id"
+            <InvoiceActionsPopperContent :moving_job_id="props.document.moving_job?.id"
+              :client_id="props.document.moving_job?.client.id" :id="props.document.id"
               :deleteFacture="deleteFacture" :document="document" :opendelModal="opendelModal" />
           </template>
         </Dropdown>

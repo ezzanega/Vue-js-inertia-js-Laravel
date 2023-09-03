@@ -27,7 +27,6 @@ class OrganizationController extends Controller
             'email' => 'required|string|max:255',
             'phoneNumber' => 'required|string|max:255',
             'organizationName' => 'required|string|max:255',
-            'siret' => 'required|string|max:255',
             'siren' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
