@@ -37,7 +37,7 @@
         </div>
 
         <div class="space-y-2 overflow-auto">
-            <PaymentListItem v-for="(payments, index) in currentPayments" :key="index" :payments="payments" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
+            <PaymentListItem v-for="(payments, index) in currentPayments" :key="index" :payments="payments" :selected-all="selectedAll" :toggle-payment-selection="togglePaymentSelection"/>
         </div>
     </div>
   </template>
@@ -54,59 +54,60 @@
   const currentPayments = ref(usePage().props.payments)
   const currentClient = usePage().props.client
 
+  //   console.log(currentPayments.value[0].reference)
+
   const selectedAll = ref(false);
 
-  const selectedDocuments = ref([]);
+  const selectedPayments = ref([]);
 
-  const toggleDocumentSelection = (document) => {
-    const index = selectedDocuments.value.findIndex((doc) => doc.id === document.id);
+
+  const togglePaymentSelection = (payment) => {
+    const index = selectedPayments.value.findIndex((pay) => pay.id === payment.id);
     if (index !== -1) {
-      selectedDocuments.value.splice(index, 1); // Remove the document if already selected
+      selectedPayments.value.splice(index, 1); // Remove the document if already selected
     } else {
-      selectedDocuments.value.push(document); // Add the document if not selected
+      selectedPayments.value.push(payment); // Add the document if not selected
     }
+    console.log(selectedPayments.value);
   };
 
   const toggleSelectedAll = () => {
     if (selectedAll.value) {
-      selectedDocuments.value = []; // Deselect all documents
+        selectedPayments.value = []; // Deselect all documents
     } else {
-      selectedDocuments.value = [...usePage().props.quotations]; // Select all documents
+        selectedPayments.value = [...usePage().props.payments]; // Select all documents
     }
     selectedAll.value = !selectedAll.value;
+    console.log(selectedPayments.value);
   };
 
-
-  const exportSelectedDocuments = (selectedDocuments) => {
+//  console.log(currentPayments.value)
+  const exportSelectedPayments = (selectedPayments) => {
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Quotations");
+    const worksheet = workbook.addWorksheet("Payments");
 
     const columns = [
-      "N° du devis",
-      "Client",
-      "Email",
-      "Statut",
-      "Date",
-      "Formule",
-      "Volume/Distance",
+      "Référence",
+      "Type de paiement",
+      "Payment channel",
       "Montant HT",
+      "Date",
     ];
     worksheet.addRow(columns);
 
-    selectedDocuments.forEach((document) => {
+    selectedPayments.forEach((payment) => {
       const rowData = [
-        document.number,
-        document.moving_job.client.type == "professional" ? document.moving_job.client.client_organization.name : document.moving_job.client.first_name + " " + document.moving_job.client.last_name,
-        document.moving_job.client.email,
-        document.status,
-        document.moving_job.loading_date,
-        document.moving_job.client.type == "professional" ? "Professionnel" : document.moving_job.formula,
-        document.moving_job.amount_ht,
+        payment.reference,
+        payment.type,
+        payment.payment_channel,
+        payment.amount,
+        payment.created_at,
       ];
       worksheet.addRow(rowData);
+
     });
 
-    const fileName = "Liste des devis.xlsx";
+    const fileName = "Liste des payments.xlsx";
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
       const link = document.createElement("a");
@@ -117,7 +118,7 @@
   };
 
   const handleExportClick = () => {
-    exportSelectedDocuments(selectedDocuments.value);
+    exportSelectedPayments(selectedPayments.value);
   };
 
   </script>

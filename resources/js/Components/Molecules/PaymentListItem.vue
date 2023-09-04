@@ -100,8 +100,12 @@
     togglePaymentSelection: Function,
   });
 
+//   console.log(props.payments);
+
   const handleCheckboxChange = () => {
-   alert('hello')
+//    alert('hello')
+    props.togglePaymentSelection(props.payments);
+    emit("toggle-selected-all");
   };
 
   </script>
