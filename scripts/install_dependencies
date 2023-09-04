@@ -4,5 +4,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 cd /var/www/6dem.com
+sudo composer install --prefer-dist --no-progress
+php artisan key:generate
+php artisan migrate
 npm install
 npm run build
