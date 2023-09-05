@@ -13,6 +13,7 @@ use App\Models\Quotation;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplates;
 use App\Models\Enums\ClientType;
+use App\Models\ExecutingCompany;
 use App\Models\ClientOrganizations;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -59,6 +60,7 @@ class ClientController extends Controller
             ->latest()
             ->get();
 
+        $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
 
         return Inertia::render('6dem/ClientDetails', [
             'client' => $client,
@@ -66,6 +68,7 @@ class ClientController extends Controller
             'waybills' => $waybills,
             'invoices' => $invoices,
             'payments' => $payments,
+            'executingCompanies' => $executingCompanies,
         ]);
     }
 
