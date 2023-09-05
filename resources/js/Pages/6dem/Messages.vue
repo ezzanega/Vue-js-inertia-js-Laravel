@@ -14,7 +14,7 @@ import DemLayout from "@/Layouts/DemLayout.vue";
 import { Head, usePage } from "@inertiajs/vue3";
 const user = usePage().props.auth.user;
 const organization = usePage().props.auth.organization;
-const taskproUrl = `http://taskpro.sysdem.fr/project/${organization.taskpro_organization_id}/messages?token=${user.taskpro_token}`;
+const taskproUrl = `https://taskpro.sysdem.fr/project/${organization.taskpro_organization_id}/messages?token=${user.taskpro_token}`;
 </script>
     
     <style scoped>
