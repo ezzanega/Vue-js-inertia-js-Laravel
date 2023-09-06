@@ -8,16 +8,21 @@
             <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal"
             :openDupQuotModal="openDupQuotModal"
             :openPayQuotModal="openPayQuotModal"/>
-
+            <!-- Pour la suppression des 3 section -->
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
             @closedelModal="closedelModal()"
-            @deleteFunction="deletequotation(selectedvalue)"/>
+            @deleteFunction="
+                Deletedtype === 'devis' ? deletequotation(selectedvalue) :
+                Deletedtype === 'facture' ? deleteFacture(selectedvalue) :
+                Deletedtype === 'Lv' ? deleteLv(selectedvalue) : null
+            "
+            />
 
             <DuplicateQuotation v-if="isModal_dup_quot_Open"
             :isModal_dup_quot_Open="isModal_dup_quot_Open"
             @closeDupQuotModal="closeDupQuotModal()"
             :id="selectedvalue" />
-            
+
             <PayementQuotation
             v-if="isModal_payment_quot_Open"
             :isModal_payment_quot_Open="isModal_payment_quot_Open"
@@ -37,8 +42,6 @@
         <div v-if="$page.props.waybills.length">
           <div class="mt-2">
             <WaybillList :deleteLv="deleteLv" :opendelModal="opendelModal" />
-            <!-- <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-            @closedelModal="closedelModal()" @deleteFunction="deleteLv(selectedvalue)"/> -->
           </div>
         </div>
         <ListEmptyMessage
@@ -53,8 +56,6 @@
         <div v-if="$page.props.invoices.length">
           <div class="mt-2">
             <InvoiceList :deleteFacture="deleteFacture" :opendelModal="opendelModal"/>
-            <!-- <DeleteFormModal :isModaldelOpen="isModaldelOpen"
-            @closedelModal="closedelModal()" @deleteFunction="deleteFacture(selectedvalue)"/> -->
           </div>
         </div>
         <ListEmptyMessage
@@ -109,10 +110,14 @@ function deletequotation(id) {
 
 const isModaldelOpen=ref(false);
 const selectedvalue=ref(null);
+const Deletedtype = ref(null);
 
-const opendelModal = (id) => {
+const opendelModal = (id,deleted) => {
   isModaldelOpen.value = true;
   selectedvalue.value = id;
+  Deletedtype.value = deleted;
+  console.log(Deletedtype.value)
+
 };
 
 const closedelModal = () => {
