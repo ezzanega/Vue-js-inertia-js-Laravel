@@ -36,7 +36,7 @@
             <div class="flex flex-row items-center justify-center w-2/12 text-center">Date
             </div>
             <div class="w-1/12"></div>
-            
+
         </div>
 
         <div class="space-y-2 overflow-auto">

@@ -10,7 +10,7 @@
           />
         </div>
         <div class="text-left lg:w-2/12 min-w-2/12 flex justify-center my-auto">
-            <span class="font-bold text-primary border-b border-dashed border-primary cursor-pointer" @click="() => router.visit(route('6dem.documents.quotation.preview', props.payments.quotation.id))">
+            <span class="font-semibold text-primary border-b border-dashed border-primary cursor-pointer" @click="() => router.visit(route('6dem.documents.quotation.preview', props.payments.quotation.id))">
               D-{{ props.payments.quotation.number }}
             </span>
         </div>
@@ -31,7 +31,7 @@
         <div class="flex text-left w-2/12 justify-center my-auto">
             <div class="flex gap-2 justify-center">
               <span
-                class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600">
+                class="inline-flex items-center gap-1 rounded-full bg-primary px-2 py-1 text-xs text-white">
 
               {{props.payments.payment_channel}}
               </span>
