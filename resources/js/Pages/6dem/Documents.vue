@@ -17,6 +17,7 @@
             :isModal_dup_quot_Open="isModal_dup_quot_Open"
             @closeDupQuotModal="closeDupQuotModal()"
             :id="selectedvalue" />
+            
             <PayementQuotation
             v-if="isModal_payment_quot_Open"
             :isModal_payment_quot_Open="isModal_payment_quot_Open"

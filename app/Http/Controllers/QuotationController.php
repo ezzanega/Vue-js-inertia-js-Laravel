@@ -171,6 +171,7 @@ class QuotationController extends Controller
             'amount' => $request->montant,
             'payment_channel' => $request->moyen_payment,
             'reference' => $request->reference,
+            'quotation_id'=>$id,
         ]);
         $MovingJob->payments()->save($payment);
         //update amount_ht & loading_date for the MovingJob

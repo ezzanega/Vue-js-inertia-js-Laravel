@@ -119,6 +119,7 @@
         { name: "Mandat", value: "mandat" },
         { name: "Espèce", value: "espece" },
     ];
+    console.log('selectedvalue    '+props.selectedvalue)
     const form = useForm({
         type:"",
         montant: "",
