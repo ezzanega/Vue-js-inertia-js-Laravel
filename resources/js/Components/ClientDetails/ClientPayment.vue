@@ -23,6 +23,8 @@
                 <input name="" type="checkbox" class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0" :checked="selectedAll" @change="toggleSelectedAll"/>
             </div>
 
+            <div class="flex flex-row items-center justify-center w-2/12 text-center">N° du devis
+            </div>
             <div class="flex flex-row items-center justify-center w-2/12 text-center">Référence
             </div>
             <div class="flex flex-row items-center justify-center w-2/12 text-center">Type de paiement
@@ -34,6 +36,7 @@
             <div class="flex flex-row items-center justify-center w-2/12 text-center">Date
             </div>
             <div class="w-1/12"></div>
+            
         </div>
 
         <div class="space-y-2 overflow-auto">

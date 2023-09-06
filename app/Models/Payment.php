@@ -15,11 +15,16 @@ class Payment extends Model
         'type',
         'amount',
         'payment_channel',
-        'reference'
+        'reference',
+        'quotation_id',
     ];
 
     public function movingJob(): BelongsTo
     {
         return $this->belongsTo(MovingJob::class, 'moving_job_id', 'id');
     }
+    public function quotation()
+{
+    return $this->belongsTo(Quotation::class);
+}
 }

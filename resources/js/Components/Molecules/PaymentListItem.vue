@@ -9,12 +9,17 @@
             @change="handleCheckboxChange"
           />
         </div>
+        <div class="text-left lg:w-2/12 min-w-2/12 flex justify-center my-auto">
+            <span class="font-bold text-primary border-b border-dashed border-primary cursor-pointer" @click="() => router.visit(route('6dem.documents.quotation.preview', props.payments.quotation.id))">
+              D-{{ props.payments.quotation.number }}
+            </span>
+        </div>
         <div class="flex gap-3 text-left justify-center w-2/12 my-auto">
           <div class="text-sm">
             <div class="font-medium text-gray-700">
              {{props.payments.reference}}
             </div>
-          </div>
+        </div>
         </div>
         <div class="flex text-left w-2/12 justify-center my-auto">
             <div class="text-sm">

@@ -53,12 +53,19 @@ class ClientController extends Controller
             ->latest()
             ->get();
 
-        $payments = Payment::with(['movingJob.client', 'movingJob.client.clientOrganization'])
-            ->whereHas('movingJob.client', function ($query) use ($id) {
-                $query->where('id', $id);
-            })
-            ->latest()
-            ->get();
+        $payments = Payment::with(['movingJob.client', 'movingJob.client.clientOrganization', 'quotation'])
+        ->whereHas('movingJob.client', function ($query) use ($id) {
+            $query->where('id', $id);
+        })
+        ->latest()
+        ->get();
+
+        // foreach ($payments as $payment) {
+        //     $quotation = $payment->quotation;
+        //     // Access quotation attributes like $quotation->attributeName
+        // }
+
+
 
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
 
