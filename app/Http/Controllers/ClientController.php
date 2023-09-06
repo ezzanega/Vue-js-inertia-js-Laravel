@@ -60,13 +60,6 @@ class ClientController extends Controller
         ->latest()
         ->get();
 
-        // foreach ($payments as $payment) {
-        //     $quotation = $payment->quotation;
-        //     // Access quotation attributes like $quotation->attributeName
-        // }
-
-
-
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
 
         return Inertia::render('6dem/ClientDetails', [

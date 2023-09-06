@@ -31,6 +31,7 @@
             </ListEmptyMessage>
         </Tab>
         <Tab title="Factures">
+            <ClientFactures v-if="$page.props.invoices.length" />
             <ListEmptyMessage
                 v-if="!$page.props.invoices.length"
                 message-title="Pas de factures enregistré"
@@ -59,6 +60,7 @@
   import ClientInformations from "@/Components/ClientDetails/ClientInformations.vue";
   import ClientQuotations from "@/Components/ClientDetails/ClientQuotations.vue";
   import ClientPayment from "@/Components/ClientDetails/ClientPayment.vue";
+  import ClientFactures from "@/Components/ClientDetails/ClientFactures.vue";
   import IconButton from "@/Components/Atoms/IconButton.vue";
 
   const currentClient = usePage().props.client
