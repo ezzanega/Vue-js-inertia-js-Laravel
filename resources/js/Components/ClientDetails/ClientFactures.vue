@@ -204,7 +204,7 @@
 
   <script setup>
   import ExcelJS from "exceljs";
-  import FactureListItem from "@/Components/Molecules/FactureListItem.vue";
+  import FactureListItem from "@/Components/ClientDetails/ListItems/FactureListItem.vue";
   import SearchBar from "@/Components/Atoms/SearchBar.vue";
   import IconButton from "@/Components/Atoms/IconButton.vue";
   import SelectQuoteInvoiceModal from "@/Components/Organisms/SelectQuoteInvoiceModal.vue";

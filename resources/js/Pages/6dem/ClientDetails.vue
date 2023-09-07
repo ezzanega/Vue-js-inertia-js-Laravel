@@ -40,6 +40,7 @@
             </ListEmptyMessage>
         </Tab>
         <Tab title="Lettres de voiture">
+            <ClientWaybills v-if="$page.props.waybills.length" />
             <ListEmptyMessage
                 v-if="!$page.props.waybills.length"
                 message-title="Pas de lettres de voiture enregistré"
@@ -61,6 +62,7 @@
   import ClientQuotations from "@/Components/ClientDetails/ClientQuotations.vue";
   import ClientPayment from "@/Components/ClientDetails/ClientPayment.vue";
   import ClientFactures from "@/Components/ClientDetails/ClientFactures.vue";
+  import ClientWaybills from "@/Components/ClientDetails/ClientWaybills.vue";
   import IconButton from "@/Components/Atoms/IconButton.vue";
 
   const currentClient = usePage().props.client
