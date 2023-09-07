@@ -4,7 +4,7 @@
         <SearchBar name="document" v-model="searchWaybillQuery" class="shrink mt-1 mx-1 w-1/3"
           placeholder="Recherchez un numéro de lettre de voiture/nom de client" />
         <div class="flex flex-row space-x-2 items-center">
-          <!-- <SelectQuoteModal /> -->
+          <SelectQuoteModal />
           <IconButton class="mt-6" :customClass="'text-primary bg-white'" text="Exporter" @click="handleExportClick">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
               class="pointer-events-none shrink-0 w-5 h-5">

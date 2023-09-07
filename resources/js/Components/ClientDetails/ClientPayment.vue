@@ -18,7 +18,7 @@
         </div>
 
         <div
-            class="flex justify-between w-full px-6 py-4 text-sm font-medium text-left text-gray-900 bg-white border-b border-gray-200 rounded-xl">
+            class="w-full rounded-xl bg-white text-left text-xs px-6 py-4 font-medium text-gray-900 flex justify-between border-b border-gray-200">
             <div class="w-1/12">
                 <input name="" type="checkbox" class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0" :checked="selectedAll" @change="toggleSelectedAll"/>
             </div>
