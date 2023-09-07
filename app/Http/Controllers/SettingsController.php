@@ -91,6 +91,31 @@ class SettingsController extends Controller
         }
     }
 
+    // public function addOptionToFormula(Request $request)
+    // {
+    //     $request->validate([
+    //         'text' => 'required|string|min:2|max:300',
+    //     ]);
+
+    //     try {
+    //         DB::beginTransaction(); // Start a database transaction
+    //         DB::table('moving_job_formula_options')->insert([
+    //             'type' => $request->type,
+    //             'text' => $request->text,
+    //             'moving_job_formula_id' => $request->id_formulas,
+    //             'created_at' => now(),
+    //             'updated_at' => now(),
+    //         ]);
+
+    //         DB::commit(); // Commit the transaction
+
+    //         return Redirect::route('6dem.settings');
+    //     } catch (\Exception $e) {
+    //         DB::rollback();
+    //         return back()->withError('An error occurred while adding the option.');
+    //     }
+    // }
+
     public function addOptionToFormula(Request $request)
     {
         $request->validate([
@@ -98,23 +123,18 @@ class SettingsController extends Controller
         ]);
 
         try {
-            DB::beginTransaction(); // Start a database transaction
-            DB::table('moving_job_formula_options')->insert([
-                'type' => $request->type,
-                'text' => $request->text,
-                'moving_job_formula_id' => $request->id_formulas,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            DB::commit(); // Commit the transaction
+            $option = new MovingJobFormulaOption();
+            $option->type = $request->type;
+            $option->text = $request->text;
+            $option->moving_job_formula_id = $request->id_formulas;
+            $option->save();
 
             return Redirect::route('6dem.settings');
         } catch (\Exception $e) {
-            DB::rollback();
             return back()->withError('An error occurred while adding the option.');
         }
     }
+
     public function update_Formulas(Request $request, $id)
     {
         //return $request->all();

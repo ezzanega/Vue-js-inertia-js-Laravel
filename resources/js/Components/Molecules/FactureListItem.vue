@@ -44,11 +44,6 @@
                 d="M3.08263 6.06482C4.78513 6.06482 6.16527 4.70716 6.16527 3.03241C6.16527 1.35766 4.78513 0 3.08263 0C1.38014 0 0 1.35766 0 3.03241C0 4.70716 1.38014 6.06482 3.08263 6.06482Z"
                 fill="currentColor" />
             </svg>
-            <template #popper>
-              <InvoiceActionsPopperContent :moving_job_id="props.document.moving_job?.id"
-                :client_id="props.document.moving_job?.client.id" :id="props.document.id"
-                :deleteFacture="deleteFacture" :document="document" :opendelModal="opendelModal" />
-            </template>
           </Dropdown>
         </div>
       </div>
@@ -69,8 +64,6 @@
       required: true,
     },
     toggleDocumentSelection: Function,
-      deleteFacture:Function,
-      opendelModal:Function,
   });
 
   const handleCheckboxChange = () => {
