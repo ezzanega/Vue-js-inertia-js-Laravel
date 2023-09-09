@@ -19,6 +19,7 @@ class CalendarEvent extends Model
         'start',
         'end',
         'all_day',
+        'organization_id'
     ];
 
 
