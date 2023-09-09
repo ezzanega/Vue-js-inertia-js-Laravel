@@ -3,8 +3,11 @@
     <div class="flex grow flex-col overflow-y-auto pb-4">
       <div class="flex shrink-0 items-center px-4 mx-10 mt-5 mb-5">
         <a href="/" class="whitespace-normal">
-          <span class="font-bold text-white text-xl">Sysdem</span></a
-        >
+          <span class="font-bold text-white text-xl flex space-x-1">
+              <img src="/assets/favicon.png" class="h-7 bg-white rounded-lg p-0.5" alt="">
+              <span class="text-lg">Sysdem</span>
+          </span>
+        </a>
       </div>
       <SideBarMenu />
       <div class="group mt-8 px-2">
