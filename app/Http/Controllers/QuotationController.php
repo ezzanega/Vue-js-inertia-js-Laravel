@@ -38,19 +38,19 @@ class QuotationController extends Controller
     {
         $organization = $request->user()->organization;
         $search_text = $request->input('search_text');
-        $quotation = Quotation::where('organization_id', $organization->id)
+        $quotations = Quotation::where('organization_id', $organization->id)
             ->where(function ($query) use ($search_text) {
-                $query->where('number', 'LIKE', "%{$search_text}%");
-            })
-            ->orWhereHas('movingJob.client', function ($query) use ($search_text) {
-                $query->where('first_name', 'LIKE', "%{$search_text}%")
-                    ->orWhere('last_name', 'LIKE', "%{$search_text}%");
+                $query->where('number', 'LIKE', "%{$search_text}%")
+                    ->orWhereHas('movingJob.client', function ($query) use ($search_text) {
+                        $query->where('first_name', 'LIKE', "%{$search_text}%")
+                            ->orWhere('last_name', 'LIKE', "%{$search_text}%");
+                    });
             })
             ->with('movingJob.client')
             ->take(20)
             ->get();
 
-        return $quotation;
+        return $quotations;
     }
 
     /**

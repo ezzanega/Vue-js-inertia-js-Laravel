@@ -27,11 +27,11 @@ class WaybillController extends Controller
         $search_text = $request->input('search_text');
         $waybill = Waybill::where('organization_id', $organization->id)
             ->where(function ($query) use ($search_text) {
-                $query->where('number', 'LIKE', "%{$search_text}%");
-            })
-            ->orWhereHas('movingJob.client', function ($query) use ($search_text) {
-                $query->where('first_name', 'LIKE', "%{$search_text}%")
-                    ->orWhere('last_name', 'LIKE', "%{$search_text}%");
+                $query->where('number', 'LIKE', "%{$search_text}%")
+                    ->orWhereHas('movingJob.client', function ($query) use ($search_text) {
+                        $query->where('first_name', 'LIKE', "%{$search_text}%")
+                            ->orWhere('last_name', 'LIKE', "%{$search_text}%");
+                    });
             })
             ->with('movingJob.client')
             ->take(20)
