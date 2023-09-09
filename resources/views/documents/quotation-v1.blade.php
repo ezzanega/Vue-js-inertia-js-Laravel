@@ -288,15 +288,19 @@
                     BIC: {{ $settings->bic ?? '-' }}<br>
                 </td>
                 <td
-                    style="width: 50%; height: 65px; background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }}; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
-                    Date et Signature du Client <br>
-                    Précédé de la mention “lu et approuvé”.
+                    style="width: 50%; height: 65px; background-color: rgb(240, 240, 240); color: {{ $settings->ducuments_secondary_color }}; border: 1px solid #ccc; border-radius: 8px; text-align: center; vertical-align: top;">
+                    <span>
+                        Date et Signature du Client <br>
+                        Précédé de la mention “lu et approuvé”.<br><br>
+                        .............................................................................<br>
+                        .............................................................................
+                    </span>
                 </td>
             </tr>
         </table>
     </div>
 
-    <div style="margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid #ccc;"></div>
+    <div class="page-break"></div>
 
     <div style="width: 100%; text-align: center; font-size: 0.65em; text-decoration: underline; font-weight: 600;">
         CONDITIONS DE
