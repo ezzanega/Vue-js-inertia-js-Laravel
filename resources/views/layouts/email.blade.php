@@ -357,7 +357,7 @@
 </head>
 
 <body>
-    <span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
+    <span class="preheader">Sysdem CRM - Technologies</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
         <tr>
             <td>&nbsp;</td>
@@ -380,12 +380,13 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block">
-                                    <span class="apple-link">6dem SAS, 3 Abbey Road, San Francisco CA 94102</span>
+                                    <span class="apple-link">Sysdem SAS, 5 parvia alan turing, 75013 Paris,
+                                        France</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="content-block powered-by">
-                                    Xendar Technologies
+                                    Sysdem CRM - Technologies
                                 </td>
                             </tr>
                         </table>

@@ -116,7 +116,7 @@
               <div class="bg-neutral-50 px-4 py-4 sm:px-6">
                 <div class="flex justify-end">
                   <div>
-                    <DefaultButton type="submit" buttontext="Modifier" />
+                    <DefaultButton type="submit" buttontext="Valider" />
                   </div>
                 </div>
               </div>

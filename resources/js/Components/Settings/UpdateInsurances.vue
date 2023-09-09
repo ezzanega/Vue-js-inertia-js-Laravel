@@ -35,7 +35,7 @@
                         </div>
                         <div class="bg-neutral-50 px-4 py-4 sm:px-6">
                             <div class="flex justify-end">
-                                <DefaultButton type="submit" buttontext="Enregistrer" />
+                                <DefaultButton type="submit" buttontext="Valider" />
                             </div>
                         </div>
                     </div>
