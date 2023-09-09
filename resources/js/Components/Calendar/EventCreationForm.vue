@@ -60,10 +60,10 @@ import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import TextArea from "@/Components/Atoms/TextArea.vue";
 import ColorPicker from "@/Components/Atoms/ColorPicker.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import { formatDate, formatTime } from "@/utils/index";
 
-
+const settings = usePage().props.settings;
 const emit = defineEmits(["closeModal", "createEvent"]);
 
 const props = defineProps({
@@ -130,19 +130,19 @@ const eventTypeChanged = () => {
     console.log(form.type)
     switch(form.type) {
         case 'meeting':
-            form.color = 'rgb(67, 138, 122)'
+            form.color = settings.calendar_meeting_color
             break;
         case 'moving':
-            form.color = 'rgb(146, 145, 244)'
+            form.color = settings.calendar_moving_color
             break;
         case 'others':
-            form.color = 'rgb(67, 138, 122)'
+            form.color = settings.calendar_others_color
             break;
         case 'cartons-delivery':
-            form.color = 'rgb(228, 146, 146)'
+            form.color = settings.calendar_cartons_delivery_color
             break;
         default:
-            form.color = 'rgb(67, 138, 122)'
+            form.color = settings.calendar_meeting_color
     }
 };
 </script>

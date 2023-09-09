@@ -322,11 +322,10 @@ Route::middleware('auth')->group(function () {
         ->name('6dem.sort.client');
 
     # Calendar Event
-    Route::get('/6dem/calendar', function () {
-        return inertia('6dem/Calendar');
-    })->name('6dem.calendar');
+    Route::get('/6dem/calendar', [CalendarEventController::class, 'index'])
+        ->name('6dem.calendar');
 
-    Route::get('/6dem/calendar/events', [CalendarEventController::class, 'index'])
+    Route::get('/6dem/calendar/events', [CalendarEventController::class, 'events'])
         ->name('6dem.calendar.events');
 
     Route::post('/6dem/calendar/events', [CalendarEventController::class, 'store'])
