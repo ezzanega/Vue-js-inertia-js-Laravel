@@ -27,22 +27,25 @@
         <table style="width: 100%;">
             <tr>
                 <td style="width: 50%;">
-                    <img src="{{ $settings->logo }}" alt="Logo"
-                        style="object-fit: cover; width: auto; height: 8rem; border-radius: 0.375rem;" />
+                    <div>
+                        <img src="{{ $settings->logo }}" alt="Logo"
+                            style="object-fit: cover; width: auto; height: 8rem; border-radius: 0.375rem;" />
+                    </div>
                 </td>
                 <td style="width: 50%; text-align: left;">
                     <span style="font-size: 1em; font-weight: 600; color: #333;">{{ $organization->name }}</span>
                     <table style="width: 100%; font-size: 0.65em; color: #333;">
                         <tr>
-                            <td>
+                            <td style="width: 60%; text-align: left;">
                                 <div>
-                                    Adresse:
-                                    {{ $organization->billingAddress ? $organization->billingAddress->address : '' }}<br>
-                                    Téléphone: {{ $organization->phone_number }}<br>
-                                    Email: {{ $organization->email }}<br>
+                                    <span style="font-weight: 600;">Adresse:</span>
+                                    {{ $organization->billingAddress ? $organization->billingAddress->full_address : '' }}<br>
+                                    <span style="font-weight: 600;">Téléphone:</span>
+                                    {{ $organization->phone_number }}<br>
+                                    <span style="font-weight: 600;">Email:</span> {{ $organization->email }}<br>
                                 </div>
                             </td>
-                            <td>
+                            <td style="width: 50%; text-align: left; margin-left: 10px;">
                                 <div>
                                     SIREN: {{ $organization->siren }}<br>
                                     {{ $organization->licence ? 'Licence: ' . $organization->licence : '' }}<br>
@@ -101,8 +104,10 @@
 
                 <td style="width: 50%; border: 1px solid #ccc; padding: 8px; border-radius: 8px; font-size: 0.65em;">
                     <span style="color: #333;">CLIENT :</span>
-                    <span
-                        style="color: #333;">{{ $quotation->movingJob->client->type === 'individual' ? $quotation->movingJob->client->getFullName() : $quotation->movingJob->client->clientOrganization?->name }}
+                    <span style="color: #333;">
+                        <span style="font-weight: 900;">
+                            {{ $quotation->movingJob->client->type === 'individual' ? $quotation->movingJob->client->getFullName() : $quotation->movingJob->client->clientOrganization?->name }}
+                        </span>
                     </span>
                     @if ($quotation->movingJob->client->type === 'professional')
                         <br>
@@ -301,6 +306,19 @@
     </div>
 
     <div class="page-break"></div>
+
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50%; font-size: 0.65em; font-weight: 600; text-align: left;">
+                Devis N°<span style="font-weight: 900;"> {{ $quotation->number }}</span>
+            </td>
+            <td style="width: 50%; font-size: 0.65em; font-weight: 600; text-align: right;">
+                Client: <span style="font-weight: 900;"> {{ $quotation->movingJob->client->getFullName() }}</span>
+            </td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 10px; margin-bottom: 10px; border-bottom: 1px solid #ccc;"></div>
 
     <div style="width: 100%; text-align: center; font-size: 0.65em; text-decoration: underline; font-weight: 600;">
         CONDITIONS DE

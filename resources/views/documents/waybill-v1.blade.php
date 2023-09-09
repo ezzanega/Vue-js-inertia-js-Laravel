@@ -121,7 +121,7 @@
         </table>
 
         <!-- Véhicules -->
-        <table
+        {{-- <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em;">
             <tr
                 style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
@@ -132,7 +132,7 @@
                 <td style="padding: 8px; border-right: 1px solid #ccc;">--</td>
                 <td style="padding: 8px;">--</td>
             </tr>
-        </table>
+        </table> --}}
 
         <!-- Observation(s) -->
         <table
@@ -196,11 +196,12 @@
                 <td style="padding: 8px; border-bottom: 1px solid #ccc;">Signature du Déménageur</td>
             </tr>
             <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; height: 65px; font-size: 0.55em;">
+                <td
+                    style="padding: 8px; border-right: 1px solid #ccc; height: 65px; font-size: 0.55em; vertical-align: top;">
                     Date et Signature du Client <br>
                     <span style="font-style: italic;">Précédé de la mention “lu et approuvé”.</span>
                 </td>
-                <td style="padding: 8px; height: 65px; font-size: 0.55em;">
+                <td style="padding: 8px; height: 65px; font-size: 0.55em; vertical-align: top;">
                     Date et Signature du Déménageur <br>
                     <span style="font-style: italic;">Précédé de la mention “lu et approuvé”.</span>
                 </td>
@@ -309,7 +310,7 @@
         </table>
 
         <!-- Véhicules -->
-        <table
+        {{-- <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 0.65em;">
             <tr
                 style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
@@ -320,7 +321,7 @@
                 <td style="padding: 8px; border-right: 1px solid #ccc;">--</td>
                 <td style="padding: 8px;">--</td>
             </tr>
-        </table>
+        </table> --}}
 
         <!-- Observation(s) -->
         <table
@@ -385,11 +386,12 @@
                 <td style="padding: 8px; border-bottom: 1px solid #ccc;">Signature du Déménageur</td>
             </tr>
             <tr>
-                <td style="padding: 8px; border-right: 1px solid #ccc; height: 65px; font-size: 0.55em;">
+                <td
+                    style="padding: 8px; border-right: 1px solid #ccc; height: 65px; font-size: 0.55em; vertical-align: top;">
                     Date et Signature du Client <br>
                     <span style="font-style: italic;">Précédé de la mention “lu et approuvé”.</span>
                 </td>
-                <td style="padding: 8px; height: 65px; font-size: 0.55em;">
+                <td style="padding: 8px; height: 65px; font-size: 0.55em; vertical-align: top;">
                     Date et Signature du Déménageur <br>
                     <span style="font-style: italic;">Précédé de la mention “lu et approuvé”.</span>
                 </td>

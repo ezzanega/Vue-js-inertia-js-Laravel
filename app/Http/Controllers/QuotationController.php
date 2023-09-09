@@ -36,8 +36,9 @@ class QuotationController extends Controller
      */
     public function search(Request $request)
     {
+        $organization = $request->user()->organization;
         $search_text = $request->input('search_text');
-        $quotation = Quotation::where('organization_id', auth()->user()->organization->id)
+        $quotation = Quotation::where('organization_id', $organization->id)
             ->where(function ($query) use ($search_text) {
                 $query->where('number', 'LIKE', "%{$search_text}%");
             })
@@ -171,7 +172,7 @@ class QuotationController extends Controller
             'amount' => $request->montant,
             'payment_channel' => $request->moyen_payment,
             'reference' => $request->reference,
-            'quotation_id'=>$id,
+            'quotation_id' => $id,
         ]);
         $MovingJob->payments()->save($payment);
         //update amount_ht & loading_date for the MovingJob

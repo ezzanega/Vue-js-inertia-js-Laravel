@@ -54,11 +54,11 @@ class ClientController extends Controller
             ->get();
 
         $payments = Payment::with(['movingJob.client', 'movingJob.client.clientOrganization', 'quotation'])
-        ->whereHas('movingJob.client', function ($query) use ($id) {
-            $query->where('id', $id);
-        })
-        ->latest()
-        ->get();
+            ->whereHas('movingJob.client', function ($query) use ($id) {
+                $query->where('id', $id);
+            })
+            ->latest()
+            ->get();
 
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
 
@@ -249,8 +249,9 @@ class ClientController extends Controller
      */
     public function search(Request $request)
     {
+        $organization = $request->user()->organization;
         $search_text = $request->input('search_text');
-        $clients = Client::where('organization_id', auth()->user()->organization->id)
+        $clients = Client::where('organization_id', $organization->id)
             ->where(function ($query) use ($search_text) {
                 $query->where('first_name', 'LIKE', "%{$search_text}%")
                     ->orWhere('email', 'LIKE', "%{$search_text}%")

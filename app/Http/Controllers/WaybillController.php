@@ -23,8 +23,9 @@ class WaybillController extends Controller
      */
     public function search(Request $request)
     {
+        $organization = $request->user()->organization;
         $search_text = $request->input('search_text');
-        $waybill = Waybill::where('organization_id', auth()->user()->organization->id)
+        $waybill = Waybill::where('organization_id', $organization->id)
             ->where(function ($query) use ($search_text) {
                 $query->where('number', 'LIKE', "%{$search_text}%");
             })
