@@ -54,8 +54,8 @@
                 name="amount_ht"
                 v-model="form.amount"
                 :error="form.errors.amount"
-                label="Montant de la facture"
-                placeholder="Montant de la facture"
+                label="Montant de la facture (HT)"
+                placeholder="Montant de la facture (HT)"
               />
             </div>
   

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\Location;
 use App\Models\MovingJob;
+use App\Models\CalendarEvent;
 use App\Models\EmailTemplates;
 use App\Models\MovingJobFormula;
 use Illuminate\Database\Eloquent\Model;
@@ -69,6 +70,11 @@ class Organization extends Model
     {
         $role = Role::findOrCreate($roleName);
         $this->roles()->attach($role);
+    }
+
+    public function calendarEvents(): HasMany
+    {
+        return $this->hasMany(CalendarEvent::class);
     }
 
     public function getDocumentFooterDetails()

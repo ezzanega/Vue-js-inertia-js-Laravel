@@ -18,7 +18,7 @@
                     <DefaultSelectInput name="type" label="Type de facture" v-model="form.type" :options="typesOptions"
                         :error="form.errors.type" />
                     <DefaultInput :required="true" type="text" name="amount_ht" v-model="form.amount"
-                        :error="form.errors.amount" label="Montant de la facture" placeholder="Montant de la facture" />
+                        :error="form.errors.amount" label="Montant de la facture (HT)" placeholder="Montant de la facture (HT)" />
                 </div>
 
                 <div class="w-full">
