@@ -326,14 +326,6 @@
                 line-height: 100%;
             }
 
-            .apple-link a {
-                color: inherit !important;
-                font-family: inherit !important;
-                font-size: inherit !important;
-                font-weight: inherit !important;
-                line-height: inherit !important;
-                text-decoration: none !important;
-            }
 
             #MessageViewBody a {
                 color: inherit;
@@ -380,12 +372,13 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block">
-                                    <span class="apple-link">Sysdem SAS, 5 parvia alan turing, 75013 Paris,
+                                    <span class="apple-link" style="font-size: 8px;">Sysdem SAS, 5 Parvis Alan Turing,
+                                        75013 Paris,
                                         France</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="content-block powered-by">
+                                <td class="content-block powered-by" style="font-size: 8px;">
                                     Sysdem CRM - Technologies
                                 </td>
                             </tr>

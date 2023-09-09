@@ -11,13 +11,13 @@
       </div>
       <div class="flex gap-3 text-left justify-center w-2/12 my-auto">
         <div class="text-sm">
-          <div class="font-medium text-gray-700">
+          <span class="font-bold text-primary cursor-pointer underline" @click="goToClientDetails">
             {{
               client.type == "professional"
                 ? client.client_organization.name
                 : client.first_name + " " + client.last_name
             }}
-          </div>
+          </span>
         </div>
       </div>
       <div class="flex text-left w-2/12 justify-center my-auto">
@@ -112,5 +112,15 @@
   const handleCheckboxChange = () => {
     props.toggleClientSelection(props.client);
     emit("toggle-selected-all");
+  };
+
+  const goToClientDetails = () => {
+    router.visit(
+      route("6dem.clients.details", props.client.id),
+      {
+        method: "get",
+        replace: true
+      }
+    );
   };
   </script>

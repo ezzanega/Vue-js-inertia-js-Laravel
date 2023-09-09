@@ -41,7 +41,7 @@
             </div>
 
             <div class="mx-5 hidden lg:flex items-center">
-              <SecondaryButton>
+              <SecondaryButton @click="sendToClient">
                 <div class="flex space-x-2 py-1.5 my-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
@@ -115,7 +115,7 @@
   import { Menu } from "floating-vue";
   import PopperItem from "@/Components/Atoms/PopperItem.vue";
   import SecondaryButton from "@/Components/SecondaryButton.vue";
-  import { Head, usePage } from "@inertiajs/vue3";
+  import { Head, router, usePage } from "@inertiajs/vue3";
   import { ref } from "vue";
 
   const invoice = usePage().props.invoice;
@@ -123,6 +123,12 @@
 
   const downloadInvoice = () => {
     window.location.href = route("6dem.invoice.download", [invoice.id])
+  };
+
+  const sendToClient = () => {
+    router.visit(route("6dem.documents.send.invoice", [invoice.id]), {
+      method: "get",
+    });
   };
 
   const onIframeLoad = () => {

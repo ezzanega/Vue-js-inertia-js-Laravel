@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class MailHandler extends Mailable
@@ -17,14 +18,16 @@ class MailHandler extends Mailable
 
     public $emailTemplate;
     public $data;
+    public $attachment;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($emailTemplate,  $data = [])
+    public function __construct($emailTemplate,  $data = [], $attachment = null)
     {
         $this->emailTemplate = $emailTemplate;
         $this->data = $data;
+        $this->attachment = $attachment;
     }
 
     /**
@@ -76,6 +79,13 @@ class MailHandler extends Mailable
      */
     public function attachments(): array
     {
+        if ($this->attachment) {
+            return [
+                Attachment::fromPath($this->attachment['path'])
+                    ->as($this->attachment['name'])
+                    ->withMime($this->attachment['mime'])
+            ];
+        }
         return [];
     }
 }

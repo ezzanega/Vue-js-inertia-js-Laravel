@@ -8,6 +8,7 @@
       <div class="flex w-0 flex-1 flex-col overflow-hidden">
         <!-- Top Bar -->
         <TopBar />
+        <ToastList/>
         <main
           id="main"
           class="relative flex-1 focus:outline-none overflow-y-auto"
@@ -26,5 +27,6 @@
   <script setup>
 import SideBar from "@/Components/Organisms/SideBar.vue";
 import TopBar from "@/Components/Organisms/TopBar.vue";
+import ToastList from "@/Components/ToastList.vue";
 defineProps({});
 </script>

@@ -85,6 +85,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents/invoice/download/{id}', [PdfGeneratorController::class, 'downloadInvoice'])
         ->name('6dem.invoice.download');
 
+    Route::get('/6dem/documents/send/quotation/{id}', [PdfGeneratorController::class, 'sendQuotationToClient'])
+        ->name('6dem.documents.send.quotation');
+
+    Route::get('/6dem/documents/send/waybill/{id}', [PdfGeneratorController::class, 'sendWaybillToClient'])
+        ->name('6dem.documents.send.waybill');
+
+    Route::get('/6dem/documents/send/invoice/{id}', [PdfGeneratorController::class, 'sendInvoiceToClient'])
+        ->name('6dem.documents.send.invoice');
 
     # Organization
     Route::put('/6dem/organization/update', [OrganizationController::class, 'update'])
