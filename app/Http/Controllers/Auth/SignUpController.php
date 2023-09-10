@@ -89,22 +89,6 @@ class SignUpController extends Controller
                 'owner_id' => $user->id
             ]);
 
-            $insurance = Insurance::create([
-                'type' => InsuranceType::ADVALOREM,
-                'max_value' => "",
-                'franchise' => "",
-                'amount_ht' => "",
-                'organization_id' => $organization->id
-            ]);
-
-            $insurance = Insurance::create([
-                'type' => InsuranceType::CONTRACTUAL,
-                'max_value' => "",
-                'franchise' => "",
-                'amount_ht' => "",
-                'organization_id' => $organization->id
-            ]);
-
             $user->assignRole('admin');
             $user->organization()->associate($organization);
             $user->save();

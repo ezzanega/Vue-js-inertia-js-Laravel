@@ -2,9 +2,11 @@
 
 namespace App\Observers;
 
+use App\Models\Insurance;
 use Illuminate\Support\Str;
 use App\Models\Organization;
 use App\Support\MovingJobFormula;
+use App\Models\Enums\InsuranceType;
 
 class OrganizationObserver
 {
@@ -34,6 +36,22 @@ class OrganizationObserver
             "calendar_others_color" => "rgb(67, 138, 122)",
             "legal_notice" => "",
             "vat" => "20"
+        ]);
+
+        Insurance::create([
+            'type' => InsuranceType::ADVALOREM,
+            'max_value' => "",
+            'franchise' => "",
+            'amount_ht' => "",
+            'organization_id' => $organization->id
+        ]);
+
+        Insurance::create([
+            'type' => InsuranceType::CONTRACTUAL,
+            'max_value' => "",
+            'franchise' => "",
+            'amount_ht' => "",
+            'organization_id' => $organization->id
         ]);
 
         foreach (MovingJobFormula::all() as $key => $formula) {

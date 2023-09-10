@@ -30,6 +30,7 @@ class InsuranceController extends Controller
             'max_value' => $request->max_value,
             'franchise' => $request->franchise,
             'amount_ht' => $request->amount_ht,
+            'max_global_value' => $request->max_global_value,
         ];
         $filledContractualInsurance = array_filter($contractualInsurance, function ($value) {
             return $value !== null;
@@ -46,6 +47,7 @@ class InsuranceController extends Controller
             'max_value' => $request->max_value,
             'franchise' => $request->franchise,
             'amount_ht' => $request->amount_ht,
+            'max_global_value' => $request->max_global_value,
         ];
         $filledAdValoremInsurance = array_filter($adValoremInsurance, function ($value) {
             return $value !== null;

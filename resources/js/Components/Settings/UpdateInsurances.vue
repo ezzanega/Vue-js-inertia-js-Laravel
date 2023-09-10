@@ -24,13 +24,18 @@
                                     :error="contractual.errors.max_value" />
                             </div>
                             <div class="w-full pt-3 flex flex-col space-y-2">
-                                <DefaultInput type="number" name="franchise" label="Montant de la franchise (en €)" placeholder="Montant HT"
+                                <DefaultInput type="number" name="franchise" label="Montant de la franchise (en €)" placeholder="Montant de la franchise HT"
                                     v-model="contractual.franchise" :error="contractual.errors.franchise" />
                             </div>
                             <div class="w-full pt-3 flex flex-col space-y-2">
                                 <DefaultInput type="number" name="amount_ht" label="Montant HT de l'assurance (en €)"
                                     placeholder="Montant HT" v-model="contractual.amount_ht"
                                     :error="contractual.errors.amount_ht" />
+                            </div>
+                            <div class="w-full pt-3 flex flex-col space-y-2">
+                                <DefaultInput type="number" name="max_global_value" label="Valeur max global (en €)"
+                                    placeholder="Valeur max global HT" v-model="contractual.max_global_value"
+                                    :error="contractual.errors.max_global_value" />
                             </div>
                         </div>
                         <div class="bg-neutral-50 px-4 py-4 sm:px-6">
@@ -58,12 +63,14 @@ const contractual = useForm({
     max_value: currentInsuranceContractual.max_value,
     franchise: currentInsuranceContractual.franchise,
     amount_ht: currentInsuranceContractual.amount_ht,
+    max_global_value: currentInsuranceContractual.max_global_value,
 });
 
 const adValorem = useForm({
     max_value: currentInsuranceAdValorem.max_value,
     franchise: currentInsuranceAdValorem.franchise,
-    amount_ht: currentInsuranceAdValorem.amount_ht
+    amount_ht: currentInsuranceAdValorem.amount_ht,
+    max_global_value: currentInsuranceContractual.max_global_value,
 });
 
 const updateContractual = () => {

@@ -10,7 +10,7 @@ class Insurance extends Model
 {
     use HasFactory;
 
-        /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -18,6 +18,7 @@ class Insurance extends Model
     protected $fillable = [
         'type',
         'max_value',
+        'max_global_value',
         'franchise',
         'amount_ht',
         'organization_id'

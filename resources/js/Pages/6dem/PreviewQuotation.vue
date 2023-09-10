@@ -153,7 +153,7 @@ const optionClicked = (element) => {
       selectExecutingModal.value = true
       break;
     case 'send-to-client':
-      console.log(element)
+      sendToClient()
       break;
     case 'delete':
       console.log(element)
