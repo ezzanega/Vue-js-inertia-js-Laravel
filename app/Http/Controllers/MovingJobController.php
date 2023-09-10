@@ -51,7 +51,6 @@ class MovingJobController extends Controller
             'organization_id' => $organization->id,
             'status' => QuotationStatus::DRAFTED
         ]);
-        $insurance = Insurance::where(['organization_id' => $organization->id, 'type' => InsuranceType::CONTRACTUAL])->first();
 
         $option = Option::create([
             'type' => OptionType::MOVING,

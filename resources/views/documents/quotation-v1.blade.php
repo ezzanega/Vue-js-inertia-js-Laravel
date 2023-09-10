@@ -264,24 +264,27 @@
                     {{ $quotation->movingJob->amount_ttc }} €</td>
             </tr>
         </table>
+        <span style="font-size: 0.6em;">
+            {{ "Assurance Contractuelle, d'un montant (HT) de $insurance->amount_ht €, Valeur maximale par objet: $insurance->max_value €, Montant de la franchise: $insurance->franchise €, Valeur max global: $insurance->max_global_value €" }}
+        </span>
 
         <!-- Modalité de réglement -->
         <table
             style="width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
             <tr
                 style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
-                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Modalité de réglement</th>
-            </tr>
-            <tr>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Accompte
-                    ({{ $quotation->movingJob->getAdvanceOrBalance('advance') }}%)
-                    TTC</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ccc;">{{ $quotation->movingJob->advance }} €</td>
-            </tr>
-            <tr>
+                <td style="padding: 8px;">Accompte
+                    ({{ $quotation->movingJob->getAdvanceOrBalance('advance') }}%)TTC:
+                    <span style="font-weight: 600;">
+                        {{ $quotation->movingJob->advance }} €
+                    </span>
+                </td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">Solde
-                    ({{ $quotation->movingJob->getAdvanceOrBalance('balance') }}%) TTC</td>
-                <td style="padding: 8px;">{{ $quotation->movingJob->balance }} €</td>
+                    ({{ $quotation->movingJob->getAdvanceOrBalance('balance') }}%) TTC:
+                    <span style="font-weight: 600;">
+                        {{ $quotation->movingJob->balance }} €
+                    </span>
+                </td>
             </tr>
         </table>
         <!-- Footer -->
