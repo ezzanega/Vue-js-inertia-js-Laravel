@@ -145,6 +145,7 @@ class PdfGeneratorController extends Controller
         $organization = $request->user()->organization;
         $quotation = Quotation::where('id', $id)->with(['movingJob.client', 'movingJob.client.address', 'movingJob.client.clientOrganization'])->first();
         $options = Option::where('moving_job_id', $quotation->movingJob->id)->get();
+        $insurance = Insurance::where(['organization_id' => $organization->id, 'type' => InsuranceType::CONTRACTUAL])->first();
         $movingJobFormula = MovingJobFormula::where(['organization_id' => $organization->id, 'slug' => $quotation->movingJob->formula])->first();
         $movingJobFormulaOptionsClientSide = [];
         $movingJobFormulaOptionsOrganizationSide = [];
@@ -161,7 +162,8 @@ class PdfGeneratorController extends Controller
                 "organization-side"   => $movingJobFormulaOptionsOrganizationSide,
             ],
             'settings' => $organization->settings,
-            'organization' => $organization
+            'organization' => $organization,
+            'insurance' => $insurance
         ]);
         $clientName = $quotation->movingJob->client->type === 'individual' ?  $quotation->movingJob->client->getFullName() : $quotation->movingJob->client->clientOrganization?->name;
         $filename = 'Devis N°' . $quotation->number . ' - ' . $clientName . '.pdf';
