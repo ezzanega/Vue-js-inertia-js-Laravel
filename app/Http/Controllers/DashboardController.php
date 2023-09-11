@@ -28,8 +28,8 @@ class DashboardController extends Controller
         $waybills = Waybill::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->take(4)->get();
         $invoices = Invoice::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->take(4)->get();
         $now = Carbon::now();
-        $nextMovings = CalendarEvent::where('type', EventType::MOVING)->where('start', '>=', $now)->orderBy('start', 'asc')->limit(4)->get();
-        $nextMeetings = CalendarEvent::where('type', EventType::MEETING)->where('start', '>=', $now)->orderBy('start', 'asc')->limit(4)->get();
+        $nextMovings = CalendarEvent::where('organization_id', $organization->id)->where('type', EventType::MOVING)->where('start', '>=', $now)->orderBy('start', 'asc')->limit(4)->get();
+        $nextMeetings = CalendarEvent::where('organization_id', $organization->id)->where('type', EventType::MEETING)->where('start', '>=', $now)->orderBy('start', 'asc')->limit(4)->get();
         return Inertia::render('6dem/Dashboard', [
             'organization' => $organization,
             'quotations' => $quotations,
