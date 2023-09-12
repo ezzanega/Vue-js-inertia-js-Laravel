@@ -118,11 +118,13 @@ const props = defineProps({
   openPayQuotModal:Function,
 });
 
+
 const changeStatusModal = ref(false);
 const createInvoiceModal = ref(false);
 const selectExecutingModal = ref(false);
 
 const PopperItemClicked = () => { };
+
 const previewQuotation = () => {
   router.visit(route("6dem.documents.quotation.preview", props.quotation.id), {
     method: "get",

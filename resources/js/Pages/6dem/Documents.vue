@@ -104,7 +104,7 @@ function deleteFacture(id) {
 function deletequotation(id) {
   router.delete(`/6dem/documents/quotation/delete/${id}`, {
       onBefore: () => opendelModal(),
-      onSuccess:() => closedelModal()
+      onSuccess:() => {closedelModal()}
   });
 }
 

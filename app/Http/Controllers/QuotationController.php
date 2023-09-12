@@ -17,6 +17,7 @@ use App\Models\MovingJobFormula;
 use Illuminate\Support\Facades\DB;
 use App\Models\Enums\QuotationStatus;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 
 class QuotationController extends Controller
@@ -155,7 +156,7 @@ class QuotationController extends Controller
         $newQuotation->movingJob()->associate($newMovingJob);  // Associate the new MovingJob
         $newQuotation->save();
 
-        return Redirect::route('6dem.documents.quotation.preview', $newQuotation->id);
+        return Redirect::route('6dem.documents.quotation.preview', $newQuotation->id)->with('toast', 'Le devis a Bien été duppliquer!');
     }
 
     public function SavePayment(Request $request, $id)
@@ -182,7 +183,10 @@ class QuotationController extends Controller
             'amount_ht' => $newAmountHt,
             'loading_date' => $currentDate,
         ]);
-        return Redirect::route('6dem.documents');
+        // return Redirect::route('6dem.documents')->with('toast', 'Paiement bien enregistré!');
+
+        return back()->with('toast', 'Paiement bien enregistré!');
+
     }
 
     public function deleteQuotation($id)
@@ -208,13 +212,14 @@ class QuotationController extends Controller
                 $movingJob->delete(); // Delete the MovingJob
             }
             $quotation->delete();
-            return Redirect::route('6dem.documents');
+
+            //return Redirect::route('6dem.documents')->with('toast', 'Le devis a été supprimé!');
+            return back()->with('toast', 'Le devis a été supprimé!');
         } catch (\Exception $e) {
 
             return response()->json([
                 'message' => 'Une erreur s\'est produite lors de la suppression',
-                'error' => $e->getMessage(),  // Include the exception message
-                // You can include more details as needed, such as $e->getCode(), $e->getFile(), $e->getLine(), etc.
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
