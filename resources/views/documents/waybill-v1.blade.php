@@ -73,11 +73,25 @@
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Volume</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->client->type === 'individual' ? 'Formule' : 'Catégorie' }}</th>
-                <th style="padding: 8px; border-bottom: 1px solid #ccc;">Nom de la Société exécutante</th>
+                <th style="padding: 8px; border-bottom: 1px solid #ccc;">Société exécutante</th>
             </tr>
             <tr>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->client->type === 'individual' ? $waybill->movingJob->client->getFullName() : $waybill->movingJob->client->clientOrganization?->name }}
+                    <span style="color: #333;">
+                        <span style="font-weight: 900;">
+                            {{ $waybill->movingJob->client->type === 'individual' ? $waybill->movingJob->client->getFullName() : $waybill->movingJob->client->clientOrganization?->name }}
+                        </span>
+                    </span>
+                    @if ($waybill->movingJob->client->type === 'professional')
+                        <br>
+                        <span style="color: #333;">{{ $waybill->movingJob->client->getFullName() }}</span>
+                    @endif
+                    <address style="color: #777;">
+                        {{ $waybill->movingJob->client->address ? $waybill->movingJob->client->address->address : '' }}<br />
+                        {{ $waybill->movingJob->client->address ? $waybill->movingJob->client->address->postal_code . ' ' . $waybill->movingJob->client->address->city : '' }}
+                        <br />
+                        Tél : {{ $waybill->movingJob->client->phone_number }}
+                    </address>
                 </td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->distance }}</td>
@@ -89,6 +103,63 @@
                 <td style="padding: 8px;">
                     {{ $waybill->executing_company && $waybill->executing_company != '' ? $waybill->executing_company : $organization->name }}
                 </td>
+            </tr>
+        </table>
+
+        <!-- Livraison -->
+        <table
+            style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; float: right;">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
+                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Livraison</th>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
+                    {{ $waybill->movingJob->shipping_address }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
+                    période: {{ $waybill->movingJob->shipping_date }}
+                </td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
+                    {{ $waybill->movingJob->shipping_floor }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
+                    {{ $waybill->movingJob->shipping_portaging }}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
+                    {{ $waybill->movingJob->shipping_elevator }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">Détails: {{ $waybill->movingJob->shipping_details }}</td>
+            </tr>
+        </table>
+        <!-- Chargement -->
+        <table
+            style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
+                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Chargement</th>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
+                    {{ $waybill->movingJob->loading_address }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
+                    période: {{ \Carbon\Carbon::parse($waybill->movingJob->loading_date)->format('d/m/Y') }}
+                </td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
+                    {{ $waybill->movingJob->loading_floor }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
+                    {{ $waybill->movingJob->loading_portaging }}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
+                    {{ $waybill->movingJob->loading_elevator }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">Détails: {{ $waybill->movingJob->loading_details }}</td>
             </tr>
         </table>
 
@@ -263,11 +334,26 @@
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">Volume</th>
                 <th style="padding: 8px; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->client->type === 'individual' ? 'Formule' : 'Catégorie' }}</th>
-                <th style="padding: 8px; border-bottom: 1px solid #ccc;">Nom de la Société exécutante</th>
+                <th style="padding: 8px; border-bottom: 1px solid #ccc;">Société exécutante</th>
             </tr>
             <tr>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
-                    {{ $waybill->movingJob->client->getFullName() }}</td>
+                    <span style="color: #333;">
+                        <span style="font-weight: 900;">
+                            {{ $waybill->movingJob->client->type === 'individual' ? $waybill->movingJob->client->getFullName() : $waybill->movingJob->client->clientOrganization?->name }}
+                        </span>
+                    </span>
+                    @if ($waybill->movingJob->client->type === 'professional')
+                        <br>
+                        <span style="color: #333;">{{ $waybill->movingJob->client->getFullName() }}</span>
+                    @endif
+                    <address style="color: #777;">
+                        {{ $waybill->movingJob->client->address ? $waybill->movingJob->client->address->address : '' }}<br />
+                        {{ $waybill->movingJob->client->address ? $waybill->movingJob->client->address->postal_code . ' ' . $waybill->movingJob->client->address->city : '' }}
+                        <br />
+                        Tél : {{ $waybill->movingJob->client->phone_number }}
+                    </address>
+                </td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
                     {{ $waybill->movingJob->distance }}</td>
                 <td style="padding: 8px; border-right: 1px solid #ccc;">
@@ -278,6 +364,63 @@
                 <td style="padding: 8px;">
                     {{ $waybill->executing_company && $waybill->executing_company != '' ? $waybill->executing_company : $organization->name }}
                 </td>
+            </tr>
+        </table>
+
+        <!-- Livraison -->
+        <table
+            style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em; float: right;">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
+                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Livraison</th>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
+                    {{ $waybill->movingJob->shipping_address }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
+                    période: {{ $waybill->movingJob->shipping_date }}
+                </td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
+                    {{ $waybill->movingJob->shipping_floor }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
+                    {{ $waybill->movingJob->shipping_portaging }}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
+                    {{ $waybill->movingJob->shipping_elevator }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">Détails: {{ $waybill->movingJob->shipping_details }}</td>
+            </tr>
+        </table>
+        <!-- Chargement -->
+        <table
+            style="width: 50%; margin-top: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: left; font-size: 0.65em;">
+            <tr
+                style="background-color: {{ $settings->ducuments_primary_color }}; color: {{ $settings->ducuments_secondary_color }};">
+                <th colspan="2" style="padding: 8px; text-transform: uppercase;">Chargement</th>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px; border-bottom: 1px solid #ccc;">Adresse:
+                    {{ $waybill->movingJob->loading_address }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Date ou
+                    période: {{ \Carbon\Carbon::parse($waybill->movingJob->loading_date)->format('d/m/Y') }}
+                </td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Étage:
+                    {{ $waybill->movingJob->loading_floor }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">Portage:
+                    {{ $waybill->movingJob->loading_portaging }}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ccc;">Ascenseur:
+                    {{ $waybill->movingJob->loading_elevator }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 8px;">Détails: {{ $waybill->movingJob->loading_details }}</td>
             </tr>
         </table>
 

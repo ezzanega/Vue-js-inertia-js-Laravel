@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Client;
 use App\Models\Option;
 use App\Models\Payment;
 use App\Models\Settings;
@@ -14,15 +13,11 @@ use Illuminate\Support\Carbon;
 use App\Models\Enums\OptionType;
 use App\Models\ExecutingCompany;
 use App\Models\MovingJobFormula;
-use Illuminate\Support\Facades\DB;
 use App\Models\Enums\QuotationStatus;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 
 class QuotationController extends Controller
 {
-
     public function index(Request $request): Response
     {
         $organization = $request->user()->organization;
@@ -118,24 +113,17 @@ class QuotationController extends Controller
         ]);
         $organization = $request->user()->organization;
         $settings = Settings::where('organization_id', $organization->id)->first();
-        // Retrieve the original quotation
         $originalQuotation = Quotation::where('id', $id)
             ->with(['movingJob.client', 'movingJob.client.clientOrganization'])
             ->first();
 
-        // Retrieve the original movingJob
         $originalMovingJob = $originalQuotation->movingJob;
 
-        // Retrieve the formula
         $formula = MovingJobFormula::where('id', $request->formula)->with('options')->first();
-
-        // // Duplicate the movingJob
         $newMovingJob = $originalMovingJob->replicate();
         $newMovingJob->formula = $formula->slug;
-        $newMovingJob->save();  // Save the new MovingJob first
+        $newMovingJob->save();
 
-        // Duplicate the associated options and link them to the new MovingJob
-        //$originalOptions = $originalMovingJob->options;
         $originalOptions = Option::where('moving_job_id', $originalMovingJob->id)->get();
         if ($originalOptions) {
             foreach ($originalOptions as $originalOption) {
@@ -150,10 +138,9 @@ class QuotationController extends Controller
         }
 
         $newMovingJob->updateMovingJobPrice($settings->vat);
-        // // Duplicate the quotation and associate with the new movingJob
         $newQuotation = $originalQuotation->replicate();
         $newQuotation->status = QuotationStatus::DRAFTED;
-        $newQuotation->movingJob()->associate($newMovingJob);  // Associate the new MovingJob
+        $newQuotation->movingJob()->associate($newMovingJob);
         $newQuotation->save();
 
         return Redirect::route('6dem.documents.quotation.preview', $newQuotation->id)->with('toast', 'Le devis a Bien été duppliquer!');
@@ -161,32 +148,32 @@ class QuotationController extends Controller
 
     public function SavePayment(Request $request, $id)
     {
+        $organization = $request->user()->organization;
+        $request->validate([
+            'type' => 'required',
+            'montant' => 'required',
+            'moyen_payment' => 'required',
+            'reference' => 'required',
+            'date' => 'required',
+        ]);
+
         $quotation = Quotation::where('id', $id)
             ->with(['movingJob.client', 'movingJob.client.clientOrganization'])
             ->first();
         $MovingJob = $quotation->movingJob;
 
-        //return $request->all();
-
-        $payment = new Payment([
+        $payment = Payment::create([
             'type' => $request->type,
             'amount' => $request->montant,
             'payment_channel' => $request->moyen_payment,
+            'date' => $request->date,
             'reference' => $request->reference,
             'quotation_id' => $id,
         ]);
+
+        $organization->payments()->save($payment);
         $MovingJob->payments()->save($payment);
-        //update amount_ht & loading_date for the MovingJob
-        $newAmountHt = $request->montant;
-        $currentDate = Carbon::today()->toDateString();
-        $MovingJob->update([
-            'amount_ht' => $newAmountHt,
-            'loading_date' => $currentDate,
-        ]);
-        // return Redirect::route('6dem.documents')->with('toast', 'Paiement bien enregistré!');
-
         return back()->with('toast', 'Paiement bien enregistré!');
-
     }
 
     public function deleteQuotation($id)
@@ -197,11 +184,9 @@ class QuotationController extends Controller
             if (!$quotation) {
                 return response()->json(['message' => 'Ce devis n\'existe pas'], 404);
             }
-            $movingJob = $quotation->movingJob; // Get the associated MovingJob
+            $movingJob = $quotation->movingJob;
             if ($movingJob) {
-                $movingJob->payments()->delete();  // Delete associated payments
-
-                // Delete associated options
+                $movingJob->payments()->delete();
                 $MovingOptions = Option::where('moving_job_id', $movingJob->id)->get();
                 if ($MovingOptions) {
                     foreach ($MovingOptions as $option) {
@@ -209,14 +194,11 @@ class QuotationController extends Controller
                     }
                 }
 
-                $movingJob->delete(); // Delete the MovingJob
+                $movingJob->delete();
             }
             $quotation->delete();
-
-            //return Redirect::route('6dem.documents')->with('toast', 'Le devis a été supprimé!');
             return back()->with('toast', 'Le devis a été supprimé!');
         } catch (\Exception $e) {
-
             return response()->json([
                 'message' => 'Une erreur s\'est produite lors de la suppression',
                 'error' => $e->getMessage(),

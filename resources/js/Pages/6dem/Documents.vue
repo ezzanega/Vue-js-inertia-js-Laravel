@@ -8,7 +8,6 @@
             <QuotationList :deletequotation="deletequotation" :opendelModal="opendelModal"
             :openDupQuotModal="openDupQuotModal"
             :openPayQuotModal="openPayQuotModal"/>
-            <!-- Pour la suppression des 3 section -->
             <DeleteFormModal :isModaldelOpen="isModaldelOpen"
             @closedelModal="closedelModal()"
             @deleteFunction="
@@ -66,6 +65,15 @@
           <SelectQuoteInvoiceModal />
         </ListEmptyMessage>
       </Tab>
+      <Tab title="Paiements">
+        <ClientPayment v-if="$page.props.payments?.length" />
+        <ListEmptyMessage
+          v-if="!$page.props.payments?.length"
+          message-title="Pas de paiements effectués"
+          message-content="Pas de paiements effectués pour ce client"
+          >
+        </ListEmptyMessage>
+    </Tab>
     </Tabs>
   </DemLayout>
 </template>
@@ -78,6 +86,7 @@ import SelectQuoteInvoiceModal from "@/Components/Organisms/SelectQuoteInvoiceMo
 import ListEmptyMessage from "@/Components/Organisms/ListEmptyMessage.vue";
 import QuotationList from "@/Components/Molecules/QuotationList.vue";
 import DuplicateQuotation from "@/Components/Molecules/DuplicateQuotation.vue";
+import ClientPayment from "@/Components/ClientDetails/ClientPayment.vue";
 import PayementQuotation from "@/Components/Molecules/PayementQuotation.vue";
 import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
 import { Head,router } from "@inertiajs/vue3";

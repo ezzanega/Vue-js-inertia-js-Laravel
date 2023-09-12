@@ -15,12 +15,13 @@
           </IconButton>
         </div>
       </div>
-      <div
-        class="w-full rounded-xl bg-white text-left text-xs px-6 py-4 font-medium text-gray-900 flex justify-between border-b border-gray-200">
-        <div class="w-1/12"><input name="" type="checkbox"
+      <div class="w-full rounded-xl bg-white text-left text-xs px-6 py-4 font-medium text-gray-900 flex justify-between border-b border-gray-200">
+        <div class="w-2/12">
+          <input name="" type="checkbox"
             class="form-checkbox rounded-md text-primary h-5 w-5 focus:ring-0" :checked="selectedAll"
-            @change="toggleSelectedAll" /></div>
-        <div class="w-3/12 flex flex-row justify-center items-center">N° de la lettre de voiture
+            @change="toggleSelectedAll" />
+        </div>
+        <div class="w-2/12 flex flex-row justify-center items-center">N° de la lettre de voiture
           <div class="flex flex-col items-center ml-2">
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

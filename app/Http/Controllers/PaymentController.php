@@ -15,6 +15,7 @@ class PaymentController extends Controller
             'amount' => 'required',
             'payment_channel' => 'required',
             'reference' => 'required',
+            'date' => 'required',
         ]);
         Payment::create($validated);
         return back();
@@ -28,6 +29,7 @@ class PaymentController extends Controller
             'amount' => 'required',
             'payment_channel' => 'required',
             'reference' => 'required',
+            'date' => 'required',
         ]);
         $payment->update($validated);
         return back();

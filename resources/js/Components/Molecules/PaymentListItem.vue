@@ -17,43 +17,39 @@
         <div class="flex gap-3 text-left justify-center w-2/12 my-auto">
           <div class="text-sm">
             <div class="font-medium text-gray-700">
-             {{props.payments.reference}}
+             {{ props.payments.reference ?? 'Non renseigné' }}
             </div>
         </div>
         </div>
         <div class="flex text-left w-2/12 justify-center my-auto">
             <div class="text-sm">
-                <div class="font-medium text-gray-700">
-                    {{props.payments.type}}
-                </div>
+              <span class="inline-flex items-center gap-1 rounded-full bg-primary px-2 py-1 text-xs text-white">
+                {{ getAdvanceOrBalanceNameFromKey(props.payments.type) }}
+              </span>
             </div>
         </div>
         <div class="flex text-left w-2/12 justify-center my-auto">
             <div class="flex gap-2 justify-center">
-              <span
-                class="inline-flex items-center gap-1 rounded-full bg-primary px-2 py-1 text-xs text-white">
-
-              {{props.payments.payment_channel}}
-              </span>
+              {{ props.payments.payment_channel }}
             </div>
           </div>
         <div class="flex text-left w-2/12 justify-center my-auto">
             <div class="text-sm">
-                <div class="font-medium text-gray-700">
-                    {{props.payments.amount}}
+                <div class="text-gray-700 font-bold">
+                    {{ props.payments.amount }} €
                 </div>
             </div>
         </div>
         <div class="flex text-left w-2/12 justify-center my-auto">
             <div class="text-sm">
                 <div class="font-medium text-gray-700">
-                    {{props.payments.moving_job.loading_date}}
+                    {{ formatDate(props.payments.date) }}
                 </div>
             </div>
         </div>
         <div class="lg:w-1/12 min-w-1/12 my-auto">
             <div class="flex flex-nowrap justify-end gap-4">
-              <Dropdown placement="bottom-end">
+              <!-- <Dropdown placement="bottom-end">
                 <svg
                   class="h-6 w-6 cursor-pointer"
                   viewBox="0 0 28 7"
@@ -74,28 +70,19 @@
                   />
                 </svg>
                 <template #popper>
-                  <!-- <QuotationActionsPopperContent
-                    :movingjob="props.document.moving_job"
-                    :client="props.document.moving_job.client"
-                    :quotation="document"
-                    :deletequotation="deletequotation"
-                    :opendelModal="opendelModal"
-                    :openDupQuotModal="openDupQuotModal"
-                    :openPayQuotModal="openPayQuotModal"
-                  /> -->
                 </template>
-              </Dropdown>
+              </Dropdown> -->
             </div>
         </div>
-
     </div>
 
   </template>
 
     <script setup>
   import { Dropdown } from "floating-vue";
-  import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
   import { router } from "@inertiajs/vue3";
+  import { formatDate, getAdvanceOrBalanceNameFromKey } from "@/utils/index";
+
   const emit = defineEmits(["toggle-selected-all"]);
   const props = defineProps({
     selectedAll: Boolean,
@@ -104,11 +91,7 @@
     },
     togglePaymentSelection: Function,
   });
-
-//   console.log(props.payments);
-
   const handleCheckboxChange = () => {
-//    alert('hello')
     props.togglePaymentSelection(props.payments);
     emit("toggle-selected-all");
   };

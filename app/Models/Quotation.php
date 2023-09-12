@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use App\Models\Waybill;
 use App\Models\MovingJob;
 use Illuminate\Database\Eloquent\Model;

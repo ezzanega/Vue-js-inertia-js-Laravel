@@ -188,10 +188,10 @@ import ExcelJS from "exceljs";
 import SelectClientModal from "@/Components/Organisms/SelectClientModal.vue";
 import IconButton from "@/Components/Atoms/IconButton.vue";
 import QuotationListItem from "@/Components/Molecules/QuotationListItem.vue";
-import { usePage } from "@inertiajs/vue3";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
-import { ref, watch } from "vue";
 import debounce from "lodash/debounce";
+import { ref, watch } from "vue";
+import { usePage } from "@inertiajs/vue3";
 import { reactive } from "vue";
 
 
@@ -224,17 +224,17 @@ const selectedDocuments = ref([]);
 const toggleDocumentSelection = (document) => {
   const index = selectedDocuments.value.findIndex((doc) => doc.id === document.id);
   if (index !== -1) {
-    selectedDocuments.value.splice(index, 1); // Remove the document if already selected
+    selectedDocuments.value.splice(index, 1);
   } else {
-    selectedDocuments.value.push(document); // Add the document if not selected
+    selectedDocuments.value.push(document);
   }
 };
 
 const toggleSelectedAll = () => {
   if (selectedAll.value) {
-    selectedDocuments.value = []; // Deselect all documents
+    selectedDocuments.value = [];
   } else {
-    selectedDocuments.value = [...usePage().props.quotations]; // Select all documents
+    selectedDocuments.value = [...usePage().props.quotations];
   }
   selectedAll.value = !selectedAll.value;
 };

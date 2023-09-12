@@ -131,7 +131,7 @@ export function getAdvanceOrBalanceNameFromKey(key) {
     } else if (key === 'balance') {
         return 'Solde';
     } else {
-        return '';
+        return '-';
     }
 }
 
@@ -153,14 +153,14 @@ export const calculateTTC = (totalAmountHT, amountTVA) => {
 
 
 export const formatDate = (value) => {
-    return moment(value).format('DD/MM/YYYY');
+    return value ? moment(value).format('DD/MM/YYYY') : '';
 }
 
 
 export const formatDateWithTime = (value) => {
-    return moment(value).format('DD/MM/YYYY, h:mm');
+    return value ? moment(value).format('DD/MM/YYYY, h:mm') : '';
 }
 
 export const formatTime = (value) => {
-    return moment(value).format('HH:mm');
+    return value ? moment(value).format('HH:mm') : '';
 }

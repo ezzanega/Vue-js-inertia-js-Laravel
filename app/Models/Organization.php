@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Payment;
 use App\Models\Location;
 use App\Models\MovingJob;
 use App\Models\CalendarEvent;
@@ -64,6 +65,11 @@ class Organization extends Model
     public function movingJobFormulas(): HasMany
     {
         return $this->hasMany(MovingJobFormula::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function addRole($roleName)

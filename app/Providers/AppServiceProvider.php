@@ -3,16 +3,18 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\Waybill;
 use App\Models\MovingJob;
 use App\Models\Quotation;
-use App\Models\Invoice;
 use App\Models\Organization;
 use App\Models\EmailTemplates;
 use App\Observers\UserObserver;
+use App\Observers\InvoiceObserver;
+use App\Observers\PaymentObserver;
 use App\Observers\WaybillObserver;
 use App\Observers\MovingJobObserver;
-use App\Observers\InvoiceObserver;
 use App\Observers\QuotationObserver;
 use Illuminate\Support\Facades\Schema;
 use App\Observers\OrganizationObserver;
@@ -43,5 +45,6 @@ class AppServiceProvider extends ServiceProvider
         EmailTemplates::observe(EmailTemplatesObserver::class);
         Organization::observe(OrganizationObserver::class);
         Invoice::observe(InvoiceObserver::class);
+        Payment::observe(PaymentObserver::class);
     }
 }

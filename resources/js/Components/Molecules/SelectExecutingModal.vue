@@ -5,7 +5,7 @@
                 <div class="flex items-start justify-between">
                     <div class="space-y-1">
                         <h2 id="headlessui-dialog-title-15" data-headlessui-state="open" class="text-lg font-medium">
-                            Créer un devis
+                            Générer la lettre de voiture
                         </h2>
                     </div>
                     <div class="ml-3 flex h-7 items-center">
@@ -35,7 +35,7 @@
 
                     <div class="mt-6 flex justify-end space-x-4">
                         <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
-                        <DefaultButton @click="createQuotation" class="w-32" buttontext="Créer un devis" />
+                        <DefaultButton @click="createQuotation" class="w-32" buttontext="Valider" />
                     </div>
                 </div>
             </div>

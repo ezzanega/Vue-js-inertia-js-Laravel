@@ -9,7 +9,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       </PopperItem>
-      <PopperItem item="Modifier" @clicked="updateInvoice">
+      <PopperItem item="Modifier">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
           <path stroke-linecap="round" stroke-linejoin="round"

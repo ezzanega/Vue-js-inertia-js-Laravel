@@ -25,14 +25,13 @@
           />
         </svg>
       </PopperItem>
-      <PopperItem item="Changer le statut du devis" @clicked="openChangeStatusModal">
+      <PopperItem item="Changer le statut du devis" @clicked="$emit('clicked', 'update-status')">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
         </svg>
       </PopperItem>
-      <ChangeStatus :quotation="props.quotation" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" />
       <PopperItem v-if="client.type === 'individual'" item="Dupliquer dans une autre formule"
         @clicked="openDupQuotModal(quotation.id)">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -41,8 +40,7 @@
             d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
         </svg>
       </PopperItem>
-      <PopperItem item="Enregister un paiement"
-      @clicked="openPayQuotModal(quotation.id)">
+      <PopperItem item="Enregister un paiement" @clicked="openPayQuotModal(quotation.id)">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -50,18 +48,16 @@
         </svg>
       </PopperItem>
       <div v-if="props.quotation.status === 'Accepté'">
-        <PopperItem item="Créer une facture pour ce devis" @clicked="openCreateInvoiceModal">
+        <PopperItem item="Créer une facture pour ce devis" @clicked="$emit('clicked', 'create-invoice')">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
           </svg>
         </PopperItem>
-        <InvoiceModal :quotation="props.quotation" :openModal="createInvoiceModal"
-          @closeModal="closeCreateInvoiceModal" />
       </div>
       <div v-if="props.quotation.status === 'Accepté'">
-        <PopperItem item="Générer la lettre de voiture" @clicked="openSelectExecutingModal">
+        <PopperItem item="Générer la lettre de voiture" @clicked="$emit('clicked', 'create-waybill')">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="mr-2 h-5 w-5 shrink-0 text-neutral-500 group-hover:text-neutral-600">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -93,9 +89,6 @@
 import PopperItem from "@/Components/Atoms/PopperItem.vue";
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
-import ChangeStatus from "@/Components/Molecules/ChangeStatus.vue";
-import InvoiceModal from "@/Components/Molecules/InvoiceModal.vue";
-import SelectExecutingModal from "@/Components/Molecules/SelectExecutingModal.vue";
 
 
 const props = defineProps({
@@ -106,24 +99,16 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  //Props pour la suppression de document
   quotation: {
     type: Object,
     required: true,
   },
   deletequotation: Function,
   opendelModal: Function,
-  //Props pour la dupliquation de devis
   openDupQuotModal:Function,
   openPayQuotModal:Function,
 });
 
-
-const changeStatusModal = ref(false);
-const createInvoiceModal = ref(false);
-const selectExecutingModal = ref(false);
-
-const PopperItemClicked = () => { };
 
 const previewQuotation = () => {
   router.visit(route("6dem.documents.quotation.preview", props.quotation.id), {
@@ -143,30 +128,5 @@ const sendToClient = () => {
   router.visit(route("6dem.documents.send.quotation", [props.quotation.id]), {
     method: "get",
   });
-
-};
-
-const openChangeStatusModal = () => {
-  changeStatusModal.value = true;
-};
-
-const closeChangeStatusModal = () => {
-  changeStatusModal.value = false;
-};
-
-const openCreateInvoiceModal = () => {
-  createInvoiceModal.value = true;
-};
-
-const closeCreateInvoiceModal = () => {
-  createInvoiceModal.value = false;
-};
-
-const openSelectExecutingModal = () => {
-  selectExecutingModal.value = true;
-};
-
-const closeSelectExecutingModal = () => {
-  selectExecutingModal.value = false;
 };
 </script>

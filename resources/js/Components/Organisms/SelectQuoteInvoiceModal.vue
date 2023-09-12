@@ -1,6 +1,6 @@
 <template>
     <div>
-        <IconButton @click="confirmWaybillCreation" class="mt-6" text="Ajouter une facture">
+        <IconButton @click="confirmInvoiceCreation" class="mt-6" text="Ajouter une facture">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor"
                 aria-hidden="true" class="pointer-events-none shrink-0 w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -87,9 +87,7 @@
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import IconButton from '@/Components/Atoms/IconButton.vue';
-import { ref, watch, onMounted } from "vue";
-import { router } from '@inertiajs/vue3'
-import { usePage, useForm } from "@inertiajs/vue3";
+import { ref, watch } from "vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import SearchBar from "@/Components/Atoms/SearchBar.vue";
 import { Dropdown } from "floating-vue";
@@ -97,6 +95,7 @@ import axios from "axios";
 import debounce from "lodash/debounce";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
+import { useForm } from "@inertiajs/vue3";
 
 const quoteSelectionModal = ref(false);
 
@@ -127,7 +126,7 @@ const closeModal = () => {
     quoteSelectionModal.value = false;
 };
 
-const confirmWaybillCreation = () => {
+const confirmInvoiceCreation = () => {
     quoteSelectionModal.value = true;
 };
 
@@ -158,6 +157,5 @@ const debouncedFetchQuotationResults = debounce(searchQuotation, 300);
 
 const initDocument = () => {
     form.post(route("6dem.documents.invoice.quotation.preview", selectedQuotation.value.id), { replace: true });
-
 };
 </script>

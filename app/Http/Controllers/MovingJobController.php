@@ -169,8 +169,8 @@ class MovingJobController extends Controller
         $invoice = Invoice::create([
             'type' => $request->type,
             'amount_ht' => $request->amount,
-            'amount_ttc' => $request->amount + ($request->amount * $settings->vat) / 100,
-            'amount_tva' => ($request->amount * $settings->vat) / 100,
+            'amount_ttc' => number_format(floatval($request->amount) + (floatval($request->amount) * floatval($settings->vat) / 100), 2, '.', ''),
+            'amount_tva' => number_format((floatval($request->amount) * floatval($settings->vat)) / 100, 2, '.', ''),
             'organization_id' => $organization->id,
             'status' => InvoiceStatus::ONHOLD
         ]);

@@ -82,19 +82,27 @@
               :opendelModal="opendelModal"
               :openDupQuotModal="openDupQuotModal"
               :openPayQuotModal="openPayQuotModal"
+              @clicked="optionClicked"
             />
           </template>
         </Dropdown>
       </div>
     </div>
   </div>
+  <SelectExecutingModal :quotation="document" :openModal="createWaybillModal" @closeModal="closeCreateWaybillModal" />
+  <InvoiceModal :quotation="document" :openModal="createInvoiceModal" @closeModal="closeCreateInvoiceModal" />
+  <ChangeStatus :quotation="document" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" />
 </template>
 
   <script setup>
 import { Dropdown } from "floating-vue";
 import QuotationActionsPopperContent from "@/Components/Molecules/QuotationActionsPopperContent.vue";
+import SelectExecutingModal from "@/Components/Molecules/SelectExecutingModal.vue";
+import ChangeStatus from "@/Components/Molecules/ChangeStatus.vue";
+import InvoiceModal from "@/Components/Molecules/InvoiceModal.vue";
 import { router } from "@inertiajs/vue3";
 import { formatDate } from "@/utils";
+import { ref } from "vue";
 const emit = defineEmits(["toggle-selected-all"]);
 const props = defineProps({
   selectedAll: Boolean,
@@ -108,6 +116,10 @@ const props = defineProps({
   openPayQuotModal:Function,
 });
 
+const createWaybillModal = ref(false);
+const changeStatusModal = ref(false);
+const createInvoiceModal = ref(false);
+
 const handleCheckboxChange = () => {
   props.toggleDocumentSelection(props.document);
   emit("toggle-selected-all");
@@ -115,6 +127,34 @@ const handleCheckboxChange = () => {
 
 const updatedStatus = () => {
   router.reload();
+};
+
+const optionClicked = (element) => {
+  switch (element) {
+    case 'update-status':
+      changeStatusModal.value = true;
+      break;
+    case 'create-invoice':
+      createInvoiceModal.value = true;
+      break;
+    case 'create-waybill':
+      createWaybillModal.value = true;
+      break;
+    default:
+      console.log(element)
+  }   
+}
+
+const closeCreateWaybillModal = () => {
+  createWaybillModal.value = false;
+};
+
+const closeChangeStatusModal = () => {
+  changeStatusModal.value = false;
+};
+
+const closeCreateInvoiceModal = () => {
+  createInvoiceModal.value = false;
 };
 </script>
 
