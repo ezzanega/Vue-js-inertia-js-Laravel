@@ -136,7 +136,6 @@
 
   <script setup>
   import ExcelJS from "exceljs";
-  import ClientWaybillsItem from "@/Components/ClientDetails/ListItems/ClientWaybillsItem.vue";
   import WaybillListItem from "@/Components/Molecules/WaybillListItem.vue";
 
   import IconButton from "@/Components/Atoms/IconButton.vue";
