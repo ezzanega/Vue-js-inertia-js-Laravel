@@ -32,7 +32,10 @@
         <div class="w-1/12 text-center"></div>
       </div>
         <div class="space-y-2 overflow-auto">
-          <QuotationListItem v-for="(document, index) in currentQuotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
+          <QuotationListItem v-for="(document, index) in currentQuotations" :key="index" :document="document" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"
+          :deletequotation="deletequotation" :opendelModal="opendelModal"
+          :openDupQuotModal="openDupQuotModal"
+          :openPayQuotModal="openPayQuotModal"/>
         </div>
       </div>
   </template>
@@ -45,7 +48,12 @@
   import { usePage, router } from "@inertiajs/vue3";
   import { ref } from "vue";
 
-
+  const props=defineProps({
+    opendelModal:Function,
+    deletequotation:Function,
+    openDupQuotModal:Function,
+    openPayQuotModal:Function,
+   });
   const currentQuotations = ref(usePage().props.quotations)
   const currentClient = usePage().props.client
 

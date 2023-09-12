@@ -54,7 +54,7 @@ class QuotationController extends Controller
     }
 
     /**
-     * Handle an incoming filter request.
+     * Handle an incoming filter requfest.
      */
     public function sort(Request $request)
     {

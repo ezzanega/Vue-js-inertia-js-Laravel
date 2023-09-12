@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\EmailTemplates;
 use App\Models\Enums\ClientType;
 use App\Models\ExecutingCompany;
+use App\Models\MovingJobFormula;
 use App\Models\ClientOrganizations;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -61,6 +62,7 @@ class ClientController extends Controller
             ->get();
 
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
+        $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
 
         return Inertia::render('6dem/ClientDetails', [
             'client' => $client,
@@ -69,6 +71,7 @@ class ClientController extends Controller
             'invoices' => $invoices,
             'payments' => $payments,
             'executingCompanies' => $executingCompanies,
+            'movingJobFormulas' => $movingJobFormulas,
         ]);
     }
 

@@ -8,7 +8,30 @@
             </div>
         </Tab>
         <Tab title="Devis">
-            <ClientQuotations v-if="$page.props.quotations.length" />
+            <ClientQuotations v-if="$page.props.quotations.length"
+            :deletequotation="deletequotation" :opendelModal="opendelModal"
+            :openDupQuotModal="openDupQuotModal"
+            :openPayQuotModal="openPayQuotModal" />
+            <!-- Pour la suppression des 3 section -->
+            <DeleteFormModal :isModaldelOpen="isModaldelOpen"
+            @closedelModal="closedelModal()"
+            @deleteFunction="
+                Deletedtype === 'devis' ? deletequotation(selectedvalue) :
+                Deletedtype === 'facture' ? deleteFacture(selectedvalue) :
+                Deletedtype === 'Lv' ? deleteLv(selectedvalue) : null
+            "
+            />
+
+            <DuplicateQuotation v-if="isModal_dup_quot_Open"
+            :isModal_dup_quot_Open="isModal_dup_quot_Open"
+            @closeDupQuotModal="closeDupQuotModal()"
+            :id="selectedvalue" />
+
+            <PayementQuotation
+            v-if="isModal_payment_quot_Open"
+            :isModal_payment_quot_Open="isModal_payment_quot_Open"
+            @closePayQuotModal="closePayQuotModal()"
+            :selectedvalue="selectedvalue"/>
             <ListEmptyMessage
                 v-if="!$page.props.quotations.length"
                 message-title="Pas de devis enregistré"
@@ -63,17 +86,72 @@
   import ClientPayment from "@/Components/ClientDetails/ClientPayment.vue";
   import ClientFactures from "@/Components/ClientDetails/ClientFactures.vue";
   import ClientWaybills from "@/Components/ClientDetails/ClientWaybills.vue";
+  import DuplicateQuotation from "@/Components/Molecules/DuplicateQuotation.vue";
+  import PayementQuotation from "@/Components/Molecules/PayementQuotation.vue";
+  import DeleteFormModal from "@/Components/Atoms/DeleteFormModal.vue";
   import IconButton from "@/Components/Atoms/IconButton.vue";
+  import { ref } from "vue";
+
 
   const currentClient = usePage().props.client
 
 
-  const initQuatation = () => {
-    router.visit(
-      route("6dem.documents.quotation.init", currentClient.id),
-      {
-        method: "post",
-      }
-    );
-  };
+    const initQuatation = () => {
+        router.visit(
+        route("6dem.documents.quotation.init", currentClient.id),
+        {
+            method: "post",
+        }
+        );
+    };
+
+    function deletequotation(id) {
+    router.delete(`/6dem/documents/quotation/delete/${id}`, {
+            onBefore: () => opendelModal(),
+            onSuccess:() => closedelModal()
+        });
+    }
+
+    const isModaldelOpen=ref(false);
+    const selectedvalue=ref(null);
+    const Deletedtype = ref(null);
+
+    const opendelModal = (id,deleted) => {
+    isModaldelOpen.value = true;
+    selectedvalue.value = id;
+    Deletedtype.value = deleted;
+    console.log(Deletedtype.value)
+
+    };
+
+    const closedelModal = () => {
+    isModaldelOpen.value = false;
+    selectedvalue.value=null;
+    };
+    //fin Open et Close Pop-up
+
+    //début Open et Close Pop-up de duplicate quotation
+    const isModal_dup_quot_Open = ref(false);
+
+    const openDupQuotModal = (id_quot) => {
+    isModal_dup_quot_Open.value = true;
+    selectedvalue.value = id_quot;
+    };
+
+    const closeDupQuotModal = () => {
+    isModal_dup_quot_Open.value = false;
+    };
+    //fin Open et Close Pop-up
+
+    //début Open et Close Pop-up de duplicate quotation
+    const isModal_payment_quot_Open = ref(false);
+
+    const openPayQuotModal = (id_quot) => {
+        isModal_payment_quot_Open.value = true;
+        selectedvalue.value = id_quot;
+    };
+
+    const closePayQuotModal = () => {
+        isModal_payment_quot_Open.value = false;
+    };
   </script>
