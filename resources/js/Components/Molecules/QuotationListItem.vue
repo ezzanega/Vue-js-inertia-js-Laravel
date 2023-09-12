@@ -45,12 +45,12 @@
     <div class="text-left lg:w-2/12 min-w-2/12 flex flex-nowrap justify-center my-auto">
       <span class="hover-group cursor-pointer text-center rounded-full text-white px-2.5 py-1 my-auto w-24 truncate hover:truncate-off"
         :class="[props.document.moving_job?.client?.type == 'professional' ? 'bg-blue-400' : 'bg-primary bg-opacity-80']">
-        {{ props.document.moving_job?.client?.type == "professional" ? "Professionnel" : props.document.moving_job?.formula}}
+        {{ props.document.moving_job?.client?.type == "professional" ? "Professionnel" : props.document.moving_job?.formula ?? 'Non Renseigné' }}
       </span>
     </div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job?.capacity ? props.document.moving_job?.capacity + ' m³' : '' }}</div>
     <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto">{{ props.document.moving_job?.distance}}</div>
-    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto font-bold">{{ props.document.moving_job?.amount_ht }} €</div>
+    <div class="text-left lg:w-1/12 min-w-1/12 flex flex-nowrap justify-center my-auto font-bold">{{ props.document.moving_job?.amount_ht ? props.document.moving_job?.amount_ht + ' €' : '' }}</div>
     <div class="lg:w-1/12 min-w-1/12 my-auto">
       <div class="flex flex-nowrap justify-end gap-4">
         <Dropdown placement="bottom-end">
