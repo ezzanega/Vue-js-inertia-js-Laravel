@@ -87,7 +87,7 @@ class WaybillController extends Controller
                 return response()->json(['message' => 'Cette lettre de voiture n\'existe pas'], 404);
             }
             $Waybill->delete();
-            return Redirect::route('6dem.documents');
+            return back()->with('toast', 'La lettre de voiture a été supprimé!');
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);

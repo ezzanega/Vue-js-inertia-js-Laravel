@@ -54,7 +54,6 @@
     openDupQuotModal:Function,
     openPayQuotModal:Function,
    });
-  const currentQuotations = ref(usePage().props.quotations)
   const currentClient = usePage().props.client
 
   const selectedAll = ref(false);

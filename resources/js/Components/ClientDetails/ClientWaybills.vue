@@ -119,17 +119,18 @@
       </div>
 
       <div v-if="searchWaybillResults.length" class="space-y-2">
-        <WaybillListItem v-for="(document, index) in searchWaybillResults" :key="index" :document="document"
+        <ClientWaybillsItem v-for="(document, index) in searchWaybillResults" :key="index" :document="document"
           :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deleteLv="deleteLv" :opendelModal="opendelModal" />
       </div>
       <div v-else-if="filteredWaybillsResults.length > 0" class="space-y-2 overflow-auto">
-        <WaybillListItem v-for="(document, index) in filteredWaybillsResults" :key="index" :document="document"
+        <ClientWaybillsItem v-for="(document, index) in filteredWaybillsResults" :key="index" :document="document"
           :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deleteLv="deleteLv" :opendelModal="opendelModal"/>
       </div>
       <div v-else class="space-y-2">
-        <WaybillListItem v-for="(document, index) in $page.props.waybills" :key="index" :document="document"
+        <ClientWaybillsItem v-for="(document, index) in $page.props.waybills" :key="index" :waybills="document"
           :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"
-        :deleteLv="deleteLv" :opendelModal="opendelModal" />
+          :deleteLv="deleteLv" :opendelModal="opendelModal"
+           />
       </div>
     </div>
   </template>
@@ -137,7 +138,7 @@
   <script setup>
   import ExcelJS from "exceljs";
   import WaybillListItem from "@/Components/Molecules/WaybillListItem.vue";
-
+  import ClientWaybillsItem from "@/Components/ClientDetails/ListItems/ClientWaybillsItem.vue";
   import IconButton from "@/Components/Atoms/IconButton.vue";
   import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
   import SearchBar from "@/Components/Atoms/SearchBar.vue";

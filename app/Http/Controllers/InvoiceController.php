@@ -87,7 +87,7 @@ class InvoiceController extends Controller
                 return response()->json(['message' => 'Cette Facture n\'existe pas'], 404);
             }
             $invoice->delete();
-            return Redirect::route('6dem.documents');
+            return back()->with('toast', 'La Facture a Bien été supprimé!');
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
