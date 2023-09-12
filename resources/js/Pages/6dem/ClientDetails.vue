@@ -54,7 +54,8 @@
             </ListEmptyMessage>
         </Tab>
         <Tab title="Factures">
-            <ClientFactures v-if="$page.props.invoices.length" />
+            <ClientFactures v-if="$page.props.invoices.length"
+            :deleteFacture="deleteFacture" :opendelModal="opendelModal" />
             <ListEmptyMessage
                 v-if="!$page.props.invoices.length"
                 message-title="Pas de factures enregistré"

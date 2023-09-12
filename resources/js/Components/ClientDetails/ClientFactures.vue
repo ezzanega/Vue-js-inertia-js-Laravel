@@ -190,21 +190,23 @@
         <div class="w-1/12"></div>
       </div>
 
-      <div v-if="searchInvoiceResults.length" class="space-y-2">
-        <FactureListItem v-for="(invoices, index) in searchInvoiceResults" :key="index" :invoices="invoices" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
-      </div>
-      <div v-else-if="filteredInvoicesResults.length > 0" class="space-y-2 overflow-auto">
-          <FactureListItem v-for="(invoices, index) in filteredInvoicesResults" :key="index" :invoices="invoices" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
+        <div v-if="searchInvoiceResults.length" class="space-y-2">
+            <InvoiceListItem v-for="(document, index) in searchInvoiceResults" :key="index" :document="document" :deleteFacture="deleteFacture" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
         </div>
-      <div v-else class="space-y-2">
-        <FactureListItem v-for="(invoices, index) in $page.props.invoices" :key="index" :invoices="invoices" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
-      </div>
+        <div v-else-if="filteredInvoicesResults.length > 0" class="space-y-2 overflow-auto">
+          <InvoiceListItem v-for="(document, index) in filteredInvoicesResults" :key="index" :document="document" :deleteFacture="deleteFacture" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
+        </div>
+        <div v-else class="space-y-2">
+            <InvoiceListItem v-for="(document, index) in $page.props.invoices" :key="index" :document="document" :deleteFacture="deleteFacture" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
+        </div>
     </div>
   </template>
 
   <script setup>
   import ExcelJS from "exceljs";
   import FactureListItem from "@/Components/ClientDetails/ListItems/FactureListItem.vue";
+  import InvoiceListItem from "@/Components/Molecules/InvoiceListItem.vue";
+
   import SearchBar from "@/Components/Atoms/SearchBar.vue";
   import IconButton from "@/Components/Atoms/IconButton.vue";
   import SelectQuoteInvoiceModal from "@/Components/Organisms/SelectQuoteInvoiceModal.vue";
@@ -213,6 +215,11 @@
   import debounce from "lodash/debounce";
   import { reactive } from "vue";
 
+
+  const props=defineProps({
+    opendelModal:Function,
+    deleteFacture:Function,
+  });
   const filteredInvoicesResults = ref([]);
   const searchInvoiceQuery = ref("");
   const searchInvoiceResults = ref([]);
