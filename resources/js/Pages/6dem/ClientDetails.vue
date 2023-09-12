@@ -63,7 +63,8 @@
             </ListEmptyMessage>
         </Tab>
         <Tab title="Lettres de voiture">
-            <ClientWaybills v-if="$page.props.waybills.length" />
+            <ClientWaybills v-if="$page.props.waybills.length"
+            :deleteLv="deleteLv" :opendelModal="opendelModal"  />
             <ListEmptyMessage
                 v-if="!$page.props.waybills.length"
                 message-title="Pas de lettres de voiture enregistré"
@@ -105,12 +106,27 @@
         );
     };
 
+    function deleteLv(id) {
+    router.delete(`/6dem/documents/waybill/delete/${id}`, {
+        onBefore: () => opendelModal(),
+        onSuccess:() => closedelModal()
+    });
+    }
+
+    function deleteFacture(id) {
+    router.delete(`/6dem/documents/invoice/delete/${id}`, {
+        onBefore: () => opendelModal(),
+        onSuccess:() => closedelModal()
+    });
+    }
+
     function deletequotation(id) {
     router.delete(`/6dem/documents/quotation/delete/${id}`, {
-            onBefore: () => opendelModal(),
-            onSuccess:() => closedelModal()
-        });
+        onBefore: () => opendelModal(),
+        onSuccess:() => closedelModal()
+    });
     }
+
 
     const isModaldelOpen=ref(false);
     const selectedvalue=ref(null);

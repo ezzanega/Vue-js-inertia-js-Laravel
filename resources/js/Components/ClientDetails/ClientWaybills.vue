@@ -118,7 +118,7 @@
         <div class="w-2/12"></div>
       </div>
 
-      <div v-if="searchWaybillResults.length" class="space-y-2">
+      <!-- <div v-if="searchWaybillResults.length" class="space-y-2">
         <ClientWaybillsItem v-for="(waybills, index) in searchWaybillResults" :key="index" :waybills="waybills"
           :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" />
       </div>
@@ -130,6 +130,19 @@
         <ClientWaybillsItem v-for="(waybills, index) in $page.props.waybills" :key="index" :waybills="waybills"
           :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"
          />
+      </div> -->
+      <div v-if="searchWaybillResults.length" class="space-y-2">
+        <WaybillListItem v-for="(document, index) in searchWaybillResults" :key="index" :document="document"
+          :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deleteLv="deleteLv" :opendelModal="opendelModal" />
+      </div>
+      <div v-else-if="filteredWaybillsResults.length > 0" class="space-y-2 overflow-auto">
+        <WaybillListItem v-for="(document, index) in filteredWaybillsResults" :key="index" :document="document"
+          :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deleteLv="deleteLv" :opendelModal="opendelModal"/>
+      </div>
+      <div v-else class="space-y-2">
+        <WaybillListItem v-for="(document, index) in $page.props.waybills" :key="index" :document="document"
+          :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"
+        :deleteLv="deleteLv" :opendelModal="opendelModal" />
       </div>
     </div>
   </template>
@@ -137,6 +150,8 @@
   <script setup>
   import ExcelJS from "exceljs";
   import ClientWaybillsItem from "@/Components/ClientDetails/ListItems/ClientWaybillsItem.vue";
+  import WaybillListItem from "@/Components/Molecules/WaybillListItem.vue";
+
   import IconButton from "@/Components/Atoms/IconButton.vue";
   import SelectQuoteModal from "@/Components/Organisms/SelectQuoteModal.vue";
   import SearchBar from "@/Components/Atoms/SearchBar.vue";
@@ -145,7 +160,10 @@
   import debounce from "lodash/debounce";
   import { reactive } from "vue";
 
-
+  const props=defineProps({
+    opendelModal:Function,
+    deleteLv:Function,
+});
   const filteredWaybillsResults = ref([]);
   const searchWaybillQuery = ref("");
   const searchWaybillResults = ref([]);
