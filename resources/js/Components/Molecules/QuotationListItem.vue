@@ -142,7 +142,7 @@ const optionClicked = (element) => {
       break;
     default:
       console.log(element)
-  }   
+  }
 }
 
 const closeCreateWaybillModal = () => {

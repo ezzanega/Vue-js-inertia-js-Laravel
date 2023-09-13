@@ -150,6 +150,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents/waybill/preview/{id}', [WaybillController::class, 'preview'])
         ->name('6dem.documents.waybill.preview');
 
+    Route::put('/6dem/documents/waybill/updateStatus/{id}/{field}', [WaybillController::class, 'updateStatutWaybill'])
+        ->name('6dem.waybill.updateStatus');
+
     Route::post('/6dem/documents/waybill/quotation/preview/{id}', [MovingJobController::class, 'initWaybillPreview'])
         ->name('6dem.documents.waybill.quotation.preview');
 

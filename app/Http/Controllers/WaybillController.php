@@ -93,4 +93,24 @@ class WaybillController extends Controller
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
         }
     }
+
+    public function updateStatutWaybill(Request $request, $id, $field)
+    {
+        $waybill = Waybill::where('id', $id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
+
+        $request->validate([
+            $field =>  'required|string|max:125',
+        ]);
+
+        if ($field === "validity_duratation") {
+            $waybill->update([
+                $field => $request->$field,
+            ]);
+        } else if ($field === "status") {
+            $waybill->update([
+                $field => $request->$field,
+            ]);
+        }
+        return back();
+    }
 }

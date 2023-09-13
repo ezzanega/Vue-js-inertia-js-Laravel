@@ -57,17 +57,21 @@
           <template #popper>
             <WaybillActionsPopperContent :moving_job_id="props.document.moving_job?.id"
               :client_id="props.document.moving_job?.client.id" :id="props.document.id"
-              :deleteLv="deleteLv" :document="document" :opendelModal="opendelModal"/>
+              :deleteLv="deleteLv" :document="document" :opendelModal="opendelModal"
+              @clicked="optionClicked"/>
           </template>
         </Dropdown>
       </div>
     </div>
   </div>
+  <ChangeWaybillStatus :waybill="document" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" />
 </template>
 
 <script setup>
 import { Dropdown } from "floating-vue";
 import WaybillActionsPopperContent from "@/Components/Molecules/WaybillActionsPopperContent.vue";
+import ChangeWaybillStatus from "@/Components/Molecules/ChangeWaybillStatus.vue";
+import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
 import { formatDate } from "@/utils/index";
 
@@ -82,8 +86,24 @@ const props = defineProps({
   opendelModal:Function,
 });
 
+const changeStatusModal = ref(false);
+const optionClicked = (element) => {
+  switch (element) {
+    case 'update-status':
+      changeStatusModal.value = true;
+      break;
+    default:
+      console.log(element)
+  }
+}
+
+const closeChangeStatusModal = () => {
+  changeStatusModal.value = false;
+};
+
 const handleCheckboxChange = () => {
   props.toggleDocumentSelection(props.document);
   emit("toggle-selected-all");
 };
+
 </script>
