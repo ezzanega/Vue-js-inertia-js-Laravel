@@ -9,6 +9,9 @@
         <!-- Top Bar -->
         <TopBar />
         <ToastList v-if="$page.props.toast"/>
+        <SendToastList v-if="$page.props.sendToast"/>
+
+
         <main
           id="main"
           class="relative flex-1 focus:outline-none overflow-y-auto"
@@ -28,5 +31,7 @@
 import SideBar from "@/Components/Organisms/SideBar.vue";
 import TopBar from "@/Components/Organisms/TopBar.vue";
 import ToastList from "@/Components/ToastList.vue";
+import SendToastList from "@/Components/SendToastList.vue";
+
 defineProps({});
 </script>

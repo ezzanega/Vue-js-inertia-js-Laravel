@@ -36,6 +36,7 @@ class HandleInertiaRequests extends Middleware
                 'organization' => $request->user() ? $request->user()->organization : null,
             ],
             'toast' => session('toast'),
+            'sendToast' => session('sendToast'),
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

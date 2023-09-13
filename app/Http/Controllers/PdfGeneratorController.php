@@ -186,7 +186,7 @@ class PdfGeneratorController extends Controller
         Mail::to($client->email)->send(new MailHandler($emailTemplate, $data, $attachment));
 
         unlink($tempFile);
-        return back()->with('toast', 'Le devis a bien été envoyé au client!');
+        return back()->with('sendToast', 'Le devis a bien été envoyé !');
     }
 
     public function sendWaybillToClient(Request $request, $id)
@@ -220,7 +220,7 @@ class PdfGeneratorController extends Controller
         Mail::to($client->email)->send(new MailHandler($emailTemplate, $data, $attachment));
 
         unlink($tempFile);
-        return back()->with('toast', 'La lettre de voiture a bien été envoyé au client!');
+        return back()->with('sendToast', 'La lettre de voiture a bien été envoyé au client!');
     }
 
     public function sendInvoiceToClient(Request $request, $id)
@@ -254,6 +254,6 @@ class PdfGeneratorController extends Controller
         Mail::to($client->email)->send(new MailHandler($emailTemplate, $data, $attachment));
 
         unlink($tempFile);
-        return back()->with('toast', 'La facture a bien été envoyé au client!');
+        return back()->with('sendToast', 'La facture a bien été envoyé au client!');
     }
 }
