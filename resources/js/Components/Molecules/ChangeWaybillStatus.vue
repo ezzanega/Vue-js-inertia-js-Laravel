@@ -43,10 +43,13 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import { useForm } from "@inertiajs/vue3";
+import { ref, watchEffect } from 'vue';
 
 const props = defineProps({
     waybill: Object,
     openModal: Boolean,
+    searchingWaybill:Boolean,
+    searchWaybill:Function,
 });
 
 const waybillStatus = [
@@ -76,7 +79,13 @@ const updateStatus = () => {
         preserveState: true,
         replace: true,
         onSuccess: () => {
-            closeModal()
+            watchEffect(() => {
+                if (props.searchingWaybill) {
+                    props.searchWaybill();
+                    //console.log(props.searchingWaybill);
+                };
+            });
+            closeModal();
         },
         onError: (errors) => console.log(errors)
     });

@@ -143,8 +143,11 @@
     </div>
 
     <div v-if="searchWaybillResults.length" class="space-y-2">
-      <WaybillListItem v-for="(document, index) in searchWaybillResults" :key="index" :document="document"
-        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deleteLv="deleteLv" :opendelModal="opendelModal" />
+        <WaybillListItem v-for="(document, index) in searchWaybillResults" :key="index" :document="document"
+        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection" :deleteLv="deleteLv" :opendelModal="opendelModal"
+        :searchingWaybill="searchingWaybill" :searchWaybill="searchWaybill"
+    />
+
     </div>
     <div v-else-if="filteredWaybillsResults.length > 0" class="space-y-2 overflow-auto">
       <WaybillListItem v-for="(document, index) in filteredWaybillsResults" :key="index" :document="document"
@@ -152,8 +155,8 @@
     </div>
     <div v-else class="space-y-2">
       <WaybillListItem v-for="(document, index) in $page.props.waybills" :key="index" :document="document"
-        :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"
-      :deleteLv="deleteLv" :opendelModal="opendelModal" />
+      :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"
+      :deleteLv="deleteLv" :opendelModal="opendelModal" :searchWaybill="searchWaybill" />
     </div>
   </div>
 </template>

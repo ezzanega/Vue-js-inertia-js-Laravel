@@ -64,7 +64,7 @@
       </div>
     </div>
   </div>
-  <ChangeWaybillStatus :waybill="document" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" />
+  <ChangeWaybillStatus :waybill="document" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" :searchingWaybill="props.searchingWaybill" :searchWaybill="props.searchWaybill" />
 </template>
 
 <script setup>
@@ -84,6 +84,8 @@ const props = defineProps({
   toggleDocumentSelection: Function,
   deleteLv:Function,
   opendelModal:Function,
+  searchingWaybill:Boolean,
+  searchWaybill:Function,
 });
 
 const changeStatusModal = ref(false);
