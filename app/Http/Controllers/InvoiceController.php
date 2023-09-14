@@ -93,4 +93,25 @@ class InvoiceController extends Controller
             return response()->json(['message' => 'Une erreur s\'est produite lors de la suppression'], 500);
         }
     }
+
+    public function updateStatutInvoice(Request $request, $id, $field)
+    {
+        $invoice = Invoice::where('id', $id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
+
+        $request->validate([
+            $field =>  'required|string|max:125',
+        ]);
+
+        if ($field === "validity_duratation") {
+            $invoice->update([
+                $field => $request->$field,
+            ]);
+        } else if ($field === "status") {
+            $invoice->update([
+                $field => $request->$field,
+            ]);
+        }
+        return back();
+    }
+
 }

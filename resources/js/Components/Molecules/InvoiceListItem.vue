@@ -7,7 +7,7 @@
     <div class="text-left w-2/12 flex justify-center my-auto">
       <span class="font-bold text-primary border-b border-dashed border-primary cursor-pointer" @click="() => router.visit(route('6dem.documents.invoice.preview', props.document.id))">
         F-{{ props.document.number }}
-      </span>  
+      </span>
     </div>
     <div class="text-center w-2/12">
       <div class="font-medium text-gray-700">
@@ -58,19 +58,22 @@
           <template #popper>
             <InvoiceActionsPopperContent :moving_job_id="props.document.moving_job?.id"
               :client_id="props.document.moving_job?.client.id" :id="props.document.id"
-              :deleteFacture="deleteFacture" :document="document" :opendelModal="opendelModal" />
+              :deleteFacture="deleteFacture" :document="document" :opendelModal="opendelModal" @clicked="optionClicked" />
           </template>
         </Dropdown>
       </div>
     </div>
   </div>
+  <ChangeInvoiceStatus :invoice="document" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" :searchingInvoice="props.searchingInvoice" :searchInvoice="props.searchInvoice" />
 </template>
 
 <script setup>
 import { Dropdown } from "floating-vue";
 import InvoiceActionsPopperContent from "@/Components/Molecules/InvoiceActionsPopperContent.vue";
+import ChangeInvoiceStatus from "@/Components/Molecules/ChangeInvoiceStatus.vue";
 import { getAdvanceOrBalanceNameFromKey } from "@/utils";
 import { router } from "@inertiajs/vue3";
+import { ref } from "vue";
 import { formatDate } from "@/utils/index";
 
 const emit = defineEmits(["toggle-selected-all"]);
@@ -80,9 +83,27 @@ const props = defineProps({
     required: true,
   },
   toggleDocumentSelection: Function,
-    deleteFacture:Function,
-    opendelModal:Function,
+  deleteFacture:Function,
+  opendelModal:Function,
+  searchingInvoice:Boolean,
+  searchInvoice:Function,
 });
+
+const changeStatusModal = ref(false);
+const optionClicked = (element) => {
+  switch (element) {
+    case 'update-status':
+      changeStatusModal.value = true;
+      break;
+    default:
+      console.log(element)
+  }
+}
+
+const closeChangeStatusModal = () => {
+  changeStatusModal.value = false;
+};
+
 
 const handleCheckboxChange = () => {
   props.toggleDocumentSelection(props.document);

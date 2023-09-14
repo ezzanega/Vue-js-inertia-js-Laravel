@@ -180,6 +180,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/6dem/documents/invoice/preview/{id}', [InvoiceController::class, 'preview'])
         ->name('6dem.documents.invoice.preview');
 
+    Route::put('/6dem/documents/invoice/updateStatus/{id}/{field}', [InvoiceController::class, 'updateStatutInvoice'])
+        ->name('6dem.invoice.updateStatus');
+
     Route::post('/6dem/documents/invoice/quotation/preview/{id}', [MovingJobController::class, 'initInvoicePreview'])
         ->name('6dem.documents.invoice.quotation.preview');
 

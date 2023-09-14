@@ -169,7 +169,8 @@
     </div>
 
     <div v-if="searchInvoiceResults.length" class="space-y-2">
-      <InvoiceListItem v-for="(document, index) in searchInvoiceResults" :key="index" :document="document" :deleteFacture="deleteFacture" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
+      <InvoiceListItem v-for="(document, index) in searchInvoiceResults" :key="index" :document="document" :deleteFacture="deleteFacture" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"
+      :searchingInvoice="searchingInvoice" :searchInvoice="searchInvoice"/>
     </div>
     <div v-else-if="filteredInvoicesResults.length > 0" class="space-y-2 overflow-auto">
         <InvoiceListItem v-for="(document, index) in filteredInvoicesResults" :key="index" :document="document" :deleteFacture="deleteFacture" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
@@ -178,6 +179,7 @@
       <InvoiceListItem v-for="(document, index) in $page.props.invoices" :key="index" :document="document" :deleteFacture="deleteFacture" :opendelModal="opendelModal" :selected-all="selectedAll" :toggle-document-selection="toggleDocumentSelection"/>
     </div>
   </div>
+
 </template>
 
 <script setup>
