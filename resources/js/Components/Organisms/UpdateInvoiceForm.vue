@@ -8,10 +8,23 @@
             </div>
 
             <div class="my-6 space-y-5">
-                <DefaultSelectInput name="type" label="Type de facture" v-model="form.type" :options="typesOptions"
-                    :error="form.errors.type" />
-                <DefaultInput :required="true" type="text" name="amount_ht" v-model="form.amount"
-                    :error="form.errors.amount" label="Montant de la facture (HT)" placeholder="Montant de la facture (HT)" />
+                <DefaultSelectInput
+                    name="type"
+                    label="Type de facture"
+                    v-model="form.type"
+                    :options="typesOptions"
+                    :error="form.errors.type"
+                />
+                <DefaultInput
+                    :required="true"
+                    type="text"
+                    name="amount_ht"
+                    v-model="form.amount"
+                    :error="form.errors.amount"
+                    @keydown.space.prevent
+                    label="Montant de la facture (HT)"
+                    placeholder="Montant de la facture (HT)"
+                />
             </div>
             <div class="my-6  flex">
                 <DefaultInput
@@ -39,7 +52,7 @@
             <div class="w-full">
                 <div class="mt-5 pt-8 flex justify-end space-x-4">
                     <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
-                    <DefaultButton @click="initDocument" class="w-32"
+                    <DefaultButton @click="UpdateInvoice" class="w-32"
                     buttontext="Valider" />
                 </div>
             </div>
@@ -54,7 +67,7 @@ import { ref, watch } from "vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm , usePage } from "@inertiajs/vue3";
 
 
 const props = defineProps({
@@ -67,7 +80,8 @@ const closeModal = () => {
     form.reset();
     emit("closeModal");
 };
-
+const page = usePage();
+console.log(page.props.settings.vat)
 const typesOptions = [
     {
         name: "Acompte",
@@ -86,7 +100,24 @@ const form = useForm({
     amount_tva:props.invoice.amount_tva,
   });
 
-const initDocument = () => {
+// Create a watcher to calculate amount_ttc and amount_tva when amount_ht changes
+watch(() => form.amount, (newAmount, oldAmount) => {
+    // Ensure the newAmount is a valid number
+    if (!isNaN(newAmount)) {
+        const vatPercentage = page.props.settings.vat;
+        const amountHt = parseFloat(newAmount);
+
+        // Calculate amount_ttc and amount_tva
+        const amountTtc = (amountHt + (amountHt * vatPercentage / 100)).toFixed(2);
+        const amountTva = ((amountHt * vatPercentage) / 100).toFixed(2);
+
+        // Update the form values
+        form.amount_ttc = amountTtc;
+        form.amount_tva = amountTva;
+    }
+});
+
+const UpdateInvoice = () => {
     alert('hello world')
 };
 </script>

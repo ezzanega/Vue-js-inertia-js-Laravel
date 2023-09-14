@@ -7,6 +7,7 @@ use Inertia\Response;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Waybill;
+use App\Models\Settings;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 use App\Models\ExecutingCompany;
@@ -21,6 +22,7 @@ class DocumentController extends Controller
         $quotations = Quotation::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
         $waybills = Waybill::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
         $invoices = Invoice::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->latest()->get();
+        $settings = Settings::where('organization_id', $organization->id)->first();
         $payments = Payment::where('organization_id', $organization->id)->with(['movingJob.client', 'movingJob.client.clientOrganization', 'quotation'])->latest()->get();
         $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
@@ -30,6 +32,7 @@ class DocumentController extends Controller
             'quotations' => $quotations,
             'waybills' => $waybills,
             'invoices' => $invoices,
+            'settings' => $settings,
             'payments' => $payments,
             'movingJobFormulas' => $movingJobFormulas,
         ]);
