@@ -48,8 +48,8 @@ class SignUpController extends Controller
         $taskProResponse = $taskProService->register($request->firstName, $request->lastName, $request->email, $request->password);
 
         $user = User::create([
-            'taskpro_user_id' => $taskProResponse["_id"],
-            'taskpro_token' => $taskProResponse["token"],
+            'taskpro_user_id' => array_key_exists('_id', $taskProResponse) ? $taskProResponse["_id"] : null,
+            'taskpro_token' => array_key_exists('token', $taskProResponse) ? $taskProResponse["token"] : null,
             'first_name' => $request->firstName,
             'last_name' => $request->lastName,
             'phone_number' => $request->phoneNumber,
