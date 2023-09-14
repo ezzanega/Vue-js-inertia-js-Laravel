@@ -118,6 +118,21 @@ watch(() => form.amount, (newAmount, oldAmount) => {
 });
 
 const UpdateInvoice = () => {
-    alert('hello world')
+
+    form.put(route("6dem.invoice.updateAmountsInvoice", props.invoice.id),{
+        preserveScroll: true,
+        preserveState: true,
+        replace: true,
+        onSuccess: () => {
+            // watchEffect(() => {
+            //     if (props.searchingInvoice) {
+            //         props.searchInvoice();
+            //         //console.log(props.searchingWaybill);
+            //     };
+            // });
+            closeModal();
+        },
+        onError: (errors) => console.log(errors)
+    });
 };
 </script>

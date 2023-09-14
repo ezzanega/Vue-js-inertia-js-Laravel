@@ -113,5 +113,25 @@ class InvoiceController extends Controller
         }
         return back();
     }
+    public function updateAmountsInvoice(Request $request, $id)
+    {
+        $invoice = Invoice::where('id', $id)->with(['movingJob.client', 'movingJob.client.clientOrganization'])->first();
+
+        $request->validate([
+            'type' => 'required|string|max:255',
+            'amount' => 'required',
+            'amount_ttc' => 'required',
+            'amount_tva' => 'required',
+        ]);
+
+        $invoice->update([
+            'type' => $request->type,
+            'amount_ht' => $request->amount,
+            'amount_ttc' => $request->amount_ttc,
+            'amount_tva' => $request->amount_tva,
+        ]);
+
+        return back()->with('toast', 'La Facture a Bien été modifier!');
+    }
 
 }

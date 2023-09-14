@@ -183,6 +183,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/6dem/documents/invoice/updateStatus/{id}/{field}', [InvoiceController::class, 'updateStatutInvoice'])
         ->name('6dem.invoice.updateStatus');
 
+    Route::put('/6dem/documents/invoice/updateAmounts/{id}', [InvoiceController::class, 'updateAmountsInvoice'])
+        ->name('6dem.invoice.updateAmountsInvoice');
+
     Route::post('/6dem/documents/invoice/quotation/preview/{id}', [MovingJobController::class, 'initInvoicePreview'])
         ->name('6dem.documents.invoice.quotation.preview');
 
