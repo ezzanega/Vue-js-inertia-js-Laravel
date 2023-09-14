@@ -58,19 +58,24 @@
           <template #popper>
             <InvoiceActionsPopperContent :moving_job_id="props.document.moving_job?.id"
               :client_id="props.document.moving_job?.client.id" :id="props.document.id"
-              :deleteFacture="deleteFacture" :document="document" :opendelModal="opendelModal" @clicked="optionClicked" />
+              :deleteFacture="deleteFacture" :document="document" :opendelModal="opendelModal" :openUpdateModal="openUpdateModal" @clicked="optionClicked" />
           </template>
         </Dropdown>
       </div>
     </div>
   </div>
   <ChangeInvoiceStatus :invoice="document" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" :searchingInvoice="props.searchingInvoice" :searchInvoice="props.searchInvoice" />
+
+  <UpdateInvoiceForm v-if="UpdateInvModal && selectedinvoice"
+   :invoice="selectedinvoice" :openModal="UpdateInvModal" @closeModal="closeUpdateModal" />
+
 </template>
 
 <script setup>
 import { Dropdown } from "floating-vue";
 import InvoiceActionsPopperContent from "@/Components/Molecules/InvoiceActionsPopperContent.vue";
 import ChangeInvoiceStatus from "@/Components/Molecules/ChangeInvoiceStatus.vue";
+import UpdateInvoiceForm from "@/Components/Organisms/UpdateInvoiceForm.vue";
 import { getAdvanceOrBalanceNameFromKey } from "@/utils";
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -90,6 +95,8 @@ const props = defineProps({
 });
 
 const changeStatusModal = ref(false);
+
+
 const optionClicked = (element) => {
   switch (element) {
     case 'update-status':
@@ -99,11 +106,20 @@ const optionClicked = (element) => {
       console.log(element)
   }
 }
+const selectedinvoice = ref(null);
+const UpdateInvModal = ref(false);
+
+const openUpdateModal = (invoice) => {
+    UpdateInvModal.value = true;
+    selectedinvoice.value= invoice;
+};
 
 const closeChangeStatusModal = () => {
   changeStatusModal.value = false;
 };
-
+const closeUpdateModal = () => {
+    UpdateInvModal.value = false;
+};
 
 const handleCheckboxChange = () => {
   props.toggleDocumentSelection(props.document);
