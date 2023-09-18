@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Waybill;
 use App\Models\Location;
+use App\Models\Settings;
 use App\Models\Quotation;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplates;
@@ -63,6 +64,7 @@ class ClientController extends Controller
 
         $executingCompanies = ExecutingCompany::where(['organization_id' => $organization->id])->get();
         $movingJobFormulas = MovingJobFormula::where('organization_id', $organization->id)->with('options')->get();
+        $settings = Settings::where('organization_id', $organization->id)->first();
 
         return Inertia::render('6dem/ClientDetails', [
             'client' => $client,
@@ -72,6 +74,7 @@ class ClientController extends Controller
             'payments' => $payments,
             'executingCompanies' => $executingCompanies,
             'movingJobFormulas' => $movingJobFormulas,
+            'settings'=> $settings,
         ]);
     }
 

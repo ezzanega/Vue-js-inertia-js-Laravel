@@ -47,12 +47,16 @@
                 <template #popper>
                   <InvoiceActionsPopperContent :moving_job_id="props.invoices.moving_job?.id"
                     :client_id="props.invoices.moving_job?.client.id" :id="props.invoices.id"
-                    :deleteFacture="deleteFacture" :document="invoices" :opendelModal="opendelModal" />
+                    :deleteFacture="deleteFacture" :document="invoices" :opendelModal="opendelModal" :openUpdateModal="openUpdateModal" @clicked="optionClicked" />
                 </template>
               </Dropdown>
         </div>
       </div>
     </div>
+    <ChangeInvoiceStatus :invoice="invoices" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" :searchingInvoice="props.searchingInvoice" :searchInvoice="props.searchInvoice" />
+
+    <UpdateInvoiceForm v-if="UpdateInvModal && selectedinvoice"
+     :invoice="selectedinvoice" :openModal="UpdateInvModal" @closeModal="closeUpdateModal" />
   </template>
 
   <script setup>
@@ -61,6 +65,9 @@
   import { getAdvanceOrBalanceNameFromKey } from "@/utils";
   import { router } from "@inertiajs/vue3";
   import { formatDate } from "@/utils/index";
+  import ChangeInvoiceStatus from "@/Components/Molecules/ChangeInvoiceStatus.vue";
+  import UpdateInvoiceForm from "@/Components/Organisms/UpdateInvoiceForm.vue";
+  import { ref } from "vue";
 
   const emit = defineEmits(["toggle-selected-all"]);
   const props = defineProps({
@@ -71,10 +78,42 @@
     toggleDocumentSelection: Function,
     deleteFacture:Function,
     opendelModal:Function,
+    searchingInvoice:Boolean,
+    searchInvoice:Function,
   });
 
   const handleCheckboxChange = () => {
     props.toggleDocumentSelection(props.invoices);
     emit("toggle-selected-all");
   };
+
+
+
+const changeStatusModal = ref(false);
+
+
+const optionClicked = (element) => {
+  switch (element) {
+    case 'update-status':
+      changeStatusModal.value = true;
+      break;
+    default:
+      console.log(element)
+  }
+}
+const selectedinvoice = ref(null);
+const UpdateInvModal = ref(false);
+
+const openUpdateModal = (invoice) => {
+    UpdateInvModal.value = true;
+    selectedinvoice.value= invoice;
+};
+
+const closeChangeStatusModal = () => {
+  changeStatusModal.value = false;
+};
+const closeUpdateModal = () => {
+    UpdateInvModal.value = false;
+};
+
   </script>
