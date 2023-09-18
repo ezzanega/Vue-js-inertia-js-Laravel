@@ -42,12 +42,13 @@
             <template #popper>
               <WaybillActionsPopperContent :moving_job_id="props.waybills.moving_job?.id"
                 :client_id="props.waybills.moving_job?.client.id" :id="props.waybills.id"
-                :deleteLv="deleteLv" :document="waybills" :opendelModal="opendelModal"/>
+                :deleteLv="deleteLv" :document="waybills" :opendelModal="opendelModal" @clicked="optionClicked"/>
             </template>
           </Dropdown>
         </div>
       </div>
     </div>
+    <ChangeWaybillStatus :waybill="waybills" :openModal="changeStatusModal" @closeModal="closeChangeStatusModal" :searchingWaybill="props.searchingWaybill" :searchWaybill="props.searchWaybill" />
   </template>
 
   <script setup>
@@ -55,6 +56,8 @@
   import WaybillActionsPopperContent from "@/Components/Molecules/WaybillActionsPopperContent.vue";
   import { router } from "@inertiajs/vue3";
   import { formatDate } from "@/utils/index";
+  import ChangeWaybillStatus from "@/Components/Molecules/ChangeWaybillStatus.vue";
+  import { ref } from "vue";
 
   const emit = defineEmits(["toggle-selected-all"]);
   const props = defineProps({
@@ -65,7 +68,24 @@
     toggleDocumentSelection: Function,
     deleteLv:Function,
     opendelModal:Function,
+    searchingWaybill:Boolean,
+    searchWaybill:Function,
   });
+
+const changeStatusModal = ref(false);
+const optionClicked = (element) => {
+  switch (element) {
+    case 'update-status':
+      changeStatusModal.value = true;
+      break;
+    default:
+      console.log(element)
+  }
+}
+
+const closeChangeStatusModal = () => {
+  changeStatusModal.value = false;
+};
 
   const handleCheckboxChange = () => {
     props.toggleDocumentSelection(props.waybills);
