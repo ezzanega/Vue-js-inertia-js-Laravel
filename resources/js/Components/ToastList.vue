@@ -1,5 +1,5 @@
 <template>
-  <TransitionGroup 
+  <TransitionGroup
     tag="div"
     enter-from-class="translate-x-full opacity-0"
     enter-active-class="duration-500"
@@ -18,7 +18,7 @@
 
 <script setup>
 import ToastListItem from "@/Components/ToastListItem.vue";
-import {onUnmounted, ref} from "vue";
+import {onUnmounted,watch, ref} from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import { usePage } from "@inertiajs/vue3";
 import toast from "@/Stores/toast"

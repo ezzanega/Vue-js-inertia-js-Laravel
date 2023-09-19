@@ -111,7 +111,7 @@ class InvoiceController extends Controller
                 $field => $request->$field,
             ]);
         }
-        return back();
+        return back()->with('toast', 'Le statut a Bien été modifier!');
     }
     public function updateAmountsInvoice(Request $request, $id)
     {
