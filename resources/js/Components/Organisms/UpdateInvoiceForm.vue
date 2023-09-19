@@ -18,10 +18,10 @@
                 <DefaultInput
                   :required="true"
                   type="date"
-                  name="date_fac"
+                  name="date"
                   label="Date de la Facture"
-                  v-model="form.date_fac"
-                  :error="form.errors.date_fac"
+                  v-model="form.date"
+                  :error="form.errors.date"
                   class="flex-grow mr-4"
                 />
                 <DefaultInput
@@ -107,7 +107,7 @@ const form = useForm({
     amount: props.invoice.amount_ht,
     amount_ttc:props.invoice.amount_ttc,
     amount_tva:props.invoice.amount_tva,
-    date_fac:props.invoice.date_fac,
+    date: props.invoice.date,
   });
 
 // Create a watcher to calculate amount_ttc and amount_tva when amount_ht changes

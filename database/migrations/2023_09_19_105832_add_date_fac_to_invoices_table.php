@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('invoices', function (Blueprint $table) {
             Schema::table('invoices', function (Blueprint $table) {
-                $table->date('date_fac')->nullable();
+                $table->date('date')->nullable();
             });
         });
     }
@@ -24,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->dropColumn('date_fac');
+            $table->dropColumn('date');
         });
     }
 };
