@@ -9,8 +9,8 @@
     <ToastListItem
       v-for="(item, index) in toast.items"
       :key="item.key"
-      :message="item.message"
       :duration="5000"
+      :message="item.message"
       @remove="remove(index)"
     />
   </TransitionGroup>
@@ -20,7 +20,7 @@
 import ToastListItem from "@/Components/ToastListItem.vue";
 import {onUnmounted,watch, ref} from "vue";
 import { Inertia } from "@inertiajs/inertia";
-import { usePage } from "@inertiajs/vue3";
+import { usePage,router } from "@inertiajs/vue3";
 import toast from "@/Stores/toast"
 
 const page = usePage();
@@ -28,7 +28,7 @@ const page = usePage();
 let removeFinshEventListener = Inertia.on("finish", () => {
   if (page.props.toast) {
     toast.add({
-      message: page.props.toast,
+      message: router.page.props.toast,
     });
   }
 });
