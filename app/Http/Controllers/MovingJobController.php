@@ -168,6 +168,7 @@ class MovingJobController extends Controller
         $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
         $invoice = Invoice::create([
             'type' => $request->type,
+            'date_fac'=>now(),
             'amount_ht' => $request->amount,
             'amount_ttc' => number_format(floatval($request->amount) + (floatval($request->amount) * floatval($settings->vat) / 100), 2, '.', ''),
             'amount_tva' => number_format((floatval($request->amount) * floatval($settings->vat)) / 100, 2, '.', ''),

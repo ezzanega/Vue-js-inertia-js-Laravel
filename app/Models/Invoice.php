@@ -16,6 +16,7 @@ class Invoice extends Model
         'amount_ht',
         'amount_ttc',
         'amount_tva',
+        'date_fac',
         'status',
         'organization_id',
     ];

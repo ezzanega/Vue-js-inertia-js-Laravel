@@ -22,6 +22,7 @@ class PaymentObserver
         $movingjob = MovingJob::where('id', $quotation->moving_job_id)->first();
         $invoice = Invoice::create([
             'type' => $payment->type,
+            'date_fac'=>now(),
             'amount_ht' => $payment->amount,
             'amount_ttc' => number_format(floatval($payment->amount) + (floatval($payment->amount) * floatval($settings->vat) / 100), 2, '.', ''),
             'amount_tva' => number_format((floatval($payment->amount) * floatval($settings->vat)) / 100, 2, '.', ''),

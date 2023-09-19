@@ -119,16 +119,20 @@ class InvoiceController extends Controller
 
         $request->validate([
             'type' => 'required|string|max:255',
+            'date_fac'=>'required|date|',
             'amount' => 'required',
             'amount_ttc' => 'required',
             'amount_tva' => 'required',
         ]);
 
+        //dd($request->all());
         $invoice->update([
             'type' => $request->type,
             'amount_ht' => $request->amount,
             'amount_ttc' => $request->amount_ttc,
             'amount_tva' => $request->amount_tva,
+            'date_fac'=> $request->date_fac,
+
         ]);
 
         return back()->with('toast', 'La Facture a Bien été modifier!');

@@ -22,7 +22,7 @@
       <!-- <div class="text-gray-400">{{ props.document.moving_job?.client.email }}</div> -->
       <div class="text-gray-400">Tél: {{ props.document.moving_job?.client.phone_number }}</div>
     </div>
-    <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.document.created_at) }}</div>
+    <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.document.date_fac) }}</div>
     <div class="text-left w-2/12 flex justify-center my-auto">{{ getAdvanceOrBalanceNameFromKey(props.document.type) }}</div>
     <div v-if="props.document.status == 'A payer'" class="text-left w-2/12 flex justify-center my-auto">
       <p class="text-left rounded-full bg-yellow-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.document.status }}</p>

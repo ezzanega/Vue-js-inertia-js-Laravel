@@ -10,7 +10,7 @@
         </span>
       </div>
 
-      <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.invoices.created_at) }}</div>
+      <div class="text-left w-2/12 flex justify-center my-auto">{{ formatDate(props.invoices.date_fac) }}</div>
       <div class="text-left w-2/12 flex justify-center my-auto">{{ getAdvanceOrBalanceNameFromKey(props.invoices.type) }}</div>
       <div v-if="props.invoices.status == 'A payer'" class="text-left w-2/12 flex justify-center my-auto">
         <p class="text-left rounded-full bg-yellow-400 text-white w-fit px-1.5 py-1 my-auto">{{ props.invoices.status }}</p>
