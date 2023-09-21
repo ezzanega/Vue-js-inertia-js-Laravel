@@ -25,10 +25,11 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'can-access-to-documents-page']);
         Permission::create(['name' => 'can-access-to-templates-page']);
         Permission::create(['name' => 'can-access-to-settings-page']);
+        Permission::create(['name' => 'can-access-to-admin-page']);
         Permission::create(['name' => 'can-access-to-team-management-page']);
         Permission::create(['name' => 'can-access-to-mobile-app']);
 
-        $teamOwner->givePermissionTo(['can-access-to-dashboard-page', 'can-access-to-clients-page', 'can-access-to-documents-page', 'can-access-to-templates-page', 'can-access-to-settings-page', 'can-access-to-team-management-page']);
+        $teamOwner->givePermissionTo(['can-access-to-dashboard-page', 'can-access-to-clients-page', 'can-access-to-documents-page', 'can-access-to-templates-page', 'can-access-to-settings-page', 'can-access-to-team-management-page','can-access-to-admin-page']);
         $sales->givePermissionTo(['can-access-to-dashboard-page', 'can-access-to-clients-page', 'can-access-to-documents-page', 'can-access-to-templates-page', 'can-access-to-settings-page', 'can-access-to-team-management-page']);
         $leadOperator->givePermissionTo(['can-access-to-dashboard-page', 'can-access-to-clients-page', 'can-access-to-documents-page', 'can-access-to-templates-page', 'can-access-to-settings-page', 'can-access-to-team-management-page']);
         $operator->givePermissionTo(['can-access-to-mobile-app']);

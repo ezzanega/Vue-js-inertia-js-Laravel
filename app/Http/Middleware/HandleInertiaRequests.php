@@ -34,6 +34,9 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'organization' => $request->user() ? $request->user()->organization : null,
+                //For addind user role and user permissions in my page props
+                'user.roles' => $request->user() ? $request->user()->roles->pluck('name') : [],
+                'userPermissions' => $request->user() ? $request->user()->getPermissionsViaRoles()->pluck('name') : [],
             ],
             'toast' => session('toast'),
             'sendToast' => session('sendToast'),
