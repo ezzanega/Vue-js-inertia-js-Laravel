@@ -56,8 +56,16 @@
               label="Objet du mail"
               placeholder="Objet du mail"
             />
+            <tinymce
+            :required="true"
+            v-model="form.body"
+            :error="form.errors.body"
+            label="Contenu du mail"
+            placeholder="Contenu du mail"
+            :init="editorConfig"
+            ></tinymce>
 
-            <TextArea
+            <!-- <TextArea
               :required="true"
               type="Contenu du mail"
               name="body"
@@ -65,7 +73,7 @@
               :error="form.errors.body"
               label="Contenu du mail"
               placeholder="Contenu du mail"
-            />
+            /> -->
           </div>
 
           <div class="py-3">
@@ -110,7 +118,7 @@
     </div>
   </Modal>
 </template>
-    
+
     <script setup>
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
@@ -118,7 +126,18 @@ import { useForm } from "@inertiajs/vue3";
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import TextArea from "@/Components/Atoms/TextArea.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
+import tinymce from "@tinymce/tinymce-vue";
 
+
+const editorConfig = {
+  height: 300,
+  menubar: false,
+  plugins: [
+    "advlist autolink lists link image charmap print preview anchor",
+    "searchreplace visualblocks code fullscreen",
+    "insertdatetime media table paste code help wordcount",
+  ],
+};
 const props = defineProps({
   openModal: Boolean,
 });
@@ -141,4 +160,4 @@ const closeModal = () => {
   form.reset();
   emit("closeModal");
 };
-</script>   
+</script>
