@@ -37,6 +37,7 @@
         "@headlessui/vue": "^1.7.14",
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.2",
+        "@tinymce/tinymce-vue": "^5.1.1",
         "exceljs": "^4.3.0",
         "floating-vue": "^2.0.0-beta.20",
         "html2canvas": "^1.4.1",
@@ -45,6 +46,7 @@
         "lodash": "^4.17.21",
         "moment": "^2.29.4",
         "slugify": "^1.6.6",
+        "tinymce": "^6.7.0",
         "vue-final-modal": "^4.4.2",
         "vue-select": "^4.0.0-beta.6",
         "vue3-colorpicker": "^2.1.4"

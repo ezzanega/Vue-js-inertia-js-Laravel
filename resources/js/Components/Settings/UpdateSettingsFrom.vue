@@ -42,11 +42,15 @@
                       :color="form.calendar_others_color" v-model="form.calendar_others_color" />
                   </div>
                 </div>
-                
+
                 <div class="py-6">
                   <span>Conditions générales documents (dans le devis)</span>
                   <div class="max-h-96 overflow-auto">
-                    <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor>
+                    <tinymce
+                    v-model="form.ducuments_general_conditions"
+                    :init="initConfig"
+                    ></tinymce>
+                    <!-- <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor> -->
                   </div>
                 </div>
 
@@ -79,7 +83,7 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
@@ -89,21 +93,22 @@ import Message from "@/Components/Atoms/Message.vue";
 import { usePage, useForm } from "@inertiajs/vue3";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/fr';
+import tinymce from "@tinymce/tinymce-vue";
 
 const editor = ClassicEditor
 const editorConfig = {
   language: 'fr',
   toolbar: [
-    'undo', 'redo', 
-    '|', 
-    'bold', 'italic', 'underline', 
-    '|', 
-    'link', 
-    '|', 
-    'fontSize', 'fontColor', 
-    '|', 
-    'alignment', 
-    '|', 
+    'undo', 'redo',
+    '|',
+    'bold', 'italic', 'underline',
+    '|',
+    'link',
+    '|',
+    'fontSize', 'fontColor',
+    '|',
+    'alignment',
+    '|',
     'bulletedList', 'numberedList'
   ]
 }
@@ -179,4 +184,3 @@ const updateSettings = () => {
   });
 };
 </script>
-  
