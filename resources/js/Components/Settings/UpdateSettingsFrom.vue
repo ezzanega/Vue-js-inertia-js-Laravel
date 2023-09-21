@@ -48,7 +48,7 @@
                   <div class="max-h-96 overflow-auto">
                     <tinymce
                     v-model="form.ducuments_general_conditions"
-                    :init="initConfig"
+                    :init="editorConfig"
                     ></tinymce>
                     <!-- <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor> -->
                   </div>
@@ -95,23 +95,34 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/fr';
 import tinymce from "@tinymce/tinymce-vue";
 
-const editor = ClassicEditor
+
 const editorConfig = {
-  language: 'fr',
-  toolbar: [
-    'undo', 'redo',
-    '|',
-    'bold', 'italic', 'underline',
-    '|',
-    'link',
-    '|',
-    'fontSize', 'fontColor',
-    '|',
-    'alignment',
-    '|',
-    'bulletedList', 'numberedList'
-  ]
-}
+  height: 400,
+  menubar: false,
+  plugins: [
+    "advlist autolink lists link image charmap print preview anchor",
+    "searchreplace visualblocks code fullscreen",
+    "insertdatetime media table paste code help wordcount",
+  ],
+};
+
+// const editor = ClassicEditor
+// const editorConfig = {
+//   language: 'fr',
+//   toolbar: [
+//     'undo', 'redo',
+//     '|',
+//     'bold', 'italic', 'underline',
+//     '|',
+//     'link',
+//     '|',
+//     'fontSize', 'fontColor',
+//     '|',
+//     'alignment',
+//     '|',
+//     'bulletedList', 'numberedList'
+//   ]
+// }
 
 const settings = usePage().props.settings;
 
