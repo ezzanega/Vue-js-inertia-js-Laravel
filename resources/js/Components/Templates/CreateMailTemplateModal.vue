@@ -63,6 +63,7 @@
             label="Contenu du mail"
             placeholder="Contenu du mail"
             :init="editorConfig"
+            api-key="z2q83u0tltcii8iyd445e1581jy5acckct7a0063ixc1a9m8"
             ></tinymce>
 
             <!-- <TextArea
@@ -131,15 +132,26 @@ import tinymce from "@tinymce/tinymce-vue";
 
 const editorConfig = {
   height: 300,
-  menubar: false,
+  selector: 'textarea#default',
   plugins: [
-    "advlist autolink lists link image charmap print preview anchor",
-    "searchreplace visualblocks code fullscreen",
-    "insertdatetime media table paste code help wordcount",
+    'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'prewiew', 'anchor', 'pagebreak',
+    'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media',
+    'table', 'emoticons', 'template', 'codesample',
+    'blockquote',  // Include the blockquote plugin
   ],
+  toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify |' +
+    'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+    'forecolor backcolor emoticons',
+  menu: {
+    favs: { title: 'menu', items: 'code visualaid | searchreplace | emoticons' }
+  },
+  menubar: 'favs file edit view insert format tools table',
+  content_style: 'body{font-family:Helvetica,Arial,sans-serif; font-size:16px}',
   branding: false,
   notification: false,
 };
+
+
 const props = defineProps({
   openModal: Boolean,
 });

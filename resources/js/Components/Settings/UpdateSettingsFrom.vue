@@ -49,6 +49,7 @@
                     <tinymce
                     v-model="form.ducuments_general_conditions"
                     :init="editorConfig"
+                    api-key="z2q83u0tltcii8iyd445e1581jy5acckct7a0063ixc1a9m8"
                     ></tinymce>
                     <!-- <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor> -->
                   </div>
@@ -85,6 +86,8 @@
 </template>
 
 <script setup>
+
+
 import DefaultInput from "@/Components/Atoms/DefaultInput.vue";
 import DefaultSelectInput from "@/Components/Atoms/DefaultSelectInput.vue";
 import DefaultButton from "@/Components/Atoms/DefaultButton.vue";
@@ -98,17 +101,24 @@ import tinymce from "@tinymce/tinymce-vue";
 
 const editorConfig = {
   height: 400,
-  menubar: false,
+  selector: 'textarea#default',
   plugins: [
-    "advlist autolink lists link image charmap print preview anchor",
-    "searchreplace visualblocks code fullscreen",
-    "insertdatetime media table paste code help wordcount",
-    "blockquote",    // Include the blockquote plugin
-    "emoticons",
+    'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'prewiew', 'anchor', 'pagebreak',
+    'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media',
+    'table', 'emoticons', 'template', 'codesample',
+    'blockquote',  // Include the blockquote plugin
   ],
+  toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify |' +
+    'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+    'forecolor backcolor emoticons',
+  menu: {
+    favs: { title: 'menu', items: 'code visualaid | searchreplace | emoticons' }
+  },
+  menubar: 'favs file edit view insert format tools table',
+  content_style: 'body{font-family:Helvetica,Arial,sans-serif; font-size:16px}',
   branding: false,
   notification: false,
-
+  apiKey: "z2q83u0tltcii8iyd445e1581jy5acckct7a0063ixc1a9m8",
 };
 
 
