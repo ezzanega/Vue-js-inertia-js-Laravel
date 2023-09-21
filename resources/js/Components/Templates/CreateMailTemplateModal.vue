@@ -119,7 +119,7 @@
   </Modal>
 </template>
 
-    <script setup>
+<script setup>
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
@@ -137,6 +137,8 @@ const editorConfig = {
     "searchreplace visualblocks code fullscreen",
     "insertdatetime media table paste code help wordcount",
   ],
+  branding: false,
+  notification: false,
 };
 const props = defineProps({
   openModal: Boolean,

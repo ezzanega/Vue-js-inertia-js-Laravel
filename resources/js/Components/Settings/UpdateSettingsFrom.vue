@@ -103,8 +103,14 @@ const editorConfig = {
     "advlist autolink lists link image charmap print preview anchor",
     "searchreplace visualblocks code fullscreen",
     "insertdatetime media table paste code help wordcount",
+    "blockquote",    // Include the blockquote plugin
+    "emoticons",
   ],
+  branding: false,
+  notification: false,
+
 };
+
 
 // const editor = ClassicEditor
 // const editorConfig = {
