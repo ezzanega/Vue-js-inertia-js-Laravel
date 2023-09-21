@@ -104,10 +104,7 @@ class UserSeeder extends Seeder
         $user->save();
 
 
-
-
-
-//************************************* */
+//**********************Deuxième utilisateur******************************** */
 
 
         $taskProResponse = $taskProService->login('ezzanega@gmail.com', '123456');
