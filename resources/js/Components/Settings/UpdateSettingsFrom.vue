@@ -49,7 +49,7 @@
                     <tinymce
                     v-model="form.ducuments_general_conditions"
                     :init="editorConfig"
-                    api-key="ypm08wsiy1xwmj0in22gtwh4bd00ansll051rq0ai0fzt8x4"
+                    api-key="z2q83u0tltcii8iyd445e1581jy5acckct7a0063ixc1a9m8"
                     ></tinymce>
                     <!-- <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor> -->
                   </div>
