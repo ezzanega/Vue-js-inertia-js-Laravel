@@ -2,13 +2,13 @@
   <Head title="Sign In" />
   <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
     <div class="w-screen m-0 bg-white flex justify-center flex-1">
-      <div class="lg:w-1/2 xl:w-7/12 p-6 sm:p-12">
+      <div class="lg:w-1/2 xl:w-7/12 p-6 sm:p-12 my-auto">
         <div class="mt-12 flex flex-col items-center">
           <h1 class="text-2xl xl:text-3xl font-extrabold text-primary">
             Se connecter
           </h1>
           <div class="w-full flex-1 mt-8">
-            <div class="flex flex-col items-center">
+            <!-- <div class="flex flex-col items-center">
               <button
                 class="w-full max-w-xl font-bold shadow-sm rounded-lg py-2.5 bg-secondary text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
               >
@@ -23,7 +23,7 @@
               >
                 Ou se connecter avec Email
               </div>
-            </div>
+            </div> -->
 
             <form @submit.prevent="submit" class="mx-auto max-w-xl">
               <DefaultInput
@@ -85,9 +85,12 @@
         <div
           class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
           style="
-            background-image: url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg');
+            background-image: url('/assets/svg/illustration.svg');
           "
-        ></div>
+        >
+        <h3 class="text-xl text-primary font-bold">Bienvenue sur Sysdem</h3>
+        <div class="mt-4 text-sm text-gray-600 text-center">Gérez facilement votre entreprise de déménagement : <br>devis, lettres de voiture, facturation et bien d'autres fonctionnalités</div>
+      </div>
       </div>
     </div>
   </div>
