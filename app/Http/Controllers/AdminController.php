@@ -20,9 +20,11 @@ class AdminController extends Controller
     public function index(Request $request): Response
     {
         $usersWithOrganizations = User::with('organization','roles')->get();
-        // $organization = Organization::where('id',$users->organization->id)->with('billingAddress')->first();
+        // Retrieve all organizations with the count of their users
+        $organizationsWithUserCount = Organization::withCount('users')->get();
         return Inertia::render('6dem/Admin', [
             'usersWithOrganizations'=>$usersWithOrganizations,
+            'organizationsWithUserCount'=>$organizationsWithUserCount,
         ]);
     }
 }
