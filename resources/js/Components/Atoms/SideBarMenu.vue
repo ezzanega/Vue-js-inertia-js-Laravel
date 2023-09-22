@@ -22,7 +22,7 @@
         </svg>
       </SideBarItem>
       <SideBarItem v-if="$page.props.auth.userPermissions.includes('can-access-to-admin-page')"
-       itemroute="6dem.clients" item="Admin">
+       itemroute="6dem.admin" item="Admin">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

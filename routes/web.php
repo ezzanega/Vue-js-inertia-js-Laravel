@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ACL\AclController;
@@ -62,6 +63,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/6dem/dashboard', [DashboardController::class, 'index'])
         ->name('6dem.dashboard');
+    #Admin
+    Route::get('/6dem/Admin', [AdminController::class, 'index'])
+    ->name('6dem.admin');
 
     # Documents
     Route::get('/6dem/documents/quotation/pdf/{id}', [PdfGeneratorController::class, 'quotation'])
