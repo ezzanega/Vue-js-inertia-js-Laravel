@@ -45,11 +45,11 @@
 
                 <div class="py-6">
                   <span>Conditions générales documents (dans le devis)</span>
-                  <div class="max-h-96 overflow-auto">
+                  <div>
                     <tinymce
-                    v-model="form.ducuments_general_conditions"
-                    :init="editorConfig"
-                    api-key="z2q83u0tltcii8iyd445e1581jy5acckct7a0063ixc1a9m8"
+                      v-model="form.ducuments_general_conditions"
+                      :init="editorConfig"
+                      api-key="z2q83u0tltcii8iyd445e1581jy5acckct7a0063ixc1a9m8"
                     ></tinymce>
                     <!-- <ckeditor :editor="editor" v-model="form.ducuments_general_conditions" :config="editorConfig"></ckeditor> -->
                   </div>
