@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('organizations', function (Blueprint $table) {
-            $table->enum('status', ['Active', 'Passive', 'Suspended', 'Closed', 'Banned'])->default('Active');
+        Schema::table('options', function (Blueprint $table) {
+            $table->text('designation')->nullable()->change();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('organizations', function (Blueprint $table) {
-            //
+        Schema::table('options', function (Blueprint $table) {
+            $table->string('designation')->nullable()->change();
         });
     }
 };

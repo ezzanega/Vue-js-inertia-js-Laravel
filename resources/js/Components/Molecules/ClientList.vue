@@ -27,7 +27,7 @@
             @close="closeDrawer"
           >
             <div>
-              <DrawerContent title="Create client" @closeDrawer="closeDrawer()">
+              <DrawerContent title="Ajouter un client" @closeDrawer="closeDrawer()">
                 <CreateClientForm @close="closeDrawer()" />
               </DrawerContent>
             </div>
