@@ -114,20 +114,20 @@ class UserSeeder extends Seeder
         $user2 = User::create([
             'taskpro_user_id' => $taskProResponse["_id"],
             'taskpro_token' => $taskProResponse["token"],
-            'first_name' => 'Jhon',
-            'last_name' => 'Doe',
-            'phone_number' => '06XXXXXX01',
+            'first_name' => 'ezzanega',
+            'last_name' => 'bouchra',
+            'phone_number' => '06XXXXXX02',
             'email' => 'ezzanega@gmail.com',
             'password' => Hash::make('123456')
         ]);
 
-        $taskProOrganizationResponse = $taskProService->createOrganization('Sysdem SAS', $user);
-        $organization = Organization::create([
+        $taskProOrganizationResponse = $taskProService->createOrganization('Deuxième organisation', $user2);
+        $organization2 = Organization::create([
             'taskpro_organization_id' => $taskProOrganizationResponse["_id"],
-            'name' => 'Sysdem SAS',
-            'email' => $user->email,
-            'phone_number' => $user->phone_number,
-            'owner_id' => $user->id
+            'name' => 'Deuxième organisation',
+            'email' => $user2->email,
+            'phone_number' => $user2->phone_number,
+            'owner_id' => $user2->id
         ]);
 
         $user2->assignRole('lead-operator');
@@ -149,7 +149,7 @@ class UserSeeder extends Seeder
             'first_name' => 'James',
             'last_name' => 'Doe',
             'phone_number' => '00000000',
-            'email' => 'jamesdoe@gmail.com',
+            'email' => 'ezzanega@gmail.com',
             'source' => 'Appel entant',
         ]);
 

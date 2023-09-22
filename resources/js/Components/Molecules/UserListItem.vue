@@ -38,10 +38,10 @@
                         :key="index"
                         class="text-left rounded-full text-white w-fit px-2.5 py-1 my-auto"
                         :class="[
-                            role.name === 'admin' ? 'bg-green-600' : '',
+                            role.name === 'admin' ? 'bg-blue-300' : '',
                             role.name === 'sales' ? 'bg-red-300' : '',
-                            role.name === 'lead-operator' ? 'bg-gray-400' : '',
-                            role.name === 'operator' ? 'bg-fuchsia-600' : '',
+                            role.name === 'operator' ? 'bg-green-400' : '',
+                            role.name === 'lead-operator' ? 'bg-pink-300' : '',
                             ]">
                         {{ role.name }}
                     </span>
@@ -73,7 +73,6 @@
     <script setup>
   import { Dropdown } from "floating-vue";
   import { router } from "@inertiajs/vue3";
-  import { formatDate } from "@/utils";
   import { ref } from "vue";
   const emit = defineEmits(["toggle-selected-all"]);
   const props = defineProps({
