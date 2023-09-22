@@ -65,7 +65,7 @@
             :init="editorConfig"
             api-key="z2q83u0tltcii8iyd445e1581jy5acckct7a0063ixc1a9m8"
             ></tinymce>
-
+            
             <!-- <TextArea
               :required="true"
               type="Contenu du mail"

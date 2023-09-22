@@ -109,13 +109,13 @@ class UserSeeder extends Seeder
 
         $taskProResponse = $taskProService->login('ezzanega@gmail.com', '123456');
         if (!array_key_exists('token', $taskProResponse)) {
-            $taskProResponse = $taskProService->register('ezzanega', 'Bouchra', 'ezzanega@gmail.com', '123456');
+            $taskProResponse = $taskProService->register('ezzanega', 'user', 'ezzanega@gmail.com', '123456');
         }
         $user2 = User::create([
             'taskpro_user_id' => $taskProResponse["_id"],
             'taskpro_token' => $taskProResponse["token"],
             'first_name' => 'ezzanega',
-            'last_name' => 'bouchra',
+            'last_name' => 'user',
             'phone_number' => '06XXXXXX02',
             'email' => 'ezzanega@gmail.com',
             'password' => Hash::make('123456')
@@ -124,29 +124,29 @@ class UserSeeder extends Seeder
         $taskProOrganizationResponse = $taskProService->createOrganization('Deuxième organisation', $user2);
         $user2->assignRole('lead-operator');
 
-        // $organization2 = Organization::create([
-        //     'taskpro_organization_id' => $taskProOrganizationResponse["_id"],
-        //     'name' => 'Deuxième organisation',
-        //     'email' => $user2->email,
-        //     'phone_number' => $user2->phone_number,
-        //     'owner_id' => $user2->id
-        // ]);
+        $organization2 = Organization::create([
+            'taskpro_organization_id' => $taskProOrganizationResponse["_id"],
+            'name' => 'Deuxième organisation',
+            'email' => $user2->email,
+            'phone_number' => $user2->phone_number,
+            'owner_id' => $user2->id
+        ]);
 
-        // $organization->billingAddress()->create([
-        //     "address" => "1 Rue Jean Jaurès",
-        //     "city" => "Annecy",
-        //     "postal_code" => "74000",
-        //     "country" => "France",
-        //     "full_address" => "1 Rue Jean Jaurès, 74000 Annecy, France",
-        //     'lat' => '45.901934',
-        //     'lng' => '6.128088300000001',
-        //     "google_map_url" => "https://maps.google.com/?q=1+Rue+Jean+Jaur%C3%A8s,+74000+Annecy,+France&ftid=0x478b8ff09da5c881:0x68fea6b028d4e264"
-        // ]);
+        $organization->billingAddress()->create([
+            "address" => "1 Rue Jean Jaurès",
+            "city" => "Annecy",
+            "postal_code" => "74000",
+            "country" => "France",
+            "full_address" => "1 Rue Jean Jaurès, 74000 Annecy, France",
+            'lat' => '45.901934',
+            'lng' => '6.128088300000001',
+            "google_map_url" => "https://maps.google.com/?q=1+Rue+Jean+Jaur%C3%A8s,+74000+Annecy,+France&ftid=0x478b8ff09da5c881:0x68fea6b028d4e264"
+        ]);
 
         $client2 = Client::create([
             'type' => ClientType::INDIVIDUAL,
             'first_name' => 'ezzanega',
-            'last_name' => 'bouchra',
+            'last_name' => 'user',
             'phone_number' => '00000000',
             'email' => 'ezzanega@gmail.com',
             'source' => 'Appel entant',

@@ -27,6 +27,7 @@ class Organization extends Model
         'phone_number',
         'siren',
         'code_ape',
+        'status',
         'licence',
         'owner_id',
         'taskpro_organization_id'
@@ -88,7 +89,7 @@ class Organization extends Model
         $line1 =  $this->name . ' - Adresse: ' . $this->billingAddress?->full_address . ' - Tél: ' . $this->phone_number;
         $line2 =  'E-mail: ' . $this->email . ' - Siren: ' . $this->siren;
         return '<script type="text/php">
-            if ( isset($pdf) ) { 
+            if ( isset($pdf) ) {
                 $font_size = 7;
                 $pageWidth = 595.28;
                 $line1Text = "' . $line1 . '";
